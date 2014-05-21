@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    writtenVersion="0.3.1" id="i1">
+    
+    <ct:Name>Negative Binomial model</ct:Name>
+    
+    <ct:Description>Negative Binomial model - based on code from Elodie Plan</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <mdef:ModelDefinition>
+        
+        <!-- VARIABILITY -->
+        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
+            <mdef:Level symbId="subject"/>
+        </mdef:VariabilityModel>
+        
+        <!-- PARAMETERS -->
+        <mdef:ParameterModel blkId="pm1">
+            <mdef:SimpleParameter symbId="pop_lambda"/>
+            <mdef:SimpleParameter symbId="omega_lambda"/>
+            <mdef:SimpleParameter symbId="pop_tau"/>
+            <mdef:SimpleParameter symbId="omega_tau"/>
+            <!-- lambda -->
+            <mdef:RandomVariable symbId="eta_lambda">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0"  definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="omega_lambda"/>
+                    </variance>
+                </NormalDistribution>
+            </mdef:RandomVariable>
+            <mdef:IndividualParameter symbId="lambda">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="pop_lambda"/>
+                            <math:Uniop op="exp">
+                                <ct:SymbRef symbIdRef="eta_lambda"/>
+                            </math:Uniop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:IndividualParameter>
+            
+            <!-- tau -->
+            <mdef:RandomVariable symbId="eta_tau">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0"  definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="omega_tau"/>
+                    </variance>
+                </NormalDistribution>
+            </mdef:RandomVariable>
+            <mdef:IndividualParameter symbId="tau">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="pop_tau"/>
+                            <math:Uniop op="exp">
+                                <ct:SymbRef symbIdRef="eta_tau"/>
+                            </math:Uniop>
+                        </math:Binop>                        
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:IndividualParameter>
+            
+        </mdef:ParameterModel>
+        
+                                                                            <!-- IDEAs FOR MVN Distribution -->
+     <!--   
+        MVN
+        parameters for which the MVN
+        p1p2p3 = SET(p1,p2,p3)
+        
+        <mdef:RandomVariable symbId="p1p2p3">
+            <MVNormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                <meanVector>
+                    ...
+                </meanVector>
+                <covMatrix>
+                    ...
+                </covMatrix>
+            </MVNormalDistribution>
+        </mdef:RandomVariable>-->
+        
+        
+        <!-- STRUCTURE -->
+        <mdef:StructuralModel blkId="sm1">
+            <mdef:SimpleParameter symbId="simpleParameter"/>
+            <ct:Variable symbolType="real" symbId="dummyVariable"/>             <!-- Structural model in STILL mandatory -->
+        </mdef:StructuralModel>
+        
+        <!-- OBSERVATIONS -->
+        <mdef:ObservationModel blkId="om1">
+            
+            <Discrete>
+                <CountData>
+                    <!-- k = DV in NMTRAN code -->
+                    <CountVariable symbId="k"/>     
+                    
+                    <!-- gammaln(k+1/tau) - factln(k) - gammaln(1/tau) - 
+                        1/tau log(1+tau * lambda) + k*log(lambda) - 
+                        k*log(1/tau + lambda) -->
+                    <PMF linkFunction="log">  
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="minus">
+                                    <math:Binop op="plus">
+                                        <math:Binop op="minus">
+                                            <math:Binop op="minus">
+                                                <math:Binop op="minus">
+                                                    <!-- gammaln(k+1/tau) -->
+                                                    <math:Uniop op="gammaln">
+                                                        <math:Binop op="plus">
+                                                            <ct:SymbRef symbIdRef="k"/>
+                                                            <math:Binop op="divide">
+                                                                <ct:Real>1</ct:Real>
+                                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                                                            </math:Binop>
+                                                        </math:Binop>
+                                                    </math:Uniop>
+                                                    <!-- factln(k) -->
+                                                    <math:Uniop op="factln">
+                                                        <ct:SymbRef symbIdRef="k"/>
+                                                    </math:Uniop>
+                                                </math:Binop>
+                                                <!-- gammaln(1/tau) -->
+                                                <math:Uniop op="gammaln">
+                                                    <math:Binop op="divide">
+                                                        <ct:Real>1</ct:Real>
+                                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                                                    </math:Binop>
+                                                </math:Uniop>
+                                            </math:Binop>
+                                            <!-- 1/tau log(1+tau * lambda) -->
+                                            <math:Binop op="times">
+                                                <math:Binop op="divide">
+                                                    <ct:Real>1</ct:Real>
+                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                                                </math:Binop>
+                                                <math:Uniop op="log">
+                                                    <math:Binop op="plus">
+                                                        <ct:Real>1</ct:Real>
+                                                        <math:Binop op="times">
+                                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                                                            <ct:SymbRef symbIdRef="Lambda"/>
+                                                        </math:Binop>
+                                                    </math:Binop>
+                                                </math:Uniop>
+                                            </math:Binop>
+                                        </math:Binop>
+                                        <math:Binop op="times">
+                                            <!-- k*log(lambda) -->
+                                            <ct:SymbRef symbIdRef="k"/>                         
+                                            <math:Uniop op="log">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                    </math:Binop>
+                                    <math:Binop op="times">
+                                        <!-- k*log(1/tau + lambda) -->
+                                        <ct:SymbRef symbIdRef="k"/>                         
+                                        <math:Uniop op="log">
+                                            <math:Binop op="plus">
+                                                <math:Binop op="divide">
+                                                    <ct:Real>1</ct:Real>
+                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                                                </math:Binop>
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                            </math:Binop>
+                                        </math:Uniop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </PMF>
+                    
+                    <!-- homogenous Poisson -->
+                    <IntensityParameter symbId="Lambda">
+                        <Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                        </Assign>
+                    </IntensityParameter>
+                    
+                </CountData>
+            </Discrete>
+            
+        </mdef:ObservationModel>
+    </mdef:ModelDefinition>
+    
+    <mstep:ModellingSteps>
+                
+        <mstep:NONMEMdataSet oid="NMoid">
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </mstep:ColumnMapping>
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="k"/>
+            </mstep:ColumnMapping>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                </ds:Definition>
+                <ds:ImportData oid="importData">
+                    <ds:name>myFile</ds:name>
+                    <ds:url>myFile</ds:url>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
+        </mstep:NONMEMdataSet>
+        
+        <mstep:EstimationStep oid="estStep1">
+            
+            <mstep:TargetToolReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </mstep:TargetToolReference>
+            
+            <mstep:ParametersToEstimate>
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef symbIdRef="THETA1"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+                
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef symbIdRef="OMEGA1"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>0.6</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+                
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef symbIdRef="THETA2"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+                
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef symbIdRef="OMEGA2"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>0.6</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+                
+            </mstep:ParametersToEstimate>
+            
+            <mstep:Operation order="1" opType="estPop"/>
+        </mstep:EstimationStep>
+        
+    </mstep:ModellingSteps>
+    
+</PharmML>

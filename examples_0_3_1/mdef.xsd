@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.pharmml.org/2013/03/ModelDefinition" xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" xmlns:mml="http://www.pharmml.org/2013/03/PharmML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition">
+  <xs:import namespace="http://www.pharmml.org/2013/03/CommonTypes" schemaLocation="GENERATED_XSD.xsd"/>
+  <xs:import namespace="http://www.pharmml.org/2013/03/PharmML" schemaLocation="mml.xsd"/>
+  <xs:import namespace="http://www.w3.org/2001/XMLSchema-instance" schemaLocation="xsi.xsd"/>
+  <xs:element name="ModelDefinition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="mdef:ObservationModel"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObservationModel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="mdef:SimpleParameter"/>
+        <xs:element ref="mml:Discrete"/>
+      </xs:sequence>
+      <xs:attribute name="blkId" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SimpleParameter">
+    <xs:complexType>
+      <xs:attribute name="symbId" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Matrix">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ct:RowNames"/>
+        <xs:element ref="ct:ColumnNames"/>
+        <xs:element maxOccurs="unbounded" ref="ct:MatrixRow"/>
+      </xs:sequence>
+      <xs:attribute name="matrixType" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
