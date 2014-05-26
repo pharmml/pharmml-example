@@ -403,10 +403,7 @@
     
         <!-- known distribution -->
         <Priors>
-            <. "covarianceMatrixForRandomEffects">
-                
-            </>
-            <Paramater symbIdRe="V_pop">
+            <Paramater blkIdRef="pm1" symbIdRe="V_pop">
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                     <mean>
                         <var>beta_V_pop</var>
@@ -420,10 +417,9 @@
         
         <!-- data representation -->
         <Priors>
-            <Paramater symbIdRe="V_pop">
+            <Paramater blkIdRef="pm1" symbIdRe="V_pop">
                 <ds:ImportData oid="prior">
-                    <ds:name>myPriorData</ds:name>
-                    <ds:url>C://dfdfd</ds:url>
+                    <ds:path>myPriorData.csv</ds:path>
                     <ds:format>CSV</ds:format>
                     <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ImportData>
@@ -432,24 +428,25 @@
         
         
         <!-- COVARIANCE MATRIX -->
-        <Priors> the priors of the correlated parameter below are distrib with MVN distrib.
+        <!-- The priors of the correlated parameters are ~ MVN(MeanVector, CovarianceMatrix) -->
+        <Priors>    
             <Parameter>V</Parameter>
             <Parameter>CL</Parameter>
             <Parameter>ka</Parameter>
             <MultivariateNormal>
-                <Mean>
-                    <Vector>
-                    ....
-                    </Vector>
-                </Mean>
-                <Matrix>
-                    <RowNames><symbIdRef>V</symbIdRef><symbIdRef>CL</symbIdRef><symbIdRef>ka</symbIdRef></RowNames>
+                <MeanVector>
+                        <Real>1</Real><Real>2</Real><Real>3</Real>
+                </MeanVector>
+                <Matrix matrixType="CovMatrix">
+                    <RowNames>
+                        <symbIdRef>V</symbIdRef><symbIdRef>CL</symbIdRef><symbIdRef>ka</symbIdRef>
+                    </RowNames>
+                    <MatrixRaw>
+                        <Real>.1</Real><Real>.2</Real><Real>.3</Real>
+                        <Real>.4</Real><Real>.5</Real><Real>.6</Real>
+                        <Real>.7</Real><Real>.8</Real><Real>.9</Real>
+                    </MatrixRaw>
                 </Matrix>
-                <MatrixRaw>
-                    <Real>.3</Real><Real>.3</Real><Real>.3</Real>
-                    <Real>.3</Real><Real>.3</Real><Real>.3</Real>
-                    <Real>.3</Real><Real>.3</Real><Real>.3</Real>
-                </MatrixRaw>
             </MultivariateNormal>
         </Priors>
         

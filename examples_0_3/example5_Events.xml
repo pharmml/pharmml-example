@@ -686,8 +686,7 @@
                     <Column columnId="WEIGHT" columnType="covariate" valueType="real" columnNum="3"/>
                 </Definition>
                 <ImportData oid="covariatesTable">
-                    <name>RIBBA2012_PCV_covariates</name>
-                    <url>../examples/examples_0_2_2/datasets/</url>
+                    <path>RIBBA2012_PCV_covariates.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
@@ -753,29 +752,41 @@
                     <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/> 
                     <ct:SymbRef symbIdRef="time"/>
                 </ColumnMapping>
-                <ColumnMapping>
-                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/> 
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="PSTAR"/>
-
-IF (ORIG.EQ.1) THEN
-                    IPRED = LOG(FPGLU)
-                    W = RES_FPG
-                    EPS_1 = EPS(1)
-                    ENDIF     
-                    IF (ORIG.EQ.2) THEN
-                    IPRED = LOG(HBA1C)
-                    W = RES_HBA1C
-                    EPS_1 = EPS(2)
-                    ENDIF   
+                
+                <MultipleDVMapping>
                     
-                    IF (ORIG.EQ.3) THEN
-                    IPRED = LOG(HB)
-                    W = RES_HB
-                    EPS_1 = EPS(3)
-                    ENDIF
-                    Y = IPRED+EPS_1*W
+                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
+                    <Piecewise>
+                        <Piece>
+                            <ct:SymbRef blkIdRef="obs_FPG" symbIdRef="FPG_obs"/>                
+                            <Condition>
+                                <LogicBinop op="eq">
+                                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="ORIG"/>
+                                    <ct:Int>1</ct:Int>
+                                </LogicBinop>
+                            </Condition>
+                        </Piece>                        
+                        <Piece>
+                            <ct:SymbRef blkIdRef="obs_HBA1C" symbIdRef="HBA1C_obs"/>                
+                            <Condition>
+                                <LogicBinop op="eq">
+                                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="ORIG"/>
+                                    <ct:Int>2</ct:Int>
+                                </LogicBinop>
+                            </Condition>
+                        </Piece>                        
+                        <Piece>
+                            <ct:SymbRef blkIdRef="obs_HB" symbIdRef="HB_obs"/>                
+                            <Condition>
+                                <LogicBinop op="eq">
+                                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="ORIG"/>
+                                    <ct:Int>3</ct:Int>
+                                </LogicBinop>
+                            </Condition>
+                        </Piece>
+                    </Piecewise>
                     
-                </ColumnMapping>
+                </MultipleDVMapping>
                 
                 <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
                     <Definition>
