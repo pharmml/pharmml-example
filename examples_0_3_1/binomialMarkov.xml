@@ -42,14 +42,13 @@
             
         </mdef:ParameterModel>
         
-        <!-- OBSERVATIONS -->
+<!--        <!-\- OBSERVATIONS -\->
         <mdef:ObservationModel blkId="om1">
             <mdef:SimpleParameter symbId="p00"/>
             <mdef:SimpleParameter symbId="p01"/>
             <mdef:SimpleParameter symbId="p10"/>
             <mdef:SimpleParameter symbId="p11"/>
-            
-            
+                        
             <Discrete> 
                 <CategoricalData ordered="no"> 
                     <ListOfCategories> 
@@ -70,9 +69,69 @@
                     </MarkovDependance>
 
                 </CategoricalData>
-            </Discrete>
+            </Discrete>            
+        </mdef:ObservationModel>-->
+        
+        <!-- OBSERVATIONS -->
+        <mdef:ObservationModel blkId="om2">
+            <mdef:SimpleParameter symbId="p01"/>
+            <mdef:SimpleParameter symbId="p11"/>
             
-        </mdef:ObservationModel>
+            <Discrete>
+                <CategoricalData>
+                    <ListOfCategories> 
+                        <Category symbId="0"/>
+                        <Category symbId="1"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    <PreviousCategoryVariable symbId="yp"/>
+                    <LinkFunction>identity</LinkFunction>
+                    
+                    <MarkovDependance>
+                        <DiscreteTime>
+                            <!-- P(y=1|yp=0)=p01 -->
+                            <Probability>
+                                <CurrentState>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="y"/>
+                                        <Category symbIdRef="1"/>
+                                    </math:LogicBinop>
+                                </CurrentState>
+                                <PreviousState>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="yp"/>
+                                        <Category symbIdRef="0"/>
+                                    </math:LogicBinop>
+                                </PreviousState>
+                                <Assign>
+                                    <ct:SymbRef symbIdRef="p01"/>
+                                </Assign>
+                            </Probability>
+                            <!-- P(y=1|yp=1)=p11-->
+                            <Probability>
+                                <CurrentState>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="y"/>
+                                        <Category symbIdRef="1"/>
+                                    </math:LogicBinop>
+                                </CurrentState>
+                                <PreviousState>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="yp"/>
+                                        <Category symbIdRef="1"/>
+                                    </math:LogicBinop>
+                                </PreviousState>
+                                <Assign>
+                                    <ct:SymbRef symbIdRef="p11"/>
+                                </Assign>
+                            </Probability>                            
+                        </DiscreteTime>
+                    </MarkovDependance>
+                    
+                </CategoricalData>
+            </Discrete>
+        
     </mdef:ModelDefinition>
     
     <mstep:ModellingSteps>

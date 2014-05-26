@@ -28,30 +28,49 @@
             <mdef:SimpleParameter symbId="simpleP1"/>
         </mdef:ParameterModel>
         
-        
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
             <mdef:SimpleParameter symbId="p"/>
-                     
+            
             <Discrete>
-                <CategoricalData ordered="no">
+                <CategoricalData>
                     <ListOfCategories> 
                         <Category symbId="0"/>
                         <Category symbId="1"/>
                     </ListOfCategories>
                     
+                    <CategoryVariable symbId="y"/>
+                    
+                    <LinkFunction>identity</LinkFunction>
+                    
+                    <!-- P(y = 1) = p -->
                     <Category symbIdRef="1">
-                        <Probability linkFunction="identity"> <!-- P(y = 1) = p --> 
-                            <Assign>
-                                <ct:SymbRef symbIdRef="p"/>
-                            </Assign>
-                        </Probability>                    
+                        <Probability>
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <Category symbIdRef="1"/>
+                            </math:LogicBinop>
+                        </Probability>
+                        <Assign>
+                            <ct:SymbRef symbIdRef="p"/>
+                        </Assign>
                     </Category>
-
-                </CategoricalData>
-            </Discrete>
-            
+                    
+                    <!-- ALTERNATIVE -->
+<!--                    <PMF>
+                        <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
+                            <un:categoryProb definition="http://www.uncertml.org/3.0">
+                                <un:name>1</un:name>
+                                <un:probability>
+                                    <un:var varId="p"/>
+                                </un:probability>
+                            </un:categoryProb>
+                        </un:BernoulliDistribution>
+                    </PMF>-->  
+                </CategoricalData>                
+            </Discrete>                        
         </mdef:ObservationModel>
+        
     </mdef:ModelDefinition>
     
     <mstep:ModellingSteps>
