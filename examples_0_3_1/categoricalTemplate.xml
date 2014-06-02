@@ -8,6 +8,7 @@
     xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:un="http://www.uncertml.org/3.0"
     writtenVersion="0.3.1" id="i1">
     
     <ct:Name>Categorical template</ct:Name>
@@ -70,8 +71,8 @@
             <Discrete>
                 <CategoricalData>
                     <ListOfCategories> 
-                        <Category symbId="0"/>
-                        <Category symbId="1"/>
+                        <Category symbId="cat1">0</Category>
+                        <Category symbId="cat2">1</Category>
                     </ListOfCategories>
 
                     <CategoryVariable symbId="y"/>
@@ -79,28 +80,28 @@
                     <LinkFunction>identity</LinkFunction>
 
                     <!-- P(y = 1) = p -->
-                    <Category symbIdRef="1">
+                    <CategoryAssignment symbIdRef="cat1">
                         <Probability>
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="y"/>
-                                <Category symbIdRef="1"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
                         </Probability>
                         <Assign>
                             <ct:SymbRef symbIdRef="p"/>
                         </Assign>
-                    </Category>
+                    </CategoryAssignment>
                     
                     <!-- ALTERNATIVE -->
                     <PMF>
-                        <BernoulliDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                            <categoryProb definition="http://www.uncertml.org/3.0">
-                                <name>0</name>
-                                <probability>
-                                    <var varId="p"/>
-                                </probability>
-                            </categoryProb>
-                        </BernoulliDistribution>
+                        <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
+                            <un:categoryProb definition="http://www.uncertml.org/3.0">
+                                <un:name>0</un:name>
+                                <un:probability>
+                                    <un:var varId="p"/>
+                                </un:probability>
+                            </un:categoryProb>
+                        </un:BernoulliDistribution>
                     </PMF>  
                 </CategoricalData>
                 

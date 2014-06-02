@@ -35,8 +35,8 @@
             <Discrete>
                 <CategoricalData>
                     <ListOfCategories> 
-                        <Category symbId="0"/>
-                        <Category symbId="1"/>
+                        <Category symbId="cat0">0</Category>
+                        <Category symbId="cat1">1</Category>
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="y"/>
@@ -48,7 +48,7 @@
                         <Probability>
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="y"/>
-                                <Category symbIdRef="1"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
                         </Probability>
                         <Assign>
@@ -57,7 +57,7 @@
                     </Category>
                     
                     <!-- ALTERNATIVE -->
-<!--                    <PMF>
+                    <PMF>
                         <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
                             <un:categoryProb definition="http://www.uncertml.org/3.0">
                                 <un:name>1</un:name>
@@ -66,7 +66,7 @@
                                 </un:probability>
                             </un:categoryProb>
                         </un:BernoulliDistribution>
-                    </PMF>-->  
+                    </PMF>  
                 </CategoricalData>                
             </Discrete>                        
         </mdef:ObservationModel>
