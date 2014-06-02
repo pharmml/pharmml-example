@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:un="http://www.uncertml.org/3.0"
+    writtenVersion="0.2.1">
+    
+    <ct:Name>Simple model</ct:Name>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- MODEL DEFINITION -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+
+        <!-- VARIABILITY MODEL -->
+        <VariabilityModel blkId="randEffect" type="model">
+            <Level symbId="indiv">
+                <ct:Name>Individual Variability</ct:Name>
+            </Level>
+        </VariabilityModel>
+
+        <VariabilityModel blkId="obsErr" type="error">
+            <Level symbId="residual">
+                <ct:Name>Residual Error</ct:Name>
+            </Level>
+        </VariabilityModel>
+        
+        <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm1">
+                        
+            <!-- ETA*THETA -->
+            <SimpleParameter symbId="THETA1"/>
+            <SimpleParameter symbId="THETA2"/>
+            <RandomVariable symbId="ETA1">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <un:NormalDistribution definition="http://www.uncertml.org/distributions/normal">
+                    <un:mean>
+                        <un:rVal>0</un:rVal>
+                    </un:mean>
+                    <un:variance>
+                        <un:prVal>1</un:prVal>
+                    </un:variance>
+                </un:NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="PARAM">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="THETA1"/>
+                            <math:Uniop op="exp">
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="ETA1"/>
+                                    <ct:SymbRef symbIdRef="THETA2"/>
+                                </math:Binop>
+                            </math:Uniop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </IndividualParameter>
+                
+            <!-- 1st OPTION: pairwise correlation -->
+            <Correlation>
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <RandomVariable1>
+                    <ct:SymbRef symbIdRef="ETA_X1"/>
+                </RandomVariable1>
+                <RandomVariable2>
+                    <ct:SymbRef symbIdRef="ETA_X2"/>
+                </RandomVariable2>
+                <CorrelationCoefficient>
+                    <ct:SymbRef symbIdRef="rho_X2_X1"/>
+                </CorrelationCoefficient>
+            </Correlation>
+            
+                <!-- OR BETTER using 0.3 Matrix elements such here -->
+<!--            <Correlation>
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="CorrMatrix">
+                    <ct:RowNames><ct:SymbRef symbIdRef="eta_X1"></ct:SymbRef><ct:SymbRef symbIdRef="eta_X2"></ct:SymbRef><ct:SymbRef symbIdRef="eta_X2"></ct:SymbRef></ct:RowNames>
+                    <ct:MatrixRow><ct:Real>1</ct:Real></ct:MatrixRow>
+                    <ct:MatrixRow><ct:SymbRef symbIdRef="rho_X2_X1"/></ct:MatrixRow><ct:MatrixRow><ct:Real>1</ct:Real></ct:MatrixRow>
+                    <ct:MatrixRow><ct:SymbRef symbIdRef="rho_X3_X1"/></ct:MatrixRow><ct:MatrixRow><ct:SymbRef symbIdRef="rho_X3_X2"/></ct:MatrixRow><ct:MatrixRow><ct:Real>1</ct:Real></ct:MatrixRow>
+                </Matrix>
+            </Correlation>-->
+            
+        </ParameterModel>
+        
+        <!-- STRUCTURAL MODEL -->
+        <StructuralModel blkId="sm1">
+            
+            <!-- TARGET FOR LOOKUP DATA REFERENCE -->
+            <ct:Variable symbolType="real" symbId="Cc">
+                <ct:Assign>
+                    <ct:Real>1</ct:Real>
+                </ct:Assign>
+            </ct:Variable>
+
+            <ct:DerivativeVariable symbId="E" symbolType="real">
+                <ct:Description>Effect</ct:Description>
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="minus">
+                            <ct:SymbRef symbIdRef="Cc"/>
+                            <Binop op="times">
+                                <ct:SymbRef symbIdRef="PARAM"/>
+                                <ct:SymbRef symbIdRef="E"/>
+                            </Binop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+        </StructuralModel>
+
+        <!-- OBSERVATION MODEL -->
+        <ObservationModel blkId="om1">
+            <SimpleParameter symbId="THETA3"/>
+            <RandomVariable symbId="EPS">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <stddev>
+                        <prVal>1</prVal>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <General symbId="E_obs">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <ct:SymbRef blkIdRef="sm1" symbIdRef="E"/>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="THETA3"/>
+                                <ct:SymbRef symbIdRef="EPS"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </General>
+        </ObservationModel>
+    </ModelDefinition>
+    
+<!--    <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign">
+        <Structure>
+        </Structure>
+        <Population>
+        </Population>
+    </TrialDesign>-->
+    
+    
+    <!-- MODELLING STEPS -->
+    <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
+        
+        <!-- supported in version 0.3 -->
+<!--        <NONMEMdataSet oid="NMoid">
+            
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </ColumnMapping>
+            
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="DV"/>
+                <ct:SymbRef symbIdRef="E_obs"/>
+            </ColumnMapping>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                </ds:Definition>
+                <ds:ImportData oid="importData">
+                    <ds:name>myFile</ds:name>
+                    <ds:url>myFile.csv</ds:url>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
+        </NONMEMdataSet>-->
+        
+        <EstimationStep oid="estStep">
+            
+           <!-- supported in version 0.3 -->
+<!--            <TargetToolReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </TargetToolReference>-->
+            
+            <ParametersToEstimate>
+                <!-- THETA1 -->
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="THETA1"/>
+                    <InitialEstimate fixed="false">
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- THETA2 -->
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="THETA2"/>
+                    <InitialEstimate fixed="false">
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- THETA3 -->
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="THETA3"/>
+                    <InitialEstimate fixed="false">
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- rho_X2_X1 -->
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="rho_X2_X1"/>
+                    <InitialEstimate fixed="false">
+                        <ct:Real>.3</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- rho_X3_X1 -->
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="rho_X3_X1"/>
+                    <InitialEstimate fixed="false">
+                        <ct:Real>.3</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- rho_X3_X2 -->
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="rho_X3_X2"/>
+                    <InitialEstimate fixed="false">
+                        <ct:Real>.3</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+            </ParametersToEstimate>
+            
+            <Operation order="1" opType="estPop"/>
+        </EstimationStep>
+        
+
+        <!-- STEP DEPENDENCIES -->
+        <StepDependencies>
+            <Step>
+                <ct:OidRef oidRef="estStep"/>
+            </Step>
+        </StepDependencies>
+    </ModellingSteps>
+</PharmML>

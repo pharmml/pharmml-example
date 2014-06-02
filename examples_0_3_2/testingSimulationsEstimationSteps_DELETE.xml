@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML  xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    writtenVersion="0.3.1" id="i1"> 
+    
+    <ct:Name>Example 2 - simulation continuous PK (Bonate 2012)</ct:Name>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="p1"/>
+        </ParameterModel>
+        
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="v1"/>
+        </StructuralModel>
+    </ModelDefinition>    
+    
+    <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
+        
+        <NONMEMdataSet oid="sdsad">
+            <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
+                <Definition>
+                    <Column columnId="i" columnType="id" valueType="id" columnNum="1"/>
+                </Definition>
+                <ImportData oid="nmiod">
+                    <path>dsfdsf.gfg</path>
+                    <format>CSV</format>
+                    <delimiter>COMMA</delimiter>
+                </ImportData>
+            </DataSet>
+        </NONMEMdataSet>
+        
+        <SimulationStep oid="hghg">
+            
+            <NONMEMdataSetReference>
+                <ct:OidRef oidRef="hjhjh"></ct:OidRef>
+            </NONMEMdataSetReference>
+            
+            <Observations>
+                <Timepoints>
+                    <ct:Vector>
+                        <ct:Real>1</ct:Real>
+                    </ct:Vector>
+                </Timepoints>
+                <Continuous>
+                    <ct:SymbRef symbIdRef="b"></ct:SymbRef>
+                </Continuous>
+            </Observations>
+            
+            <Operation order="1" opType="simulatePD"/>
+            
+        </SimulationStep>
+        
+    </ModellingSteps>
+    
+    
+</PharmML>
