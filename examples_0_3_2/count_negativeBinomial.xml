@@ -118,10 +118,19 @@
                     <!-- k = DV in NMTRAN code -->
                     <CountVariable symbId="k"/>     
                     
+                    <LinkFunction>log</LinkFunction>
+                    
+                    <!-- homogenous Poisson -->
+                    <IntensityParameter symbId="Lambda">
+                        <Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                        </Assign>
+                    </IntensityParameter>
+                    
                     <!-- gammaln(k+1/tau) - factln(k) - gammaln(1/tau) - 
                         1/tau log(1+tau * lambda) + k*log(lambda) - 
                         k*log(1/tau + lambda) -->
-                    <PMF linkFunction="log">  
+                    <PMF>  
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="minus">
@@ -194,13 +203,6 @@
                             </math:Equation>
                         </ct:Assign>
                     </PMF>
-                    
-                    <!-- homogenous Poisson -->
-                    <IntensityParameter symbId="Lambda">
-                        <Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                        </Assign>
-                    </IntensityParameter>
                     
                 </CountData>
             </Discrete>

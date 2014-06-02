@@ -68,11 +68,19 @@
                         
             <Discrete>
                 <CountData>
-                    <!-- DV in NMTRAN code --> 
+
                     <CountVariable symbId="k"/>
+                    <LinkFunction>log</LinkFunction>
+                    
+                    <!-- homogenous Poisson -->
+                    <IntensityParameter symbId="Lambda">
+                        <Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                        </Assign>
+                    </IntensityParameter>
                     
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
-                    <PMF linkFunction="log">      
+                    <PMF>
                         <Assign>
                             <Binop op="minus">
                                 <Binop op="plus">
@@ -93,8 +101,8 @@
                         </Assign>
                     </PMF>
                     
-                    <!-- ALTERNATIVELY 
-                    <PMF  linkFunction="identity">
+                    <!-- P(Y=k) = (Lambda^k * exp(-Lambda) / k! -->
+                    <!-- <PMF>
                         <Assign>
                             <Binop op="divide">
                                 <Binop op="times">
@@ -112,19 +120,10 @@
                                     <SymbRef symbIdRef="k"/>
                                 </Uniop>
                             </Binop>
-                        </Assign>                        
-                    </PMF>-->
-                    
-                    <!-- homogenous Poisson -->
-                    <IntensityParameter symbId="Lambda">
-                        <Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                         </Assign>
-                    </IntensityParameter>
-                    
+                    </PMF>-->
                 </CountData>
             </Discrete>
-            
         </mdef:ObservationModel>
     </mdef:ModelDefinition>
     
