@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
     xmlns:design="http://www.pharmml.org/2013/03/TrialDesign"
-    writtenVersion="0.3" id="i1">
+    writtenVersion="0.3.1" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>Example 4 - estimation with IOV1 and with covariates</ct:Name>
