@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    <!-- omitted details -->
+    writtenVersion="0.3.1">
+    
+    <Name>SIOM test</Name>    
+    <IndependentVariable symbId="t"/>
+    
+    <ModelDefinition/>
+    <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign"/>
+    <ModellingSteps/>
+      
+    <SIOM>        
+        <MLE>
+            <ct:Assign>
+                <ct:Real>140</ct:Real>
+            </ct:Assign>                
+        </MLE>
+        
+        <PosteriorMean>
+            <Parameter symbIdRef="V">
+                <ct:Assign>
+                    <ct:Real>10</ct:Real>
+                </ct:Assign>                
+            </Parameter>            
+        </PosteriorMean>
+        
+        <FIM>
+            <mdef:Matrix>
+                <ct:RowNames><ct:String>r1</ct:String><ct:String>r2</ct:String></ct:RowNames>
+                <ct:MatrixRow><ct:Real>1</ct:Real><ct:Real>2</ct:Real></ct:MatrixRow>
+                <ct:MatrixRow><ct:Real>4</ct:Real><ct:Real>5</ct:Real></ct:MatrixRow>
+                <ct:MatrixRow><ct:Real>7</ct:Real><ct:Real>8</ct:Real></ct:MatrixRow>
+            </mdef:Matrix>            
+        </FIM>        
+    </SIOM>
+    
+</PharmML>
