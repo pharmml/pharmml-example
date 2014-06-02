@@ -3,7 +3,8 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
   xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
-  writtenVersion="0.3" id="i1">
+  xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+  writtenVersion="0.3.1" id="i1">
   
   <ct:Name xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">Hamren - CPT 2008</ct:Name>
   <ct:Description xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">Models for Plasma Glucose, HbA1c, and Hemoglobin Interrelationships in Patients with Type 2 Diabetes Following Tesaglitazar Treatment
@@ -80,8 +81,8 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
     <CovariateModel blkId="cov">
       <Covariate symbId="sex">
         <Categorical>
-          <Category catId="M"/>
-          <Category catId="F"/>
+          <Category catId="1"/>
+          <Category catId="0"/>
         </Categorical>
       </Covariate>
       <Covariate symbId="treat">
@@ -111,6 +112,55 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
     </CovariateModel>
     <ParameterModel blkId="pm1">
       <SimpleParameter symbId="pop_FPG_baseline_N"/>
+      
+      <IndividualParameter symbId="sdf">
+        <ct:Assign>
+          <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+            <ct:Int>1</ct:Int>            
+          </Equation>
+        </ct:Assign>
+      </IndividualParameter>
+      
+<!--  FPR TESTING - DELETE
+        <IndividualParameter symbId="dsdsd">
+        <GaussianModel>
+          <Transformation>identity</Transformation>
+          <LinearCovariate>
+            <PopulationParameter>
+              <ct:Assign><ct:SymbRef symbIdRef="sds"/></ct:Assign>
+            </PopulationParameter>
+            <Covariate>
+              <ct:SymbRef symbIdRef="W"/>
+              <FixedEffect>
+                <ct:SymbRef symbIdRef="beta_W"/>
+              </FixedEffect>
+            </Covariate>
+          </LinearCovariate>
+          <RandomEffects>
+            <ct:SymbRef symbIdRef="sas"/>
+          </RandomEffects>
+        </GaussianModel>
+      </IndividualParameter>-->
+      
+      <SimpleParameter symbId="fdf">                <!-- VECTOR IDEAS -->
+        <ct:Assign>
+          <ct:Vector>
+            <index>1</index>
+            <ct:Real>1</ct:Real>
+            <index>1</index>
+            <ct:Real>2</ct:Real>
+          </ct:Vector>
+        </ct:Assign>
+      </SimpleParameter>
+      
+      <SimpleParameter symbId="dff">
+        <ct:Assign>
+          <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+            <Constant op="notanumber"/>           <!-- IS THIS WHAT OWE WANT???? -->
+          </Equation>
+        </ct:Assign>
+      </SimpleParameter>
+      
       <SimpleParameter symbId="pop_FPG_washout_N">
         <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
           <ct:Int>0</ct:Int>
@@ -185,6 +235,7 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
           </Equation>
         </ct:Assign>
       </SimpleParameter>
+      
       <SimpleParameter symbId="non_RBC2_0">
         <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
           <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
@@ -207,6 +258,7 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
           </Equation>
         </ct:Assign>
       </SimpleParameter>
+      
       <SimpleParameter symbId="non_RBC3_0">
         <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
           <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
@@ -546,8 +598,31 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
         </GaussianModel>
       </IndividualParameter>
     </ParameterModel>
+    
     <StructuralModel blkId="sm1">
-      <ct:DerivativeVariable xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbId="QP" symbolType="real">
+      
+      <ct:DerivativeVariable symbId="Ac" symbolType="real" compartmentNo="1">
+        <ct:Assign>
+          <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+            <ct:SymbRef symbIdRef="kinout"/>
+          </Equation>
+        </ct:Assign>
+      </ct:DerivativeVariable>
+      
+      <ct:DerivativeVariable symbId="sd" symbolType="real" compartmentNo="2">
+        <ct:Assign>
+          <ct:Real>2</ct:Real>
+        </ct:Assign>
+      </ct:DerivativeVariable>
+      
+      <ct:Variable symbolType="real" symbId="dsd" id="s">
+        <ct:Assign>
+          <ct:Real>1</ct:Real>
+        </ct:Assign>
+      </ct:Variable>
+      
+      
+      <ct:DerivativeVariable symbId="QP" symbolType="real">
         <ct:Assign>
           <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
             <Uniop op="minus">
@@ -569,7 +644,7 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
           </ct:InitialValue>
         </ct:InitialCondition>
       </ct:DerivativeVariable>
-      <ct:Variable xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbolType="real" symbId="CP">
+      <ct:Variable symbolType="real" symbId="CP">
         <ct:Assign>
           <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
             <Binop op="divide">
@@ -579,7 +654,7 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
           </Equation>
         </ct:Assign>
       </ct:Variable>
-      <ct:DerivativeVariable xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbId="FPG" symbolType="real">
+      <ct:DerivativeVariable symbId="FPG" symbolType="real">
         <ct:Assign>
           <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
             <Binop op="minus">
@@ -996,24 +1071,6 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
       <SimpleParameter symbId="pop_res_FPG"/>
       <SimpleParameter symbId="omega_res_FPG"/>
       
-      <SimpleParameter symbId="df">
-        <ct:Assign>
-          <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-            <Piecewise>
-              <Piece>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="obs_DV"/>                
-                <Condition>
-                  <LogicBinop op="eq">
-                    <ct:SymbRef symbIdRef="ORIG"/>
-                    <ct:Int>1</ct:Int>
-                  </LogicBinop>
-                </Condition>
-              </Piece>
-            </Piecewise>
-          </Equation>
-        </ct:Assign>
-      </SimpleParameter>
-
       <RandomVariable symbId="eta_res_FPG">
         <ct:VariabilityReference xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
           <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
@@ -1216,7 +1273,9 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
   </ModelDefinition>
   <!-- Trial Design eliminato -->
   <!-- adesso devo mettere il dataset esterno -->
+  
   <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
+  
     <!-- Nonmem dataset -->
     <NONMEMdataSet oid="NMoid">
       <!-- Mapping -->
@@ -1224,42 +1283,6 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
         <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
         <ct:SymbRef symbIdRef="t"/>
       </ColumnMapping>
-      
-      <MultipleDVMapping>
-        <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
-        <Piecewise>
-          <Piece>
-            <ct:SymbRef blkIdRef="obs_FPG" symbIdRef="FPG_obs"/>                
-            <Condition>
-              <LogicBinop op="eq">
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="ORIG"/>
-                <ct:Int>1</ct:Int>
-              </LogicBinop>
-            </Condition>
-          </Piece>
-          <Piece>
-            <ct:SymbRef blkIdRef="obs_HBA1C" symbIdRef="HBA1C_obs"/>                
-            <Condition>
-              <LogicBinop op="eq">
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="ORIG"/>
-                <ct:Int>2</ct:Int>
-              </LogicBinop>
-            </Condition>
-          </Piece>
-          <Piece>
-            <ct:SymbRef blkIdRef="obs_HB" symbIdRef="HB_obs"/>                
-            <Condition>
-              <LogicBinop op="eq">
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="ORIG"/>
-                <ct:Int>3</ct:Int>
-              </LogicBinop>
-            </Condition>
-          </Piece>
-        </Piecewise>
-        
-      </MultipleDVMapping>
-      
-      
       <ColumnMapping>
         <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="CLI"/>
         <ct:SymbRef symbIdRef="CL" blkIdRef="cov"/>
@@ -1278,7 +1301,42 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
         <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TREAT"/>
         <ct:SymbRef symbIdRef="treat" blkIdRef="cov"/>
       </ColumnMapping>
-      
+            
+      <MultipleDVMapping>
+        <ds:ColumnRef columnIdRef="DV"/>
+        <!-- DV is mapped to 'FPG_obs' in observation model 'obs_FPG' if ORIG=1 -->
+        <Piecewise>
+          <Piece xmlns="http://www.pharmml.org/2013/03/Maths">
+            <ct:SymbRef blkIdRef="obs_FPG" symbIdRef="FPG_obs"/>
+            <Condition>
+              <LogicBinop op="eq">
+                <ds:ColumnRef columnIdRef="ORIG"/>
+                <ct:Int>1</ct:Int>
+              </LogicBinop>
+            </Condition>
+          </Piece>
+          <!-- DV is mapped to HBA1C_obs in observation model 'obs_HBA1C' if ORIG=2 -->
+          <Piece xmlns="http://www.pharmml.org/2013/03/Maths">
+            <ct:SymbRef blkIdRef="obs_HBA1C" symbIdRef="HBA1C_obs"/>
+            <Condition>
+              <LogicBinop op="eq">
+                <ds:ColumnRef columnIdRef="ORIG"/>
+                <ct:Int>2</ct:Int>
+              </LogicBinop>
+            </Condition>
+          </Piece>
+          <!-- DV is mapped to HB_obs in observation model 'obs_HB' if ORIG=3 -->
+          <Piece xmlns="http://www.pharmml.org/2013/03/Maths">
+            <ct:SymbRef blkIdRef="obs_HB" symbIdRef="HB_obs"/>
+            <Condition>
+              <LogicBinop op="eq">
+                <ds:ColumnRef columnIdRef="ORIG"/>
+                <ct:Int>3</ct:Int>
+              </LogicBinop>
+            </Condition>
+          </Piece>
+        </Piecewise>
+      </MultipleDVMapping>      
       
       <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
         <Definition>
@@ -1287,7 +1345,7 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
           <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
           <Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
           <Column columnId="RATE" columnType="rate" valueType="real" columnNum="5"/>
-          <Column columnId="CMT" columnType="undefined" valueType="real" columnNum="6"/>
+          <Column columnId="CMT" columnType="cmt" valueType="real" columnNum="6"/>
           <Column columnId="CL" columnType="covariate" valueType="real" columnNum="7"/>
           <Column columnId="V" columnType="covariate" valueType="real" columnNum="8"/>
           <Column columnId="SEX" columnType="covariate" valueType="real" columnNum="9"/>
@@ -1296,14 +1354,67 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
           <Column columnId="EVID" columnType="evid" valueType="real" columnNum="12"/>
         </Definition>
         <ImportData oid="id1">
-          <name>hamren_2008</name>
-           <url></url>
+          <path>hamren_2008.csv</path>
           <format>CSV</format>
-          <delimiter>COMMA</delimiter>
+          <delimiter>SEMICOLON</delimiter>
         </ImportData>
       </DataSet>
     </NONMEMdataSet>
     
+    <TargetTool oid="tt1">
+      <TargetToolName>R</TargetToolName>
+      <ds:TargetToolData>
+        <ds:ImportTargetData oid="ittdata">
+          <ds:path>myFile.R</ds:path>
+        </ds:ImportTargetData>
+      </ds:TargetToolData>
+    </TargetTool>
+    
+    <SimulationStep oid="st1"> <!-- TESTING simulaitons without defining Observations defined in NONMEM dataset-->
+      
+      <TargetToolReference>
+        <ct:OidRef oidRef="tt1"></ct:OidRef>
+      </TargetToolReference>
+      
+      <NONMEMdataSetReference>
+        <ct:OidRef oidRef="NMoid"/>
+      </NONMEMdataSetReference>
+      
+      <ct:VariableAssignment>
+        <ct:SymbRef symbIdRef="k1"></ct:SymbRef>
+        <ct:Assign>
+          <ct:Real>1</ct:Real>
+        </ct:Assign>
+      </ct:VariableAssignment>
+      
+      <Observations>
+        <Timepoints>
+          <ct:Sequence>
+            <ct:Begin>
+              <ct:Real>0</ct:Real>
+            </ct:Begin>
+            <ct:StepSize>
+              <ct:Real>10</ct:Real>
+            </ct:StepSize>
+            <ct:End>
+              <ct:Real>1</ct:Real>              
+            </ct:End>
+          </ct:Sequence>
+        </Timepoints>
+        <Continuous>
+          <ct:SymbRef symbIdRef=""></ct:SymbRef>
+        </Continuous>
+      </Observations>
+      
+<!--  REDUNDANT WHEN NONMEM DATA SET IS USED
+        <Observations>
+        <Timepoints>
+          ...
+        </Timepoints>
+      </Observations>-->      
+    </SimulationStep>
+    
+
     <EstimationStep oid="est1">
       <TargetToolReference>
         <ct:OidRef oidRef="NMoid"/>
@@ -1571,6 +1682,7 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
       <Operation order="2" opType="estIndiv"/>
       <Operation order="3" opType="estFIM"/>
     </EstimationStep>
+    
     <StepDependencies>
       <Step>
         <ct:OidRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" oidRef="est1"/>
