@@ -26,39 +26,13 @@
         </mdef:VariabilityModel>
         
         <mdef:ParameterModel blkId="pm1">
-            <mdef:RandomVariable symbId="binary">
-                <ct:VariabilityReference>
-                    <ct:SymbRef symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><prVal>1</prVal></stddev>
-                </NormalDistribution>
-                <BernoulliDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                    <categoryProb definition="http://www.uncertml.org/3.0">
-                        <name>0</name>
-                        <probability>
-                            <var varId="p"/>
-                        </probability>
-                    </categoryProb>
-                </BernoulliDistribution>
-            </mdef:RandomVariable>
-            <mdef:SimpleParameter symbId="simpleP1">
+            <!--            <mdef:IndividualParameter symbId="S1">
                 <ct:Assign>
-                    <math:Equation>                        
-<!--                        <math:Piecewise>
-                            <math:Piece>
-                                <math:Condition>
-                                    <math:LogicBinop op="eq">
-                                        <ct:SymbRef symbIdRef="y"/>
-                                        <Category symbIdRef="1"/>
-                                    </math:LogicBinop>
-                                </math:Condition>
-                            </math:Piece>
-                        </math:Piecewise>-->
+                    <math:Equation>
+                        <ct:Int>1</ct:Int>                        
                     </math:Equation>
-                </ct:Assign>
-            </mdef:SimpleParameter>
+                </ct:Assign>   
+            </mdef:IndividualParameter>-->
         </mdef:ParameterModel>
         
         <mdef:StructuralModel blkId="sm1">
@@ -67,84 +41,51 @@
         
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
-            <mdef:SimpleParameter symbId="p"/>
-
+            
             <!-- NOMINAL -->
             <Discrete>
-                <CategoricalData ordered="no">
-                    <ListOfCategories> 
-                        <Category symbId="cat1">0</Category>
-                        <Category symbId="cat2">1</Category>
-                    </ListOfCategories>
+                <TimeToEventData>
 
-                    <CategoryVariable symbId="y"/>
-                    <LinkFunction>identity</LinkFunction>
-
-                    <!-- P(y = 1) = p -->
-                    <CategoryAssignment symbIdRef="cat1">
-                        <Probability>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </Probability>
-                        <Assign>
-                            <ct:SymbRef symbIdRef="p"/>
-                        </Assign>
-                    </CategoryAssignment>
-                    
-                    <!-- ALTERNATIVE -->
-                    <PMF>
-                        <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
-                            <un:categoryProb definition="http://www.uncertml.org/3.0">
-                                <un:name>0</un:name>
-                                <un:probability>
-                                    <un:var varId="p"/>
-                                </un:probability>
-                            </un:categoryProb>
-                        </un:BernoulliDistribution>
-                    </PMF>  
-                </CategoricalData>
-            </Discrete>           
-            
-            <!-- ORDERED -->
-            <Discrete>
-                <CategoricalData ordered="yes">
-                    <ListOfCategories> 
-                        <Category symbId="1"/>
-                        <Category symbId="2"/>
-                        <Category symbId="3"/>
-                    </ListOfCategories>
-                    
-                    <CategoryVariable symbId="y"/>
-                    
-                    <LinkFunction>identity</LinkFunction>
-                    
-                    <!-- P(y <= 1) = a1/(a1+a2+a3) --> 
-                    <CategoryAssignment symbIdRef="cat1">
-                        <Probability>
-                            <math:LogicBinop op="leq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </Probability>
-                        <Assign>
+                    <HazardFunction>
+                        <ct:Assign>
                             <math:Equation>
-                                <math:Binop op="divide">
-                                    <ct:SymbRef symbIdRef="a1"/>
-                                    <math:Binop op="plus">
-                                        <ct:SymbRef symbIdRef="a1"/>
-                                        <math:Binop op="plus">
-                                            <ct:SymbRef symbIdRef="a2"/>
-                                            <ct:SymbRef symbIdRef="a3"/>
-                                        </math:Binop>
-                                    </math:Binop>
-                                </math:Binop>
+                                <!-- h0*exp(-beta*C) -->
                             </math:Equation>
-                        </Assign>
-                    </CategoryAssignment>
-                </CategoricalData>
-            </Discrete>                    
+                        </ct:Assign>
+                    </HazardFunction>
+                                        
+                    <SurvivalFunction>
+                        <ct:Assign>
+                            <math:Equation>
+                                <!-- exp(-lambda*t) -->
+                            </math:Equation>
+                        </ct:Assign>
+                    </SurvivalFunction>
+                    
+                    <Censoring censoringType="intervalCensored OR rightCensored">    
+                        <IntervalLength>
+                            <ct:Assign>
+                                <!-- e.g. <Real>10</Real> -->
+                            </ct:Assign>
+                        </IntervalLength>
+                        
+                        <LeftCensoringBound></LeftCensoringBound>
+                        
+                        <RightCensoringTime>
+                            <ct:Assign>
+                                <!-- e.g. <Real>200</Real> -->
+                            </ct:Assign>
+                        </RightCensoringTime>
+                    </Censoring>
+                    
+                    <MaximumNumberEvents>
+                        <ct:Assign>
+                            <!-- e.g. <Real>5</Real> -->
+                        </ct:Assign>
+                    </MaximumNumberEvents>
+                    
+                </TimeToEventData>
+            </Discrete>
             
         </mdef:ObservationModel>
     </mdef:ModelDefinition>
