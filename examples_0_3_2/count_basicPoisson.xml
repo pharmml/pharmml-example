@@ -65,6 +65,13 @@
         
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
+            <mdef:SimpleParameter symbId="sds">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op=""></math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
                         
             <Discrete>
                 <CountData>
@@ -82,46 +89,50 @@
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
                     <PMF>
                         <Assign>
-                            <Binop op="minus">
-                                <Binop op="plus">
-                                    <Uniop op="minus">
-                                        <ct:SymbRef symbIdRef="Lambda"/>
-                                    </Uniop>
-                                    <Binop op="times">
-                                        <ct:SymbRef symbIdRef="k"/>
-                                        <Uniop op="ln">
+                            <Equation>
+                                <Binop op="minus">
+                                    <Binop op="plus">
+                                        <Uniop op="minus">
                                             <ct:SymbRef symbIdRef="Lambda"/>
                                         </Uniop>
+                                        <Binop op="times">
+                                            <ct:SymbRef symbIdRef="k"/>
+                                            <Uniop op="ln">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                            </Uniop>
+                                        </Binop>
                                     </Binop>
+                                    <Uniop op="factln">
+                                        <ct:SymbRef symbIdRef="k"/>
+                                    </Uniop>
                                 </Binop>
-                                <Uniop op="factln">
-                                    <ct:SymbRef symbIdRef="k"/>
-                                </Uniop>
-                            </Binop>
+                            </Equation>
                         </Assign>
                     </PMF>
                     
                     <!-- P(Y=k) = (Lambda^k * exp(-Lambda) / k! -->
-                    <!-- <PMF>
+                     <PMF>
                         <Assign>
-                            <Binop op="divide">
-                                <Binop op="times">
-                                    <Binop op="power">
-                                        <ct:SymbRef symbIdRef="Lambda"/>
-                                        <ct:SymbRef symbIdRef="k"/>
-                                    </Binop>
-                                    <Uniop op="exp">
-                                        <Uniop op="minus">
+                            <Equation>
+                                <Binop op="divide">
+                                    <Binop op="times">
+                                        <Binop op="power">
                                             <ct:SymbRef symbIdRef="Lambda"/>
+                                            <ct:SymbRef symbIdRef="k"/>
+                                        </Binop>
+                                        <Uniop op="exp">
+                                            <Uniop op="minus">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                            </Uniop>
                                         </Uniop>
+                                    </Binop>
+                                    <Uniop op="factorial">
+                                        <SymbRef symbIdRef="k"/>
                                     </Uniop>
                                 </Binop>
-                                <Uniop op="factorial">
-                                    <SymbRef symbIdRef="k"/>
-                                </Uniop>
-                            </Binop>
+                            </Equation>
                         </Assign>
-                    </PMF>-->
+                    </PMF>
                 </CountData>
             </Discrete>
         </mdef:ObservationModel>
