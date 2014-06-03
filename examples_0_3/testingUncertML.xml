@@ -237,7 +237,7 @@
                         <un:prVal>5</un:prVal>
                     </un:truncationUpperInclusiveBound>
                 </un:ExponentialDistribution>-->
-                <un:ExponentialDistribution definition="http://www.uncertml.org/...">
+<!--                <un:ExponentialDistribution definition="http://www.uncertml.org/...">
                     <un:rate>
                         <un:var varId="RATE"/>
                     </un:rate>
@@ -247,7 +247,7 @@
                     <un:truncationUpperInclusiveBound>
                         <un:var varId="tUIB"/>
                     </un:truncationUpperInclusiveBound>
-                </un:ExponentialDistribution>
+                </un:ExponentialDistribution>-->
                 
 <!--                <un:FDistribution definition="http://www.uncertml.org/...">
                     <un:denominator>
@@ -805,7 +805,7 @@
                     <un:numberOfTrials><un:nVal>5</un:nVal></un:numberOfTrials>
                     <un:probabilities><un:pVal>.1</un:pVal></un:probabilities>
                 </un:MultinomialDistribution>-->
-<!--                <un:BernoulliDistribution definition="http://www.uncertml.org/...">
+                <un:BernoulliDistribution definition="http://www.uncertml.org/...">
                     <un:categoryProb definition="C1">
                         <un:name>P1</un:name>
                         <un:probability>
@@ -818,7 +818,7 @@
                             <un:pVal>.3</un:pVal>
                         </un:probability>
                     </un:categoryProb>
-                </un:BernoulliDistribution>-->
+                </un:BernoulliDistribution>
 <!--                <un:CategoricalDistribution definition="http://www.uncertml.org/...">
                     <un:categoryProb definition="C1">
                         <un:name>P1</un:name>
