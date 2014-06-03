@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:un="http://www.uncertml.org/3.0"
+    implementedBy="MS" writtenVersion="0.3.2" id="i1">
+    
+    <ct:Name>TTE - concentration dependent hazard</ct:Name>
+    
+    <ct:Description>Time-to-event model with concetration dependent hazard function</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <mdef:ModelDefinition>
+                
+        <mdef:ParameterModel blkId="pm1">
+            <mdef:SimpleParameter symbId="beta"/>
+        </mdef:ParameterModel>
+        
+        <mdef:StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="Cc"/>
+            <ct:Variable symbolType="real" symbId="Ch"/>
+        </mdef:StructuralModel>
+        
+        <!-- OBSERVATIONS -->
+        <mdef:ObservationModel blkId="om1">
+            <Discrete>
+                <TimeToEventData>
+
+                    <EventVariable symbId="Hemorrhaging"/>
+                    
+                    <!-- h(t) = 1/lambda -->
+                    <HazardFunction>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>   
+                    </HazardFunction>
+                    
+                    <!-- S = exp(-Ch) -->
+                    <SurvivalFunction>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Uniop op="exp">
+                                    <math:Uniop op="minus">
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Ch"/>
+                                    </math:Uniop>
+                                </math:Uniop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </SurvivalFunction>
+                                        
+                    <Censoring censoringType="rightCensored">
+                        <RightCensoringTime>
+                            <ct:Assign>
+                                <ct:Real>220</ct:Real> 
+                            </ct:Assign>
+                        </RightCensoringTime>
+                    </Censoring>                    
+                    
+                    <MaximumNumberEvents>
+                        <ct:Assign>
+                            <ct:Real>1</ct:Real> 
+                        </ct:Assign>
+                    </MaximumNumberEvents>
+                </TimeToEventData>
+            </Discrete>
+        </mdef:ObservationModel>
+        
+    </mdef:ModelDefinition>
+    
+    
+</PharmML>
