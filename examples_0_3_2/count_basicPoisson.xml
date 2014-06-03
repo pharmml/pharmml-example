@@ -55,23 +55,9 @@
                 </ct:Assign>
             </mdef:IndividualParameter>
         </mdef:ParameterModel>
-
-        
-        <!-- STRUCTURE -->
-        <mdef:StructuralModel blkId="sm1">
-            <mdef:SimpleParameter symbId="simpleParameter"/>
-            <ct:Variable symbolType="real" symbId="dummyVariable"/>
-        </mdef:StructuralModel>
         
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
-            <mdef:SimpleParameter symbId="sds">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op=""></math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </mdef:SimpleParameter>
                         
             <Discrete>
                 <CountData>

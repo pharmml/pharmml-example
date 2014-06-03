@@ -11,9 +11,9 @@
     xmlns:un="http://www.uncertml.org/3.0"
     implementedBy="MS" writtenVersion="0.3.2" id="i1">
     
-    <ct:Name>Categorical template</ct:Name>
+    <ct:Name>TTE template</ct:Name>
     
-    <ct:Description>Categorical model template</ct:Description>
+    <ct:Description>Time-to-event model template</ct:Description>
     
     <IndependentVariable symbId="t"/>
     
@@ -42,10 +42,11 @@
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
             
-            <!-- NOMINAL -->
             <Discrete>
                 <TimeToEventData>
 
+                    <EventVariable symbId="y"/>
+                    
                     <HazardFunction>
                         <ct:Assign>
                             <math:Equation>
@@ -69,7 +70,11 @@
                             </ct:Assign>
                         </IntervalLength>
                         
-                        <LeftCensoringBound></LeftCensoringBound>
+                        <LeftCensoringTime>
+                            <ct:Assign>
+                                <!-- e.g. <Real>10</Real> -->
+                            </ct:Assign>                            
+                        </LeftCensoringTime>
                         
                         <RightCensoringTime>
                             <ct:Assign>
