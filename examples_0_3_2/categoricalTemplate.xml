@@ -30,10 +30,6 @@
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="subject"/>
                 </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><prVal>1</prVal></stddev>
-                </NormalDistribution>
                 <BernoulliDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
                     <categoryProb definition="http://www.uncertml.org/3.0">
                         <name>0</name>

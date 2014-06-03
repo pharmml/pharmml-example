@@ -9,7 +9,7 @@
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     xmlns:un="http://www.uncertml.org/3.0"
-    writtenVersion="0.3" id="i1">
+    writtenVersion="0.3.2" id="i1">
     
     <ct:Name>Testing PK with look-up table</ct:Name>
     
@@ -805,7 +805,7 @@
                     <un:numberOfTrials><un:nVal>5</un:nVal></un:numberOfTrials>
                     <un:probabilities><un:pVal>.1</un:pVal></un:probabilities>
                 </un:MultinomialDistribution>-->
-                <un:NormalDistribution definition="">
+                <un:NormalDistribution definition="http://www.uncertml.org/3.0">
                     <un:mean>
                         <un:rVal>0</un:rVal>
                     </un:mean>
@@ -821,6 +821,7 @@
                         </un:probability>
                     </un:categoryProb>
                 </un:BernoulliDistribution>
+            </RandomVariable>
 <!--                <un:CategoricalDistribution definition="http://www.uncertml.org/...">
                     <un:categoryProb definition="C1">
                         <un:name>P1</un:name>
