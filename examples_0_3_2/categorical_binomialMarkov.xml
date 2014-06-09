@@ -88,7 +88,7 @@
                     <PreviousStateVariable symbId="yp"/>
 
                     <LinkFunction>identity</LinkFunction>
-                    
+                   
                     <MarkovDependance>
                         <DiscreteTime>
                             <!-- P(y=1|yp=0)=p01 -->
@@ -129,7 +129,6 @@
                             </Probability>                            
                         </DiscreteTime>
                     </MarkovDependance>
-                    
                 </CategoricalData>
             </Discrete>
         </mdef:ObservationModel>

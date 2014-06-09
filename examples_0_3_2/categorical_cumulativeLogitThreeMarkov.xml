@@ -28,7 +28,7 @@
             <mdef:SimpleParameter symbId="simpleP1"/>
         </mdef:ParameterModel>
         
-        
+       
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
             <mdef:SimpleParameter symbId="a11"/>
@@ -40,7 +40,7 @@
             <mdef:SimpleParameter symbId="a31"/>
             <mdef:SimpleParameter symbId="a32"/>
             <mdef:SimpleParameter symbId="a33"/>
-            
+
             <Discrete>
                 <CategoricalData ordered="yes">
                     <ListOfCategories> 
@@ -51,9 +51,9 @@
 
                     <CategoryVariable symbId="y"/>
                     <PreviousStateVariable symbId="yp"/>
-                    
+
                     <LinkFunction>identity</LinkFunction>
-    
+
                     <MarkovDependance>
                         <DiscreteTime>
                             <!--   logit(P (y <= 1|yp = 1)) = a11 -->
@@ -107,10 +107,8 @@
                             <!-- omitted here -->
                         </DiscreteTime>
                     </MarkovDependance>
-                    
                 </CategoricalData>
             </Discrete>
-            
         </mdef:ObservationModel>
     </mdef:ModelDefinition>
     

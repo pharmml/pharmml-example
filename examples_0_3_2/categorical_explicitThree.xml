@@ -54,21 +54,21 @@
                                 <ct:SymbRef symbIdRef="y"/>
                                 <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
-                            <Assign>
-                                <math:Equation>
-                                    <math:Binop op="divide">
+                        </Probability>
+                        <Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="a1"/>
+                                    <math:Binop op="plus">
                                         <ct:SymbRef symbIdRef="a1"/>
                                         <math:Binop op="plus">
-                                            <ct:SymbRef symbIdRef="a1"/>
-                                            <math:Binop op="plus">
-                                                <ct:SymbRef symbIdRef="a2"/>
-                                                <ct:SymbRef symbIdRef="a3"/>
-                                            </math:Binop>
+                                            <ct:SymbRef symbIdRef="a2"/>
+                                            <ct:SymbRef symbIdRef="a3"/>
                                         </math:Binop>
                                     </math:Binop>
-                                </math:Equation>
-                            </Assign>
-                        </Probability>
+                                </math:Binop>
+                            </math:Equation>
+                        </Assign>
                     </CategoryAssignment>
                     
                     <!-- P(y = 2) = a2/(a1+a2+a3) -->
@@ -78,25 +78,24 @@
                                 <ct:SymbRef symbIdRef="y"/>
                                 <ct:SymbRef symbIdRef="cat2"/>
                             </math:LogicBinop>
-                            <Assign>
-                                <math:Equation>
-                                    <math:Binop op="divide">
-                                        <ct:SymbRef symbIdRef="a2"/>
+                        </Probability>
+                        <Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="a2"/>
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="a1"/>
                                         <math:Binop op="plus">
-                                            <ct:SymbRef symbIdRef="a1"/>
-                                            <math:Binop op="plus">
-                                                <ct:SymbRef symbIdRef="a2"/>
-                                                <ct:SymbRef symbIdRef="a3"/>
-                                            </math:Binop>
+                                            <ct:SymbRef symbIdRef="a2"/>
+                                            <ct:SymbRef symbIdRef="a3"/>
                                         </math:Binop>
                                     </math:Binop>
-                                </math:Equation>
-                            </Assign>
-                        </Probability>
+                                </math:Binop>
+                            </math:Equation>
+                        </Assign>
                     </CategoryAssignment>
                 </CategoricalData>
             </Discrete>
-            
         </mdef:ObservationModel>
     </mdef:ModelDefinition>
     

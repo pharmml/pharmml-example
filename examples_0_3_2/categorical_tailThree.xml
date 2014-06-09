@@ -67,7 +67,6 @@
             <!-- b3 -->
             <mdef:SimpleParameter symbId="b3"/>
 
-
             <Discrete>
                 <CategoricalData ordered="yes">
                     <ListOfCategories> 

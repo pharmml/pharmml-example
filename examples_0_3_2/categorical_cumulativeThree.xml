@@ -27,7 +27,7 @@
         <mdef:ParameterModel blkId="pm1">
             <mdef:SimpleParameter symbId="simpleP1"/>
         </mdef:ParameterModel>
-        
+       
         
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
@@ -96,7 +96,6 @@
                     </CategoryAssignment>
                 </CategoricalData>
             </Discrete>
-            
         </mdef:ObservationModel>
     </mdef:ModelDefinition>
     

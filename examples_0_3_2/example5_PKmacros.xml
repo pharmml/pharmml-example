@@ -1002,8 +1002,7 @@
                     <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>     <!-- mapping to sm1 'compartmentNo="1"' -->
                 </Definition>
                 <ImportData oid="importNONMEM">
-                    <name>RIBBA2012_PCV</name>
-                    <url>./combineArchive_XYZ/examples_0_3/</url>
+                    <path>RIBBA2012_PCV.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>

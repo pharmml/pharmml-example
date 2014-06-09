@@ -42,9 +42,9 @@
                     <CategoryVariable symbId="y"/>
                     
                     <LinkFunction>identity</LinkFunction>
-                    
+                   
                     <!-- P(y = 1) = p -->
-                    <Category symbIdRef="1">
+                    <CategoryAssignment symbIdRef="cat1">
                         <Probability>
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="y"/>
@@ -54,7 +54,7 @@
                         <Assign>
                             <ct:SymbRef symbIdRef="p"/>
                         </Assign>
-                    </Category>
+                    </CategoryAssignment>
                     
                     <!-- ALTERNATIVE -->
                     <PMF>

@@ -50,8 +50,8 @@
             <Discrete>
                 <CategoricalData ordered="no">
                     <ListOfCategories> 
-                        <Category symbId="cat1">0</Category>
-                        <Category symbId="cat2">1</Category>
+                        <Category symbId="cat0">0</Category>
+                        <Category symbId="cat1">1</Category>
                     </ListOfCategories>
 
                     <CategoryVariable symbId="y"/>
@@ -82,7 +82,7 @@
                         </un:BernoulliDistribution>
                     </PMF>  
                 </CategoricalData>
-            </Discrete>           
+            </Discrete>
             
             <!-- ORDERED -->
             <Discrete>
@@ -121,9 +121,47 @@
                         </Assign>
                     </CategoryAssignment>
                 </CategoricalData>
-            </Discrete>                    
-            
+            </Discrete>
         </mdef:ObservationModel>
+        
+        
+        <!-- ORDERED with MARKOV -->
+        <mdef:ObservationModel blkId="om2">
+            <mdef:SimpleParameter symbId="p01"/>
+            <mdef:SimpleParameter symbId="p11"/>
+            
+            <Discrete>
+                <CategoricalData ordered="yes">
+                    <ListOfCategories> 
+                        <Category symbId="cat0">0</Category>
+                        <Category symbId="cat1">1</Category>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    <PreviousStateVariable symbId="yp"/>
+                    
+                    <LinkFunction>identity</LinkFunction>
+                    
+                    <MarkovDependance>
+                        <DiscreteTime>
+                            <!-- P(y<=1|yp=0)=p01 -->
+                            <Probability>
+                                <CurrentState>
+                                    <!-- y<=1 -->
+                                </CurrentState>
+                                <PreviousState>
+                                    <!-- yp=0 -->
+                                </PreviousState>
+                                <Assign>
+                                    <ct:SymbRef symbIdRef="p01"/>
+                                </Assign>
+                            </Probability>
+                        </DiscreteTime>
+                    </MarkovDependance>
+                </CategoricalData>
+            </Discrete>
+        </mdef:ObservationModel>
+        
     </mdef:ModelDefinition>
     
     
