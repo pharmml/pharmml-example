@@ -50,8 +50,8 @@
             <Discrete>
                 <CategoricalData ordered="no">
                     <ListOfCategories> 
-                        <Category symbId="cat0">0</Category>
-                        <Category symbId="cat1">1</Category>
+                        <Category symbId="cat0"/>
+                        <Category symbId="cat1"/> <!-- Same as model example4.xml -->
                     </ListOfCategories>
 
                     <CategoryVariable symbId="y"/>
@@ -88,9 +88,9 @@
             <Discrete>
                 <CategoricalData ordered="yes">
                     <ListOfCategories> 
-                        <Category symbId="1"/>
-                        <Category symbId="2"/>
-                        <Category symbId="3"/>
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="y"/>
@@ -133,24 +133,24 @@
             <Discrete>
                 <CategoricalData ordered="yes">
                     <ListOfCategories> 
-                        <Category symbId="cat0">0</Category>
-                        <Category symbId="cat1">1</Category>
+                        <Category symbId="cat0"/>
+                        <Category symbId="cat1"/>
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="y"/>
-                    <PreviousStateVariable symbId="yp"/>
+                    <PreviousStateVariable symbId="yp1"/>
+                    <PreviousStateVariable symbId="yp2"/>
                     
-                    <LinkFunction>identity</LinkFunction>
-                    
+                    <!-- 1st order -->
                     <MarkovDependance>
                         <DiscreteTime>
-                            <!-- P(y<=1|yp=0)=p01 -->
-                            <Probability>
+                            <!-- P(y<=1|yp1=0)=p01 -->
+                            <Probability linkFunction="identity">
                                 <CurrentState>
                                     <!-- y<=1 -->
                                 </CurrentState>
                                 <PreviousState>
-                                    <!-- yp=0 -->
+                                    <!-- yp1=0 -->
                                 </PreviousState>
                                 <Assign>
                                     <ct:SymbRef symbIdRef="p01"/>
@@ -158,6 +158,28 @@
                             </Probability>
                         </DiscreteTime>
                     </MarkovDependance>
+                    
+                    <!-- 2nd order -->
+                    <MarkovDependance>
+                        <DiscreteTime>
+                            <!--   logit(P(y <= 1 | yp1 = 1, yp2 = 2)) = a112 -->
+                            <Probability linkFunction="logit">
+                                <CurrentState>
+                                    <!-- y<=1 -->
+                                </CurrentState>
+                                <PreviousState order="1">
+                                    <!-- yp1=1 -->
+                                </PreviousState>
+                                <PreviousState order="2">
+                                    <!-- yp2=2 -->
+                                </PreviousState>
+                                <Assign>
+                                    <ct:SymbRef symbIdRef="a112"/>
+                                </Assign>
+                            </Probability>
+                        </DiscreteTime>
+                    </MarkovDependance>
+                                
                 </CategoricalData>
             </Discrete>
         </mdef:ObservationModel>
