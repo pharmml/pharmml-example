@@ -1564,7 +1564,7 @@ Keywords: Diabetes, HbA1c, mean plasma glucose, red blood cell lifespan</ct:Desc
       </ct:VariableAssignment>
       <Observations>
         <Timepoints>
-          <ct:Vector xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
+          <ct:MixedVector xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
             <ct:Sequence>
               <ct:Begin>
                 <ct:Int>0</ct:Int>
@@ -1576,7 +1576,7 @@ Keywords: Diabetes, HbA1c, mean plasma glucose, red blood cell lifespan</ct:Desc
                 <ct:Int>150</ct:Int>
               </ct:End>
             </ct:Sequence>
-          </ct:Vector>
+          </ct:MixedVector>
         </Timepoints>
         <Continuous>
           <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbIdRef="HBA1C" blkIdRef="sm"/>
