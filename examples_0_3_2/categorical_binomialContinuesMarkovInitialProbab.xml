@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    implementedBy="MJS" writtenVersion="0.3.2" id="i1">
+    
+    <ct:Name id="i2">Cumulative Logit Markov and Initial Prob</ct:Name>
+    
+    <ct:Description>Categorical model - cumulative logut model with Markov dependency and initial probabilities</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <mdef:ModelDefinition id="i3">
+        
+        <!-- VARIABILITY -->
+        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
+            <mdef:Level symbId="subject"/>
+        </mdef:VariabilityModel>
+        
+        <mdef:ParameterModel blkId="pm1">
+            <mdef:SimpleParameter symbId="simpleP1"/>
+        </mdef:ParameterModel>
+        
+       
+        <!-- OBSERVATIONS -->
+        <mdef:ObservationModel blkId="om1">
+            <mdef:SimpleParameter symbId="q12"/>
+            <mdef:SimpleParameter symbId="q21"/>
+
+            <Discrete>
+                <CategoricalData ordered="no">
+                    <ListOfCategories> 
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                    </ListOfCategories>
+
+                    <CategoryVariable symbId="y"/>
+                    <InitialStateVariable symbId="yinit"/>
+                    
+                    <!-- P(y = 1) = a1 -->
+                    <CategoryAssignment symbIdRef="cat1">
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="yinit"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </Probability>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="p1"/>
+                        </ct:Assign>
+                    </CategoryAssignment>
+                                        
+                    <!-- Markov -->
+                    <MarkovDependance>
+                        <DiscreteTime>
+                            <!--   logit(P(y <= 1|yp = 1)) = a11 -->
+                            <Probability linkFunction="logit">
+                                <CurrentState> 
+                                    <math:LogicBinop op="leq">
+                                        <ct:SymbRef symbIdRef="y"/>
+                                        <ct:SymbRef symbIdRef="cat1"/>
+                                    </math:LogicBinop>
+                                </CurrentState>
+                                <PreviousState>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="yp"/>
+                                        <ct:SymbRef symbIdRef="cat1"/>
+                                    </math:LogicBinop>
+                                </PreviousState>
+                                <Assign>
+                                    <ct:SymbRef symbIdRef="a11"/>
+                                </Assign>
+                            </Probability>
+                            <!--  logit(P(y <= 2|yp = 1)) = a11 + a12 -->
+                            <Probability linkFunction="logit">
+                                <CurrentState>
+                                    <math:LogicBinop op="leq">
+                                        <ct:SymbRef symbIdRef="y"/>
+                                        <ct:SymbRef symbIdRef="cat2"/>
+                                    </math:LogicBinop>
+                                </CurrentState>
+                                <PreviousState>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="yp"/>
+                                        <ct:SymbRef symbIdRef="cat1"/>
+                                    </math:LogicBinop>
+                                </PreviousState>
+                                <ct:Assign>
+                                    <math:Equation>
+                                        <math:Binop op="plus">
+                                            <ct:SymbRef symbIdRef="a11"/>
+                                            <ct:SymbRef symbIdRef="a12"/>
+                                        </math:Binop>
+                                    </math:Equation>
+                                </ct:Assign>
+                            </Probability>
+                            <!--  logit(P(y <= 1|yp = 2)) = a21 -->
+                            <!-- omitted here -->
+                            <!--  logit(P(y <= 2|yp = 2)) = a21 + a22 -->
+                            <!-- omitted here -->
+                            <!--  logit(P(y <= 1|yp = 3)) = a31 -->
+                            <!-- omitted here -->
+                            <!--  logit(P(y <= 2|yp = 3)) = a31 + a32 -->
+                            <!-- omitted here -->
+                        </DiscreteTime>
+                    </MarkovDependance>
+                </CategoricalData>
+            </Discrete>
+        </mdef:ObservationModel>
+    </mdef:ModelDefinition>
+    
+    <mstep:ModellingSteps>
+        
+        <mstep:NONMEMdataSet oid="NMoid">
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </mstep:ColumnMapping>
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="DV"/>
+            </mstep:ColumnMapping>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                </ds:Definition>
+                <ds:ImportData oid="importData">
+                    <ds:name>myFile</ds:name>
+                    <ds:url>myFile</ds:url>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
+        </mstep:NONMEMdataSet>
+        
+        <mstep:EstimationStep oid="estStep1">
+            
+            <mstep:TargetToolReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </mstep:TargetToolReference>
+            
+            <mstep:ParametersToEstimate>
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef symbIdRef="THETA1"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+                
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef symbIdRef="OMEGA1"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>0.6</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+                
+            </mstep:ParametersToEstimate>
+            
+            <mstep:Operation order="1" opType="estPop"/>
+        </mstep:EstimationStep>
+        
+    </mstep:ModellingSteps>
+    
+</PharmML>
+

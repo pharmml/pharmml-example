@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:design="http://www.pharmml.org/2013/03/TrialDesign"
+    writtenVersion="0.3" id="i1">
+    
+    <!-- MODEL DEFINITION -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+    
+        <!-- STRUCTURAL MODEL -->
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="D"/>
+            <ct:Variable symbolType="real" symbId="tD"/>
+            <ct:Variable symbolType="real" symbId="Cc">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="times">
+                            <Binop op="divide">
+                                <ct:SymbRef symbIdRef="D"/>
+                                <ct:SymbRef symbIdRef="V"/>
+                            </Binop>
+                            <Binop op="times">
+                                <Binop op="divide">
+                                    <ct:SymbRef symbIdRef="ka"/>
+                                    <Binop op="minus">
+                                        <ct:SymbRef symbIdRef="ka"/>
+                                        <ct:SymbRef symbIdRef="k"/>
+                                    </Binop>
+                                </Binop>
+                                <Binop op="minus">
+                                    <Uniop op="exp">
+                                        <Binop op="times">
+                                            <Uniop op="minus">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                            </Uniop>
+                                            <Binop op="minus">
+                                                <ct:SymbRef symbIdRef="t"/>
+                                                <ct:SymbRef symbIdRef="t_D"/>
+                                            </Binop>
+                                        </Binop>
+                                    </Uniop>
+                                    <Uniop op="exp">
+                                        <Binop op="times">
+                                            <Uniop op="minus">
+                                                <ct:SymbRef symbIdRef="ka"/>
+                                            </Uniop>
+                                            <Binop op="minus">
+                                                <ct:SymbRef symbIdRef="t"/>
+                                                <ct:SymbRef symbIdRef="t_D"/>
+                                            </Binop>
+                                        </Binop>
+                                    </Uniop>
+                                </Binop>
+                            </Binop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </ct:Variable>
+        </StructuralModel>
+        
+    </ModelDefinition>
+ 
+</PharmML>
