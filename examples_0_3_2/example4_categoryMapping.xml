@@ -502,10 +502,10 @@
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="SEX"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
-                <CategoryMapping> 
-                    <Category symbId="M">0</Category>
-                    <Category symbId="F">1</Category>
-                </CategoryMapping>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="0" modelSymbol="M"/>
+                    <ds:Map dataSymbol="1" modelSymbol="F"/>
+                </ds:CategoryMapping>
             </ColumnMapping>
 
             <ColumnMapping>
