@@ -56,7 +56,7 @@
         <CovariateModel blkId="cm1">
             <Covariate symbId="Sex">
                 <Categorical>
-                    <Category catId="F">
+                    <Category catId="cat1">
                         <ct:Name>Female</ct:Name>
                     </Category>
                     <Category catId="M">
@@ -502,6 +502,10 @@
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="SEX"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
+                <ListOfCategories> 
+                    <Category symbId="cat0">0</Category>
+                    <Category symbId="cat1">1</Category>
+                </ListOfCategories>
             </ColumnMapping>
             
             <ColumnMapping>
