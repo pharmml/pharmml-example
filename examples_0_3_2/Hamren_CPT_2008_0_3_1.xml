@@ -145,22 +145,12 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
       <SimpleParameter symbId="fdf">                <!-- VECTOR IDEAS -->
         <ct:Assign>
           <ct:Vector>
-            <index>1</index>
-            <ct:Real>1</ct:Real>
-            <index>1</index>
-            <ct:Real>2</ct:Real>
+            <ct:Real>1.1</ct:Real>
+            <ct:Real>2.1</ct:Real>
           </ct:Vector>
         </ct:Assign>
       </SimpleParameter>
-      
-      <SimpleParameter symbId="dff">
-        <ct:Assign>
-          <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-            <Constant op="notanumber"/>           <!-- IS THIS WHAT OWE WANT???? -->
-          </Equation>
-        </ct:Assign>
-      </SimpleParameter>
-      
+            
       <SimpleParameter symbId="pop_FPG_washout_N">
         <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
           <ct:Int>0</ct:Int>
@@ -1402,7 +1392,7 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
           </ct:Sequence>
         </Timepoints>
         <Continuous>
-          <ct:SymbRef symbIdRef=""></ct:SymbRef>
+          <ct:SymbRef symbIdRef="C"/>
         </Continuous>
       </Observations>
       
