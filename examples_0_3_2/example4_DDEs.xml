@@ -250,81 +250,84 @@
         
         <!-- STRUCTURAL MODEL -->
         <StructuralModel blkId="sm1">
-            <ct:Variable symbolType="real" symbId="D"/>
-            <ct:Variable symbolType="real" symbId="tD"/>
-            <ct:Variable symbolType="real" symbId="Cc">
-                <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                        <Binop op="times">
-                            <Binop op="divide">
-                                <ct:SymbRef symbIdRef="D"/>
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                            </Binop>
-                            <Binop op="times">
-                                <Binop op="divide">
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                                    <Binop op="minus">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                                    </Binop>
-                                </Binop>
-                                <Binop op="minus">
-                                    <Uniop op="exp">
-                                        <Binop op="times">
-                                            <Uniop op="minus">
-                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                                            </Uniop>
-                                            <Binop op="minus">
-                                                <ct:SymbRef symbIdRef="t"/>
-                                                <ct:SymbRef symbIdRef="t_D"/>
-                                            </Binop>
-                                        </Binop>
-                                    </Uniop>
-                                    <Uniop op="exp">
-                                        <Binop op="times">
-                                            <Uniop op="minus">
-                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                                            </Uniop>
-                                            <Binop op="minus">
-                                                <ct:SymbRef symbIdRef="t"/>
-                                                <ct:SymbRef symbIdRef="t_D"/>
-                                            </Binop>
-                                        </Binop>
-                                    </Uniop>
-                                </Binop>
-                            </Binop>
-                        </Binop>
-                    </Equation>
-                </ct:Assign>
-            </ct:Variable>
+           
+<!--        example from 'MLXTRAN for Monolix', May 2
+            t0 = 5
+            A_0 = r/k
+            B_0 = 0
+            ddt_A = r - c*A*B - k*A
+            ddt_B = c*A*B - delay(A, d)-->
             
-            <ct:DerivativeVariable symbId="F" symbolType="real">
+            <ct:DerivativeVariable symbId="A" symbolType="real">
                 <ct:Assign>
-                    <ct:Real>1</ct:Real>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="r"/>
+                            <math:Binop op="minus">
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="c"/>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="A"/>
+                                        <ct:SymbRef symbIdRef="B"/>
+                                    </math:Binop>
+                                </math:Binop>
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                                    <ct:SymbRef symbIdRef="A"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
                 </ct:Assign>
                 <ct:IndependentVariable>
                     <ct:SymbRef symbIdRef="t"/>
                 </ct:IndependentVariable>
-                <ct:InitialCondition>
-                    <ct:InitialValue>
-                        <ct:Assign>
-                            <ct:Real>0</ct:Real>
-                        </ct:Assign>
-                    </ct:InitialValue>
-                    <ct:InitialTime>
-                        <ct:Assign>
-                            <ct:Real>0</ct:Real>
-                        </ct:Assign>
-                    </ct:InitialTime>
-                </ct:InitialCondition>
                 <ct:History>
                     <ct:HistoryTimeValue>
                         <ct:Assign>
-                            <ct:Real>0</ct:Real>
+                            <ct:Real>5</ct:Real>
                         </ct:Assign>
                     </ct:HistoryTimeValue>
                     <ct:Assign>
-                        <ct:SymbRef symbIdRef="historyValue"/>
+                        <math:Equation>
+                            <math:Binop op="divide">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="r"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>
+                </ct:History>
+            </ct:DerivativeVariable>
+            
+            <ct:DerivativeVariable symbId="B" symbolType="real">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="c"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="A"/>
+                                    <ct:SymbRef symbIdRef="B"/>
+                                </math:Binop>
+                            </math:Binop>
+                            <ct:Delay>
+                                <ct:SymbRef symbIdRef="A"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="d"/>
+                            </ct:Delay>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:History>
+                    <ct:HistoryTimeValue>
+                        <ct:Assign>
+                            <ct:Real>5</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryTimeValue>
+                    <ct:Assign>
+                        <ct:Real>0</ct:Real>
                     </ct:Assign>
                 </ct:History>
             </ct:DerivativeVariable>
