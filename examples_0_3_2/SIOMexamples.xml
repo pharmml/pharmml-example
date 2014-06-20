@@ -1,38 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     <!-- omitted details -->
-    writtenVersion="0.3.1">
-    
-    <Name>SIOM test</Name>    
-    <IndependentVariable symbId="t"/>
-    
+
+    <!-- part 1 - ModelDefinition -->
     <ModelDefinition/>
+
+    <!-- part 2 - TrialDesign -->
     <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign"/>
+
+    <!-- part 3 - ModellingSteps -->
     <ModellingSteps/>
-      
-    <SIOM>        
-        <MLE>
-            <ct:Assign>
-                <ct:Real>140</ct:Real>
-            </ct:Assign>                
-        </MLE>
-        
-        <PosteriorMean>
-            <Parameter symbIdRef="V">
-                <ct:Assign>
-                    <ct:Real>10</ct:Real>
-                </ct:Assign>                
-            </Parameter>            
-        </PosteriorMean>
-        
-        <FIM>
-            <mdef:Matrix>
-                <ct:RowNames><ct:String>r1</ct:String><ct:String>r2</ct:String></ct:RowNames>
-                <ct:MatrixRow><ct:Real>1</ct:Real><ct:Real>2</ct:Real></ct:MatrixRow>
-                <ct:MatrixRow><ct:Real>4</ct:Real><ct:Real>5</ct:Real></ct:MatrixRow>
-                <ct:MatrixRow><ct:Real>7</ct:Real><ct:Real>8</ct:Real></ct:MatrixRow>
-            </mdef:Matrix>            
-        </FIM>        
-    </SIOM>
     
+    <!-- part 4 - SIOM -->
+    <SIOM>
+        <!-- Estimation -->
+        <Estimation>
+            <MLE>
+                <ct:Assign>
+                    <ct:Real>140</ct:Real>
+                </ct:Assign>                
+            </MLE>
+            
+            <PosteriorMean>
+                <Parameter symbIdRef="V">
+                    <ct:Assign>
+                        <ct:Real>10</ct:Real>
+                    </ct:Assign>                
+                </Parameter>            
+            </PosteriorMean>
+
+            <FIM>
+                <mdef:Matrix>
+                    <ct:MatrixRow><ct:Real>1</ct:Real><ct:Real>2</ct:Real></ct:MatrixRow>
+                    <ct:MatrixRow><ct:Real>4</ct:Real><ct:Real>5</ct:Real></ct:MatrixRow>
+                    <ct:MatrixRow><ct:Real>7</ct:Real><ct:Real>8</ct:Real></ct:MatrixRow>
+                </mdef:Matrix>            
+            </FIM>        
+            <!-- omitted other examples -->
+        </Estimation>
+        
+        <!-- Model Diagnostic and Evaluation -->
+        <ModelDiagnosticEvaluation>
+            <!-- omitted input/output examples -->
+        </ModelDiagnosticEvaluation>
+
+        <!-- Simulation and exploration -->
+        <SimulationExploration>
+            <!-- omitted input/output examples -->            
+        </SimulationExploration>
+        
+        <!-- Optimal Design -->
+        <OptimalDesign>
+            <!-- omitted input/output examples -->            
+        </OptimalDesign>        
+    </SIOM>
 </PharmML>
