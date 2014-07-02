@@ -15,8 +15,8 @@
     <IndependentVariable symbId="time"/>
 
     <!-- SYMBOL DEFINITION - RESUIDUAL ERROR MODEL -->
-    <ct:FunctionDefinition symbId="constantErrorModel" symbolType="real">
-        <ct:FunctionArgument symbId="a" symbolType="real"/>
+    <ct:FunctionDefinition symbId="constantErrorModel">
+        <ct:FunctionArgument symbId="a"/>
         <ct:Definition>
             <ct:SymbRef symbIdRef="a"/>
         </ct:Definition>
@@ -283,7 +283,7 @@
         <StructuralModel blkId="sm1">
             
             <!-- dC/dt -->
-            <ct:DerivativeVariable symbolType="real" symbId="C">
+            <ct:DerivativeVariable symbId="C">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="times">
@@ -312,7 +312,7 @@
             </ct:DerivativeVariable>
             
             <!-- dPT/dt -->
-            <ct:DerivativeVariable symbolType="real" symbId="PT">
+            <ct:DerivativeVariable symbId="PT">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="plus">
@@ -372,7 +372,7 @@
             </ct:DerivativeVariable>
             
             <!-- dQ/dt --> 
-            <ct:DerivativeVariable symbolType="real" symbId="Q">
+            <ct:DerivativeVariable symbId="Q">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="minus">
@@ -408,7 +408,7 @@
             </ct:DerivativeVariable>
             
             <!-- dQP/dt -->
-            <ct:DerivativeVariable symbolType="real" symbId="QP">
+            <ct:DerivativeVariable symbId="QP">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="minus">
@@ -453,7 +453,7 @@
             </ct:DerivativeVariable>
 
             <!-- PSTAR -->
-            <ct:Variable symbolType="real" symbId="PSTAR" >
+            <ct:Variable symbId="PSTAR" >
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="plus">

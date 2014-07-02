@@ -17,8 +17,8 @@
     <IndependentVariable symbId="t"/>
     
     <!-- function definition -->
-    <FunctionDefinition xmlns="http://www.pharmml.org/2013/03/CommonTypes" symbId="constantErrorModel" symbolType="real">
-        <FunctionArgument symbId="a" symbolType="real"/>
+    <FunctionDefinition xmlns="http://www.pharmml.org/2013/03/CommonTypes" symbId="constantErrorModel">
+        <FunctionArgument symbId="a"/>
         <Definition>
             <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                 <ct:SymbRef symbIdRef="a"/>
@@ -26,10 +26,10 @@
         </Definition>
     </FunctionDefinition>
     
-    <FunctionDefinition xmlns="http://www.pharmml.org/2013/03/CommonTypes" symbId="combinedErrorModel" symbolType="real">
-        <FunctionArgument symbId="a" symbolType="real"/>
-        <FunctionArgument symbId="b" symbolType="real"/>
-        <FunctionArgument symbId="f" symbolType="real"/>
+    <FunctionDefinition xmlns="http://www.pharmml.org/2013/03/CommonTypes" symbId="combinedErrorModel">
+        <FunctionArgument symbId="a"/>
+        <FunctionArgument symbId="b"/>
+        <FunctionArgument symbId="f"/>
         <Definition>
             <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                 <Binop op="plus">
@@ -89,6 +89,20 @@
         
         <!-- parameter model -->
         <ParameterModel blkId="p1">
+            <SimpleParameter symbId="vectorParameter">
+                <ct:Assign>
+                    <ct:MixedVector>
+                        <ct:Real>1</ct:Real>
+                        <ct:Sequence>
+                            <ct:Begin><ct:Real>1</ct:Real></ct:Begin>
+                            <ct:StepSize><ct:Real>1</ct:Real></ct:StepSize>
+                            <ct:End><ct:Real>10</ct:Real></ct:End>
+                        </ct:Sequence>
+                        <ct:Real>11</ct:Real>
+                    </ct:MixedVector>
+                </ct:Assign>
+            </SimpleParameter>
+            
             <!-- V -->
             <SimpleParameter symbId="beta_V"/>
             <SimpleParameter symbId="pop_V"/>
@@ -318,7 +332,7 @@
         
         <!-- structural model -->
         <StructuralModel blkId="sm1">
-            <ct:Variable symbId="k" symbolType="real">
+            <ct:Variable symbId="k">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="divide">
@@ -328,7 +342,7 @@
                     </Equation>
                 </ct:Assign>
             </ct:Variable>
-            <ct:DerivativeVariable symbId="Ad" symbolType="real">
+            <ct:DerivativeVariable symbId="Ad">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="times">
@@ -350,7 +364,7 @@
                     </ct:InitialValue>
                 </ct:InitialCondition>
             </ct:DerivativeVariable>
-            <ct:DerivativeVariable symbId="Ac" symbolType="real">
+            <ct:DerivativeVariable symbId="Ac">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="minus">
@@ -376,7 +390,7 @@
                     </ct:InitialValue>
                 </ct:InitialCondition>
             </ct:DerivativeVariable>
-            <ct:DerivativeVariable symbId="E" symbolType="real">
+            <ct:DerivativeVariable symbId="E">
                 <ct:Description>PCA</ct:Description>
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
@@ -420,7 +434,7 @@
                     </ct:InitialValue>
                 </ct:InitialCondition>
             </ct:DerivativeVariable>
-            <ct:Variable symbId="Cc" symbolType="real">
+            <ct:Variable symbId="Cc">
                 <ct:Description>Concentration</ct:Description>
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
