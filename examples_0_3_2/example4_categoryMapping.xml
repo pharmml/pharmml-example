@@ -18,12 +18,12 @@
     <IndependentVariable symbId="t"/>
 
     <!-- FUNCTION DEFINITION -->
-    <ct:FunctionDefinition symbId="combinedErrorModel" symbolType="real">
-        <ct:FunctionArgument symbId="a" symbolType="real"/>
-        <ct:FunctionArgument symbId="b" symbolType="real"/>
-        <ct:FunctionArgument symbId="f" symbolType="real"/>
+    <ct:FunctionDefinition symbId="combinedErrorModel">
+        <ct:FunctionArgument symbId="a"/>
+        <ct:FunctionArgument symbId="b"/>
+        <ct:FunctionArgument symbId="f"/>
         <ct:Definition>
-            <Equation xmlns="http://www.pharmml.org/2013/03/Maths" >
+            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                 <Binop op="plus">
                     <ct:SymbRef symbIdRef="a"/>
                     <Binop op="times">
@@ -90,6 +90,48 @@
 
         <!-- PARAMETER MODEL -->
         <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="fourthParameter">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <ct:SymbRef symbIdRef="Product"/>
+                            <ct:Delay>
+                                <ct:SymbRef symbIdRef="A"/>
+                                <ct:SymbRef symbIdRef="tau"/>
+                            </ct:Delay>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="ddfdf">
+                <ct:Assign>
+                    <ct:Vector length="4">
+                        <ct:VectorElements>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>2</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>4</ct:Real>
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+
+            <SimpleParameter symbId="ddfdf">
+                <ct:Assign>
+                    <ct:Vector length="4" default="0">
+                        <ct:VectorCell vectorIndex="2">
+                            <ct:Real>2</ct:Real>
+                        </ct:VectorCell>
+                        <ct:VectorCell vectorIndex="4">
+                            <ct:SymbRef symbIdRef="fourthElement"/>
+                        </ct:VectorCell>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            
+            
             <!-- ka -->
             <SimpleParameter symbId="omega_ka"/>
             <SimpleParameter symbId="pop_ka"/>
@@ -250,9 +292,9 @@
         
         <!-- STRUCTURAL MODEL -->
         <StructuralModel blkId="sm1">
-            <ct:Variable symbolType="real" symbId="D"/>
-            <ct:Variable symbolType="real" symbId="tD"/>
-            <ct:Variable symbolType="real" symbId="Cc">
+            <ct:Variable symbId="D"/>
+            <ct:Variable symbId="tD"/>
+            <ct:Variable symbId="Cc">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="times">
@@ -297,6 +339,7 @@
                     </Equation>
                 </ct:Assign>
             </ct:Variable>
+                        
         </StructuralModel>
         
         <!-- OBSERVATION MODEL -->
