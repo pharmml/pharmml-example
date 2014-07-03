@@ -130,8 +130,7 @@
                     <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
                 </ds:Definition>
                 <ds:ImportData oid="importData">
-                    <ds:name>myFile</ds:name>
-                    <ds:url>myFile</ds:url>
+                    <ds:path>myFile.csv</ds:path>
                     <ds:format>CSV</ds:format>
                     <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ImportData>
@@ -167,4 +166,3 @@
     </mstep:ModellingSteps>
     
 </PharmML>
-

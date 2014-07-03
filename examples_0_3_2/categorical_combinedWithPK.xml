@@ -288,73 +288,71 @@
         
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
-            
-            <Discrete>
+            <mdef:Discrete>
+
                 <CategoricalData ordered="no">
                     <ListOfCategories> 
-                        <Category symbId="cat0">0</Category>
-                        <Category symbId="cat1">1</Category>
+                        <Category symbId="cat0"/>
+                        <Category symbId="cat1"/>
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="y"/>
                     
-                    <LinkFunction>identity</LinkFunction>
-                    
-                    <Category symbIdRef="1">
-                        <!-- P(y = 1) = 1 / (1 + exp(-theta1 - theta2*log(Cc))) -->
-                        <Probability>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                            <ct:Assign>
-                                <math:Equation>
-                                    <math:Binop op="divide">
+                    <!-- P(y = 1) = 1 / (1 + exp(-theta1 - theta2*log(Cc))) -->
+                    <Probability linkFunction="identity">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:Real>1</ct:Real>
+                                    <math:Binop op="plus">
                                         <ct:Real>1</ct:Real>
-                                        <math:Binop op="plus">
-                                            <ct:Real>1</ct:Real>
-                                            <math:Uniop op="exp">
-                                                <math:Binop op="minus">
-                                                    <math:Uniop op="minus">
-                                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="theta1"/>
+                                        <math:Uniop op="exp">
+                                            <math:Binop op="minus">
+                                                <math:Uniop op="minus">
+                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="theta1"/>
+                                                </math:Uniop>
+                                                <math:Binop op="times">
+                                                    <ct:SymbRef symbIdRef="theta2"/>
+                                                    <math:Uniop op="ln">
+                                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
                                                     </math:Uniop>
-                                                    <math:Binop op="times">
-                                                        <ct:SymbRef symbIdRef="theta2"/>
-                                                        <math:Uniop op="ln">
-                                                            <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                                                        </math:Uniop>
-                                                    </math:Binop>
                                                 </math:Binop>
-                                            </math:Uniop>
-                                        </math:Binop>
+                                            </math:Binop>
+                                        </math:Uniop>
                                     </math:Binop>
-                                </math:Equation>
-                            </ct:Assign>
-                        </Probability>                    
-                    </Category>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Probability>                    
                     
                 </CategoricalData>
-            </Discrete>
+            </mdef:Discrete>
             
         </mdef:ObservationModel>
         
         
         <mdef:ObservationModel blkId="om2">
-            <mdef:SimpleParameter symbId="a"/>
-            <mdef:SimpleParameter symbId="b"/>
-            <mdef:General symbId="C_obs">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="plus">
-                            <ct:SymbRef symbIdRef="a"/>
-                            <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="b"/>
-                                <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+            <mdef:Continuous>
+                <mdef:SimpleParameter symbId="a"/>
+                <mdef:SimpleParameter symbId="b"/>
+                <mdef:General symbId="C_obs">
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="a"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                                </math:Binop>
                             </math:Binop>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </mdef:General>
+                        </math:Equation>
+                    </ct:Assign>
+                </mdef:General>                
+            </mdef:Continuous>
         </mdef:ObservationModel>
         
     </mdef:ModelDefinition>
@@ -386,8 +384,7 @@
                     <ds:Column columnId="DV2" columnType="dv" valueType="real" columnNum="4"/>
                 </ds:Definition>
                 <ds:ImportData oid="importData">
-                    <ds:name>myFile</ds:name>
-                    <ds:url>myFile.csv</ds:url>
+                    <ds:path>myFile.csv</ds:path>
                     <ds:format>CSV</ds:format>
                     <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ImportData>

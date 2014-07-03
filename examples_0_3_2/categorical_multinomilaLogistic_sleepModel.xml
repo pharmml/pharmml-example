@@ -31,60 +31,48 @@
         
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
-            <mdef:SimpleParameter symbId="Y0">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:Real>1</ct:Real>
-                            <math:Binop op="plus">
+            <mdef:Discrete>
+                <mdef:SimpleParameter symbId="Y0">
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="divide">
+                                <ct:Real>1</ct:Real>
                                 <math:Binop op="plus">
                                     <math:Binop op="plus">
-                                        <ct:Real>1</ct:Real>
+                                        <math:Binop op="plus">
+                                            <ct:Real>1</ct:Real>
+                                            <math:Uniop op="exp">
+                                                <ct:SymbRef symbIdRef="G1"/>
+                                            </math:Uniop>
+                                        </math:Binop>
                                         <math:Uniop op="exp">
-                                            <ct:SymbRef symbIdRef="G1"/>
+                                            <ct:SymbRef symbIdRef="G2"/>
                                         </math:Uniop>
                                     </math:Binop>
                                     <math:Uniop op="exp">
-                                        <ct:SymbRef symbIdRef="G2"/>
+                                        <ct:SymbRef symbIdRef="G3"/>
                                     </math:Uniop>
                                 </math:Binop>
-                                <math:Uniop op="exp">
-                                    <ct:SymbRef symbIdRef="G3"/>
-                                </math:Uniop>
                             </math:Binop>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </mdef:SimpleParameter>
-            
-            <mdef:General symbId="ds">
-                <ct:Assign>
-                    <ct:Real>1</ct:Real>
-                </ct:Assign>
-            </mdef:General>
-            
-            <Discrete>
+                        </math:Equation>
+                    </ct:Assign>
+                </mdef:SimpleParameter>
+
                 <CategoricalData ordered="no">
                     <ListOfCategories> 
-                        <Category symbId="cat0">0</Category>
-                        <Category symbId="cat1">1</Category>
-                        <Category symbId="cat2">2</Category>
-                        <Category symbId="cat3">3</Category>
-                        <Category symbId="cat4">4</Category>
-                        <Category symbId="cat5">5</Category>
+                        <Category symbId="cat0"/>
+                        <!-- omitted cat1...cat4 -->
+                        <Category symbId="cat5"/>
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="Y"/>
-                    <LinkFunction>identity</LinkFunction>
                     
                     <!-- logit(P(Y = 1)) = exp(G1)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
-                    <CategoryAssignment symbIdRef="cat1">
-                        <Probability>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="Y"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="Y"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
                         <Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
@@ -110,16 +98,14 @@
                                 </math:Binop>
                             </math:Equation>
                         </Assign>
-                    </CategoryAssignment>
+                    </Probability>
                     
                     <!-- logit(P(Y = 2)) = exp(G2)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
-                    <CategoryAssignment symbIdRef="cat1">
-                        <Probability>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="Y"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="Y"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
                         <Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
@@ -145,42 +131,36 @@
                                 </math:Binop>
                             </math:Equation>
                         </Assign>
-                    </CategoryAssignment>
-
-                    <!-- logit(P(Y = 3)) = 0 --> 
-                    <CategoryAssignment symbIdRef="cat3">
-                        <Probability>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="Y"/>
-                                <ct:SymbRef symbIdRef="cat3"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    </Probability>
+                    
+                    <!-- logit(P(Y = 3)) = 0 -->
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="Y"/>
+                            <ct:SymbRef symbIdRef="cat3"/>
+                        </math:LogicBinop>
                         <Assign>
                             <ct:Real>0</ct:Real>
                         </Assign>
-                    </CategoryAssignment>
+                    </Probability>
                     
                     <!-- logit(P(Y = 4)) = 0 --> 
-                    <CategoryAssignment symbIdRef="cat4">
-                        <Probability>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="Y"/>
-                                <ct:SymbRef symbIdRef="cat4"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="Y"/>
+                            <ct:SymbRef symbIdRef="cat4"/>
+                        </math:LogicBinop>
                         <Assign>
                             <ct:Real>0</ct:Real>
                         </Assign>
-                    </CategoryAssignment>
+                    </Probability>
                     
                     <!-- logit(P(Y = 5)) = exp(G5)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
-                    <CategoryAssignment symbIdRef="cat5">
-                        <Probability>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="Y"/>
-                                <ct:SymbRef symbIdRef="cat5"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="Y"/>
+                            <ct:SymbRef symbIdRef="cat5"/>
+                        </math:LogicBinop>
                         <Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
@@ -206,10 +186,10 @@
                                 </math:Binop>
                             </math:Equation>
                         </Assign>
-                    </CategoryAssignment>
-
+                    </Probability>
+                    
                 </CategoricalData>
-            </Discrete>
+            </mdef:Discrete>
         </mdef:ObservationModel>
     </mdef:ModelDefinition>
     

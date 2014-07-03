@@ -30,9 +30,9 @@
         
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
-            <mdef:SimpleParameter symbId="p"/>
-            
-            <Discrete>
+            <mdef:Discrete>
+                <mdef:SimpleParameter symbId="p"/>
+                
                 <CategoricalData ordered="no">
                     <ListOfCategories> 
                         <Category symbId="cat0"/>
@@ -68,7 +68,7 @@
                         </un:BernoulliDistribution>
                     </PMF>-->
                 </CategoricalData>
-            </Discrete>
+            </mdef:Discrete>
         </mdef:ObservationModel>
         
     </mdef:ModelDefinition>
