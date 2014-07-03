@@ -31,30 +31,26 @@
         
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
-            <mdef:SimpleParameter symbId="a1"/>
-            <mdef:SimpleParameter symbId="a2"/>
-            <mdef:SimpleParameter symbId="a3"/>
-                        
-            <Discrete>
+            <mdef:Discrete>
+                <mdef:SimpleParameter symbId="a1"/>
+                <mdef:SimpleParameter symbId="a2"/>
+                <mdef:SimpleParameter symbId="a3"/>
+                
                 <CategoricalData ordered="yes">
                     <ListOfCategories> 
-                        <Category symbId="1"/>
-                        <Category symbId="2"/>
-                        <Category symbId="3"/>
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="y"/>
                     
-                    <LinkFunction>identity</LinkFunction>
-                    
                     <!-- P(y <= 1) = a1/(a1+a2+a3) --> 
-                    <CategoryAssignment symbIdRef="cat1">
-                        <Probability>
-                            <math:LogicBinop op="leq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    <Probability linkFunction="identity">
+                        <math:LogicBinop op="leq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
                         <Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
@@ -69,16 +65,14 @@
                                 </math:Binop>
                             </math:Equation>
                         </Assign>
-                    </CategoryAssignment>
+                    </Probability>
                     
                     <!-- P(y <= 2) = a2/(a1+a2+a3) -->
-                    <CategoryAssignment symbIdRef="cat2">
-                        <Probability>
-                            <math:LogicBinop op="leq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat2"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    <Probability linkFunction="identity">
+                        <math:LogicBinop op="leq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat2"/>
+                        </math:LogicBinop>
                         <Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
@@ -93,9 +87,10 @@
                                 </math:Binop>
                             </math:Equation>
                         </Assign>
-                    </CategoryAssignment>
+                    </Probability>
+
                 </CategoricalData>
-            </Discrete>
+            </mdef:Discrete>
         </mdef:ObservationModel>
     </mdef:ModelDefinition>
     

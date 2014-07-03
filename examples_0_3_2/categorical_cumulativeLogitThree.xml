@@ -31,37 +31,33 @@
        
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
-            <mdef:SimpleParameter symbId="theta1"/>
-            <mdef:SimpleParameter symbId="theta2"/>
-
-            <Discrete>
+            <mdef:Discrete>
+                <mdef:SimpleParameter symbId="theta1"/>
+                <mdef:SimpleParameter symbId="theta2"/>
+                
                 <CategoricalData ordered="yes">
                     <ListOfCategories> 
-                        <Category symbId="cat1">1</Category>
-                        <Category symbId="cat2">2</Category>
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
                     </ListOfCategories>
                     
                     <!-- logit(P(y <= 1)) = theta1 -->
-                    <CategoryAssignment symbIdRef="cat1">
-                        <Probability>
-                            <math:LogicBinop op="leq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="leq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
                         <Assign>
                             <ct:SymbRef symbIdRef="theta1"/>
                         </Assign>
-                    </CategoryAssignment>
+                    </Probability>
                     
                     <!-- logit(P(y <= 2)) = theta1 + theta2 -->
-                    <CategoryAssignment symbIdRef="2">
-                        <Probability>
-                            <math:LogicBinop op="leq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat2"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="leq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat2"/>
+                        </math:LogicBinop>
                         <Assign>
                             <math:Equation>
                                 <math:Binop op="plus">
@@ -70,9 +66,10 @@
                                 </math:Binop>
                             </math:Equation>
                         </Assign>
-                    </CategoryAssignment>
+                    </Probability>
+
                 </CategoricalData>
-            </Discrete>
+            </mdef:Discrete>
         </mdef:ObservationModel>
     </mdef:ModelDefinition>
     

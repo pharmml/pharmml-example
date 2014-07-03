@@ -8,7 +8,7 @@
     xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
-    implementedBy="MJS" writtenVersion="0.3.2" id="i1" implementedBy="MS">
+    implementedBy="MJS" writtenVersion="0.3.2" id="i1">
     
     <ct:Name>Binomial model</ct:Name>
     
@@ -30,31 +30,29 @@
         
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
-            <mdef:SimpleParameter symbId="p"/>
-            
-            <Discrete>
+            <mdef:Discrete>
+                <mdef:SimpleParameter symbId="p"/>
+                
                 <CategoricalData ordered="no">
                     <ListOfCategories> 
-                        <Category symbId="cat0">0</Category>
-                        <Category symbId="cat1">1</Category>
+                        <Category symbId="cat0"/>
+                        <Category symbId="cat1"/>
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="y"/>
                     
                     <LinkFunction>identity</LinkFunction>
-                   
+                    
                     <!-- P(y = 1) = p -->
-                    <CategoryAssignment symbIdRef="cat1">
-                        <Probability>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    <Probability>
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
                         <Assign>
                             <ct:SymbRef symbIdRef="p"/>
                         </Assign>
-                    </CategoryAssignment>
+                    </Probability>
                     
                     <!-- ALTERNATIVE -->
                     <PMF>
@@ -68,7 +66,7 @@
                         </un:BernoulliDistribution>
                     </PMF>
                 </CategoricalData>
-            </Discrete>
+            </mdef:Discrete>
         </mdef:ObservationModel>
         
     </mdef:ModelDefinition>

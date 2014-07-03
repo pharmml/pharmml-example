@@ -31,110 +31,104 @@
        
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
-            <mdef:SimpleParameter symbId="a11"/>
-            <mdef:SimpleParameter symbId="a12"/>
-            <mdef:SimpleParameter symbId="a13"/>
-            <mdef:SimpleParameter symbId="a21"/>
-            <mdef:SimpleParameter symbId="a22"/>
-            <mdef:SimpleParameter symbId="a23"/>
-            <mdef:SimpleParameter symbId="a31"/>
-            <mdef:SimpleParameter symbId="a32"/>
-            <mdef:SimpleParameter symbId="a33"/>
-
-            <Discrete>
+            <mdef:Discrete>
+                <mdef:SimpleParameter symbId="a11"/>
+                <mdef:SimpleParameter symbId="a12"/>
+                <mdef:SimpleParameter symbId="a13"/>
+                <mdef:SimpleParameter symbId="a21"/>
+                <mdef:SimpleParameter symbId="a22"/>
+                <mdef:SimpleParameter symbId="a23"/>
+                <mdef:SimpleParameter symbId="a31"/>
+                <mdef:SimpleParameter symbId="a32"/>
+                <mdef:SimpleParameter symbId="a33"/>
+                
                 <CategoricalData ordered="yes">
                     <ListOfCategories> 
-                        <Category symbId="1"/>
-                        <Category symbId="2"/>
-                        <Category symbId="3"/>
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
                     </ListOfCategories>
 
                     <CategoryVariable symbId="y"/>
                     <PreviousStateVariable symbId="yp"/>
                     <InitialStateVariable symbId="yinit"/>
                     
+                    <Dependance type="discreteMarkov"/>
+                    
                     <!-- P(y = 1) = a1 -->
-                    <CategoryAssignment symbIdRef="cat1">
-                        <Probability linkFunction="identity">
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="yinit"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    <Probability linkFunction="identity">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="yinit"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
                         <ct:Assign>
                             <ct:SymbRef symbIdRef="a1"/>
                         </ct:Assign>
-                    </CategoryAssignment>
+                    </Probability>
                     
                     <!-- P(y = 2) = a2 -->
-                    <CategoryAssignment symbIdRef="cat2">
-                        <Probability linkFunction="identity">
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="yinit"/>
-                                <ct:SymbRef symbIdRef="cat2"/>
-                            </math:LogicBinop>
-                        </Probability>
+                    <Probability linkFunction="identity">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="yinit"/>
+                            <ct:SymbRef symbIdRef="cat2"/>
+                        </math:LogicBinop>
                         <ct:Assign>
                             <ct:SymbRef symbIdRef="a2"/>
                         </ct:Assign>
-                    </CategoryAssignment>
+                    </Probability>
+
+                    <!--   logit(P(y <= 1|yp = 1)) = a11 -->
+                    <Probability linkFunction="logit">
+                        <CurrentState> 
+                            <math:LogicBinop op="leq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </CurrentState>
+                        <PreviousState>
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="yp"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </PreviousState>
+                        <Assign>
+                            <ct:SymbRef symbIdRef="a11"/>
+                        </Assign>
+                    </Probability>
                     
-                    <!-- Markov -->
-                    <MarkovDependance>
-                        <DiscreteTime>
-                            <!--   logit(P(y <= 1|yp = 1)) = a11 -->
-                            <Probability linkFunction="logit">
-                                <CurrentState> 
-                                    <math:LogicBinop op="leq">
-                                        <ct:SymbRef symbIdRef="y"/>
-                                        <ct:SymbRef symbIdRef="cat1"/>
-                                    </math:LogicBinop>
-                                </CurrentState>
-                                <PreviousState>
-                                    <math:LogicBinop op="eq">
-                                        <ct:SymbRef symbIdRef="yp"/>
-                                        <ct:SymbRef symbIdRef="cat1"/>
-                                    </math:LogicBinop>
-                                </PreviousState>
-                                <Assign>
+                    <!--  logit(P(y <= 2|yp = 1)) = a11 + a12 -->
+                    <Probability linkFunction="logit">
+                        <CurrentState>
+                            <math:LogicBinop op="leq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat2"/>
+                            </math:LogicBinop>
+                        </CurrentState>
+                        <PreviousState>
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="yp"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </PreviousState>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
                                     <ct:SymbRef symbIdRef="a11"/>
-                                </Assign>
-                            </Probability>
-                            <!--  logit(P(y <= 2|yp = 1)) = a11 + a12 -->
-                            <Probability linkFunction="logit">
-                                <CurrentState>
-                                    <math:LogicBinop op="leq">
-                                        <ct:SymbRef symbIdRef="y"/>
-                                        <ct:SymbRef symbIdRef="cat2"/>
-                                    </math:LogicBinop>
-                                </CurrentState>
-                                <PreviousState>
-                                    <math:LogicBinop op="eq">
-                                        <ct:SymbRef symbIdRef="yp"/>
-                                        <ct:SymbRef symbIdRef="cat1"/>
-                                    </math:LogicBinop>
-                                </PreviousState>
-                                <ct:Assign>
-                                    <math:Equation>
-                                        <math:Binop op="plus">
-                                            <ct:SymbRef symbIdRef="a11"/>
-                                            <ct:SymbRef symbIdRef="a12"/>
-                                        </math:Binop>
-                                    </math:Equation>
-                                </ct:Assign>
-                            </Probability>
-                            <!--  logit(P(y <= 1|yp = 2)) = a21 -->
-                            <!-- omitted here -->
-                            <!--  logit(P(y <= 2|yp = 2)) = a21 + a22 -->
-                            <!-- omitted here -->
-                            <!--  logit(P(y <= 1|yp = 3)) = a31 -->
-                            <!-- omitted here -->
-                            <!--  logit(P(y <= 2|yp = 3)) = a31 + a32 -->
-                            <!-- omitted here -->
-                        </DiscreteTime>
-                    </MarkovDependance>
+                                    <ct:SymbRef symbIdRef="a12"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Probability>
+                    <!--  logit(P(y <= 1|yp = 2)) = a21 -->
+                    <!-- omitted here -->
+                    <!--  logit(P(y <= 2|yp = 2)) = a21 + a22 -->
+                    <!-- omitted here -->
+                    <!--  logit(P(y <= 1|yp = 3)) = a31 -->
+                    <!-- omitted here -->
+                    <!--  logit(P(y <= 2|yp = 3)) = a31 + a32 -->
+                    <!-- omitted here -->
                 </CategoricalData>
-            </Discrete>
+            </mdef:Discrete>
         </mdef:ObservationModel>
     </mdef:ModelDefinition>
     
