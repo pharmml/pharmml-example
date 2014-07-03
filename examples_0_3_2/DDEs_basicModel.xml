@@ -18,10 +18,10 @@
     <IndependentVariable symbId="t"/>
 
     <!-- FUNCTION DEFINITION -->
-    <ct:FunctionDefinition symbId="combinedErrorModel">
-        <ct:FunctionArgument symbId="a"/>
-        <ct:FunctionArgument symbId="b"/>
-        <ct:FunctionArgument symbId="f"/>
+    <ct:FunctionDefinition symbolType="real" symbId="combinedErrorModel">
+        <ct:FunctionArgument symbolType="real" symbId="a"/>
+        <ct:FunctionArgument symbolType="real" symbId="b"/>
+        <ct:FunctionArgument symbolType="real" symbId="f"/>
         <ct:Definition>
             <Equation xmlns="http://www.pharmml.org/2013/03/Maths" >
                 <Binop op="plus">
@@ -258,7 +258,7 @@
             ddt_A = r - c*A*B - k*A
             ddt_B = c*A*B - delay(A, d)-->
             
-            <ct:DerivativeVariable symbId="A">
+            <ct:DerivativeVariable symbolType="real" symbId="A">
                 <ct:Assign>
                     <math:Equation>
                         <math:Binop op="minus">
@@ -301,7 +301,7 @@
                 </ct:History>
             </ct:DerivativeVariable>
             
-            <ct:DerivativeVariable symbId="B">
+            <ct:DerivativeVariable symbolType="real" symbId="B">
                 <ct:Assign>
                     <math:Equation>
                         <math:Binop op="minus">
@@ -340,45 +340,47 @@
         
         <!-- OBSERVATION MODEL -->
         <ObservationModel blkId="om1">
-            <SimpleParameter symbId="a"/>
-            <SimpleParameter symbId="b"/>
-            <RandomVariable symbId="epsilon_Cc">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="obsErr" symbIdRef="resErr"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><prVal>1</prVal></stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <Standard symbId="Cc_obs"> 
-                <Output>
-                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                </Output>
-                <ErrorModel>
-                    <ct:Assign>
-                        <math:Equation >
-                            <math:FunctionCall>
-                                <ct:SymbRef symbIdRef="combinedErrorModel"/>
-                                <math:FunctionArgument symbId="a">
-                                    <ct:SymbRef symbIdRef="a"/>
-                                </math:FunctionArgument>
-                                <math:FunctionArgument symbId="b">
-                                    <ct:SymbRef symbIdRef="b"/>
-                                </math:FunctionArgument>
-                                <math:FunctionArgument symbId="f">
-                                    <math:Equation >
-                                        <ct:SymbRef symbIdRef="Cc"/>
-                                    </math:Equation>
-                                </math:FunctionArgument>
-                            </math:FunctionCall>
-                        </math:Equation>
-                    </ct:Assign>
-                </ErrorModel>
-                <ResidualError>
-                    <ct:SymbRef symbIdRef="epsilon_Cc"/>
-                </ResidualError>
-            </Standard>
+            <Continuous>
+                <SimpleParameter symbId="a"/>
+                <SimpleParameter symbId="b"/>
+                <RandomVariable symbId="epsilon_Cc">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="resErr"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean><rVal>0</rVal></mean>
+                        <stddev><prVal>1</prVal></stddev>
+                    </NormalDistribution>
+                </RandomVariable>
+                <Standard symbId="Cc_obs"> 
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:Equation >
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                    <math:FunctionArgument symbId="a">
+                                        <ct:SymbRef symbIdRef="a"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="b"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="f">
+                                        <math:Equation >
+                                            <ct:SymbRef symbIdRef="Cc"/>
+                                        </math:Equation>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="epsilon_Cc"/>
+                    </ResidualError>
+                </Standard>                
+            </Continuous>
         </ObservationModel>
     </ModelDefinition>
     

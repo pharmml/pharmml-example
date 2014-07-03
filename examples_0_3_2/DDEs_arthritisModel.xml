@@ -7,7 +7,7 @@
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
     xmlns:design="http://www.pharmml.org/2013/03/TrialDesign"
-    writtenVersion="0.3.2"  implementedBy="MJS" id="i1">
+    writtenVersion="0.3.2" implementedBy="MJS" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>Example 4 - Estimation with IOV</ct:Name>

@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
-     implementedBy="MJS" writtenVersion="0.3.3" id="i1">
+     implementedBy="MJS" writtenVersion="0.3.2" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>Example 5 - estimation for growth tumor model</ct:Name>
@@ -15,8 +15,8 @@
     <IndependentVariable symbId="time"/>
 
     <!-- SYMBOL DEFINITION - RESUIDUAL ERROR MODEL -->
-    <ct:FunctionDefinition symbId="constantErrorModel">
-        <ct:FunctionArgument symbId="a"/>
+    <ct:FunctionDefinition symbolType="real" symbId="constantErrorModel">
+        <ct:FunctionArgument symbolType="real" symbId="a"/>
         <ct:Definition>
             <ct:SymbRef symbIdRef="a"/>
         </ct:Definition>
@@ -283,7 +283,7 @@
         <StructuralModel blkId="sm1">
             
             <!-- dC/dt -->
-            <ct:DerivativeVariable symbId="C">
+            <ct:DerivativeVariable symbolType="real" symbId="C">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="times">
@@ -312,7 +312,7 @@
             </ct:DerivativeVariable>
             
             <!-- dPT/dt -->
-            <ct:DerivativeVariable symbId="PT">
+            <ct:DerivativeVariable symbolType="real" symbId="PT">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="plus">
@@ -372,7 +372,7 @@
             </ct:DerivativeVariable>
             
             <!-- dQ/dt --> 
-            <ct:DerivativeVariable symbId="Q">
+            <ct:DerivativeVariable symbolType="real" symbId="Q">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="minus">
@@ -408,7 +408,7 @@
             </ct:DerivativeVariable>
             
             <!-- dQP/dt -->
-            <ct:DerivativeVariable symbId="QP">
+            <ct:DerivativeVariable symbolType="real" symbId="QP">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="minus">
@@ -453,7 +453,7 @@
             </ct:DerivativeVariable>
 
             <!-- PSTAR -->
-            <ct:Variable symbId="PSTAR" >
+            <ct:Variable symbolType="real" symbId="PSTAR" >
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="plus">
@@ -470,40 +470,42 @@
 
         <!-- OBSERVATION MODEL - PSTAR -->
         <ObservationModel blkId="om1">
-            <SimpleParameter symbId="a"/>
-            <RandomVariable symbId="eps">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <prVal>1</prVal>
-                    </stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <Standard symbId="PSTAR_obs">
-                <Output>
-                    <ct:SymbRef blkIdRef="sm1" symbIdRef="PSTAR"/>
-                </Output>
-                <ErrorModel>
-                    <ct:Assign>
-                        <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                            <FunctionCall>
-                                <ct:SymbRef symbIdRef="constantErrorModel"/>
-                                <FunctionArgument symbId="a">
-                                    <ct:SymbRef symbIdRef="a"/>
-                                </FunctionArgument>
-                            </FunctionCall>
-                        </Equation>
-                    </ct:Assign>
-                </ErrorModel>
-                <ResidualError>
-                    <ct:SymbRef symbIdRef="eps"/>
-                </ResidualError>
-            </Standard>
+            <Continuous>
+                <SimpleParameter symbId="a"/>
+                <RandomVariable symbId="eps">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean>
+                            <rVal>0</rVal>
+                        </mean>
+                        <stddev>
+                            <prVal>1</prVal>
+                        </stddev>
+                    </NormalDistribution>
+                </RandomVariable>
+                <Standard symbId="PSTAR_obs">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="PSTAR"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                                <FunctionCall>
+                                    <ct:SymbRef symbIdRef="constantErrorModel"/>
+                                    <FunctionArgument symbId="a">
+                                        <ct:SymbRef symbIdRef="a"/>
+                                    </FunctionArgument>
+                                </FunctionCall>
+                            </Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps"/>
+                    </ResidualError>
+                </Standard>
+            </Continuous>
         </ObservationModel>
 
     </ModelDefinition>
