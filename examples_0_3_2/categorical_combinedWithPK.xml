@@ -368,7 +368,7 @@
             
             <mstep:ColumnMapping>
                 <ds:ColumnRef columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="k"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
             </mstep:ColumnMapping>
             
             <mstep:ColumnMapping>

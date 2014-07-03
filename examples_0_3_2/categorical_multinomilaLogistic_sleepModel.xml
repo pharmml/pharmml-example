@@ -204,7 +204,7 @@
             
             <mstep:ColumnMapping>
                 <ds:ColumnRef columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
             </mstep:ColumnMapping>
             
             <ds:DataSet>
