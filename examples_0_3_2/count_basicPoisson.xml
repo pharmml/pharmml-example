@@ -71,7 +71,7 @@
 
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
                     <PMF linkFunction="log">
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="sdss">
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
                             <rate>
                                 <var varId="Lambda"/>
                             </rate>
