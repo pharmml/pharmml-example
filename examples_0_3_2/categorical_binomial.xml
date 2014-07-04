@@ -52,16 +52,16 @@
                     </Probability>
 
                     <!-- ALTERNATIVE -->
-<!--                    <PMF>
-                        <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
-                            <un:categoryProb definition="http://www.uncertml.org/3.0">
-                                <un:name>1</un:name>
-                                <un:probability>
-                                    <un:var varId="p"/>
-                                </un:probability>
-                            </un:categoryProb>
-                        </un:BernoulliDistribution>
-                    </PMF>-->
+                    <PMF linkFunction="identity">
+                        <BernoulliDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                            <categoryProb definition="http://www.uncertml.org/3.0">
+                                <name>cat1</name>
+                                <probability>
+                                    <var varId="p"/>
+                                </probability>
+                            </categoryProb>
+                        </BernoulliDistribution>
+                    </PMF>
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
