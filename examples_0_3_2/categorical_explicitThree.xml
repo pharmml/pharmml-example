@@ -5,7 +5,6 @@
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
-    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.3.2" id="i1">
@@ -17,24 +16,24 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition>
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <!-- VARIABILITY -->
-        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
-            <mdef:Level symbId="subject"/>
-        </mdef:VariabilityModel>
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
         
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:SimpleParameter symbId="simpleP1"/>
-        </mdef:ParameterModel>
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="simpleP1"/>
+        </ParameterModel>
         
         
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om1">
-            <mdef:Discrete>
-                <mdef:SimpleParameter symbId="a1"/>
-                <mdef:SimpleParameter symbId="a2"/>
-                <mdef:SimpleParameter symbId="a3"/>
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <SimpleParameter symbId="a1"/>
+                <SimpleParameter symbId="a2"/>
+                <SimpleParameter symbId="a3"/>
                 
                 <CategoricalData ordered="no">
                     <ListOfCategories> 
@@ -51,7 +50,7 @@
                             <ct:SymbRef symbIdRef="y"/>
                             <ct:SymbRef symbIdRef="cat1"/>
                         </math:LogicBinop>
-                        <Assign>
+                        <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
                                     <ct:SymbRef symbIdRef="a1"/>
@@ -64,7 +63,7 @@
                                     </math:Binop>
                                 </math:Binop>
                             </math:Equation>
-                        </Assign>
+                        </ct:Assign>
                     </Probability>
                     
                     <!-- P(y = 2) = a2/(a1+a2+a3) -->
@@ -73,7 +72,7 @@
                             <ct:SymbRef symbIdRef="y"/>
                             <ct:SymbRef symbIdRef="cat2"/>
                         </math:LogicBinop>
-                        <Assign>
+                        <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
                                     <ct:SymbRef symbIdRef="a2"/>
@@ -86,13 +85,13 @@
                                     </math:Binop>
                                 </math:Binop>
                             </math:Equation>
-                        </Assign>
+                        </ct:Assign>
                     </Probability>
 
                 </CategoricalData>
-            </mdef:Discrete>
-        </mdef:ObservationModel>
-    </mdef:ModelDefinition>
+            </Discrete>
+        </ObservationModel>
+    </ModelDefinition>
     
     <mstep:ModellingSteps>
         

@@ -5,7 +5,6 @@
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
-    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.3.2" id="i1">
@@ -17,37 +16,37 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition>
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <!-- VARIABILITY -->
-        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
-            <mdef:Level symbId="subject"/>
-        </mdef:VariabilityModel>
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
         
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:SimpleParameter symbId="simpleP1"/>
-            <mdef:SimpleParameter symbId="simpleP2"/>
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="simpleP1"/>
+            <SimpleParameter symbId="simpleP2"/>
             
-<!--            <mdef:Correlation>
+<!--            <Correlation>
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="subject"/>
                 </ct:VariabilityReference>
-                <mdef:Matrix matrixType="transitionMatrix">
+                <Matrix matrixType="transitionMatrix">
                     <ct:RowNames><ct:SymbRef symbIdRef="cat0"/><ct:SymbRef symbIdRef="cat1"/></ct:RowNames>
                     <ct:ColumnNames><ct:SymbRef symbIdRef="cat0"/><ct:SymbRef symbIdRef="cat1"/></ct:ColumnNames>
                     <ct:MatrixRow><ct:SymbRef symbIdRef="q00"/><ct:SymbRef symbIdRef="q01"/></ct:MatrixRow>
                     <ct:MatrixRow><ct:SymbRef symbIdRef="q10"/><ct:SymbRef symbIdRef="q11"/></ct:MatrixRow>
-                </mdef:Matrix>
-            </mdef:Correlation>-->
+                </Matrix>
+            </Correlation>-->
             
-        </mdef:ParameterModel>
+        </ParameterModel>
         
 <!--        <!-\- OBSERVATIONS -\->
-        <mdef:ObservationModel blkId="om1">
-            <mdef:SimpleParameter symbId="p00"/>
-            <mdef:SimpleParameter symbId="p01"/>
-            <mdef:SimpleParameter symbId="p10"/>
-            <mdef:SimpleParameter symbId="p11"/>
+        <ObservationModel blkId="om1">
+            <SimpleParameter symbId="p00"/>
+            <SimpleParameter symbId="p01"/>
+            <SimpleParameter symbId="p10"/>
+            <SimpleParameter symbId="p11"/>
                         
             <Discrete> 
                 <CategoricalData ordered="no"> 
@@ -59,24 +58,24 @@
                     <MarkovDependance>
                         <DiscreteTime>
                             <Transformation>identity</Transformation>
-                            <mdef:Matrix matrixType="transitionMatrix">
+                            <Matrix matrixType="transitionMatrix">
                                 <ct:RowNames><ct:SymbRef symbIdRef="cat0"/><ct:SymbRef symbIdRef="cat1"/></ct:RowNames>
                                 <ct:ColumnNames><ct:SymbRef symbIdRef="cat0"/><ct:SymbRef symbIdRef="cat1"/></ct:ColumnNames>
                                 <ct:MatrixRow><ct:SymbRef symbIdRef="p00"/><ct:SymbRef symbIdRef="p01"/></ct:MatrixRow>
                                 <ct:MatrixRow><ct:SymbRef symbIdRef="p10"/><ct:SymbRef symbIdRef="p11"/></ct:MatrixRow>
-                            </mdef:Matrix>                           
+                            </Matrix>                           
                         </DiscreteTime>
                     </MarkovDependance>
 
                 </CategoricalData>
             </Discrete>            
-        </mdef:ObservationModel>-->
+        </ObservationModel>-->
         
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om2">
-            <mdef:Discrete>
-                <mdef:SimpleParameter symbId="p01"/>
-                <mdef:SimpleParameter symbId="p11"/>
+        <ObservationModel blkId="om2">
+            <Discrete>
+                <SimpleParameter symbId="p01"/>
+                <SimpleParameter symbId="p11"/>
 
                 <CategoricalData ordered="no">
                     <ListOfCategories> 
@@ -128,10 +127,10 @@
                     </Probability>
                     
                 </CategoricalData>
-            </mdef:Discrete>
-        </mdef:ObservationModel>
+            </Discrete>
+        </ObservationModel>
 
-    </mdef:ModelDefinition>
+    </ModelDefinition>
     
     <mstep:ModellingSteps>
         

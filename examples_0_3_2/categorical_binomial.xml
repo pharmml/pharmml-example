@@ -5,7 +5,6 @@
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
-    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.3.2" id="i1">
@@ -17,21 +16,21 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition>
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <!-- VARIABILITY -->
-        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
-            <mdef:Level symbId="subject"/>
-        </mdef:VariabilityModel>
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
         
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:SimpleParameter symbId="simpleP1"/>
-        </mdef:ParameterModel>
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="simpleP1"/>
+        </ParameterModel>
         
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om1">
-            <mdef:Discrete>
-                <mdef:SimpleParameter symbId="p"/>
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <SimpleParameter symbId="p"/>
                 
                 <CategoricalData ordered="no">
                     <ListOfCategories> 
@@ -47,13 +46,13 @@
                             <ct:SymbRef symbIdRef="y"/>
                             <ct:SymbRef symbIdRef="cat1"/>
                         </math:LogicBinop>
-                        <Assign>
+                        <ct:Assign>
                             <ct:SymbRef symbIdRef="p"/>
-                        </Assign>
+                        </ct:Assign>
                     </Probability>
 
                     <!-- ALTERNATIVE -->
-                    <PMF>
+<!--                    <PMF>
                         <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
                             <un:categoryProb definition="http://www.uncertml.org/3.0">
                                 <un:name>1</un:name>
@@ -62,12 +61,12 @@
                                 </un:probability>
                             </un:categoryProb>
                         </un:BernoulliDistribution>
-                    </PMF>
+                    </PMF>-->
                 </CategoricalData>
-            </mdef:Discrete>
-        </mdef:ObservationModel>
+            </Discrete>
+        </ObservationModel>
         
-    </mdef:ModelDefinition>
+    </ModelDefinition>
     
     <mstep:ModellingSteps>
         
@@ -90,8 +89,7 @@
                     <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
                 </ds:Definition>
                 <ds:ImportData oid="importData">
-                    <ds:name>myFile</ds:name>
-                    <ds:url>myFile</ds:url>
+                    <ds:path>myFile.csv</ds:path>
                     <ds:format>CSV</ds:format>
                     <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ImportData>
