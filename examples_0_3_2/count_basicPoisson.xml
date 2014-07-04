@@ -62,6 +62,13 @@
 
                     <CountVariable symbId="k"/>
                     
+                    <!-- homogenous Poisson -->
+                    <IntensityParameter symbId="Lambda">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                        </ct:Assign>
+                    </IntensityParameter>
+
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
                     <PMF linkFunction="log">
                         <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="sdss">
@@ -118,13 +125,7 @@
                             </Equation>
                         </ct:Assign>
                     </PMF>
-                    
-                    <!-- homogenous Poisson -->
-                    <IntensityParameter symbId="Lambda">
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                        </ct:Assign>
-                    </IntensityParameter>
+
                 </CountData>
             </Discrete>
         </ObservationModel>

@@ -5,7 +5,6 @@
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
-    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.3.2" id="i1">
@@ -17,21 +16,21 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition>
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <!-- VARIABILITY -->
-        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
-            <mdef:Level symbId="subject"/>
-        </mdef:VariabilityModel>
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
         
         <!-- PARAMETERS -->
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:SimpleParameter symbId="pop_lambda"/>
-            <mdef:SimpleParameter symbId="omega_lambda"/>
-            <mdef:SimpleParameter symbId="pop_tau"/>
-            <mdef:SimpleParameter symbId="omega_tau"/>
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="pop_lambda"/>
+            <SimpleParameter symbId="omega_lambda"/>
+            <SimpleParameter symbId="pop_tau"/>
+            <SimpleParameter symbId="omega_tau"/>
             <!-- lambda -->
-            <mdef:RandomVariable symbId="eta_lambda">
+            <RandomVariable symbId="eta_lambda">
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
                 </ct:VariabilityReference>
@@ -43,8 +42,8 @@
                         <var varId="omega_lambda"/>
                     </variance>
                 </NormalDistribution>
-            </mdef:RandomVariable>
-            <mdef:IndividualParameter symbId="lambda">
+            </RandomVariable>
+            <IndividualParameter symbId="lambda">
                 <ct:Assign>
                     <math:Equation>
                         <math:Binop op="times">
@@ -55,10 +54,10 @@
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
-            </mdef:IndividualParameter>
+            </IndividualParameter>
             
             <!-- tau -->
-            <mdef:RandomVariable symbId="eta_tau">
+            <RandomVariable symbId="eta_tau">
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
                 </ct:VariabilityReference>
@@ -70,8 +69,8 @@
                         <var varId="omega_tau"/>
                     </variance>
                 </NormalDistribution>
-            </mdef:RandomVariable>
-            <mdef:IndividualParameter symbId="tau">
+            </RandomVariable>
+            <IndividualParameter symbId="tau">
                 <ct:Assign>
                     <math:Equation>
                         <math:Binop op="times">
@@ -82,9 +81,9 @@
                         </math:Binop>                        
                     </math:Equation>
                 </ct:Assign>
-            </mdef:IndividualParameter>
+            </IndividualParameter>
             
-        </mdef:ParameterModel>
+        </ParameterModel>
         
                                                                            <!-- IDEAs FOR MVN Distribution -->
      <!--   
@@ -92,7 +91,7 @@
         parameters for which the MVN
         p1p2p3 = SET(p1,p2,p3)
         
-        <mdef:RandomVariable symbId="p1p2p3">
+        <RandomVariable symbId="p1p2p3">
             <MVNormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
                 <meanVector>
                     ...
@@ -101,30 +100,28 @@
                     ...
                 </covMatrix>
             </MVNormalDistribution>
-        </mdef:RandomVariable>-->
+        </RandomVariable>-->
         
         
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om1">
+        <ObservationModel blkId="om1">
             
             <Discrete>
                 <CountData>
                     <!-- k = DV in NMTRAN code -->
                     <CountVariable symbId="k"/>     
                     
-                    <LinkFunction>log</LinkFunction>
-                    
                     <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
-                        <Assign>
+                        <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                        </Assign>
+                        </ct:Assign>
                     </IntensityParameter>
                     
-                    <!-- gammaln(k+1/tau) - factln(k) - gammaln(1/tau) - 
+                    <!-- log(PMF) = gammaln(k+1/tau) - factln(k) - gammaln(1/tau) - 
                         1/tau log(1+tau * lambda) + k*log(lambda) - 
                         k*log(1/tau + lambda) -->
-                    <PMF>  
+                    <PMF linkFunction="log">
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="minus">
@@ -201,7 +198,7 @@
                 </CountData>
             </Discrete>
             
-        </mdef:ObservationModel>
-    </mdef:ModelDefinition>
+        </ObservationModel>
+    </ModelDefinition>
     
 </PharmML>
