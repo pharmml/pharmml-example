@@ -18,61 +18,8 @@
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
-        <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="simpleP1"/>
-            <SimpleParameter symbId="simpleP2"/>
-            
-<!--            <Correlation>
-                <ct:VariabilityReference>
-                    <ct:SymbRef symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <Matrix matrixType="transitionMatrix">
-                    <ct:RowNames><ct:SymbRef symbIdRef="cat0"/><ct:SymbRef symbIdRef="cat1"/></ct:RowNames>
-                    <ct:ColumnNames><ct:SymbRef symbIdRef="cat0"/><ct:SymbRef symbIdRef="cat1"/></ct:ColumnNames>
-                    <ct:MatrixRow><ct:SymbRef symbIdRef="q00"/><ct:SymbRef symbIdRef="q01"/></ct:MatrixRow>
-                    <ct:MatrixRow><ct:SymbRef symbIdRef="q10"/><ct:SymbRef symbIdRef="q11"/></ct:MatrixRow>
-                </Matrix>
-            </Correlation>-->
-            
-        </ParameterModel>
-        
-<!--        <!-\- OBSERVATIONS -\->
-        <ObservationModel blkId="om1">
-            <SimpleParameter symbId="p00"/>
-            <SimpleParameter symbId="p01"/>
-            <SimpleParameter symbId="p10"/>
-            <SimpleParameter symbId="p11"/>
-                        
-            <Discrete> 
-                <CategoricalData ordered="no"> 
-                    <ListOfCategories> 
-                        <Category symbId="cat0"/> 
-                        <Category symbId="cat1"/> 
-                    </ListOfCategories> 
-                    
-                    <MarkovDependance>
-                        <DiscreteTime>
-                            <Transformation>identity</Transformation>
-                            <Matrix matrixType="transitionMatrix">
-                                <ct:RowNames><ct:SymbRef symbIdRef="cat0"/><ct:SymbRef symbIdRef="cat1"/></ct:RowNames>
-                                <ct:ColumnNames><ct:SymbRef symbIdRef="cat0"/><ct:SymbRef symbIdRef="cat1"/></ct:ColumnNames>
-                                <ct:MatrixRow><ct:SymbRef symbIdRef="p00"/><ct:SymbRef symbIdRef="p01"/></ct:MatrixRow>
-                                <ct:MatrixRow><ct:SymbRef symbIdRef="p10"/><ct:SymbRef symbIdRef="p11"/></ct:MatrixRow>
-                            </Matrix>                           
-                        </DiscreteTime>
-                    </MarkovDependance>
-
-                </CategoricalData>
-            </Discrete>            
-        </ObservationModel>-->
-        
         <!-- OBSERVATIONS -->
-        <ObservationModel blkId="om2">
+        <ObservationModel blkId="om1">
             <Discrete>
                 <SimpleParameter symbId="p01"/>
                 <SimpleParameter symbId="p11"/>
@@ -102,9 +49,9 @@
                                 <ct:SymbRef symbIdRef="cat0"/>
                             </math:LogicBinop>
                         </PreviousState>
-                        <Assign>
+                        <ct:Assign>
                             <ct:SymbRef symbIdRef="p01"/>
-                        </Assign>
+                        </ct:Assign>
                     </Probability>
                     
                     <!-- P(y=1|yp=1)=p11-->
@@ -121,9 +68,9 @@
                                 <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
                         </PreviousState>
-                        <Assign>
+                        <ct:Assign>
                             <ct:SymbRef symbIdRef="p11"/>
-                        </Assign>
+                        </ct:Assign>
                     </Probability>
                     
                 </CategoricalData>

@@ -5,7 +5,6 @@
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
-    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.3.2" id="i1">
@@ -17,30 +16,24 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition id="i3">
+    <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <!-- VARIABILITY -->
-        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
-            <mdef:Level symbId="subject"/>
-        </mdef:VariabilityModel>
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
         
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:SimpleParameter symbId="simpleP1"/>
-        </mdef:ParameterModel>
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="simpleP1"/>
+        </ParameterModel>
         
        
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om1">
-            <mdef:Discrete>
-                <mdef:SimpleParameter symbId="a11"/>
-                <mdef:SimpleParameter symbId="a12"/>
-                <mdef:SimpleParameter symbId="a13"/>
-                <mdef:SimpleParameter symbId="a21"/>
-                <mdef:SimpleParameter symbId="a22"/>
-                <mdef:SimpleParameter symbId="a23"/>
-                <mdef:SimpleParameter symbId="a31"/>
-                <mdef:SimpleParameter symbId="a32"/>
-                <mdef:SimpleParameter symbId="a33"/>
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <SimpleParameter symbId="a11"/>
+                <!-- omitted a12...a32 -->
+                <SimpleParameter symbId="a33"/>
                 
                 <CategoricalData ordered="yes">
                     <ListOfCategories> 
@@ -50,8 +43,8 @@
                     </ListOfCategories>
 
                     <CategoryVariable symbId="y"/>
-                    <PreviousStateVariable symbId="yp"/>
                     <InitialStateVariable symbId="yinit"/>
+                    <PreviousStateVariable symbId="yp"/>
                     
                     <Dependance type="discreteMarkov"/>
                     
@@ -91,9 +84,9 @@
                                 <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
                         </PreviousState>
-                        <Assign>
+                        <ct:Assign>
                             <ct:SymbRef symbIdRef="a11"/>
-                        </Assign>
+                        </ct:Assign>
                     </Probability>
                     
                     <!--  logit(P(y <= 2|yp = 1)) = a11 + a12 -->
@@ -128,9 +121,9 @@
                     <!--  logit(P(y <= 2|yp = 3)) = a31 + a32 -->
                     <!-- omitted here -->
                 </CategoricalData>
-            </mdef:Discrete>
-        </mdef:ObservationModel>
-    </mdef:ModelDefinition>
+            </Discrete>
+        </ObservationModel>
+    </ModelDefinition>
     
     <mstep:ModellingSteps>
         
@@ -144,6 +137,11 @@
             <mstep:ColumnMapping>
                 <ds:ColumnRef columnIdRef="DV"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="1" modelSymbol="cat1"/>
+                    <ds:Map dataSymbol="2" modelSymbol="cat2"/>
+                    <ds:Map dataSymbol="3" modelSymbol="cat3"/>
+                </ds:CategoryMapping>
             </mstep:ColumnMapping>
             
             <ds:DataSet>

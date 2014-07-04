@@ -5,7 +5,6 @@
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
-    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.3.2" id="i1">
@@ -17,25 +16,15 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition id="i3">
-        
-        <!-- VARIABILITY -->
-        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
-            <mdef:Level symbId="subject"/>
-        </mdef:VariabilityModel>
-        
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:SimpleParameter symbId="simpleP1"/>
-        </mdef:ParameterModel>
-        
+    <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
        
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om1">
-            <mdef:SimpleParameter symbId="a112"/>
-            <!-- omitted here a213...a131 -->
-            <mdef:SimpleParameter symbId="a232"/>
-
+        <ObservationModel blkId="om1">
             <Discrete>
+                <SimpleParameter symbId="a112"/>
+                <!-- omitted here a213...a131 -->
+                <SimpleParameter symbId="a232"/>
+                
                 <CategoricalData ordered="yes">
                     <ListOfCategories> 
                         <Category symbId="cat1"/>
@@ -57,21 +46,21 @@
                                 <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
                         </CurrentState>
-                        <PreviousState order="1">
+                        <PreviousState MarkovOrder="1">
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="yp1"/>
                                 <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
                         </PreviousState>
-                        <PreviousState order="2">
+                        <PreviousState MarkovOrder="2">
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="yp2"/>
                                 <ct:SymbRef symbIdRef="cat2"/>
                             </math:LogicBinop>
                         </PreviousState>
-                        <Assign>
+                        <ct:Assign>
                             <ct:SymbRef symbIdRef="a112"/>
-                        </Assign>
+                        </ct:Assign>
                     </Probability>
                     
                     <!--   logit(P(y<=2 | yp1=1, yp2=3)) = a213 -->
@@ -82,13 +71,13 @@
                                 <ct:SymbRef symbIdRef="cat2"/>
                             </math:LogicBinop>
                         </CurrentState>
-                        <PreviousState order="1">
+                        <PreviousState MarkovOrder="1">
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="yp1"/>
                                 <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
                         </PreviousState>
-                        <PreviousState order="2">
+                        <PreviousState MarkovOrder="2">
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="yp2"/>
                                 <ct:SymbRef symbIdRef="cat3"/>
@@ -107,8 +96,8 @@
                 </CategoricalData>
                 
             </Discrete>
-        </mdef:ObservationModel>
-    </mdef:ModelDefinition>
+        </ObservationModel>
+    </ModelDefinition>
     
     <mstep:ModellingSteps>
         

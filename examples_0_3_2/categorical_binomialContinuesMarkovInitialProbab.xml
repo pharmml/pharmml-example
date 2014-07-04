@@ -5,7 +5,6 @@
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
-    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.3.2" id="i1">
@@ -17,24 +16,24 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition id="i3">
+    <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <!-- VARIABILITY -->
-        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
-            <mdef:Level symbId="subject"/>
-        </mdef:VariabilityModel>
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
         
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:SimpleParameter symbId="simpleP1"/>
-        </mdef:ParameterModel>
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="simpleP1"/>
+        </ParameterModel>
         
         
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om1">
-            <mdef:Discrete>
-                <mdef:SimpleParameter symbId="p1"/>
-                <mdef:SimpleParameter symbId="q12"/>
-                <mdef:SimpleParameter symbId="q21"/>
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <SimpleParameter symbId="p1"/>
+                <SimpleParameter symbId="q12"/>
+                <SimpleParameter symbId="q21"/>
                 
                 <CategoricalData ordered="no">
                     <ListOfCategories> 
@@ -59,7 +58,7 @@
                     </Probability>
                     
                     <!-- transitionRate(1, 2) = q12 -->
-                    <TransitionRate linkFunction="identity">
+                    <TransitionRate>
                         <CurrentState> 
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="y"/>
@@ -78,7 +77,7 @@
                     </TransitionRate>
                     
                     <!--   transitionRate(2, 1) = q21 -->
-                    <TransitionRate linkFunction="identity">
+                    <TransitionRate>
                         <CurrentState> 
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="y"/>
@@ -91,15 +90,15 @@
                                 <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
                         </PreviousState>
-                        <Assign>
+                        <ct:Assign>
                             <ct:SymbRef symbIdRef="q21"/>
-                        </Assign>
+                        </ct:Assign>
                     </TransitionRate>
                 </CategoricalData>
                 
-            </mdef:Discrete>
-        </mdef:ObservationModel>
-    </mdef:ModelDefinition>
+            </Discrete>
+        </ObservationModel>
+    </ModelDefinition>
     
     <mstep:ModellingSteps>
         

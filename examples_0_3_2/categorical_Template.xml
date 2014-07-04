@@ -19,28 +19,6 @@
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
-        <ParameterModel blkId="pm1">
-            <RandomVariable symbId="binary">
-                <ct:VariabilityReference>
-                    <ct:SymbRef symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <BernoulliDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                    <categoryProb definition="http://www.uncertml.org/3.0">
-                        <name>0</name>
-                        <probability>
-                            <var varId="p"/>
-                        </probability>
-                    </categoryProb>
-                </BernoulliDistribution>
-            </RandomVariable>
-        </ParameterModel>
-        
-        
         <!-- NOMINAL -->
         <ObservationModel blkId="om1">
             <Discrete>
@@ -183,14 +161,14 @@
                                 <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
                         </CurrentState>
-                        <PreviousState order="1">
+                        <PreviousState MarkovOrder="1">
                             <!-- yp1=1 -->
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="yp1"/>
                                 <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
                         </PreviousState>
-                        <PreviousState order="2">
+                        <PreviousState MarkovOrder="2">
                             <!-- yp2=2 -->
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="yp2"/>
@@ -223,16 +201,35 @@
                     <Dependance type="continuousMarkov"/>
                     
                     <!-- TransitionRate(y2,y1) = exp(a+b*t) -->
-                    <TransitionRate linkFunction="identity">
+                    <TransitionRate>
                         <CurrentState>
                             <!-- y=1 -->
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
                         </CurrentState>
                         <PreviousState>
                             <!-- yp1=1 -->
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="yp1"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
                         </PreviousState>
-                        <Assign>
+                        <ct:Assign>
                             <!-- exp(a+b*t) -->
-                        </Assign>
+                            <math:Equation>
+                                <math:Uniop op="exp">
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="a"/>
+                                        <math:Binop op="times">
+                                            <ct:SymbRef symbIdRef="b"/>
+                                            <ct:SymbRef symbIdRef="t"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Uniop>
+                            </math:Equation>
+                        </ct:Assign>
                     </TransitionRate>
                     
                 </CategoricalData>
