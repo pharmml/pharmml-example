@@ -38,13 +38,11 @@
                         <Category symbId="cat0"/>
                         <Category symbId="cat1"/>
                     </ListOfCategories>
-                    
+
                     <CategoryVariable symbId="y"/>
-                    
-                    <LinkFunction>identity</LinkFunction>
-                    
+
                     <!-- P(y = 1) = p -->
-                    <Probability>
+                    <Probability linkFunction="identity">
                         <math:LogicBinop op="eq">
                             <ct:SymbRef symbIdRef="y"/>
                             <ct:SymbRef symbIdRef="cat1"/>
@@ -53,7 +51,7 @@
                             <ct:SymbRef symbIdRef="p"/>
                         </Assign>
                     </Probability>
-                    
+
                     <!-- ALTERNATIVE -->
                     <PMF>
                         <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
