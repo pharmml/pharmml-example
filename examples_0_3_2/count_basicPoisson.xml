@@ -5,7 +5,6 @@
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
-    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.3.2" id="i1">
@@ -17,23 +16,23 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition>
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <!-- VARIABILITY -->
-        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
-            <mdef:Level symbId="subject"/>
-        </mdef:VariabilityModel>
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
         
         <!-- PARAMETERS -->
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:SimpleParameter symbId="pop_lambda"/>
-            <mdef:SimpleParameter symbId="omega_lambda"/>
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="pop_lambda"/>
+            <SimpleParameter symbId="omega_lambda"/>
             <!-- lambda -->
-            <mdef:RandomVariable symbId="eta_lambda">
+            <RandomVariable symbId="eta_lambda">
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
                 </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0"  definition="http://www.uncertml.org/distributions/normal">
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
                     <mean>
                         <rVal>0</rVal>
                     </mean>
@@ -41,8 +40,8 @@
                         <var varId="omega_lambda"/>
                     </variance>
                 </NormalDistribution>
-            </mdef:RandomVariable>
-            <mdef:IndividualParameter symbId="lambda">
+            </RandomVariable>
+            <IndividualParameter symbId="lambda">
                 <ct:Assign>
                     <math:Equation>
                         <math:Binop op="times">
@@ -53,29 +52,29 @@
                         </math:Binop>                        
                     </math:Equation>
                 </ct:Assign>
-            </mdef:IndividualParameter>
-        </mdef:ParameterModel>
+            </IndividualParameter>
+        </ParameterModel>
         
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om1">
-                        
+        <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
 
                     <CountVariable symbId="k"/>
-                    <LinkFunction>log</LinkFunction>
-                    
-                    <!-- homogenous Poisson -->
-                    <IntensityParameter symbId="Lambda">
-                        <Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                        </Assign>
-                    </IntensityParameter>
                     
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
-                    <PMF>
-                        <Assign>
-                            <Equation>
+                    <PMF linkFunction="log">
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="sdss">
+                            <rate>
+                                <var varId="Lambda"/>
+                            </rate>
+                        </PoissonDistribution>
+                    </PMF>
+
+                    <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
+                    <PMF linkFunction="log">
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                                 <Binop op="minus">
                                     <Binop op="plus">
                                         <Uniop op="minus">
@@ -93,13 +92,13 @@
                                     </Uniop>
                                 </Binop>
                             </Equation>
-                        </Assign>
+                        </ct:Assign>
                     </PMF>
                     
                     <!-- P(Y=k) = (Lambda^k * exp(-Lambda) / k! -->
-                     <PMF>
-                        <Assign>
-                            <Equation>
+                     <PMF linkFunction="identity">
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                                 <Binop op="divide">
                                     <Binop op="times">
                                         <Binop op="power">
@@ -113,16 +112,23 @@
                                         </Uniop>
                                     </Binop>
                                     <Uniop op="factorial">
-                                        <SymbRef symbIdRef="k"/>
+                                        <ct:SymbRef symbIdRef="k"/>
                                     </Uniop>
                                 </Binop>
                             </Equation>
-                        </Assign>
+                        </ct:Assign>
                     </PMF>
+                    
+                    <!-- homogenous Poisson -->
+                    <IntensityParameter symbId="Lambda">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                        </ct:Assign>
+                    </IntensityParameter>
                 </CountData>
             </Discrete>
-        </mdef:ObservationModel>
-    </mdef:ModelDefinition>
+        </ObservationModel>
+    </ModelDefinition>
     
     <mstep:ModellingSteps>
         
@@ -145,8 +151,7 @@
                     <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
                 </ds:Definition>
                 <ds:ImportData oid="importData">
-                    <ds:name>myFile</ds:name>
-                    <ds:url>myFile</ds:url>
+                    <ds:path>myFile.csv</ds:path>
                     <ds:format>CSV</ds:format>
                     <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ImportData>
