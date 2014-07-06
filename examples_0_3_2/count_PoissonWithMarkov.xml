@@ -114,6 +114,9 @@
                     <CountVariable symbId="y"/>
                     <PreviousCountVariable symbId="yp"/>
                     
+                    <Dependance type="discreteMarkov"/>
+                    
+                    <!-- Version 1 -->
                     <!-- homogenous Poisson with Markov - choose one lambda -->
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
@@ -179,59 +182,62 @@
                     <CountVariable symbId="y"/>
                     <PreviousCountVariable symbId="yp"/>
                     
+                    <Dependance type="discreteMarkov"/>
+                    
+                    <!-- Version 2 -->
                     <!-- homogenous Poisson with Markov - choose one lambda -->
-                    <IntensityParameter symbId="Lambda">
+                    <IntensityParameter symbId="Lambda1">
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Piecewise>
-                                    <math:Piece>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
-                                        <math:Condition>
-                                            <math:LogicBinop op="eq">
-                                                <ct:SymbRef symbIdRef="yp"/>
-                                                <ct:Real>0</ct:Real>
-                                            </math:LogicBinop>
-                                        </math:Condition>
-                                    </math:Piece>
-                                    <math:Piece>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda2"/>
-                                        <math:Condition>
-                                            <math:Otherwise/>
-                                        </math:Condition>
-                                    </math:Piece>
-                                </math:Piecewise>
-                            </math:Equation>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
+                        </ct:Assign>
+                    </IntensityParameter>
+
+                    <IntensityParameter symbId="Lambda2">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda2"/>
                         </ct:Assign>
                     </IntensityParameter>
                     
                     
-                    <!-- log(P(y=k)) = -lambda + k*log(lambda) - factln(k) -->
+                    <!-- log(P(y=k | yp=0)) = -lambda1 + k*log(lambda1) - factln(k) -->
                     <PMF linkFunction="log">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="k"/>
-                        </math:LogicBinop>
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="plus">
-                                    <math:Uniop op="minus">
-                                        <ct:SymbRef symbIdRef="Lambda"/>
-                                    </math:Uniop>
-                                    <math:Binop op="plus">
-                                        <math:Binop op="times">
-                                            <ct:SymbRef symbIdRef="k"/>
-                                            <math:Uniop op="log">
-                                                <ct:SymbRef symbIdRef="Lambda"/>
-                                            </math:Uniop>
-                                        </math:Binop>
-                                        <math:Uniop op="factln">
-                                            <ct:SymbRef symbIdRef="k"/>
-                                        </math:Uniop>
-                                    </math:Binop>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
+                        <CurrentState>
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="k"/>
+                            </math:LogicBinop>                            
+                        </CurrentState>
+                        <PreviousState>
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:Int>0</ct:Int>
+                            </math:LogicBinop>
+                        </PreviousState>
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                            <rate>
+                                <var varId="Lambda1"/>
+                            </rate>
+                        </PoissonDistribution>
                     </PMF>
+                    
+                    <!-- log(P(y=k | yp != 0)) = -lambda2 + k*log(lambda2) - factln(k) -->
+                    <PMF linkFunction="log">
+                        <CurrentState>
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="k"/>
+                            </math:LogicBinop>                            
+                        </CurrentState>
+                        <PreviousState>
+                            <math:LogicBinop op="neq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:Int>0</ct:Int>
+                            </math:LogicBinop>
+                        </PreviousState>
+                        <!-- omitted -->
+                        <!-- equation analog as above with Lambda2 instead of Lambda1 --> 
+                    </PMF>
+                    
                 </CountData>
             </Discrete>
         </ObservationModel>
