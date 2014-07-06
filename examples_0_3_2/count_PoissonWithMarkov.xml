@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    implementedBy="MJS" writtenVersion="0.3.2" id="i1">
+    
+    <ct:Name>Negative Binomial model</ct:Name>
+    
+    <ct:Description>Negative Binomial model - based on code from Elodie Plan</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <!-- VARIABILITY -->
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="iiv"/>
+        </VariabilityModel>
+        
+        <!-- PARAMETERS -->
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="pop_lambda1"/>
+            <SimpleParameter symbId="omega_lambda1"/>
+            <!-- lambda1 -->
+            <RandomVariable symbId="eta_lambda1">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0"  definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="omega_lambda1"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="lambda1">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="pop_lambda1"/>
+                            <math:Uniop op="exp">
+                                <ct:SymbRef symbIdRef="eta_lambda1"/>
+                            </math:Uniop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </IndividualParameter>
+            
+            <!-- analog for lambda2 -->
+            
+            <!-- correlation between eta_lambda1 and eta_lambda2 -->
+            <Correlation>
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="iiv"></ct:SymbRef>
+                </ct:VariabilityReference>
+                <Pairwise>
+                    <RandomVariable1>
+                        <ct:SymbRef symbIdRef="eta_lambda1"/>
+                    </RandomVariable1>
+                    <RandomVariable2>
+                        <ct:SymbRef symbIdRef="eta_lambda2"/>
+                    </RandomVariable2>
+                    <CorrelationCoefficient>
+                        <ct:SymbRef symbIdRef="rho_lambda1_lambda2"/>
+                    </CorrelationCoefficient>
+                </Pairwise>
+            </Correlation>
+            
+        </ParameterModel>
+        
+<!--        DESCRIPTION:
+        2 Poisson model with Markovian dependence ,
+        3
+        4 DATA:
+        5 modelFile=’pkcount.txt’;
+        6 modelPath=’../../models/pkpd_models ’;
+        7
+        8 INDIVIDUAL:
+        9 lambda1 = {distribution=logNormal , iiv=yes}
+        10 lambda2 = {distribution=logNormal , iiv=yes}
+        11
+        12 pop_lambda1 = 0.64;  omega_lambda1 = 0.91;
+        13 pop_lambda2 = 0.40;  omega_lambda2 = 0.76;
+        14 rho_lambda1_lambda2 = 0.62
+        15
+        16 EQUATION:
+        17 if Yp==0
+        18 lambda=lambda1
+        19 else
+        20 lambda=lambda2
+        21 end
+        22
+        23 OBSERVATION:
+        24 Y = {
+        25 type = count
+        26 Log(P(Y=k)) = -lambda + k*log(lambda) - factln(k)
+        27 }
+        28
+        29 OUTPUT:
+        30 output = Y -->       
+        
+        <!-- OBSERVATIONS -->
+        <ObservationModel blkId="om1"> 
+            <Discrete>
+                <CountData>
+                    <CountVariable symbId="y"/>
+                    <PreviousCountVariable symbId="yp"/>
+                    
+                    <!-- homogenous Poisson with Markov -->
+                    <IntensityParameter symbId="Lambda">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Piecewise>
+                                    <math:Piece>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
+                                        <math:Condition>
+                                            <math:LogicBinop op="eq">
+                                                <ct:SymbRef symbIdRef="yp"/>
+                                                <ct:Real>0</ct:Real>
+                                            </math:LogicBinop>
+                                        </math:Condition>
+                                    </math:Piece>
+                                    <math:Piece>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda2"/>
+                                        <math:Condition>
+                                            <math:Otherwise/>
+                                        </math:Condition>
+                                    </math:Piece>
+                                </math:Piecewise>
+                            </math:Equation>
+                        </ct:Assign>
+                    </IntensityParameter>
+                    
+                    
+                    <!-- log(PMF) = -lambda + k*log(lambda) - factln(k) -->
+                    <PMF linkFunction="log">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="k"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <math:Uniop op="minus">
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </math:Uniop>
+                                    <math:Binop op="plus">
+                                        <math:Binop op="times">
+                                            <ct:SymbRef symbIdRef="k"/>
+                                            <math:Uniop op="log">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                        <math:Uniop op="factln">
+                                            <ct:SymbRef symbIdRef="k"/>
+                                        </math:Uniop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </PMF>
+                    
+                </CountData>
+            </Discrete>
+            
+        </ObservationModel>
+    </ModelDefinition>
+    
+    <mstep:ModellingSteps>
+        <mstep:NONMEMdataSet oid="NMoid">
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </mstep:ColumnMapping>
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="k"/>
+            </mstep:ColumnMapping>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                </ds:Definition>
+                <ds:ImportData oid="IDoid">
+                    <ds:path>myData.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
+        </mstep:NONMEMdataSet>
+    </mstep:ModellingSteps>
+</PharmML>
