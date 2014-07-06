@@ -22,20 +22,23 @@
         </mdef:ParameterModel>
         
         <mdef:ObservationModel blkId="om1">
-            <Discrete>
-                <TimeToEventData>
-                    
+            <mdef:Discrete>
+                <TimeToEventData>                    
                     <EventVariable symbId="y"/>
 
-                    <!-- h(t) = lambda -->
+                    <!-- h(t) = 1/lambda -->
                     <HazardFunction>
                         <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:Real>1</ct:Real>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                                </math:Binop>
+                            </math:Equation>
                         </ct:Assign>
                     </HazardFunction>
-                    
                 </TimeToEventData>
-            </Discrete>            
+            </mdef:Discrete>            
         </mdef:ObservationModel>
         
     </mdef:ModelDefinition>

@@ -114,7 +114,7 @@
                     <CountVariable symbId="y"/>
                     <PreviousCountVariable symbId="yp"/>
                     
-                    <!-- homogenous Poisson with Markov -->
+                    <!-- homogenous Poisson with Markov - choose one lambda -->
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
                             <math:Equation>
@@ -140,7 +140,7 @@
                     </IntensityParameter>
                     
                     
-                    <!-- log(PMF) = -lambda + k*log(lambda) - factln(k) -->
+                    <!-- log(P(y=k)) = -lambda + k*log(lambda) - factln(k) -->
                     <PMF linkFunction="log">
                         <math:LogicBinop op="eq">
                             <ct:SymbRef symbIdRef="y"/>
@@ -167,11 +167,10 @@
                             </math:Equation>
                         </ct:Assign>
                     </PMF>
-                    
                 </CountData>
             </Discrete>
-            
         </ObservationModel>
+        
     </ModelDefinition>
     
     <mstep:ModellingSteps>
@@ -184,7 +183,7 @@
             
             <mstep:ColumnMapping>
                 <ds:ColumnRef columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="k"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
             </mstep:ColumnMapping>
             
             <ds:DataSet>
