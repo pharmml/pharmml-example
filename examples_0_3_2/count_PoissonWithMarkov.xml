@@ -54,7 +54,7 @@
                 </ct:Assign>
             </IndividualParameter>
             
-            <!-- analog for lambda2 -->
+            <!-- analog for lambda2 - omitted here -->
             
             <!-- correlation between eta_lambda1 and eta_lambda2 -->
             <Correlation>
@@ -109,6 +109,71 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1"> 
+            <Discrete>
+                <CountData>
+                    <CountVariable symbId="y"/>
+                    <PreviousCountVariable symbId="yp"/>
+                    
+                    <!-- homogenous Poisson with Markov - choose one lambda -->
+                    <IntensityParameter symbId="Lambda">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Piecewise>
+                                    <math:Piece>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
+                                        <math:Condition>
+                                            <math:LogicBinop op="eq">
+                                                <ct:SymbRef symbIdRef="yp"/>
+                                                <ct:Real>0</ct:Real>
+                                            </math:LogicBinop>
+                                        </math:Condition>
+                                    </math:Piece>
+                                    <math:Piece>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda2"/>
+                                        <math:Condition>
+                                            <math:Otherwise/>
+                                        </math:Condition>
+                                    </math:Piece>
+                                </math:Piecewise>
+                            </math:Equation>
+                        </ct:Assign>
+                    </IntensityParameter>
+                    
+                    
+                    <!-- log(P(y=k)) = -lambda + k*log(lambda) - factln(k) -->
+                    <PMF linkFunction="log">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="k"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <math:Uniop op="minus">
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </math:Uniop>
+                                    <math:Binop op="plus">
+                                        <math:Binop op="times">
+                                            <ct:SymbRef symbIdRef="k"/>
+                                            <math:Uniop op="log">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                        <math:Uniop op="factln">
+                                            <ct:SymbRef symbIdRef="k"/>
+                                        </math:Uniop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+        
+        
+        <!-- OBSERVATIONS -->
+        <ObservationModel blkId="om2"> 
             <Discrete>
                 <CountData>
                     <CountVariable symbId="y"/>
