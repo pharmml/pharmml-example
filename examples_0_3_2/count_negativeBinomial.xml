@@ -108,8 +108,8 @@
             
             <Discrete>
                 <CountData>
-                    <!-- k = DV in NMTRAN code -->
-                    <CountVariable symbId="k"/>     
+                    <!-- y = DV in NMTRAN code -->
+                    <CountVariable symbId="y"/>
                     
                     <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
@@ -118,10 +118,20 @@
                         </ct:Assign>
                     </IntensityParameter>
                     
-                    <!-- log(PMF) = gammaln(k+1/tau) - factln(k) - gammaln(1/tau) - 
+                    <DispersionParameter symbId="Tau">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                        </ct:Assign>
+                    </DispersionParameter>
+                    
+                    <!-- log(y=k;lambda) = gammaln(k+1/tau) - factln(k) - gammaln(1/tau) - 
                         1/tau log(1+tau * lambda) + k*log(lambda) - 
                         k*log(1/tau + lambda) -->
                     <PMF linkFunction="log">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="k"/>
+                        </math:LogicBinop>
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="minus">
@@ -135,7 +145,7 @@
                                                             <ct:SymbRef symbIdRef="k"/>
                                                             <math:Binop op="divide">
                                                                 <ct:Real>1</ct:Real>
-                                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                                                                <ct:SymbRef symbIdRef="Tau"/>
                                                             </math:Binop>
                                                         </math:Binop>
                                                     </math:Uniop>
@@ -148,7 +158,7 @@
                                                 <math:Uniop op="gammaln">
                                                     <math:Binop op="divide">
                                                         <ct:Real>1</ct:Real>
-                                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                                                        <ct:SymbRef symbIdRef="Tau"/>
                                                     </math:Binop>
                                                 </math:Uniop>
                                             </math:Binop>
@@ -156,13 +166,13 @@
                                             <math:Binop op="times">
                                                 <math:Binop op="divide">
                                                     <ct:Real>1</ct:Real>
-                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                                                    <ct:SymbRef symbIdRef="Tau"/>
                                                 </math:Binop>
                                                 <math:Uniop op="log">
                                                     <math:Binop op="plus">
                                                         <ct:Real>1</ct:Real>
                                                         <math:Binop op="times">
-                                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                                                            <ct:SymbRef symbIdRef="Tau"/>
                                                             <ct:SymbRef symbIdRef="Lambda"/>
                                                         </math:Binop>
                                                     </math:Binop>
@@ -184,7 +194,7 @@
                                             <math:Binop op="plus">
                                                 <math:Binop op="divide">
                                                     <ct:Real>1</ct:Real>
-                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                                                    <ct:SymbRef symbIdRef="Tau"/>
                                                 </math:Binop>
                                                 <ct:SymbRef symbIdRef="Lambda"/>
                                             </math:Binop>
@@ -194,11 +204,10 @@
                             </math:Equation>
                         </ct:Assign>
                     </PMF>
-                    
                 </CountData>
             </Discrete>
-            
         </ObservationModel>
+        
     </ModelDefinition>
     
 </PharmML>
