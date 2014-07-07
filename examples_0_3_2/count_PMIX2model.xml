@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    implementedBy="MJS" writtenVersion="0.3.2" id="i1">
+    
+    <ct:Name>Poisson Mixture model – PMIX</ct:Name>
+    
+    <ct:Description>Poisson Mixture model PMIX - based on code from Marc Lavielle</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <!-- VARIABILITY -->
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
+        
+        <!-- PARAMETERS -->
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="pop_lambda"/>
+            <SimpleParameter symbId="omega_lambda"/>
+            <SimpleParameter symbId="pop_p0"/>
+            <SimpleParameter symbId="omega_p0"/>
+            <!-- lambda -->
+            <RandomVariable symbId="eta_lambda">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0"  definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="omega_lambda"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="lambda">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="pop_lambda"/>
+                            <math:Uniop op="exp">
+                                <ct:SymbRef symbIdRef="eta_lambda"/>
+                            </math:Uniop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </IndividualParameter>
+            
+            <!-- p0 - LOGIT normal -->
+            <RandomVariable symbId="eta_p0">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0"  definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="omega_p0"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="p0">
+                <GaussianModel>
+                    <Transformation>logit</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_p0"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_p0"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+        </ParameterModel>
+
+
+        <!-- OBSERVATIONS -->
+        <ObservationModel blkId="om1">
+            <Discrete>
+
+                <CountData>
+                    <!-- y = DV in NMTRAN code -->
+                    <CountVariable symbId="y"/>
+                    
+                    <!-- homogenous Poisson -->
+                    <IntensityParameter symbId="Lambda">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                        </ct:Assign>
+                    </IntensityParameter>
+                    
+                    <MixtureProbabilityParameter symbId="Pi">
+                        <ct:Assign>
+                            <
+                        </ct:Assign>
+                    </MixtureProbabilityParameter>
+
+<!--$PROBLEM
+Poisson Mixture model - screening and treatment phases
+
+$PSI gamma_s lambda_s alpha_s delta1 delta2 delta3
+ 
+$COUNT
+gamma = gamma_s + x*delta1
+p = 1/(1+exp(-gamma))
+
+lambda1 = (1-x)*lambda_s + x*delta2*lambda_s
+alpha = (1-x)*alpha_s + x*delta3*alpha_s
+lambda2 = lambda1 + alpha
+
+Lk1 = -lambda1 + k*log(lambda1) - factln(k)
+Lk2 = -lambda2 + k*log(lambda2) - factln(k)
+
+L1(Y=k) = p*exp(Lk1) + (1-p)*exp(Lk2) -->
+
+                    <PMF linkFunction="log">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="k"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <math:Uniop op="log">
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </math:Uniop>
+                                    <math:Binop op="minus">
+                                        <math:Binop op="times">
+                                            <math:Binop op="minus">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                                <ct:Real>1</ct:Real>
+                                            </math:Binop>
+                                            <math:Uniop op="log">
+                                                <math:Binop op="plus">
+                                                    <ct:SymbRef symbIdRef="Lambda"/>
+                                                    <math:Binop op="times">
+                                                        <ct:SymbRef symbIdRef="k"/>
+                                                        <ct:SymbRef symbIdRef="Delta"/>
+                                                    </math:Binop>
+                                                </math:Binop>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                        <math:Binop op="minus">
+                                            <math:Binop op="plus">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                                <math:Binop op="times">
+                                                    <ct:SymbRef symbIdRef="k"/>
+                                                    <ct:SymbRef symbIdRef="Delta"/>
+                                                </math:Binop>
+                                            </math:Binop>
+                                            <math:Uniop op="factln">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+        
+    </ModelDefinition>
+    
+</PharmML>
