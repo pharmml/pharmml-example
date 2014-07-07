@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mml:PharmML xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+	xmlns:td="http://www.pharmml.org/2013/03/TrialDesign" 
+	xmlns:uncert="http://www.uncertml.org/3.0"
+	xmlns:msteps="http://www.pharmml.org/2013/03/ModellingSteps"
+	xmlns:math="http://www.pharmml.org/2013/03/Maths" 
+	xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+	xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
+	xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+	writtenVersion="0.3.2" id="hh1">
+	<ct:Name>Hodgkin-Huxley Axon Model (Capacitance = 1.0 form).</ct:Name>
+	<mml:IndependentVariable symbId="t" />
+	<mdef:ModelDefinition>
+		<mdef:ParameterModel blkId="pm">
+			<mdef:SimpleParameter symbId="gNa">
+				<ct:Description>gNa (Sodium channel conductance in mS/cm^2)
+				</ct:Description>
+				<ct:Assign>
+					<ct:Real>120.0</ct:Real>
+				</ct:Assign>
+			</mdef:SimpleParameter>
+			<mdef:SimpleParameter symbId="gK">
+				<ct:Description>gk (Potassium channel conductance in mS/cm^2)
+				</ct:Description>
+				<ct:Assign>
+					<ct:Real>36.0</ct:Real>
+				</ct:Assign>
+			</mdef:SimpleParameter>
+			<mdef:SimpleParameter symbId="gL">
+				<ct:Description>gL (Membrane conductance)</ct:Description>
+				<ct:Assign>
+					<ct:Real>0.3</ct:Real>
+				</ct:Assign>
+			</mdef:SimpleParameter>
+			<mdef:SimpleParameter symbId="vNa">
+				<ct:Description>vNa (Sodium resting potential (mV))</ct:Description>
+				<ct:Assign>
+					<ct:Real>115.0</ct:Real>
+				</ct:Assign>
+			</mdef:SimpleParameter>
+			<mdef:SimpleParameter symbId="vK">
+				<ct:Description>vK (Potassium resting potential (mV))
+				</ct:Description>
+				<ct:Assign>
+					<ct:Real>-12.0</ct:Real>
+				</ct:Assign>
+			</mdef:SimpleParameter>
+			<mdef:SimpleParameter symbId="vL">
+				<ct:Description>vL (General cell resting potential (mV))
+				</ct:Description>
+				<ct:Assign>
+					<ct:Real>10.6</ct:Real>
+				</ct:Assign>
+			</mdef:SimpleParameter>
+			<mdef:SimpleParameter symbId="I">
+				<ct:Description>I (Injection current (mV))</ct:Description>
+				<ct:Assign>
+					<ct:Real>0.0</ct:Real>
+				</ct:Assign>
+			</mdef:SimpleParameter>
+		</mdef:ParameterModel>
+		<mdef:StructuralModel blkId="sm">
+			<ct:Variable symbolType="real" symbId="aM">
+				<ct:Description>aM = 1*(25-V) /(exp((25-V)/10)-1)</ct:Description>
+				<ct:Assign>
+					<math:Equation>
+						<math:Binop op="divide">
+							<math:Binop op="times">
+								<ct:Real>0.1</ct:Real>
+								<math:Binop op="minus">
+									<ct:Real>25.0</ct:Real>
+									<ct:SymbRef symbIdRef="V" />
+								</math:Binop>
+							</math:Binop>
+							<math:Binop op="minus">
+								<math:Uniop op="exp">
+									<math:Binop op="divide">
+										<math:Binop op="minus">
+											<ct:Real>25.0</ct:Real>
+											<ct:SymbRef symbIdRef="V" />
+										</math:Binop>
+										<ct:Real>10.0</ct:Real>
+									</math:Binop>
+								</math:Uniop>
+								<ct:Real>1.0</ct:Real>
+							</math:Binop>
+						</math:Binop>
+					</math:Equation>
+				</ct:Assign>
+			</ct:Variable>
+			<ct:Variable symbolType="real" symbId="aH">
+				<ct:Description>aH = .07*exp(-y(1)/20)</ct:Description>
+				<ct:Assign>
+					<math:Equation>
+						<math:Binop op="times">
+							<ct:Real>0.07</ct:Real>
+							<math:Uniop op="exp">
+								<math:Binop op="divide">
+									<math:Uniop op="minus">
+										<ct:SymbRef symbIdRef="V" />
+									</math:Uniop>
+									<ct:Real>20.0</ct:Real>
+								</math:Binop>
+							</math:Uniop>
+						</math:Binop>
+					</math:Equation>
+				</ct:Assign>
+			</ct:Variable>
+			<ct:Variable symbolType="real" symbId="aN">
+				<ct:Description>aN = .01*(10-V)/(exp((10-V)/10)-1);</ct:Description>
+				<ct:Assign>
+					<math:Equation>
+						<math:Binop op="divide">
+							<math:Binop op="times">
+								<ct:Real>0.01</ct:Real>
+								<math:Binop op="minus">
+									<ct:Real>10.0</ct:Real>
+									<ct:SymbRef symbIdRef="V" />
+								</math:Binop>
+							</math:Binop>
+							<math:Binop op="minus">
+								<math:Uniop op="exp">
+									<math:Binop op="divide">
+										<math:Binop op="minus">
+											<ct:Real>10.0</ct:Real>
+											<ct:SymbRef symbIdRef="V" />
+										</math:Binop>
+										<ct:Real>10.0</ct:Real>
+									</math:Binop>
+								</math:Uniop>
+								<ct:Real>1.0</ct:Real>
+							</math:Binop>
+						</math:Binop>
+					</math:Equation>
+				</ct:Assign>
+			</ct:Variable>
+			<ct:Variable symbolType="real" symbId="bM">
+				<ct:Description>bM = 4*exp(-y(1)/18)</ct:Description>
+				<ct:Assign>
+					<math:Equation>
+						<math:Binop op="times">
+							<ct:Real>4.0</ct:Real>
+							<math:Uniop op="exp">
+								<math:Binop op="divide">
+									<math:Uniop op="minus">
+										<ct:SymbRef symbIdRef="V" />
+									</math:Uniop>
+									<ct:Real>18.0</ct:Real>
+								</math:Binop>
+							</math:Uniop>
+						</math:Binop>
+					</math:Equation>
+				</ct:Assign>
+			</ct:Variable>
+			<ct:Variable symbolType="real" symbId="bH">
+				<ct:Description>bH = 1/(exp((30-V)/10)+1)</ct:Description>
+				<ct:Assign>
+					<math:Equation>
+						<math:Binop op="divide">
+							<ct:Real>1.0</ct:Real>
+							<math:Binop op="plus">
+								<math:Uniop op="exp">
+									<math:Binop op="divide">
+										<math:Binop op="minus">
+											<ct:Real>30.0</ct:Real>
+											<ct:SymbRef symbIdRef="V" />
+										</math:Binop>
+										<ct:Real>10.0</ct:Real>
+									</math:Binop>
+								</math:Uniop>
+								<ct:Real>1.0</ct:Real>
+							</math:Binop>
+						</math:Binop>
+					</math:Equation>
+				</ct:Assign>
+			</ct:Variable>
+			<ct:Variable symbolType="real" symbId="bN">
+				<ct:Description>bN = .125*exp(-V/80)</ct:Description>
+				<ct:Assign>
+					<math:Equation>
+						<math:Binop op="times">
+							<ct:Real>0.125</ct:Real>
+							<math:Uniop op="exp">
+								<math:Binop op="divide">
+									<math:Uniop op="minus">
+										<ct:SymbRef symbIdRef="V" />
+									</math:Uniop>
+									<ct:Real>80.0</ct:Real>
+								</math:Binop>
+							</math:Uniop>
+						</math:Binop>
+					</math:Equation>
+				</ct:Assign>
+			</ct:Variable>
+			<ct:DerivativeVariable symbolType="real"
+				symbId="V">
+				<ct:Description>Voltage</ct:Description>
+				<ct:Assign>
+					<math:Equation>
+						<math:Binop op="minus">
+							<math:Binop op="minus">
+								<math:Binop op="minus">
+									<ct:SymbRef blkIdRef="pm" symbIdRef="I" />
+									<math:Binop op="times">
+										<ct:SymbRef blkIdRef="pm" symbIdRef="gNa" />
+										<math:Binop op="times">
+											<math:Binop op="power">
+												<ct:SymbRef symbIdRef="m" />
+												<ct:Int>3</ct:Int>
+											</math:Binop>
+											<math:Binop op="times">
+												<ct:SymbRef symbIdRef="h" />
+												<math:Binop op="minus">
+													<ct:SymbRef symbIdRef="V" />
+													<ct:SymbRef blkIdRef="pm" symbIdRef="vNa" />
+												</math:Binop>
+											</math:Binop>
+										</math:Binop>
+									</math:Binop>
+								</math:Binop>
+								<math:Binop op="times">
+									<ct:SymbRef blkIdRef="pm" symbIdRef="gK" />
+									<math:Binop op="times">
+										<math:Binop op="power">
+											<ct:SymbRef symbIdRef="n" />
+											<ct:Int>4</ct:Int>
+										</math:Binop>
+										<math:Binop op="minus">
+											<ct:SymbRef symbIdRef="V" />
+											<ct:SymbRef blkIdRef="pm" symbIdRef="vK" />
+										</math:Binop>
+									</math:Binop>
+								</math:Binop>
+							</math:Binop>
+							<math:Binop op="times">
+								<ct:SymbRef blkIdRef="pm" symbIdRef="gL" />
+								<math:Binop op="minus">
+									<ct:SymbRef symbIdRef="V" />
+									<ct:SymbRef blkIdRef="pm" symbIdRef="vL" />
+								</math:Binop>
+							</math:Binop>
+						</math:Binop>
+					</math:Equation>
+				</ct:Assign>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+							<ct:Real>0.0</ct:Real>
+						</ct:Assign>
+					</ct:InitialValue>
+				</ct:InitialCondition>
+			</ct:DerivativeVariable>
+			<ct:DerivativeVariable symbolType="real"
+				symbId="m">
+				<ct:Description>m Gating Variable</ct:Description>
+				<ct:Assign>
+					<math:Equation>
+						<math:Binop op="minus">
+							<math:Binop op="times">
+								<math:Binop op="minus">
+									<ct:Real>1.0</ct:Real>
+									<ct:SymbRef symbIdRef="m" />
+								</math:Binop>
+								<ct:SymbRef blkIdRef="sm" symbIdRef="aM" />
+							</math:Binop>
+							<math:Binop op="times">
+								<ct:SymbRef symbIdRef="m" />
+								<ct:SymbRef blkIdRef="sm" symbIdRef="bM" />
+							</math:Binop>
+						</math:Binop>
+					</math:Equation>
+				</ct:Assign>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+							<ct:Real>0.5</ct:Real>
+						</ct:Assign>
+					</ct:InitialValue>
+				</ct:InitialCondition>
+			</ct:DerivativeVariable>
+			<ct:DerivativeVariable symbolType="real"
+				symbId="h">
+				<ct:Description>h Gating Variable</ct:Description>
+				<ct:Assign>
+					<math:Equation>
+						<math:Binop op="minus">
+							<math:Binop op="times">
+								<math:Binop op="minus">
+									<ct:Real>1.0</ct:Real>
+									<ct:SymbRef symbIdRef="h" />
+								</math:Binop>
+								<ct:SymbRef blkIdRef="sm" symbIdRef="aH" />
+							</math:Binop>
+							<math:Binop op="times">
+								<ct:SymbRef symbIdRef="h" />
+								<ct:SymbRef blkIdRef="sm" symbIdRef="bH" />
+							</math:Binop>
+						</math:Binop>
+					</math:Equation>
+				</ct:Assign>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+							<ct:Real>0.5</ct:Real>
+						</ct:Assign>
+					</ct:InitialValue>
+				</ct:InitialCondition>
+			</ct:DerivativeVariable>
+			<ct:DerivativeVariable symbolType="real"
+				symbId="n">
+				<ct:Description>n Gating Variable</ct:Description>
+				<ct:Assign>
+					<math:Equation>
+						<math:Binop op="minus">
+							<math:Binop op="times">
+								<math:Binop op="minus">
+									<ct:Real>1.0</ct:Real>
+									<ct:SymbRef symbIdRef="n" />
+								</math:Binop>
+								<ct:SymbRef blkIdRef="sm" symbIdRef="aN" />
+							</math:Binop>
+							<math:Binop op="times">
+								<ct:SymbRef symbIdRef="n" />
+								<ct:SymbRef blkIdRef="sm" symbIdRef="bN" />
+							</math:Binop>
+						</math:Binop>
+					</math:Equation>
+				</ct:Assign>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+							<ct:Real>0.5</ct:Real>
+						</ct:Assign>
+					</ct:InitialValue>
+				</ct:InitialCondition>
+			</ct:DerivativeVariable>
+		</mdef:StructuralModel>
+	</mdef:ModelDefinition>
+	<msteps:ModellingSteps>
+		<msteps:SimulationStep oid="idx_4">
+			<ct:VariableAssignment>
+				<ct:SymbRef blkIdRef="pm" symbIdRef="I" />
+				<ct:Assign>
+					<ct:Real>20.0</ct:Real>
+				</ct:Assign>
+			</ct:VariableAssignment>
+			<msteps:Observations>
+				<msteps:Timepoints>
+					<ct:Sequence>
+						<ct:Begin>
+							<ct:Real>0.0</ct:Real>
+						</ct:Begin>
+						<ct:StepSize>
+							<ct:Real>1.0</ct:Real>
+						</ct:StepSize>
+						<ct:End>
+							<ct:Real>40.0</ct:Real>
+						</ct:End>
+					</ct:Sequence>
+				</msteps:Timepoints>
+				<msteps:Continuous>
+					<ct:SymbRef blkIdRef="sm" symbIdRef="V" />
+				</msteps:Continuous>
+			</msteps:Observations>
+		</msteps:SimulationStep>
+		<msteps:StepDependencies>
+			<msteps:Step>
+				<ct:OidRef oidRef="idx_4" />
+			</msteps:Step>
+		</msteps:StepDependencies>
+	</msteps:ModellingSteps>
+</mml:PharmML>
