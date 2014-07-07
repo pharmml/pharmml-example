@@ -103,18 +103,17 @@
                         </ct:Assign>
                     </IntensityParameter>
                     
-                    <DispersionParameter symbId="Tau">
+                    <ZeroProbabilityParameter symbId="P0">
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="p0"/>
                         </ct:Assign>
-                    </DispersionParameter>
+                    </ZeroProbabilityParameter>
                     
-<!--                if (k > 0)
-                      aux = log(1-p0) - lambda + k*log(lambda) - factln(k)
-                    else
-                      aux = log(p0 + (1-p0)*exp(-lambda))
-                    end
-                    log(P(Y=k)) = aux-->
+                    <!-- if (k > 0)
+                            log(P(Y=k)) = log(1-p0) - lambda + k*log(lambda) - factln(k)
+                        else
+                            log(P(Y=k)) = log(p0 + (1-p0)*exp(-lambda))
+                        end -->
                     <PMF linkFunction="log">
                         <math:LogicBinop op="eq">
                             <ct:SymbRef symbIdRef="y"/>
@@ -122,73 +121,63 @@
                         </math:LogicBinop>
                         <ct:Assign>
                             <math:Equation>
-                                <math:Binop op="minus">
-                                    <math:Binop op="plus">
+                                <math:Piecewise>
+                                    <math:Piece>
+                                        <!-- aux = log(1-p0) - lambda + k*log(lambda) - factln(k) -->
                                         <math:Binop op="minus">
-                                            <math:Binop op="minus">
+                                            <math:Uniop op="log">
                                                 <math:Binop op="minus">
-                                                    <!-- gammaln(k+1/tau) -->
-                                                    <math:Uniop op="gammaln">
-                                                        <math:Binop op="plus">
-                                                            <ct:SymbRef symbIdRef="k"/>
-                                                            <math:Binop op="divide">
-                                                                <ct:Real>1</ct:Real>
-                                                                <ct:SymbRef symbIdRef="Tau"/>
-                                                            </math:Binop>
-                                                        </math:Binop>
-                                                    </math:Uniop>
-                                                    <!-- factln(k) -->
+                                                    <ct:Real>1</ct:Real>
+                                                    <ct:SymbRef symbIdRef="P0"/>
+                                                </math:Binop>
+                                            </math:Uniop>
+                                            <math:Binop op="plus">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                                <math:Binop op="minus">
+                                                    <math:Binop op="times">
+                                                        <ct:SymbRef symbIdRef="k"/>
+                                                        <math:Uniop op="log">
+                                                            <ct:SymbRef symbIdRef="Lambda"/>
+                                                        </math:Uniop>
+                                                    </math:Binop>
                                                     <math:Uniop op="factln">
                                                         <ct:SymbRef symbIdRef="k"/>
                                                     </math:Uniop>
                                                 </math:Binop>
-                                                <!-- gammaln(1/tau) -->
-                                                <math:Uniop op="gammaln">
-                                                    <math:Binop op="divide">
-                                                        <ct:Real>1</ct:Real>
-                                                        <ct:SymbRef symbIdRef="Tau"/>
-                                                    </math:Binop>
-                                                </math:Uniop>
-                                            </math:Binop>
-                                            <!-- 1/tau log(1+tau * lambda) -->
-                                            <math:Binop op="times">
-                                                <math:Binop op="divide">
-                                                    <ct:Real>1</ct:Real>
-                                                    <ct:SymbRef symbIdRef="Tau"/>
-                                                </math:Binop>
-                                                <math:Uniop op="log">
-                                                    <math:Binop op="plus">
-                                                        <ct:Real>1</ct:Real>
-                                                        <math:Binop op="times">
-                                                            <ct:SymbRef symbIdRef="Tau"/>
-                                                            <ct:SymbRef symbIdRef="Lambda"/>
-                                                        </math:Binop>
-                                                    </math:Binop>
-                                                </math:Uniop>
                                             </math:Binop>
                                         </math:Binop>
-                                        <math:Binop op="times">
-                                            <!-- k*log(lambda) -->
-                                            <ct:SymbRef symbIdRef="k"/>                         
-                                            <math:Uniop op="log">
-                                                <ct:SymbRef symbIdRef="Lambda"/>
-                                            </math:Uniop>
-                                        </math:Binop>
-                                    </math:Binop>
-                                    <math:Binop op="times">
-                                        <!-- k*log(1/tau + lambda) -->
-                                        <ct:SymbRef symbIdRef="k"/>                         
+                                        <math:Condition>
+                                            <!-- if (k > 0) -->
+                                            <math:LogicBinop op="gt">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                                <ct:Real>0</ct:Real>
+                                            </math:LogicBinop>
+                                        </math:Condition>
+                                    </math:Piece>
+                                    <math:Piece>
+                                        <!-- aux = log(p0 + (1-p0)*exp(-lambda)) -->
                                         <math:Uniop op="log">
                                             <math:Binop op="plus">
-                                                <math:Binop op="divide">
-                                                    <ct:Real>1</ct:Real>
-                                                    <ct:SymbRef symbIdRef="Tau"/>
+                                                <ct:SymbRef symbIdRef="P0"/>
+                                                <math:Binop op="times">
+                                                    <math:Binop op="minus">
+                                                        <ct:Real>1</ct:Real>
+                                                        <ct:SymbRef symbIdRef="P0"/>
+                                                    </math:Binop>
+                                                    <math:Uniop op="exp">
+                                                        <math:Uniop op="minus">
+                                                            <ct:SymbRef symbIdRef="Lambda"/>
+                                                        </math:Uniop>
+                                                    </math:Uniop>
                                                 </math:Binop>
-                                                <ct:SymbRef symbIdRef="Lambda"/>
                                             </math:Binop>
                                         </math:Uniop>
-                                    </math:Binop>
-                                </math:Binop>
+                                        <!-- else -->
+                                        <math:Condition>
+                                            <math:Otherwise></math:Otherwise>
+                                        </math:Condition>
+                                    </math:Piece>
+                                </math:Piecewise>
                             </math:Equation>
                         </ct:Assign>
                     </PMF>
