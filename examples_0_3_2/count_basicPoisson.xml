@@ -68,7 +68,7 @@
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                         </ct:Assign>
                     </IntensityParameter>
-
+                    
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
                     <PMF linkFunction="log">
                         <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
@@ -101,29 +101,39 @@
                             </Equation>
                         </ct:Assign>
                     </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+                    
+        <ObservationModel blkId="om2">
+            <Discrete>
+                <CountData>
+                    
+                    <CountVariable symbId="k"/>
+                    
+                    <!-- homogenous Poisson -->
+                    <IntensityParameter symbId="Lambda">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                        </ct:Assign>
+                    </IntensityParameter>
+                    
+                    <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
+                    <PMF linkFunction="log">
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                            <rate>
+                                <var varId="Lambda"/>
+                            </rate>
+                        </PoissonDistribution>
+                    </PMF>
                     
                     <!-- P(Y=k) = (Lambda^k * exp(-Lambda) / k! -->
-                     <PMF linkFunction="identity">
-                        <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                                <Binop op="divide">
-                                    <Binop op="times">
-                                        <Binop op="power">
-                                            <ct:SymbRef symbIdRef="Lambda"/>
-                                            <ct:SymbRef symbIdRef="k"/>
-                                        </Binop>
-                                        <Uniop op="exp">
-                                            <Uniop op="minus">
-                                                <ct:SymbRef symbIdRef="Lambda"/>
-                                            </Uniop>
-                                        </Uniop>
-                                    </Binop>
-                                    <Uniop op="factorial">
-                                        <ct:SymbRef symbIdRef="k"/>
-                                    </Uniop>
-                                </Binop>
-                            </Equation>
-                        </ct:Assign>
+                    <PMF linkFunction="identity">
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                            <rate>
+                                <var varId="Lambda"/>
+                            </rate>
+                        </PoissonDistribution>
                     </PMF>
 
                 </CountData>
