@@ -90,8 +90,8 @@
 
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            
             <Discrete>
+
                 <CountData>
                     <!-- y = DV in NMTRAN code -->
                     <CountVariable symbId="y"/>
@@ -108,14 +108,51 @@
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="delta"/>
                         </ct:Assign>
                     </OverDispersionParameter>
-                    
+
+                    <!-- aux = lambda+k∗Delta
+                    Log(P(Y=k)) = log(lambda) + (k−1)∗log(aux) − aux − factln(k)} -->
                     <PMF linkFunction="log">
                         <math:LogicBinop op="eq">
                             <ct:SymbRef symbIdRef="y"/>
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
                         <ct:Assign>
-
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <math:Uniop op="log">
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </math:Uniop>
+                                    <math:Binop op="minus">
+                                        <math:Binop op="times">
+                                            <math:Binop op="minus">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                                <ct:Real>1</ct:Real>
+                                            </math:Binop>
+                                            <math:Uniop op="log">
+                                                <math:Binop op="plus">
+                                                    <ct:SymbRef symbIdRef="Lambda"/>
+                                                    <math:Binop op="times">
+                                                        <ct:SymbRef symbIdRef="k"/>
+                                                        <ct:SymbRef symbIdRef="Delta"/>
+                                                    </math:Binop>
+                                                </math:Binop>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                        <math:Binop op="minus">
+                                            <math:Binop op="plus">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                                <math:Binop op="times">
+                                                    <ct:SymbRef symbIdRef="k"/>
+                                                    <ct:SymbRef symbIdRef="Delta"/>
+                                                </math:Binop>
+                                            </math:Binop>
+                                            <math:Uniop op="factln">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
                         </ct:Assign>
                     </PMF>
                 </CountData>

@@ -60,7 +60,7 @@
             <Discrete>
                 <CountData>
 
-                    <CountVariable symbId="k"/>
+                    <CountVariable symbId="Y"/>
                     
                     <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
@@ -109,7 +109,7 @@
             <Discrete>
                 <CountData>
                     
-                    <CountVariable symbId="k"/>
+                    <CountVariable symbId="Y"/>
                     
                     <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
