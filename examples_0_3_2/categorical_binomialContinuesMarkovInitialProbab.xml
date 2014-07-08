@@ -36,7 +36,7 @@
                 <SimpleParameter symbId="q21"/>
                 
                 <CategoricalData ordered="no">
-                    <ListOfCategories> 
+                    <ListOfCategories>
                         <Category symbId="cat1"/>
                         <Category symbId="cat2"/>
                     </ListOfCategories>

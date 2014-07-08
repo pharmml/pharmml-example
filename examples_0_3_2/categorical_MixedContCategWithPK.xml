@@ -7,7 +7,7 @@
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
-    writtenVersion="0.3.1" id="i1">
+    writtenVersion="0.3.2" id="i1">
     
     <ct:Name>PK with Continuous/Categorical - combined model</ct:Name>
     
@@ -255,6 +255,7 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
+            <Continuous>
                 <RandomVariable symbId="eta_Cc">
                     <ct:VariabilityReference>
                         <ct:SymbRef symbIdRef="residual"/>
@@ -268,66 +269,89 @@
                         </stddev>
                     </NormalDistribution>
                 </RandomVariable>
-            <Standard symbId="C">
-                <Output>
-                    <ct:SymbRef symbIdRef="C"/>
-                </Output>
-                <ErrorModel>
-                    <ct:Assign>
-<!--                        <math:Equation>
-                            <math:FunctionCall>
-                                <ct:SymbRef symbIdRef="combinedErrorModel"/>
-                                <math:FunctionArgument symbId="a">
-                                    <ct:SymbRef symbIdRef="a"/>
-                                </math:FunctionArgument>
-                                <math:FunctionArgument symbId="b">
-                                    <ct:SymbRef symbIdRef="b"/>
-                                </math:FunctionArgument>
-                                <math:FunctionArgument symbId="f">
-                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
-                                </math:FunctionArgument>
-                            </math:FunctionCall>
-                        </math:Equation>-->
-                        <ct:SymbRef symbIdRef="a1"></ct:SymbRef>
-                    </ct:Assign>
-                </ErrorModel>
-                <ResidualError>
-                    <ct:SymbRef symbIdRef="epsilon_C"/>
-                </ResidualError>
-            </Standard>
+                <Standard symbId="C">
+                    <Output>
+                        <ct:SymbRef symbIdRef="C"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="a1"></ct:SymbRef>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="epsilon_C"/>
+                    </ResidualError>
+                </Standard>
+            </Continuous>
         </ObservationModel>
         
         <ObservationModel blkId="om2">
-            <RandomVariable symbId="eta_E">
-                <ct:VariabilityReference>
-                    <ct:SymbRef symbIdRef="residual"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="a2"/>
-                    </stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <General symbId="Effect">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="plus">
-                            <ct:SymbRef symbIdRef="E"/>
-                            <ct:SymbRef symbIdRef="eta_E"/>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </General>
+            <Continuous>
+                <RandomVariable symbId="eta_E">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                        <mean>
+                            <rVal>0</rVal>
+                        </mean>
+                        <stddev>
+                            <var varId="a2"/>
+                        </stddev>
+                    </NormalDistribution>
+                </RandomVariable>
+                <General symbId="Effect">
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="E"/>
+                                <ct:SymbRef symbIdRef="eta_E"/>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>
+                </General>
+            </Continuous>
         </ObservationModel>
         
-<!--        <ObservationModel blkId="om3">
-            
-        </ObservationModel>-->
+        <ObservationModel blkId="om3">
+            <Discrete>
+                <CategoricalData ordered="no">
+                    <ListOfCategories>
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="Level"/>
+                    
+                    <!-- logit(P(Level<=1)) = lp1-->
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="leq">
+                            <ct:SymbRef symbIdRef="Level"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="sm1" symbIdRef="lp1"/>
+                        </ct:Assign>
+                    </Probability>
+                    
+                    <!-- logit(P(Level<=2)) = lp2-->
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="leq">
+                            <ct:SymbRef symbIdRef="Level"/>
+                            <ct:SymbRef symbIdRef="cat2"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="sm1" symbIdRef="lp2"/>
+                        </ct:Assign>
+                    </Probability>
+                    
+                </CategoricalData>
+            </Discrete>
+        </ObservationModel>
        
     </ModelDefinition>
+    
     
     <mstep:ModellingSteps>
         

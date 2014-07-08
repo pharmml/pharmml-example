@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    <PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="http://www.pharmml.org/2013/03/PharmML"
     xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
@@ -17,6 +17,68 @@
     
     <!-- MODEL -->
     <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <ObservationModel blkId="om2">
+            <Discrete>
+                <SimpleParameter symbId="P1">
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="divide">
+                                <math:Uniop op="exp">
+                                    <ct:SymbRef symbIdRef="G1"/>
+                                </math:Uniop>
+                                <math:Binop op="plus">
+                                    <math:Binop op="plus">
+                                        <math:Binop op="plus">
+                                            <ct:Real>1</ct:Real>
+                                            <math:Uniop op="exp">
+                                                <ct:SymbRef symbIdRef="G1"/>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                        <math:Uniop op="exp">
+                                            <ct:SymbRef symbIdRef="G2"/>
+                                        </math:Uniop>
+                                    </math:Binop>
+                                    <math:Uniop op="exp">
+                                        <ct:SymbRef symbIdRef="G3"/>
+                                    </math:Uniop>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>
+                </SimpleParameter>
+                <!-- omitted P2...P5 -->
+                
+                <CategoricalData ordered="no">
+                    <ListOfCategories>
+                        <Category symbId="cat1"/>
+                        <!-- cat2...cat4 -->
+                        <Category symbId="cat5"/>
+                    </ListOfCategories>
+                    <CategoryVariable symbId="y"/>
+                    
+                    <!-- P(Y = 1) = exp(G1)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
+                    <PMF linkFunction="identity">
+                        <CategoricalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                            <categoryProb definition="">
+                                <name>cat1</name>
+                                <probability>
+                                    <var varId="P1"/>
+                                </probability>
+                            </categoryProb>
+                            <!-- omitted P2...P4 -->
+                            <categoryProb definition="">
+                                <name>cat5</name>
+                                <probability>
+                                    <var varId="P5"/>
+                                </probability>
+                            </categoryProb>
+                        </CategoricalDistribution>
+                    </PMF>
+                    
+                </CategoricalData>
+            </Discrete>
+        </ObservationModel>
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
@@ -56,8 +118,8 @@
                     
                     <CategoryVariable symbId="Y"/>
                     
-                    <!-- logit(P(Y = 1)) = exp(G1)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
-                    <Probability linkFunction="logit">
+                    <!-- P(Y = 1) = exp(G1)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
+                    <Probability linkFunction="identity">
                         <math:LogicBinop op="eq">
                             <ct:SymbRef symbIdRef="Y"/>
                             <ct:SymbRef symbIdRef="cat1"/>
@@ -89,8 +151,8 @@
                         </ct:Assign>
                     </Probability>
                     
-                    <!-- logit(P(Y = 2)) = exp(G2)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
-                    <Probability linkFunction="logit">
+                    <!-- P(Y = 2) = exp(G2)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
+                    <Probability linkFunction="identity">
                         <math:LogicBinop op="eq">
                             <ct:SymbRef symbIdRef="Y"/>
                             <ct:SymbRef symbIdRef="cat1"/>
@@ -122,8 +184,8 @@
                         </ct:Assign>
                     </Probability>
                     
-                    <!-- logit(P(Y = 3)) = 0 -->
-                    <Probability linkFunction="logit">
+                    <!-- P(Y = 3) = 0 -->
+                    <Probability linkFunction="identity">
                         <math:LogicBinop op="eq">
                             <ct:SymbRef symbIdRef="Y"/>
                             <ct:SymbRef symbIdRef="cat3"/>
@@ -133,8 +195,8 @@
                         </ct:Assign>
                     </Probability>
                     
-                    <!-- logit(P(Y = 4)) = 0 --> 
-                    <Probability linkFunction="logit">
+                    <!-- P(Y = 4) = 0 --> 
+                    <Probability linkFunction="identity">
                         <math:LogicBinop op="eq">
                             <ct:SymbRef symbIdRef="Y"/>
                             <ct:SymbRef symbIdRef="cat4"/>
@@ -144,8 +206,8 @@
                         </ct:Assign>
                     </Probability>
                     
-                    <!-- logit(P(Y = 5)) = exp(G5)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
-                    <Probability linkFunction="logit">
+                    <!-- P(Y = 5) = exp(G5)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
+                    <Probability linkFunction="identity">
                         <math:LogicBinop op="eq">
                             <ct:SymbRef symbIdRef="Y"/>
                             <ct:SymbRef symbIdRef="cat5"/>
