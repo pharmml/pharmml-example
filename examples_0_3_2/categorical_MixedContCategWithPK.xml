@@ -15,6 +15,25 @@
     
     <IndependentVariable symbId="t"/>
     
+    <!-- FUNCTION DEFINITION -->
+    <ct:FunctionDefinition  xmlns="http://www.pharmml.org/2013/03/CommonTypes" 
+        symbId="combinedErrorModel" symbolType="real">
+        <FunctionArgument symbolType="real" symbId="a"/>
+        <FunctionArgument symbolType="real" symbId="b"/>
+        <FunctionArgument symbolType="real" symbId="f"/>
+        <Definition>
+            <math:Equation>
+                <math:Binop op="plus">
+                    <ct:SymbRef symbIdRef="a"/>
+                    <math:Binop op="times">
+                        <ct:SymbRef symbIdRef="b"/>
+                        <ct:SymbRef symbIdRef="f"/>
+                    </math:Binop>
+                </math:Binop>
+            </math:Equation>
+        </Definition>
+    </ct:FunctionDefinition>
+    
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
@@ -132,7 +151,6 @@
         <!-- STRUCTURE -->
         <StructuralModel blkId="sm1">
 
-            
             <!-- dAd/dt -->
             <ct:DerivativeVariable symbId="Ad" symbolType="real">
                 <ct:Assign>
@@ -145,6 +163,9 @@
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
             </ct:DerivativeVariable>
             
             <!-- dAc/dt -->
@@ -163,6 +184,9 @@
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
             </ct:DerivativeVariable>
             
             <!-- Cc -->
@@ -231,7 +255,6 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <Continuous>
                 <RandomVariable symbId="eta_Cc">
                     <ct:VariabilityReference>
                         <ct:SymbRef symbIdRef="residual"/>
@@ -245,22 +268,64 @@
                         </stddev>
                     </NormalDistribution>
                 </RandomVariable>
-                <Standard symbId="Concentration">
-                    <Output>
-                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                    </Output>
-                    <ErrorModel>
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="a1"/>
-                        </ct:Assign>
-                    </ErrorModel>
-                    <ResidualError>
-                        <ct:SymbRef symbIdRef="eta_Cc"></ct:SymbRef>
-                    </ResidualError>
-                </Standard>
-            </Continuous>
+            <Standard symbId="C">
+                <Output>
+                    <ct:SymbRef symbIdRef="C"/>
+                </Output>
+                <ErrorModel>
+                    <ct:Assign>
+<!--                        <math:Equation>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
+                        </math:Equation>-->
+                        <ct:SymbRef symbIdRef="a1"></ct:SymbRef>
+                    </ct:Assign>
+                </ErrorModel>
+                <ResidualError>
+                    <ct:SymbRef symbIdRef="epsilon_C"/>
+                </ResidualError>
+            </Standard>
         </ObservationModel>
         
+        <ObservationModel blkId="om2">
+            <RandomVariable symbId="eta_E">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="residual"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <stddev>
+                        <var varId="a2"/>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <General symbId="Effect">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <ct:SymbRef symbIdRef="E"/>
+                            <ct:SymbRef symbIdRef="eta_E"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </General>
+        </ObservationModel>
+        
+<!--        <ObservationModel blkId="om3">
+            
+        </ObservationModel>-->
        
     </ModelDefinition>
     
