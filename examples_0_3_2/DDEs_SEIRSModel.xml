@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:design="http://www.pharmml.org/2013/03/TrialDesign"
+    writtenVersion="0.3.2" implementedBy="MJS" id="i1">
+    
+    <!-- MODEL NAME -->
+    <ct:Name>SEIRS model - DDE</ct:Name>
+    
+    <ct:Description>EDDE example - SEIRS Model</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+
+    <!-- MODEL DEFINITION -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+    
+        <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm1">            
+            
+            <SimpleParameter symbId="A"/>
+            <SimpleParameter symbId="d"/>
+            <SimpleParameter symbId="lambda"/>
+            <SimpleParameter symbId="gamma"/>
+            <SimpleParameter symbId="epsilon"/>
+            <SimpleParameter symbId="tau"/>
+            <SimpleParameter symbId="omega"/>
+            
+        </ParameterModel>
+
+<!--HISTORY
+t0 = 0, S_0 = 15, E_0 = 0, I_0 = 2, R_0 = 3
+ddt_S = A - d*S -lambda*S*I/N +gamma*delay(I,tau)*exp(-d*tau)
+ddt_E = - lambda*delay(S,omega)*delay(I,omega)*exp(-d*omega)/(delay(I,omega) + delay(S,omega) + delay(E,omega) + delay(R,omega)) + lambda*S*I/N - d*E
+ddt_I = - (gamma + epsilon + d)*I + lambda*delay(S,omega)*delay(I,omega)*exp(-d*omega)/(delay(I,omega) + delay(S,omega) + delay(E,omega)+ delay(R,omega))
+ddt_R = gamma*I - d*R - gamma*delay(I,tau)*exp(-d*tau)-->
+
+        <!-- STRUCTURAL MODEL -->
+        <StructuralModel blkId="sm1">
+            
+            <!-- N = S + E + I + R -->
+            <ct:Variable symbolType="real" symbId="N">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <ct:SymbRef symbIdRef="S"/>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="E"/>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="I"/>
+                                    <ct:SymbRef symbIdRef="R"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+        </StructuralModel>
+        
+        <!-- ddt_S = A - d*S -lambda*S*I/N +gamma*delay(I,tau)*exp(-d*tau) -->
+        
+
+    </ModelDefinition>
+</PharmML>
