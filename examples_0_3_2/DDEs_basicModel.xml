@@ -314,7 +314,9 @@
                             </math:Binop>
                             <ct:Delay>
                                 <ct:SymbRef symbIdRef="A"/>
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="d"/>
+                                <ct:DelayVariable>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="d"/>                                    
+                                </ct:DelayVariable>
                             </ct:Delay>
                         </math:Binop>
                     </math:Equation>

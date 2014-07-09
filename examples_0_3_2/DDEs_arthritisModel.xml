@@ -321,38 +321,13 @@
             </SimpleParameter>
             
             <!-- MATRIX -->
-            <!-- SETTING -->
-            <SimpleParameter symbId="M2">
-                <ct:Assign>
-                    <ct:Matrix matrixType="Any">
-                        <ct:MatrixBlock diagDefault="1" offDiagDefault="0">
-                            <ct:BlockStartRow><ct:Int>1</ct:Int></ct:BlockStartRow>
-                            <ct:BlockStartColumn><ct:Int>2</ct:Int></ct:BlockStartColumn>
-                            <ct:BlockRow>
-                                <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
-                                <ct:Real>1</ct:Real>
-                                <ct:SymbRef symbIdRef="block12"/>
-                            </ct:BlockRow>
-                        </ct:MatrixBlock>
-                        <ct:MatrixBlock>
-                            <ct:BlockStartRow><ct:Int>10</ct:Int></ct:BlockStartRow>
-                            <ct:BlockStartColumn><ct:Int>20</ct:Int></ct:BlockStartColumn>
-                            <ct:BlockRow>
-                                <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
-                                <ct:Real>1</ct:Real>
-                                <ct:Real>2</ct:Real>
-                            </ct:BlockRow>
-                        </ct:MatrixBlock>
-                    </ct:Matrix>
-                </ct:Assign>
-            </SimpleParameter>
-            
+            <!-- SELECTING -->
             <SimpleParameter symbId="M1">
                 <ct:Assign>
                     <math:Equation>
                         <ct:MatrixSelector>
                             <ct:SymbRef symbIdRef="MyMatrix"/>
-<!--                            <ct:Cell>
+                            <!--                            <ct:Cell>
                                 <ct:ColumnIndex>1</ct:ColumnIndex>
                                 <ct:RowIndex>2</ct:RowIndex>
                             </ct:Cell>
@@ -376,52 +351,80 @@
                             </ct:Block>
                         </ct:MatrixSelector>
                     </math:Equation>
-
+                    
                 </ct:Assign>
             </SimpleParameter>
+            
+            <!-- SETTING -->
+            <Correlation deviationMatrixType="CorrMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any">
+                    <ct:MatrixBlock diagDefault="1" offDiagDefault="0">
+                        <ct:BlockStartRow><ct:Int>1</ct:Int></ct:BlockStartRow>
+                        <ct:BlockStartColumn><ct:Int>2</ct:Int></ct:BlockStartColumn>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
+                            <ct:Real>1</ct:Real>
+                            <ct:SymbRef symbIdRef="block12"/>
+                        </ct:BlockRow>
+                    </ct:MatrixBlock>
+                    <ct:MatrixBlock>
+                        <ct:BlockStartRow><ct:Int>10</ct:Int></ct:BlockStartRow>
+                        <ct:BlockStartColumn><ct:Int>20</ct:Int></ct:BlockStartColumn>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
+                            <ct:Real>1</ct:Real>
+                            <ct:Real>2</ct:Real>
+                        </ct:BlockRow>
+                    </ct:MatrixBlock>
+                </Matrix>
+            </Correlation>
 
-            <SimpleParameter symbId="M2">
-                <ct:Assign>
-                    <ct:Matrix matrixType="Any" diagDefault="1" offDiagDefault="0">
-                        <ct:MatrixCell>
-                            <ct:CellRow>
-                                <ct:Int>1</ct:Int>
-                            </ct:CellRow>
-                            <ct:CellColumn>
-                                <ct:Int>2</ct:Int>
-                            </ct:CellColumn>
-                            <ct:SymbRef symbIdRef="M12"/>
-                        </ct:MatrixCell>
-                        <ct:MatrixCell>
-                            <ct:CellRow>
-                                <ct:Int>2</ct:Int>
-                            </ct:CellRow>
-                            <ct:CellColumn>
-                                <ct:Int>3</ct:Int>
-                            </ct:CellColumn>
-                            <ct:SymbRef symbIdRef="M23"/>
-                        </ct:MatrixCell>
-                        <ct:MatrixCell>
-                            <ct:CellRow>
-                                <ct:Int>3</ct:Int>
-                            </ct:CellRow>
-                            <ct:CellColumn>
-                                <ct:Int>1</ct:Int>
-                            </ct:CellColumn>
-                            <ct:SymbRef symbIdRef="M31"/>
-                        </ct:MatrixCell>
-                        <ct:MatrixCell>
-                            <ct:CellRow>
-                                <ct:Int>4</ct:Int>
-                            </ct:CellRow>
-                            <ct:CellColumn>
-                                <ct:Int>4</ct:Int>
-                            </ct:CellColumn>
-                            <ct:SymbRef symbIdRef="M44"/>
-                        </ct:MatrixCell>
-                    </ct:Matrix>
-                </ct:Assign>
-            </SimpleParameter>
+            <Correlation>
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any" diagDefault="1" offDiagDefault="0">
+                    <ct:MatrixCell>
+                        <ct:CellRow>
+                            <ct:Int>1</ct:Int>
+                        </ct:CellRow>
+                        <ct:CellColumn>
+                            <ct:Int>2</ct:Int>
+                        </ct:CellColumn>
+                        <ct:SymbRef symbIdRef="M12"/>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow>
+                            <ct:Int>2</ct:Int>
+                        </ct:CellRow>
+                        <ct:CellColumn>
+                            <ct:Int>3</ct:Int>
+                        </ct:CellColumn>
+                        <ct:SymbRef symbIdRef="M23"/>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow>
+                            <ct:Int>3</ct:Int>
+                        </ct:CellRow>
+                        <ct:CellColumn>
+                            <ct:Int>1</ct:Int>
+                        </ct:CellColumn>
+                        <ct:SymbRef symbIdRef="M31"/>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow>
+                            <ct:Int>4</ct:Int>
+                        </ct:CellRow>
+                        <ct:CellColumn>
+                            <ct:Int>4</ct:Int>
+                        </ct:CellColumn>
+                        <ct:SymbRef symbIdRef="M44"/>
+                    </ct:MatrixCell>
+                </Matrix>
+            </Correlation>
             
             
         </ParameterModel>
@@ -481,7 +484,9 @@
                                 <ct:SymbRef symbIdRef="k4"/>
                                 <ct:Delay>
                                     <ct:SymbRef symbIdRef="G"/>
-                                    <ct:SymbRef symbIdRef="tau"/>
+                                    <ct:DelayVariable>
+                                        <ct:SymbRef symbIdRef="tau"/>
+                                    </ct:DelayVariable>
                                 </ct:Delay>
                             </math:Binop>
                         </math:Binop>
@@ -517,7 +522,9 @@
                                 <ct:SymbRef symbIdRef="k4"/>
                                 <ct:Delay>
                                     <ct:SymbRef symbIdRef="G"/>
-                                    <ct:SymbRef symbIdRef="tau"/>
+                                    <ct:DelayVariable>
+                                        <ct:SymbRef symbIdRef="tau"/>
+                                    </ct:DelayVariable>
                                 </ct:Delay>
                             </math:Binop>
                         </math:Binop>
