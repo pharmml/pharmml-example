@@ -27,6 +27,7 @@
 
         <!-- PARAMETER MODEL -->
         <ParameterModel blkId="pm1">
+            <ct:Description>Description</ct:Description>
 
             <!-- BASIC IDEA -->
             <SimpleParameter symbId="V">

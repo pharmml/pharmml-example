@@ -61,10 +61,71 @@ ddt_R = gamma*I - d*R - gamma*delay(I,tau)*exp(-d*tau)-->
                     </math:Equation>
                 </ct:Assign>
             </ct:Variable>
+        
+            <!-- ddt_S = A - d*S -lambda*S*I/N +gamma*delay(I,tau)*exp(-d*tau) -->
+            <ct:DerivativeVariable symbId="S" symbolType="real">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <ct:SymbRef symbIdRef="A"/>
+                            <math:Binop op="minus">
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="d"/>
+                                    <ct:SymbRef symbIdRef="A"/>
+                                </math:Binop>
+                                <math:Binop op="plus">
+                                    <math:Binop op="times">
+                                        <math:Uniop op="minus">
+                                            <ct:SymbRef symbIdRef="lambda"/>
+                                        </math:Uniop>
+                                        <math:Binop op="times">
+                                            <ct:SymbRef symbIdRef="S"/>
+                                            <math:Binop op="divide">
+                                                <ct:SymbRef symbIdRef="I"/>
+                                                <ct:SymbRef symbIdRef="N"/>
+                                            </math:Binop>
+                                        </math:Binop>
+                                    </math:Binop>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="gamma"/>
+                                        <math:Binop op="times">
+                                            <ct:Delay>
+                                                <ct:SymbRef symbIdRef="I"/>
+                                                <ct:SymbRef symbIdRef="tau"/>
+                                            </ct:Delay>
+                                            <math:Uniop op="exp">
+                                                <math:Binop op="times">
+                                                    <math:Uniop op="minus">
+                                                        <ct:SymbRef symbIdRef="d"/>
+                                                    </math:Uniop>
+                                                    <ct:SymbRef symbIdRef="tau"/>
+                                                </math:Binop>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:History>
+                    <ct:HistoryValue>
+                        <ct:Assign>
+                            <ct:Real>15</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryValue>
+                    <ct:HistoryTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryTime>
+                </ct:History>
+            </ct:DerivativeVariable>
+        
         </StructuralModel>
         
-        <!-- ddt_S = A - d*S -lambda*S*I/N +gamma*delay(I,tau)*exp(-d*tau) -->
-        
-
     </ModelDefinition>
 </PharmML>
