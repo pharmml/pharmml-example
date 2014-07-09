@@ -97,7 +97,9 @@
                             <ct:SymbRef symbIdRef="Product"/>
                             <ct:Delay>
                                 <ct:SymbRef symbIdRef="A"/>
-                                <ct:SymbRef symbIdRef="tau"/>
+                                <ct:DelayVariable>
+                                    <ct:SymbRef symbIdRef="tau"/>
+                                </ct:DelayVariable>
                             </ct:Delay>
                         </math:Binop>
                     </math:Equation>

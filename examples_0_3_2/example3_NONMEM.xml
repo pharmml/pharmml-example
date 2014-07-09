@@ -291,47 +291,49 @@
         
         <!-- OBSERVATION MODEL -->
         <ObservationModel blkId="om1">
-            <SimpleParameter symbId="a"/>
-            <SimpleParameter symbId="b"/>
-            <RandomVariable symbId="epsilon_C">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="resErr" symbIdRef="residual"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="0.1">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="sigma"/>
-                    </stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <Standard symbId="C">
-                <Output>
-                    <ct:SymbRef symbIdRef="C"/>
-                </Output>
-                <ErrorModel>
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:FunctionCall>
-                                <ct:SymbRef symbIdRef="combinedErrorModel"/>
-                                <math:FunctionArgument symbId="a">
-                                    <ct:SymbRef symbIdRef="a"/>
-                                </math:FunctionArgument>
-                                <math:FunctionArgument symbId="b">
-                                    <ct:SymbRef symbIdRef="b"/>
-                                </math:FunctionArgument>
-                                <math:FunctionArgument symbId="f">
-                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
-                                </math:FunctionArgument>
-                            </math:FunctionCall>
-                        </math:Equation>
-                    </ct:Assign>
-                </ErrorModel>
-                <ResidualError>
-                    <ct:SymbRef symbIdRef="epsilon_C"/>
-                </ResidualError>
-            </Standard>
+            <Continuous>
+                <SimpleParameter symbId="a"/>
+                <SimpleParameter symbId="b"/>
+                <RandomVariable symbId="epsilon_C">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="resErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="0.1">
+                        <mean>
+                            <rVal>0</rVal>
+                        </mean>
+                        <stddev>
+                            <var varId="sigma"/>
+                        </stddev>
+                    </NormalDistribution>
+                </RandomVariable>
+                <Standard symbId="C">
+                    <Output>
+                        <ct:SymbRef symbIdRef="C"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                    <math:FunctionArgument symbId="a">
+                                        <ct:SymbRef symbIdRef="a"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="b"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="f">
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="epsilon_C"/>
+                    </ResidualError>
+                </Standard>
+            </Continuous>
         </ObservationModel>
     </ModelDefinition>
     

@@ -89,7 +89,7 @@
                                         </Uniop>
                                         <Binop op="times">
                                             <ct:SymbRef symbIdRef="k"/>
-                                            <Uniop op="ln">
+                                            <Uniop op="log">
                                                 <ct:SymbRef symbIdRef="Lambda"/>
                                             </Uniop>
                                         </Binop>

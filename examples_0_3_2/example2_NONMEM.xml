@@ -242,43 +242,45 @@
         
         <!-- observation model -->
         <ObservationModel blkId="om1">
-            <SimpleParameter symbId="b"/>
-            <RandomVariable symbId="epsilon_Css">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="resErr" symbIdRef="residual"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <prVal>1</prVal>
-                    </stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <Standard symbId="Css_obs">
-                <Output>
-                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Css"/>
-                </Output>
-                <ErrorModel>
-                    <ct:Assign>
-                        <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                            <FunctionCall>
-                                <ct:SymbRef symbIdRef="proportional"/>
-                                <FunctionArgument symbId="b">
-                                    <ct:SymbRef symbIdRef="b"/>
-                                </FunctionArgument>
-                                <FunctionArgument symbId="f">
-                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Css"/>
-                                </FunctionArgument>
-                            </FunctionCall>
-                        </Equation>
-                    </ct:Assign>
-                </ErrorModel>
-                <ResidualError>
-                    <ct:SymbRef symbIdRef="epsilon_Css"/>
-                </ResidualError>
-            </Standard>
+            <Continuous>
+                <SimpleParameter symbId="b"/>
+                <RandomVariable symbId="epsilon_Css">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="resErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean>
+                            <rVal>0</rVal>
+                        </mean>
+                        <stddev>
+                            <prVal>1</prVal>
+                        </stddev>
+                    </NormalDistribution>
+                </RandomVariable>
+                <Standard symbId="Css_obs">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Css"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                                <FunctionCall>
+                                    <ct:SymbRef symbIdRef="proportional"/>
+                                    <FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="b"/>
+                                    </FunctionArgument>
+                                    <FunctionArgument symbId="f">
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Css"/>
+                                    </FunctionArgument>
+                                </FunctionCall>
+                            </Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="epsilon_Css"/>
+                    </ResidualError>
+                </Standard>
+            </Continuous>
         </ObservationModel>
     </ModelDefinition>
     

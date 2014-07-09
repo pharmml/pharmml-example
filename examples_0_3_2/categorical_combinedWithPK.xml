@@ -316,7 +316,7 @@
                                                 </math:Uniop>
                                                 <math:Binop op="times">
                                                     <ct:SymbRef symbIdRef="theta2"/>
-                                                    <math:Uniop op="ln">
+                                                    <math:Uniop op="log">
                                                         <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
                                                     </math:Uniop>
                                                 </math:Binop>
