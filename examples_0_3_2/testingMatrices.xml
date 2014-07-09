@@ -30,37 +30,6 @@
         <ParameterModel blkId="pm1">
             
             
-            <!-- BASIC EXAMPLE -->
-            <SimpleParameter symbId="V">
-                <ct:Assign>
-<!--                    <ct:Vector default="1" length="20">                 INSTEAD
-                        <ct:VectorCell vectorIndex="5">
-                            <ct:Real>1</ct:Real>
-                        </ct:VectorCell>
-                    </ct:Vector>-->
-                    <ct:Matrix diagDefault="1" offDiagDefault="0" numbRows="2" numbCols="2" matrixType="Any">    <!-- NOW -->
-                        <ct:MatrixRow default="2">
-                            <ct:RowIndex>
-                                <ct:Int>1</ct:Int>
-                            </ct:RowIndex>
-                        </ct:MatrixRow>
-                    </ct:Matrix>
-                </ct:Assign>
-            </SimpleParameter>
-            
-            <!-- Defining matrix -->
-            <SimpleParameter symbId="M2">
-                <ct:Assign>
-                    <ct:Matrix diagDefault="1" offDiagDefault="0" matrixType="Any">
-                        <ct:MatrixRow>
-                            <ct:RowIndex>
-                                <ct:Int>1</ct:Int>
-                            </ct:RowIndex>
-                            <ct:Real>1</ct:Real>
-                        </ct:MatrixRow>
-                    </ct:Matrix>
-                </ct:Assign>
-            </SimpleParameter>
             
             <!-- Indexing matrix -->
             <SimpleParameter symbId="m11"> <!-- read out the only element from vector M2 -->
@@ -79,139 +48,12 @@
                 </ct:Assign>
             </SimpleParameter>
             
-            <!-- one row with only 1's, the rest 0 -->
-            <!-- 
-            0 0 0 0 
-            0 0 0 0
-            3 3 3 3
-            0 0 0 0
-            -->
-            <SimpleParameter symbId="M">
-                <ct:Assign>
-                    <ct:Matrix matrixType="Any" offDiagDefault="0" diagDefault="0">
-                        <ct:MatrixRow default="3">
-                            <ct:RowIndex><ct:Int>3</ct:Int></ct:RowIndex>
-                        </ct:MatrixRow>
-                    </ct:Matrix>
-                </ct:Assign>
-            </SimpleParameter>
-
-
-            <!-- MATRIX -->
-            <!-- SETTING -->
-            <SimpleParameter symbId="FACE">
-                <ct:Assign>
-                    <ct:Matrix matrixType="Any" numbRows="9" numbCols="9" diagDefault="1" offDiagDefault="1">
-                        <ct:MatrixBlock>
-                            <ct:BlockStartRow><ct:Int>2</ct:Int></ct:BlockStartRow>
-                            <ct:BlockStartColumn><ct:Int>2</ct:Int></ct:BlockStartColumn>
-                            <ct:BlockRow>
-                                <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
-                                <ct:SymbRef symbIdRef="X"/>
-                                <ct:SymbRef symbIdRef="X"/>
-                            </ct:BlockRow>
-                            <ct:BlockRow>
-                                <ct:RowIndex><ct:Int>2</ct:Int></ct:RowIndex>
-                                <ct:SymbRef symbIdRef="X"/>
-                                <ct:SymbRef symbIdRef="X"/>
-                            </ct:BlockRow>
-                        </ct:MatrixBlock>
-                        <ct:MatrixBlock>
-                            <ct:BlockStartRow><ct:Int>2</ct:Int></ct:BlockStartRow>
-                            <ct:BlockStartColumn><ct:Int>7</ct:Int></ct:BlockStartColumn>
-                            <ct:BlockRow>
-                                <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
-                                <ct:SymbRef symbIdRef="X"/>
-                                <ct:SymbRef symbIdRef="X"/>
-                            </ct:BlockRow>
-                            <ct:BlockRow>
-                                <ct:RowIndex><ct:Int>2</ct:Int></ct:RowIndex>
-                                <ct:SymbRef symbIdRef="X"/>
-                                <ct:SymbRef symbIdRef="X"/>
-                            </ct:BlockRow>
-                        </ct:MatrixBlock>
-                        <ct:MatrixCell>
-                            <ct:CellRow><ct:Int>5</ct:Int></ct:CellRow>
-                            <ct:CellColumn><ct:Int>5</ct:Int></ct:CellColumn>
-                            <ct:Real>0</ct:Real>
-                        </ct:MatrixCell>
-                        <ct:MatrixCell>
-                            <ct:CellRow><ct:Int>6</ct:Int></ct:CellRow>
-                            <ct:CellColumn><ct:Int>6</ct:Int></ct:CellColumn>
-                            <ct:Real>0</ct:Real>
-                        </ct:MatrixCell>
-                        <ct:MatrixCell>
-                            <ct:CellRow><ct:Int>7</ct:Int></ct:CellRow>
-                            <ct:CellColumn><ct:Int>7</ct:Int></ct:CellColumn>
-                            <ct:Real>0</ct:Real>
-                        </ct:MatrixCell>
-                        <ct:MatrixRow default="8">
-                            <ct:RowIndex><ct:Int>8</ct:Int></ct:RowIndex>
-                        </ct:MatrixRow>
-                    </ct:Matrix>
-                </ct:Assign>
-            </SimpleParameter>
-            
-            <SimpleParameter symbId="FACE">
-                <ct:Assign>
-                    <ct:Matrix matrixType="Any"  diagDefault="1" offDiagDefault="1">
-                        <!-- Left eye block -->
-                        <ct:MatrixBlock>
-                            <ct:BlockStartRow><ct:Int>2</ct:Int></ct:BlockStartRow>
-                            <ct:BlockStartColumn><ct:Int>2</ct:Int></ct:BlockStartColumn>
-                            <ct:BlockRow>
-                                <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
-                                <ct:SymbRef symbIdRef="X"/>
-                                <ct:SymbRef symbIdRef="X"/>
-                            </ct:BlockRow>
-                            <ct:BlockRow>
-                                <ct:RowIndex><ct:Int>2</ct:Int></ct:RowIndex>
-                                <ct:SymbRef symbIdRef="X"/>
-                                <ct:SymbRef symbIdRef="X"/>
-                            </ct:BlockRow>
-                        </ct:MatrixBlock>
-                        <!-- Right eye block -->
-                        <ct:MatrixBlock>
-                            <ct:BlockStartRow><ct:Int>2</ct:Int></ct:BlockStartRow>
-                            <ct:BlockStartColumn><ct:Int>7</ct:Int></ct:BlockStartColumn>
-                            <ct:BlockRow>
-                                <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
-                                <ct:SymbRef symbIdRef="X"/>
-                                <ct:SymbRef symbIdRef="X"/>
-                            </ct:BlockRow>
-                            <ct:BlockRow>
-                                <ct:RowIndex><ct:Int>2</ct:Int></ct:RowIndex>
-                                <ct:SymbRef symbIdRef="X"/>
-                                <ct:SymbRef symbIdRef="X"/>
-                            </ct:BlockRow>
-                            <!-- omitted - as identical to the left block -->
-                        </ct:MatrixBlock>
-                        <!-- Nose blocks -->
-                        <ct:MatrixCell>
-                            <ct:CellRow><ct:Int>5</ct:Int></ct:CellRow>
-                            <ct:CellColumn><ct:Int>5</ct:Int></ct:CellColumn>
-                            <ct:Real>0</ct:Real>
-                        </ct:MatrixCell>
-                        <!-- omitted middle cell -->
-                        <ct:MatrixCell>
-                            <ct:CellRow><ct:Int>7</ct:Int></ct:CellRow>
-                            <ct:CellColumn><ct:Int>7</ct:Int></ct:CellColumn>
-                            <ct:Real>0</ct:Real>
-                        </ct:MatrixCell>
-                        <!-- Mouth row -->
-                        <ct:MatrixRow default="8">
-                            <ct:RowIndex><ct:Int>8</ct:Int></ct:RowIndex>
-                        </ct:MatrixRow>
-                    </ct:Matrix>
-                </ct:Assign>
-            </SimpleParameter>
-            
             <SimpleParameter symbId="M1">
                 <ct:Assign>
                     <math:Equation>
                         <ct:MatrixSelector>
                             <ct:SymbRef symbIdRef="MyMatrix"/>
-<!--                            <ct:Cell>
+                            <!--                            <ct:Cell>
                                 <ct:ColumnIndex>1</ct:ColumnIndex>
                                 <ct:RowIndex>2</ct:RowIndex>
                             </ct:Cell>
@@ -237,15 +79,179 @@
                     </math:Equation>
                 </ct:Assign>
             </SimpleParameter>
+            
+            
+            <!-- one row with only 1's, the rest 0 -->
+            <!-- 
+            0 0 0 0 
+            0 0 0 0
+            3 3 3 3
+            0 0 0 0
+            -->
+            <Correlation deviationMatrixType="Cholesky">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any" diagDefault="0" offDiagDefault="0">
+                    <ct:MatrixRow default="3">
+                        <ct:RowIndex><ct:Int>3</ct:Int></ct:RowIndex>
+                    </ct:MatrixRow>                    
+                </Matrix>
+            </Correlation>
 
+
+            <!-- MATRIX -->
+            <!-- SETTING -->
+            <Correlation deviationMatrixType="Cholesky">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any" numbRows="9" numbCols="9" diagDefault="1" offDiagDefault="1">
+                    <ct:MatrixBlock>
+                        <ct:BlockStartRow><ct:Int>2</ct:Int></ct:BlockStartRow>
+                        <ct:BlockStartColumn><ct:Int>2</ct:Int></ct:BlockStartColumn>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
+                            <ct:SymbRef symbIdRef="X"/>
+                            <ct:SymbRef symbIdRef="X"/>
+                        </ct:BlockRow>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>2</ct:Int></ct:RowIndex>
+                            <ct:SymbRef symbIdRef="X"/>
+                            <ct:SymbRef symbIdRef="X"/>
+                        </ct:BlockRow>
+                    </ct:MatrixBlock>
+                    <ct:MatrixBlock>
+                        <ct:BlockStartRow><ct:Int>2</ct:Int></ct:BlockStartRow>
+                        <ct:BlockStartColumn><ct:Int>7</ct:Int></ct:BlockStartColumn>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
+                            <ct:SymbRef symbIdRef="X"/>
+                            <ct:SymbRef symbIdRef="X"/>
+                        </ct:BlockRow>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>2</ct:Int></ct:RowIndex>
+                            <ct:SymbRef symbIdRef="X"/>
+                            <ct:SymbRef symbIdRef="X"/>
+                        </ct:BlockRow>
+                    </ct:MatrixBlock>
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>5</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>5</ct:Int></ct:CellColumn>
+                        <ct:Real>0</ct:Real>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>6</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>6</ct:Int></ct:CellColumn>
+                        <ct:Real>0</ct:Real>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>7</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>7</ct:Int></ct:CellColumn>
+                        <ct:Real>0</ct:Real>
+                    </ct:MatrixCell>
+                    <ct:MatrixRow default="8">
+                        <ct:RowIndex><ct:Int>8</ct:Int></ct:RowIndex>
+                    </ct:MatrixRow>
+                </Matrix>
+            </Correlation>
+            
+            <Correlation deviationMatrixType="CovMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any"  diagDefault="1" offDiagDefault="1">
+                    <!-- Left eye block -->
+                    <ct:MatrixBlock>
+                        <ct:BlockStartRow><ct:Int>2</ct:Int></ct:BlockStartRow>
+                        <ct:BlockStartColumn><ct:Int>2</ct:Int></ct:BlockStartColumn>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
+                            <ct:SymbRef symbIdRef="X"/>
+                            <ct:SymbRef symbIdRef="X"/>
+                        </ct:BlockRow>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>2</ct:Int></ct:RowIndex>
+                            <ct:SymbRef symbIdRef="X"/>
+                            <ct:SymbRef symbIdRef="X"/>
+                        </ct:BlockRow>
+                    </ct:MatrixBlock>
+                    <!-- Right eye block -->
+                    <ct:MatrixBlock>
+                        <ct:BlockStartRow><ct:Int>2</ct:Int></ct:BlockStartRow>
+                        <ct:BlockStartColumn><ct:Int>7</ct:Int></ct:BlockStartColumn>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
+                            <ct:SymbRef symbIdRef="X"/>
+                            <ct:SymbRef symbIdRef="X"/>
+                        </ct:BlockRow>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>2</ct:Int></ct:RowIndex>
+                            <ct:SymbRef symbIdRef="X"/>
+                            <ct:SymbRef symbIdRef="X"/>
+                        </ct:BlockRow>
+                        <!-- omitted - as identical to the left block -->
+                    </ct:MatrixBlock>
+                    <!-- Nose blocks -->
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>5</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>5</ct:Int></ct:CellColumn>
+                        <ct:Real>0</ct:Real>
+                    </ct:MatrixCell>
+                    <!-- omitted middle cell -->
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>7</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>7</ct:Int></ct:CellColumn>
+                        <ct:Real>0</ct:Real>
+                    </ct:MatrixCell>
+                    <!-- Mouth row -->
+                    <ct:MatrixRow default="8">
+                        <ct:RowIndex><ct:Int>8</ct:Int></ct:RowIndex>
+                    </ct:MatrixRow>
+                </Matrix>
+            </Correlation>
+            
+            
+            <!-- BASIC EXAMPLE -->
+            <Correlation deviationMatrixType="CovMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix diagDefault="1" offDiagDefault="0" numbRows="2" numbCols="2" matrixType="Any">    <!-- NOW -->
+                    <ct:MatrixRow default="2">
+                        <ct:RowIndex>
+                            <ct:Int>1</ct:Int>
+                        </ct:RowIndex>
+                    </ct:MatrixRow>
+                </Matrix>
+            </Correlation>
+            
+            <!-- Defining matrix -->
+            <Correlation deviationMatrixType="CovMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix diagDefault="1" offDiagDefault="0" matrixType="Any">
+                    <ct:MatrixRow>
+                        <ct:RowIndex>
+                            <ct:Int>1</ct:Int>
+                        </ct:RowIndex>
+                        <ct:Real>1</ct:Real>
+                    </ct:MatrixRow>
+                </Matrix>
+            </Correlation>
+            
+            
 <!--  1  M12  0   0
       0   1  M23  0
      M31  0   1   0
       0   0   0  M44 -->
             
-            <SimpleParameter symbId="M1">
-                <ct:Assign>
-                    <ct:Matrix matrixType="Any">
+            <Correlation deviationMatrixType="CovMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any">
                         <ct:MatrixRow>
                             <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
                             <ct:Real>1</ct:Real>
@@ -274,9 +280,8 @@
                             <ct:Real>0</ct:Real>
                             <ct:SymbRef symbIdRef="M44"/>
                         </ct:MatrixRow>
-                    </ct:Matrix>
-                </ct:Assign>
-            </SimpleParameter>
+                    </Matrix>
+            </Correlation>
             
             <Correlation deviationMatrixType="CovMatrix">
                 <ct:VariabilityReference>
