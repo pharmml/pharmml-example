@@ -91,7 +91,9 @@ ddt_R = gamma*I - d*R - gamma*delay(I,tau)*exp(-d*tau)-->
                                         <math:Binop op="times">
                                             <ct:Delay>
                                                 <ct:SymbRef symbIdRef="I"/>
-                                                <ct:SymbRef symbIdRef="tau"/>
+                                                <ct:DelayVariable>
+                                                    <ct:SymbRef symbIdRef="tau"/>
+                                                </ct:DelayVariable>
                                             </ct:Delay>
                                             <math:Uniop op="exp">
                                                 <math:Binop op="times">
