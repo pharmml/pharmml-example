@@ -72,15 +72,17 @@
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="subject"/>
                 </ct:VariabilityReference>
-                <RandomVariable1>
-                    <ct:SymbRef symbIdRef="ETA_X1"/>
-                </RandomVariable1>
-                <RandomVariable2>
-                    <ct:SymbRef symbIdRef="ETA_X2"/>
-                </RandomVariable2>
-                <CorrelationCoefficient>
-                    <ct:SymbRef symbIdRef="rho_X2_X1"/>
-                </CorrelationCoefficient>
+                <Pairwise>
+                    <RandomVariable1>
+                        <ct:SymbRef symbIdRef="ETA_X1"/>
+                    </RandomVariable1>
+                    <RandomVariable2>
+                        <ct:SymbRef symbIdRef="ETA_X2"/>
+                    </RandomVariable2>
+                    <CorrelationCoefficient>
+                        <ct:SymbRef symbIdRef="rho_X2_X1"/>
+                    </CorrelationCoefficient>
+                </Pairwise>
             </Correlation>
             
                 <!-- OR BETTER using 0.3 Matrix elements such here -->

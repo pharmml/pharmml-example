@@ -31,13 +31,13 @@
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
 
         <!-- VARIABILITY MODEL -->
-        <VariabilityModel blkId="randEffect" type="model">
+        <VariabilityModel blkId="randEffect" type="parameterVariability">
             <Level symbId="indiv">
                 <ct:Name>Individual Variability</ct:Name>
             </Level>
         </VariabilityModel>
 
-        <VariabilityModel blkId="obsErr" type="error">
+        <VariabilityModel blkId="obsErr" type="residualError">
             <Level symbId="residual">
                 <ct:Name>Residual Error</ct:Name>
             </Level>
@@ -185,11 +185,11 @@
 
 
             
-<!--            <Correlation>
+            <Correlation deviationMatrixType="CorrMatrix">
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="randEffect" symbIdRef="indiv"/>
                 </ct:VariabilityReference>                
-                <Matrix matrixType="CovMatrix">
+                <Matrix matrixType="LowerTriangular">
                     <ct:RowNames>
                         <ct:SymbRef symbIdRef="PPV_CL"/>
                         <ct:SymbRef symbIdRef="PPV_V"/>
@@ -211,19 +211,19 @@
                 </Matrix>            
             </Correlation>
             
-            <Correlation>
+            <Correlation deviationMatrixType="CorrMatrix">
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="indiv"/>
                 </ct:VariabilityReference>
-                <Matrix matrixType="CorrMatrix">
+                <Matrix matrixType="Any">
                     <ct:RowNames><ct:SymbRef symbIdRef="ka"/><ct:SymbRef symbIdRef="V"/></ct:RowNames>
                     <ct:ColumnNames><ct:SymbRef symbIdRef="ka"/><ct:SymbRef symbIdRef="V"/></ct:ColumnNames>
                     <ct:MatrixRow>
                         <ct:SymbRef symbIdRef="ds"/>
-                        <!-\- UNFINISHED UNFINISHED UNFINISHED UNFINISHED UNFINISHED UNFINISHED UNFINISHED UNFINISHED UNFINISHED -\->
+                        <!-- UNFINISHED UNFINISHED UNFINISHED UNFINISHED UNFINISHED UNFINISHED UNFINISHED UNFINISHED UNFINISHED -->
                     </ct:MatrixRow>
                 </Matrix>
-            </Correlation>-->
+            </Correlation>
             
         </ParameterModel>
         

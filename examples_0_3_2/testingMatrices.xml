@@ -278,33 +278,34 @@
                 </ct:Assign>
             </SimpleParameter>
             
-            <SimpleParameter symbId="M1">
-                <ct:Assign>
-                    <ct:Matrix matrixType="Any" diagDefault="1" offDiagDefault="0">
-                        <ct:MatrixCell>
-                            <ct:CellRow><ct:Int>1</ct:Int></ct:CellRow>
-                            <ct:CellColumn><ct:Int>2</ct:Int></ct:CellColumn>
-                            <ct:SymbRef symbIdRef="M12"/>
-                        </ct:MatrixCell>
-                        <ct:MatrixCell>
-                            <ct:CellRow><ct:Int>2</ct:Int></ct:CellRow>
-                            <ct:CellColumn><ct:Int>3</ct:Int></ct:CellColumn>
-                            <ct:SymbRef symbIdRef="M23"/>
-                        </ct:MatrixCell>
-                        <ct:MatrixCell>
-                            <ct:CellRow><ct:Int>3</ct:Int></ct:CellRow>
-                            <ct:CellColumn><ct:Int>1</ct:Int></ct:CellColumn>
-                            <ct:SymbRef symbIdRef="M31"/>
-                        </ct:MatrixCell>
-                        <ct:MatrixCell>
-                            <ct:CellRow><ct:Int>4</ct:Int></ct:CellRow>
-                            <ct:CellColumn><ct:Int>4</ct:Int></ct:CellColumn>
-                            <ct:SymbRef symbIdRef="M44"/>
-                        </ct:MatrixCell>
-                    </ct:Matrix>
-                </ct:Assign>
-            </SimpleParameter>
+            <Correlation deviationMatrixType="CovMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any" diagDefault="1" offDiagDefault="0">
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>1</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>2</ct:Int></ct:CellColumn>
+                        <ct:SymbRef symbIdRef="M12"/>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>2</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>3</ct:Int></ct:CellColumn>
+                        <ct:SymbRef symbIdRef="M23"/>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>3</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>1</ct:Int></ct:CellColumn>
+                        <ct:SymbRef symbIdRef="M31"/>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>4</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>4</ct:Int></ct:CellColumn>
+                        <ct:SymbRef symbIdRef="M44"/>
+                    </ct:MatrixCell>
+                </Matrix>
+            </Correlation>
         </ParameterModel>
-
+            
     </ModelDefinition>
 </PharmML>

@@ -85,18 +85,17 @@
                 </Pairwise>
             </Correlation>
             
-                <!-- OR BETTER using 0.3 Matrix elements such here -->
-<!--            <Correlation>
+            <Correlation deviationMatrixType="CovMatrix">
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="subject"/>
                 </ct:VariabilityReference>
-                <Matrix matrixType="CorrMatrix">
+                <Matrix matrixType="LowerTriangular">
                     <ct:RowNames><ct:SymbRef symbIdRef="eta_X1"></ct:SymbRef><ct:SymbRef symbIdRef="eta_X2"></ct:SymbRef><ct:SymbRef symbIdRef="eta_X2"></ct:SymbRef></ct:RowNames>
                     <ct:MatrixRow><ct:Real>1</ct:Real></ct:MatrixRow>
                     <ct:MatrixRow><ct:SymbRef symbIdRef="rho_X2_X1"/></ct:MatrixRow><ct:MatrixRow><ct:Real>1</ct:Real></ct:MatrixRow>
                     <ct:MatrixRow><ct:SymbRef symbIdRef="rho_X3_X1"/></ct:MatrixRow><ct:MatrixRow><ct:SymbRef symbIdRef="rho_X3_X2"/></ct:MatrixRow><ct:MatrixRow><ct:Real>1</ct:Real></ct:MatrixRow>
                 </Matrix>
-            </Correlation>-->
+            </Correlation>
             
         </ParameterModel>
         
@@ -128,33 +127,35 @@
 
         <!-- OBSERVATION MODEL -->
         <ObservationModel blkId="om1">
-            <SimpleParameter symbId="THETA3"/>
-            <RandomVariable symbId="EPS">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <prVal>1</prVal>
-                    </stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <General symbId="E_obs">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="plus">
-                            <ct:SymbRef blkIdRef="sm1" symbIdRef="E"/>
-                            <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="THETA3"/>
-                                <ct:SymbRef symbIdRef="EPS"/>
+            <Continuous>
+                <SimpleParameter symbId="THETA3"/>
+                <RandomVariable symbId="EPS">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean>
+                            <rVal>0</rVal>
+                        </mean>
+                        <stddev>
+                            <prVal>1</prVal>
+                        </stddev>
+                    </NormalDistribution>
+                </RandomVariable>
+                <General symbId="E_obs">
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="plus">
+                                <ct:SymbRef blkIdRef="sm1" symbIdRef="E"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="THETA3"/>
+                                    <ct:SymbRef symbIdRef="EPS"/>
+                                </math:Binop>
                             </math:Binop>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </General>
+                        </math:Equation>
+                    </ct:Assign>
+                </General>
+            </Continuous>
         </ObservationModel>
     </ModelDefinition>
     
@@ -182,8 +183,7 @@
                     <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
                 </ds:Definition>
                 <ds:ImportData oid="importData">
-                    <ds:name>myFile</ds:name>
-                    <ds:url>myFile.csv</ds:url>
+                    <ds:path>myFile</ds:path>
                     <ds:format>CSV</ds:format>
                     <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ImportData>

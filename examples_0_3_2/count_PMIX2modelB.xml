@@ -60,7 +60,7 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <!-- gamma = gamma_s + x*delta1 -->
-                <SimpleParameter symbId="gamma">
+                <ct:Variable symbolType="real" symbId="gamma">
                     <ct:Assign>
                         <math:Equation>
                             <math:Binop op="plus">
@@ -72,10 +72,10 @@
                             </math:Binop>
                         </math:Equation>
                     </ct:Assign>
-                </SimpleParameter>
+                </ct:Variable>
 
                 <!-- pi = 1/(1+exp(-gamma)) -->
-                <SimpleParameter symbId="Pi">
+                <ct:Variable symbolType="real" symbId="Pi">
                     <ct:Assign>
                         <math:Equation>
                             <math:Binop op="divide">
@@ -91,37 +91,37 @@
                             </math:Binop>
                         </math:Equation>
                     </ct:Assign>
-                </SimpleParameter>
+                </ct:Variable>
                 
                 <!-- lambda1 = (1-x)*lambda_s + x*delta2*lambda_s -->
-                <SimpleParameter symbId="lambda1">
+                <ct:Variable symbolType="real" symbId="lambda1">
                     <ct:Assign>
                         <math:Equation>
                             <!-- (1-x)*lambda_s + x*delta2*lambda_s -->
                         </math:Equation>
                     </ct:Assign>
-                </SimpleParameter>
+                </ct:Variable>
 
                 <!-- alpha = (1-x)*alpha_s + x*delta3*alpha_s -->
-                <SimpleParameter symbId="alpha">
+                <ct:Variable symbolType="real" symbId="alpha">
                     <ct:Assign>
                         <math:Equation>
                             <!-- (1-x)*alpha_s + x*delta3*alpha_s -->
                         </math:Equation>
                     </ct:Assign>
-                </SimpleParameter>
+                </ct:Variable>
                 
                 <!-- lambda2 = lambda1 + alpha -->
-                <SimpleParameter symbId="lambda2">
+                <ct:Variable symbolType="real" symbId="lambda2">
                     <ct:Assign>
                         <math:Equation>
                             <!-- lambda1 + alpha -->
                         </math:Equation>
                     </ct:Assign>
-                </SimpleParameter>
+                </ct:Variable>
 
                 <!-- Lk1 = -lambda1 + k*log(lambda1) - factln(k) -->
-                <SimpleParameter symbId="Lk1">
+                <ct:Variable symbolType="real" symbId="Lk1">
                     <ct:Assign>
                         <math:Equation>
                             <math:Binop op="plus">
@@ -142,10 +142,10 @@
                             </math:Binop>
                         </math:Equation>
                     </ct:Assign>
-                </SimpleParameter>
+                </ct:Variable>
                 
                 <!-- Lk2 = -lambda2 + k*log(lambda2) - factln(k) -->
-                <SimpleParameter symbId="Lk2">
+                <ct:Variable symbolType="real" symbId="Lk2">
                     <ct:Assign>
                         <math:Equation>
                             <math:Binop op="plus">
@@ -166,7 +166,7 @@
                             </math:Binop>
                         </math:Equation>
                     </ct:Assign>
-                </SimpleParameter>
+                </ct:Variable>
                 
                 <CountData>
                     <!-- y = DV in NMTRAN code -->

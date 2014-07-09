@@ -18,10 +18,10 @@
     <IndependentVariable symbId="t"/>
 
     <!-- FUNCTION DEFINITION -->
-    <ct:FunctionDefinition symbId="combinedErrorModel">
-        <ct:FunctionArgument symbId="a"/>
-        <ct:FunctionArgument symbId="b"/>
-        <ct:FunctionArgument symbId="f"/>
+    <ct:FunctionDefinition symbolType="real" symbId="combinedErrorModel">
+        <ct:FunctionArgument symbolType="real" symbId="a"/>
+        <ct:FunctionArgument symbolType="real" symbId="b"/>
+        <ct:FunctionArgument symbolType="real" symbId="f"/>
         <ct:Definition>
             <Equation xmlns="http://www.pharmml.org/2013/03/Maths" >
                 <Binop op="plus">
@@ -435,7 +435,7 @@
         ddt_G = k3 - (sigma1*exp(- sigma2*C) + sigma3)*C*G - k1*(1- exp(- k2*t))*G/k2
         ddt_D = - k5*D + k4*delay(G,tau) -->
             
-            <ct:DerivativeVariable symbId="G">
+            <ct:DerivativeVariable symbolType="real" symbId="G">
                 <ct:Assign>
                     <ct:SymbRef blkIdRef="pm1" symbIdRef="k3"/>
                     <!-- the rest left out -->
@@ -469,7 +469,7 @@
             
             <!-- ddt_I = k4*G - k4*delay(G,tau) -->
             <!-- I_0 = 2.52-->
-            <ct:DerivativeVariable symbId="I">
+            <ct:DerivativeVariable symbolType="real" symbId="I">
                 <ct:Assign>
                     <math:Equation>
                         <math:Binop op="minus">
@@ -503,7 +503,7 @@
 
             <!-- ddt_D = - k5*D + k4*delay(G,tau) -->
             <!-- D_0 = 0 -->
-            <ct:DerivativeVariable symbId="D">
+            <ct:DerivativeVariable symbolType="real" symbId="D">
                 <ct:Assign>
                     <math:Equation>
                         <math:Binop op="plus">
@@ -540,8 +540,8 @@
         </StructuralModel>
         
         <!-- OBSERVATION MODEL -->
-        <ObservationModel>
-            <Continuous blkId="om1">
+        <ObservationModel blkId="om1">
+            <Continuous>
                 <SimpleParameter symbId="a"/>
                 <SimpleParameter symbId="b"/>
                 <RandomVariable symbId="epsilon_Cc">
