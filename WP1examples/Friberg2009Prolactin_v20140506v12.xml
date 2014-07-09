@@ -328,6 +328,8 @@
           </LinearCovariate>
           <RandomEffects>
             <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbIdRef="eta_PRL0"/>
+          </RandomEffects>
+          <RandomEffects>
             <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbIdRef="kappa_PRL0"/>
           </RandomEffects>
         </GaussianModel>
@@ -883,78 +885,79 @@
     <!-- BLOCK I part E: OBSERVATION MODEL -->
     
     <ObservationModel blkId="om1">
-      
-      <SimpleParameter symbId="a">
-        <ct:Assign>
-          <math:Equation xmlns:math="http://www.pharmml.org/2013/03/Maths">
-            <math:Piecewise>
-              <math:Piece>
-                <ct:SymbRef symbIdRef="a"/>
-                <math:Condition>
-                  <math:LogicBinop op="eq">
-                    <ct:SymbRef blkIdRef="c1" symbIdRef="Pat"/>
-                    <ct:SymbRef blkIdRef="c1" symbIdRef="HV"/>
-                  </math:LogicBinop>
-                </math:Condition>
-              </math:Piece>
-              <math:Piece>
-                <ct:SymbRef symbIdRef="b"/>
-                <math:Condition>
-                  <math:LogicBinop op="eq">
-                    <ct:SymbRef blkIdRef="c1" symbIdRef="Pat"/>
-                    <ct:SymbRef blkIdRef="c1" symbIdRef="PAT"/>
-                  </math:LogicBinop>
-                </math:Condition>
-              </math:Piece>
-              <math:Piece>
-                <ct:SymbRef symbIdRef="c"/>
-                <math:Condition>
-                  <math:LogicBinop op="eq">
-                    <ct:SymbRef blkIdRef="c1" symbIdRef="Sex"/>
-                    <ct:SymbRef blkIdRef="c1" symbIdRef="F"/>
-                  </math:LogicBinop>
-                </math:Condition>
-              </math:Piece>
-            </math:Piecewise>
-          </math:Equation>
-        </ct:Assign>
-      </SimpleParameter>
-      
-      <RandomVariable symbId="eps">
-        <ct:VariabilityReference>
-          <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
-        </ct:VariabilityReference>
-        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-          <mean>
-            <rVal>0</rVal>
-          </mean>
-          <stddev>
-            <prVal>1</prVal>
-          </stddev>
-        </NormalDistribution>
-      </RandomVariable>
-      
-      <Standard symbId="Apr_obs" id="i9">
-        <Transformation>log</Transformation>
-        <Output>
-          <ct:SymbRef blkIdRef="sm1" symbIdRef="Apr"/>
-        </Output>
-        <ErrorModel>
+      <Continuous>
+        <SimpleParameter symbId="a">
           <ct:Assign>
-            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-              <FunctionCall>
-                <ct:SymbRef symbIdRef="constantErrorModel"/>
-                <FunctionArgument symbId="a">
+            <math:Equation xmlns:math="http://www.pharmml.org/2013/03/Maths">
+              <math:Piecewise>
+                <math:Piece>
                   <ct:SymbRef symbIdRef="a"/>
-                </FunctionArgument>
-              </FunctionCall>
-            </Equation>
+                  <math:Condition>
+                    <math:LogicBinop op="eq">
+                      <ct:SymbRef blkIdRef="c1" symbIdRef="Pat"/>
+                      <ct:SymbRef blkIdRef="c1" symbIdRef="HV"/>
+                    </math:LogicBinop>
+                  </math:Condition>
+                </math:Piece>
+                <math:Piece>
+                  <ct:SymbRef symbIdRef="b"/>
+                  <math:Condition>
+                    <math:LogicBinop op="eq">
+                      <ct:SymbRef blkIdRef="c1" symbIdRef="Pat"/>
+                      <ct:SymbRef blkIdRef="c1" symbIdRef="PAT"/>
+                    </math:LogicBinop>
+                  </math:Condition>
+                </math:Piece>
+                <math:Piece>
+                  <ct:SymbRef symbIdRef="c"/>
+                  <math:Condition>
+                    <math:LogicBinop op="eq">
+                      <ct:SymbRef blkIdRef="c1" symbIdRef="Sex"/>
+                      <ct:SymbRef blkIdRef="c1" symbIdRef="F"/>
+                    </math:LogicBinop>
+                  </math:Condition>
+                </math:Piece>
+              </math:Piecewise>
+            </math:Equation>
           </ct:Assign>
-        </ErrorModel>
-        <ResidualError>
-          <ct:SymbRef symbIdRef="eps"/>
-        </ResidualError>
-      </Standard>
+        </SimpleParameter>
+        
+        <RandomVariable symbId="eps">
+          <ct:VariabilityReference>
+            <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+          </ct:VariabilityReference>
+          <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+            <mean>
+              <rVal>0</rVal>
+            </mean>
+            <stddev>
+              <prVal>1</prVal>
+            </stddev>
+          </NormalDistribution>
+        </RandomVariable>
+        
+        <Standard symbId="Apr_obs" id="i9">
+          <Transformation>log</Transformation>
+          <Output>
+            <ct:SymbRef blkIdRef="sm1" symbIdRef="Apr"/>
+          </Output>
+          <ErrorModel>
+            <ct:Assign>
+              <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                <FunctionCall>
+                  <ct:SymbRef symbIdRef="constantErrorModel"/>
+                  <FunctionArgument symbId="a">
+                    <ct:SymbRef symbIdRef="a"/>
+                  </FunctionArgument>
+                </FunctionCall>
+              </Equation>
+            </ct:Assign>
+          </ErrorModel>
+          <ResidualError>
+            <ct:SymbRef symbIdRef="eps"/>
+          </ResidualError>
+        </Standard>        
+      </Continuous>
     </ObservationModel>
     
   </ModelDefinition>
@@ -1070,8 +1073,7 @@
               <ds:Column columnId="ALAG" columnType="undefined" valueType="real" columnNum="9"></ds:Column>
             </ds:Definition>
             <ds:ImportData oid="EBEsTable">
-              <ds:name>sim_imi_occ1_Friberg2009_EBEs</ds:name>
-              <ds:url>sim_imi_occ1_Friberg2009_EBEs.csv</ds:url>
+              <ds:path>sim_imi_occ1_Friberg2009_EBEs.csv</ds:path>
               <ds:format>CSV</ds:format>
               <ds:delimiter>COMMA</ds:delimiter>
             </ds:ImportData>
@@ -1135,8 +1137,7 @@
           <ds:Column columnId="NPTR" columnType="undefined" valueType="int" columnNum="9"></ds:Column>
         </ds:Definition>
         <ds:ImportData oid="NMdata">
-          <ds:name>sim_imi_occ1_Friberg2009_NoEBEs</ds:name>
-          <ds:url>sim_imi_occ1_Friberg2009_NoEBEs.csv</ds:url>
+          <ds:path>sim_imi_occ1_Friberg2009_NoEBEs.csv</ds:path>
           <ds:format>CSV</ds:format>
           <ds:delimiter>COMMA</ds:delimiter>
         </ds:ImportData>

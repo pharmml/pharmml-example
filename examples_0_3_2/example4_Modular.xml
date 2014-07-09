@@ -9,6 +9,8 @@
     xmlns:design="http://www.pharmml.org/2013/03/TrialDesign"
     writtenVersion="0.3" id="i1">
     
+    <ct:Name>Modular testing.</ct:Name>
+
     <!-- MODEL DEFINITION -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
     

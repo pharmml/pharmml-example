@@ -537,45 +537,47 @@
         
         
         <ObservationModel blkId="om1">
-            <SimpleParameter symbId="CV"/>
-            
-            <RandomVariable symbId="epsilon">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="resErrorModel" symbIdRef="residual"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <prVal>1</prVal>
-                    </variance>                    
-                </NormalDistribution>
-            </RandomVariable>
-            <Standard symbId="y">
-                <Output>
-                    <ct:SymbRef symbIdRef="W" blkIdRef="sm1"/>
-                </Output>
-                <!-- Assegno b ed f del proportionalErrorModel(f è la predizione del modello) -->
-                <ErrorModel>
-                    <ct:Assign>
-                        <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                            <FunctionCall>
-                                <ct:SymbRef symbIdRef="proportionalErrorModel"/>
-                                <FunctionArgument symbId="b">
-                                    <ct:SymbRef symbIdRef="CV"/>
-                                </FunctionArgument>
-                                <FunctionArgument symbId="f">
-                                    <ct:SymbRef symbIdRef="W" blkIdRef="sm1"/>
-                                </FunctionArgument>
-                            </FunctionCall>
-                        </Equation>
-                    </ct:Assign>
-                </ErrorModel>
-                <ResidualError>
-                    <ct:SymbRef symbIdRef="epsilon"/>
-                </ResidualError>
-            </Standard>
+            <Continuous>
+                <SimpleParameter symbId="CV"/>
+                
+                <RandomVariable symbId="epsilon">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="resErrorModel" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean>
+                            <rVal>0</rVal>
+                        </mean>
+                        <variance>
+                            <prVal>1</prVal>
+                        </variance>                    
+                    </NormalDistribution>
+                </RandomVariable>
+                <Standard symbId="y">
+                    <Output>
+                        <ct:SymbRef symbIdRef="W" blkIdRef="sm1"/>
+                    </Output>
+                    <!-- Assegno b ed f del proportionalErrorModel(f è la predizione del modello) -->
+                    <ErrorModel>
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                                <FunctionCall>
+                                    <ct:SymbRef symbIdRef="proportionalErrorModel"/>
+                                    <FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="CV"/>
+                                    </FunctionArgument>
+                                    <FunctionArgument symbId="f">
+                                        <ct:SymbRef symbIdRef="W" blkIdRef="sm1"/>
+                                    </FunctionArgument>
+                                </FunctionCall>
+                            </Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="epsilon"/>
+                    </ResidualError>
+                </Standard>
+            </Continuous>
         </ObservationModel>
     </ModelDefinition>
     
@@ -642,15 +644,17 @@
                         <ct:SymbRef symbIdRef="tD_B" blkIdRef="sm1"/>
                         <ct:Assign>
                             <ct:Vector>
-                                <ct:Real>9</ct:Real>
-                                <ct:Real>10</ct:Real>
-                                <ct:Real>11</ct:Real>
-                                <ct:Real>13</ct:Real>
-                                <ct:Real>14</ct:Real>
-                                <ct:Real>15</ct:Real>
-                                <ct:Real>17</ct:Real>
-                                <ct:Real>18</ct:Real>
-                                <ct:Real>19</ct:Real>
+                                <ct:VectorElements>
+                                    <ct:Real>9</ct:Real>
+                                    <ct:Real>10</ct:Real>
+                                    <ct:Real>11</ct:Real>
+                                    <ct:Real>13</ct:Real>
+                                    <ct:Real>14</ct:Real>
+                                    <ct:Real>15</ct:Real>
+                                    <ct:Real>17</ct:Real>
+                                    <ct:Real>18</ct:Real>
+                                    <ct:Real>19</ct:Real>
+                                </ct:VectorElements>
                             </ct:Vector>                          
                         </ct:Assign>
                     </DosingTimes>
@@ -728,13 +732,15 @@
             </ct:VariableAssignment>
             <Observations>
                 <Timepoints>
-                    <ct:MixedVector>
-                        <ct:Sequence>
-                            <ct:Begin><ct:Int>0</ct:Int></ct:Begin>
-                            <ct:StepSize><ct:Int>1</ct:Int></ct:StepSize>
-                            <ct:End><ct:Int>56</ct:Int></ct:End>
-                        </ct:Sequence>
-                    </ct:MixedVector>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            <ct:Sequence>
+                                <ct:Begin><ct:Int>0</ct:Int></ct:Begin>
+                                <ct:StepSize><ct:Int>1</ct:Int></ct:StepSize>
+                                <ct:End><ct:Int>56</ct:Int></ct:End>
+                            </ct:Sequence>
+                        </ct:VectorElements>
+                    </ct:Vector>
                 </Timepoints>
                 <Continuous>
                     <ct:SymbRef symbIdRef="W" blkIdRef="sm1"/>

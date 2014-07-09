@@ -324,17 +324,6 @@
             iv(cmt=1)
             elimination(cmt=1, Cl)-->
             
-            <SimpleParameter symbId="p">
-                <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                        <Binop op="minus">
-                            <ct:Real>1</ct:Real>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Fr0"/>
-                        </Binop>
-                    </Equation>
-                </ct:Assign>
-            </SimpleParameter>
-            
             <ct:Variable symbolType="real" symbId="Cc"/>
             
             <!-- ID=1 - 1-comp bolus with linear elimination -->
