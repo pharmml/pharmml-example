@@ -28,9 +28,7 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            
                 <TimeToEventData>
-
                     <EventVariable symbId="y"/>
                     
                     <!-- h(t) = beta/lambda * t^(beta-1)/lambda -->
@@ -56,7 +54,6 @@
                             </math:Equation>
                         </ct:Assign>   
                     </HazardFunction>
-                    
                 </TimeToEventData>
         </ObservationModel>
         

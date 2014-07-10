@@ -32,7 +32,6 @@
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
                 <TimeToEventData>
-
                     <EventVariable symbId="Hemorrhaging"/>
                     
                     <!-- h(t) = 1/lambda -->

@@ -113,9 +113,18 @@
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
 
-            <Discrete>
-                <CountData>
-                    <logPMF>   <!-- implementing RHS of LNegBinom = gammaln(k+1/tau) - factln(k) - gammaln(1/tau) - 1/tau log(1+tau * lambda) + k*log(lambda) - k*log(1/tau + lambda) -->
+            <mdef:CountData>
+                
+                <mdef:CountVariable symbId="y"/>
+                
+                <mdef:IntensityParameter symbId="Lambda">            <!-- homogenous Poisson -->
+                    <ct:Assign>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="LAMB"/>
+                    </ct:Assign>
+                </mdef:IntensityParameter>
+                
+                
+                <mdef:PMF linkFunction="log">   <!-- implementing RHS of LNegBinom = gammaln(k+1/tau) - factln(k) - gammaln(1/tau) - 1/tau log(1+tau * lambda) + k*log(lambda) - k*log(1/tau + lambda) -->
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="minus">
@@ -153,7 +162,7 @@
                                                         <ct:Real>1</ct:Real>
                                                         <math:Binop op="times">
                                                             <ct:SymbRef symbIdRef="tau"/>
-                                                            <ct:SymbRef symbIdRef="lambda"/>
+                                                            <ct:SymbRef symbIdRef="Lambda"/>
                                                         </math:Binop>
                                                     </math:Binop>
                                                 </math:Uniop>
@@ -162,7 +171,7 @@
                                         <math:Binop op="times">
                                             <ct:SymbRef symbIdRef="k"/>                         <!-- k*log(lambda) -->
                                             <math:Uniop op="log">
-                                                <ct:SymbRef symbIdRef="lambda"/>
+                                                <ct:SymbRef symbIdRef="Lambda"/>
                                             </math:Uniop>
                                         </math:Binop>
                                     </math:Binop>
@@ -174,24 +183,15 @@
                                                     <ct:Real>1</ct:Real>
                                                     <ct:SymbRef symbIdRef="tau"/>
                                                 </math:Binop>
-                                                <ct:SymbRef symbIdRef="lambda"/>
+                                                <ct:SymbRef symbIdRef="Lambda"/>
                                             </math:Binop>
                                         </math:Uniop>
                                     </math:Binop>
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
-                    </logPMF>
-
-                    
-                    <IntensityParameter>            <!-- homogenous Poisson -->
-                        <Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="LAMB"/>
-                        </Assign>
-                    </IntensityParameter>
-                    
-                </CountData>
-            </Discrete>
+                    </mdef:PMF>
+            </mdef:CountData>
             
         </mdef:ObservationModel>
     </mdef:ModelDefinition>
