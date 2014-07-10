@@ -28,8 +28,6 @@
         
         <!-- OBSERVATIONS -->
         <mdef:ObservationModel blkId="om1">
-            
-            <Discrete>
                 <TimeToEventData>
 
                     <EventVariable symbId="y"/>
@@ -77,7 +75,6 @@
                     </MaximumNumberEvents>
                     
                 </TimeToEventData>
-            </Discrete>
             
         </mdef:ObservationModel>
     </mdef:ModelDefinition>

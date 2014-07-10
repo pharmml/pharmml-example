@@ -22,48 +22,46 @@
         <VariabilityModel blkId="randomError" type="parameterVariability">
             <Level symbId="subject"/>
         </VariabilityModel>
-
+        
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="simpleP1"/>
         </ParameterModel>
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <Discrete>
+            <CategoricalData ordered="no">
                 <SimpleParameter symbId="p"/>
                 
-                <CategoricalData ordered="no">
-                    <ListOfCategories> 
-                        <Category symbId="cat0"/>
-                        <Category symbId="cat1"/>
-                    </ListOfCategories>
-
-                    <CategoryVariable symbId="y"/>
-
-                    <!-- P(y = 1) = p -->
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="cat1"/>
-                        </math:LogicBinop>
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="p"/>
-                        </ct:Assign>
-                    </Probability>
-
-                    <!-- ALTERNATIVE -->
-                    <PMF linkFunction="identity">
-                        <BernoulliDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                            <categoryProb definition="http://www.uncertml.org/3.0">
-                                <name>cat1</name>
-                                <probability>
-                                    <var varId="p"/>
-                                </probability>
-                            </categoryProb>
-                        </BernoulliDistribution>
-                    </PMF>
-                </CategoricalData>
-            </Discrete>
+                <ListOfCategories> 
+                    <Category symbId="cat0"/>
+                    <Category symbId="cat1"/>
+                </ListOfCategories>
+                
+                <CategoryVariable symbId="y"/>
+                
+                <!-- P(y = 1) = p -->
+                <Probability linkFunction="identity">
+                    <math:LogicBinop op="eq">
+                        <ct:SymbRef symbIdRef="y"/>
+                        <ct:SymbRef symbIdRef="cat1"/>
+                    </math:LogicBinop>
+                    <ct:Assign>
+                        <ct:SymbRef symbIdRef="p"/>
+                    </ct:Assign>
+                </Probability>
+                
+                <!-- ALTERNATIVE -->
+                <PMF linkFunction="identity">
+                    <BernoulliDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                        <categoryProb definition="http://www.uncertml.org/3.0">
+                            <name>cat1</name>
+                            <probability>
+                                <var varId="p"/>
+                            </probability>
+                        </categoryProb>
+                    </BernoulliDistribution>
+                </PMF>
+            </CategoricalData>
         </ObservationModel>
         
     </ModelDefinition>

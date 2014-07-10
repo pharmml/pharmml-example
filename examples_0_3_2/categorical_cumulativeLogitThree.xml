@@ -30,11 +30,10 @@
        
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <Discrete>
+            <CategoricalData ordered="yes">
                 <SimpleParameter symbId="theta1"/>
                 <SimpleParameter symbId="theta2"/>
                 
-                <CategoricalData ordered="yes">
                     <ListOfCategories> 
                         <Category symbId="cat1"/>
                         <Category symbId="cat2"/>
@@ -68,9 +67,7 @@
                             </math:Equation>
                         </ct:Assign>
                     </Probability>
-
-                </CategoricalData>
-            </Discrete>
+            </CategoricalData>
         </ObservationModel>
     </ModelDefinition>
     
