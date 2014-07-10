@@ -57,87 +57,83 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <Discrete>
-                <CountData>
-
-                    <CountVariable symbId="Y"/>
-                    
-                    <!-- homogenous Poisson -->
-                    <IntensityParameter symbId="Lambda">
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                        </ct:Assign>
-                    </IntensityParameter>
-                    
-                    <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
-                    <PMF linkFunction="log">
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                            <rate>
-                                <var varId="Lambda"/>
-                            </rate>
-                        </PoissonDistribution>
-                    </PMF>
-
-                    <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
-                    <PMF linkFunction="log">
-                        <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                                <Binop op="minus">
-                                    <Binop op="plus">
-                                        <Uniop op="minus">
+            <CountData>
+                
+                <CountVariable symbId="Y"/>
+                
+                <!-- homogenous Poisson -->
+                <IntensityParameter symbId="Lambda">
+                    <ct:Assign>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                    </ct:Assign>
+                </IntensityParameter>
+                
+                <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
+                <PMF linkFunction="log">
+                    <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                        <rate>
+                            <var varId="Lambda"/>
+                        </rate>
+                    </PoissonDistribution>
+                </PMF>
+                
+                <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
+                <PMF linkFunction="log">
+                    <ct:Assign>
+                        <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                            <Binop op="minus">
+                                <Binop op="plus">
+                                    <Uniop op="minus">
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </Uniop>
+                                    <Binop op="times">
+                                        <ct:SymbRef symbIdRef="k"/>
+                                        <Uniop op="log">
                                             <ct:SymbRef symbIdRef="Lambda"/>
                                         </Uniop>
-                                        <Binop op="times">
-                                            <ct:SymbRef symbIdRef="k"/>
-                                            <Uniop op="log">
-                                                <ct:SymbRef symbIdRef="Lambda"/>
-                                            </Uniop>
-                                        </Binop>
                                     </Binop>
-                                    <Uniop op="factln">
-                                        <ct:SymbRef symbIdRef="k"/>
-                                    </Uniop>
                                 </Binop>
-                            </Equation>
-                        </ct:Assign>
-                    </PMF>
-                </CountData>
-            </Discrete>
+                                <Uniop op="factln">
+                                    <ct:SymbRef symbIdRef="k"/>
+                                </Uniop>
+                            </Binop>
+                        </Equation>
+                    </ct:Assign>
+                </PMF>
+            </CountData>
         </ObservationModel>
-                    
+        
         <ObservationModel blkId="om2">
-            <Discrete>
-                <CountData>
-                    
-                    <CountVariable symbId="Y"/>
-                    
-                    <!-- homogenous Poisson -->
-                    <IntensityParameter symbId="Lambda">
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                        </ct:Assign>
-                    </IntensityParameter>
-                    
-                    <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
-                    <PMF linkFunction="log">
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                            <rate>
-                                <var varId="Lambda"/>
-                            </rate>
-                        </PoissonDistribution>
-                    </PMF>
-                    
-                    <!-- P(Y=k) = (Lambda^k * exp(-Lambda) / k! -->
-                    <PMF linkFunction="identity">
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                            <rate>
-                                <var varId="Lambda"/>
-                            </rate>
-                        </PoissonDistribution>
-                    </PMF>
-
-                </CountData>
-            </Discrete>
+            <CountData>
+                
+                <CountVariable symbId="Y"/>
+                
+                <!-- homogenous Poisson -->
+                <IntensityParameter symbId="Lambda">
+                    <ct:Assign>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                    </ct:Assign>
+                </IntensityParameter>
+                
+                <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
+                <PMF linkFunction="log">
+                    <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                        <rate>
+                            <var varId="Lambda"/>
+                        </rate>
+                    </PoissonDistribution>
+                </PMF>
+                
+                <!-- P(Y=k) = (Lambda^k * exp(-Lambda) / k! -->
+                <PMF linkFunction="identity">
+                    <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                        <rate>
+                            <var varId="Lambda"/>
+                        </rate>
+                    </PoissonDistribution>
+                </PMF>
+                
+            </CountData>
         </ObservationModel>
     </ModelDefinition>
     

@@ -435,7 +435,7 @@
         
         <!-- observation model for E -->
         <ObservationModel blkId="om1">
-            <Continuous>
+            <ContinuousData>
                 <SimpleParameter symbId="a"/>
                 <RandomVariable symbId="epsilon_E">
                     <ct:VariabilityReference>
@@ -464,12 +464,12 @@
                         </math:Equation>
                     </ct:Assign>
                 </General>
-            </Continuous>
+            </ContinuousData>
         </ObservationModel>
         
         <!-- observation model for Cc -->
         <ObservationModel blkId="om2">
-            <Continuous>
+            <ContinuousData>
                 <SimpleParameter symbId="a"/>
                 <SimpleParameter symbId="b"/>
                 <RandomVariable symbId="epsilon_Cc">
@@ -509,7 +509,7 @@
                         <ct:SymbRef symbIdRef="epsilon_Cc"/>
                     </ResidualError>
                 </Standard>
-            </Continuous>
+            </ContinuousData>
         </ObservationModel>
     </ModelDefinition>
     

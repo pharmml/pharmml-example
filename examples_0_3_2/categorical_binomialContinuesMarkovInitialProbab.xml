@@ -30,73 +30,71 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <Discrete>
+            <CategoricalData ordered="no">
                 <SimpleParameter symbId="p1"/>
                 <SimpleParameter symbId="q12"/>
                 <SimpleParameter symbId="q21"/>
                 
-                <CategoricalData ordered="no">
-                    <ListOfCategories>
-                        <Category symbId="cat1"/>
-                        <Category symbId="cat2"/>
-                    </ListOfCategories>
-                    
-                    <CategoryVariable symbId="y"/>
-                    <InitialStateVariable symbId="yinit"/>
-                    
-                    <Dependance type="continuousMarkov"/>
-                    
-                    <!-- P(y = 1) = p1 -->
-                    <Probability linkFunction="identity">
+                <ListOfCategories>
+                    <Category symbId="cat1"/>
+                    <Category symbId="cat2"/>
+                </ListOfCategories>
+                
+                <CategoryVariable symbId="y"/>
+                <InitialStateVariable symbId="yinit"/>
+                
+                <Dependance type="continuousMarkov"/>
+                
+                <!-- P(y = 1) = p1 -->
+                <Probability linkFunction="identity">
+                    <math:LogicBinop op="eq">
+                        <ct:SymbRef symbIdRef="yinit"/>
+                        <ct:SymbRef symbIdRef="cat1"/>
+                    </math:LogicBinop>
+                    <ct:Assign>
+                        <ct:SymbRef symbIdRef="p1"/>
+                    </ct:Assign>
+                </Probability>
+                
+                <!-- transitionRate(1, 2) = q12 -->
+                <TransitionRate>
+                    <CurrentState> 
                         <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="yinit"/>
+                            <ct:SymbRef symbIdRef="y"/>
                             <ct:SymbRef symbIdRef="cat1"/>
                         </math:LogicBinop>
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="p1"/>
-                        </ct:Assign>
-                    </Probability>
-                    
-                    <!-- transitionRate(1, 2) = q12 -->
-                    <TransitionRate>
-                        <CurrentState> 
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </CurrentState>
-                        <PreviousState>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="yp"/>
-                                <ct:SymbRef symbIdRef="cat2"/>
-                            </math:LogicBinop>
-                        </PreviousState>
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="q12"/>
-                        </ct:Assign>
-                    </TransitionRate>
-                    
-                    <!--   transitionRate(2, 1) = q21 -->
-                    <TransitionRate>
-                        <CurrentState> 
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat2"/>
-                            </math:LogicBinop>
-                        </CurrentState>
-                        <PreviousState>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="yp"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </PreviousState>
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="q21"/>
-                        </ct:Assign>
-                    </TransitionRate>
-                </CategoricalData>
+                    </CurrentState>
+                    <PreviousState>
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="yp"/>
+                            <ct:SymbRef symbIdRef="cat2"/>
+                        </math:LogicBinop>
+                    </PreviousState>
+                    <ct:Assign>
+                        <ct:SymbRef symbIdRef="q12"/>
+                    </ct:Assign>
+                </TransitionRate>
                 
-            </Discrete>
+                <!--   transitionRate(2, 1) = q21 -->
+                <TransitionRate>
+                    <CurrentState> 
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat2"/>
+                        </math:LogicBinop>
+                    </CurrentState>
+                    <PreviousState>
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="yp"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
+                    </PreviousState>
+                    <ct:Assign>
+                        <ct:SymbRef symbIdRef="q21"/>
+                    </ct:Assign>
+                </TransitionRate>
+            </CategoricalData>
+            
         </ObservationModel>
     </ModelDefinition>
     

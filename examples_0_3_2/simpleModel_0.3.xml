@@ -127,7 +127,7 @@
 
         <!-- OBSERVATION MODEL -->
         <ObservationModel blkId="om1">
-            <Continuous>
+            <ContinuousData>
                 <SimpleParameter symbId="THETA3"/>
                 <RandomVariable symbId="EPS">
                     <ct:VariabilityReference>
@@ -155,7 +155,7 @@
                         </math:Equation>
                     </ct:Assign>
                 </General>
-            </Continuous>
+            </ContinuousData>
         </ObservationModel>
     </ModelDefinition>
     

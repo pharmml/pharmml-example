@@ -20,13 +20,13 @@
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
 
         <!-- VARIABILITY MODEL -->
-        <VariabilityModel blkId="randEffect" type="model">
+        <VariabilityModel blkId="randEffect" type="parameterVariability">
             <Level symbId="indiv">
                 <ct:Name>Individual Variability</ct:Name>
             </Level>
         </VariabilityModel>
 
-        <VariabilityModel blkId="obsErr" type="error">
+        <VariabilityModel blkId="obsErr" type="residualError">
             <Level symbId="residual">
                 <ct:Name>Residual Error</ct:Name>
             </Level>
@@ -128,33 +128,35 @@
 
         <!-- OBSERVATION MODEL -->
         <ObservationModel blkId="om1">
-            <SimpleParameter symbId="THETA3"/>
-            <RandomVariable symbId="EPS">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <prVal>1</prVal>
-                    </stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <General symbId="E_obs">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="plus">
-                            <ct:SymbRef blkIdRef="sm1" symbIdRef="E"/>
-                            <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="THETA3"/>
-                                <ct:SymbRef symbIdRef="EPS"/>
+            <ContinuousData>
+                <SimpleParameter symbId="THETA3"/>
+                <RandomVariable symbId="EPS">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean>
+                            <rVal>0</rVal>
+                        </mean>
+                        <stddev>
+                            <prVal>1</prVal>
+                        </stddev>
+                    </NormalDistribution>
+                </RandomVariable>
+                <General symbId="E_obs">
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="plus">
+                                <ct:SymbRef blkIdRef="sm1" symbIdRef="E"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="THETA3"/>
+                                    <ct:SymbRef symbIdRef="EPS"/>
+                                </math:Binop>
                             </math:Binop>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </General>
+                        </math:Equation>
+                    </ct:Assign>
+                </General>
+            </ContinuousData>
         </ObservationModel>
     </ModelDefinition>
     

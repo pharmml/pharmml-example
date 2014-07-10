@@ -302,7 +302,7 @@
         
         <!-- OBSERVATION MODEL -->
         <ObservationModel blkId="om1">
-            <Continuous>
+            <ContinuousData>
                 <SimpleParameter symbId="a"/>
                 <SimpleParameter symbId="b"/>
                 <RandomVariable symbId="epsilon_Cc">
@@ -342,7 +342,7 @@
                         <ct:SymbRef symbIdRef="epsilon_Cc"/>
                     </ResidualError>
                 </Standard>
-            </Continuous>
+            </ContinuousData>
         </ObservationModel>
     </ModelDefinition>
     

@@ -470,7 +470,7 @@
 
         <!-- OBSERVATION MODEL - PSTAR -->
         <ObservationModel blkId="om1">
-            <Continuous>
+            <ContinuousData>
                 <SimpleParameter symbId="a"/>
                 <RandomVariable symbId="eps">
                     <ct:VariabilityReference>
@@ -505,7 +505,7 @@
                         <ct:SymbRef symbIdRef="eps"/>
                     </ResidualError>
                 </Standard>
-            </Continuous>
+            </ContinuousData>
         </ObservationModel>
 
     </ModelDefinition>
