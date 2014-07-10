@@ -15,32 +15,30 @@
     
     <ct:Description>Time-to-event model with constant hazard function</ct:Description>
     
-    <mdef:ModelDefinition>
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
                 
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:SimpleParameter symbId="lambda"/>
-        </mdef:ParameterModel>
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="lambda"/>
+        </ParameterModel>
         
-        <mdef:ObservationModel blkId="om1">
-            <mdef:Discrete>
-                <TimeToEventData>                    
-                    <EventVariable symbId="y"/>
-
-                    <!-- h(t) = 1/lambda -->
-                    <HazardFunction>
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="divide">
-                                    <ct:Real>1</ct:Real>
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
-                    </HazardFunction>
-                </TimeToEventData>
-            </mdef:Discrete>            
-        </mdef:ObservationModel>
+        <ObservationModel blkId="om1">
+            <TimeToEventData>
+                <EventVariable symbId="y"/>
+                
+                <!-- h(t) = 1/lambda -->
+                <HazardFunction symbId="H">
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="divide">
+                                <ct:Real>1</ct:Real>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>
+                </HazardFunction>
+            </TimeToEventData>
+        </ObservationModel>
         
-    </mdef:ModelDefinition>
+    </ModelDefinition>
     
 </PharmML>

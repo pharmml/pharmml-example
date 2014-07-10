@@ -18,46 +18,42 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition>
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <!-- VARIABILITY -->
-        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
-            <mdef:Level symbId="subject"/>
-        </mdef:VariabilityModel>
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
         
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:SimpleParameter symbId="beta"/>
-        </mdef:ParameterModel>
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="beta"/>
+        </ParameterModel>
         
-        <mdef:StructuralModel blkId="sm1">
+        <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Cc"/>
-        </mdef:StructuralModel>
+        </StructuralModel>
         
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om1">
-            <Discrete>
-                <TimeToEventData>
-
-                    <EventVariable symbId="hemorrhaging"/>
-                    
-                    <!-- h(t) = beta*Cc -->
-                    <HazardFunction>
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="times">
-                                    <math:Binop op="divide">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
-                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                                    </math:Binop>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>   
-                    </HazardFunction>
-                </TimeToEventData>
-            </Discrete>
-        </mdef:ObservationModel>
+        <ObservationModel blkId="om1">
+            <TimeToEventData>
+                
+                <EventVariable symbId="hemorrhaging"/>
+                
+                <!-- h(t) = beta*Cc -->
+                <HazardFunction symbId="h">
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
+                                <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>   
+                </HazardFunction>
+            </TimeToEventData>
+        </ObservationModel>
         
-    </mdef:ModelDefinition>
+    </ModelDefinition>
     
     
 </PharmML>

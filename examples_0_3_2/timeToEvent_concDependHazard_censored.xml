@@ -18,15 +18,15 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition>
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <!-- VARIABILITY -->
-        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
-            <mdef:Level symbId="subject"/>
-        </mdef:VariabilityModel>
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
         
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:IndividualParameter symbId="h">
+        <ParameterModel blkId="pm1">
+            <IndividualParameter symbId="h">
                 <ct:Assign>
                     <math:Equation>
                         <math:Binop op="times">
@@ -47,52 +47,50 @@
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>   
-            </mdef:IndividualParameter>
-        </mdef:ParameterModel>
+            </IndividualParameter>
+        </ParameterModel>
         
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om1">
-            <Discrete>
-                <TimeToEventData>
-
-                    <EventVariable symbId="Y"/>
-                    
-                    <!-- h(t) = 1/lambda -->
-                    <HazardFunction>
+        <ObservationModel blkId="om1">
+            <TimeToEventData>
+                
+                <EventVariable symbId="Y"/>
+                
+                <!-- h(t) = 1/lambda -->
+                <HazardFunction symbId="h">
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="divide">
+                                <ct:Real>1</ct:Real>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>   
+                </HazardFunction>
+                
+                <Censoring censoringType="intervalCensored">    
+                    <IntervalLength>
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="divide">
-                                    <ct:Real>1</ct:Real>
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>   
-                    </HazardFunction>
-                    
-                    <Censoring censoringType="intervalCensored">    
-                        <IntervalLength>
-                            <ct:Assign>
-                                <ct:Real>5</ct:Real> 
-                            </ct:Assign>
-                        </IntervalLength>
-                        
-                        <RightCensoringTime>
-                            <ct:Assign>
-                                <ct:Real>200</ct:Real> 
-                            </ct:Assign>
-                        </RightCensoringTime>
-                    </Censoring>                    
-                    
-                    <MaximumNumberEvents>
-                        <ct:Assign>
-                            <ct:Real>3</ct:Real> 
+                            <ct:Real>5</ct:Real> 
                         </ct:Assign>
-                    </MaximumNumberEvents>
-                </TimeToEventData>
-            </Discrete>
-        </mdef:ObservationModel>
+                    </IntervalLength>
+                    
+                    <RightCensoringTime>
+                        <ct:Assign>
+                            <ct:Real>200</ct:Real> 
+                        </ct:Assign>
+                    </RightCensoringTime>
+                </Censoring>                    
+                
+                <MaximumNumberEvents>
+                    <ct:Assign>
+                        <ct:Real>3</ct:Real> 
+                    </ct:Assign>
+                </MaximumNumberEvents>
+            </TimeToEventData>
+        </ObservationModel>
         
-    </mdef:ModelDefinition>
+    </ModelDefinition>
     
     
 </PharmML>

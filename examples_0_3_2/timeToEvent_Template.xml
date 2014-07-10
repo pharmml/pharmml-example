@@ -36,10 +36,10 @@
                 <SimpleParameter symbId="lambda"/>
                 <SimpleParameter symbId="beta"/>
                 <SimpleParameter symbId="h0"/>
-                
+
                 <EventVariable symbId="y"/>
-                
-                <HazardFunction>
+
+                <HazardFunction symbId="H">
                     <ct:Assign>
                         <math:Equation>
                             <!-- h0*exp(-beta*C) -->
@@ -57,8 +57,8 @@
                         </math:Equation>
                     </ct:Assign>
                 </HazardFunction>
-                
-                <SurvivalFunction>
+
+                <SurvivalFunction symbId="S">
                     <ct:Assign>
                         <math:Equation>
                             <!-- exp(-lambda*t) -->
@@ -73,34 +73,27 @@
                         </math:Equation>
                     </ct:Assign>
                 </SurvivalFunction>
-                
-                
-<!--                    <Censoring censoringType="intervalCensored OR rightCensored">    
-                        <IntervalLength>
-                            <ct:Assign>
-                                <!-\- e.g. <Real>10</Real> -\->
-                            </ct:Assign>
-                        </IntervalLength>
-                        
-                        <LeftCensoringTime>
-                            <ct:Assign>
-                                <!-\- e.g. <Real>10</Real> -\->
-                            </ct:Assign>                            
-                        </LeftCensoringTime>
-                        
-                        <RightCensoringTime>
-                            <ct:Assign>
-                                <!-\- e.g. <Real>200</Real> -\->
-                            </ct:Assign>
-                        </RightCensoringTime>
-                    </Censoring>-->
-                    
-<!--                    <MaximumNumberEvents>
+
+                <Censoring censoringType="intervalCensored">    
+                    <IntervalLength>
                         <ct:Assign>
-                            <!-\- e.g. <Real>5</Real> -\->
+                            <ct:Real>10</ct:Real> 
                         </ct:Assign>
-                    </MaximumNumberEvents>-->
-                </TimeToEventData>
+                    </IntervalLength>
+                    
+                    <RightCensoringTime>
+                        <ct:Assign>
+                            <ct:Real>200</ct:Real> 
+                        </ct:Assign>
+                    </RightCensoringTime>
+                </Censoring>
+                
+                <MaximumNumberEvents>
+                    <ct:Assign>
+                        <ct:Real>5</ct:Real> 
+                    </ct:Assign>
+                </MaximumNumberEvents>
+            </TimeToEventData>
             
         </ObservationModel>
     </ModelDefinition>

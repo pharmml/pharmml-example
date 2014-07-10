@@ -18,24 +18,23 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition>
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <mdef:ParameterModel blkId="pm1">
-            <mdef:SimpleParameter symbId="beta"/>
-            <mdef:SimpleParameter symbId="lambda"/>
-        </mdef:ParameterModel>
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="beta"/>
+            <SimpleParameter symbId="lambda"/>
+        </ParameterModel>
         
         
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om1">
+        <ObservationModel blkId="om1">
             
-            <Discrete>
                 <TimeToEventData>
 
                     <EventVariable symbId="y"/>
                     
                     <!-- h(t) = beta/lambda * t^(beta-1)/lambda -->
-                    <HazardFunction>
+                    <HazardFunction symbId="h">
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="times">
@@ -59,10 +58,9 @@
                     </HazardFunction>
                     
                 </TimeToEventData>
-            </Discrete>
-        </mdef:ObservationModel>
+        </ObservationModel>
         
-    </mdef:ModelDefinition>
+    </ModelDefinition>
     
     
 </PharmML>
