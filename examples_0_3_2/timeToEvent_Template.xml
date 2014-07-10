@@ -18,66 +18,92 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <mdef:ModelDefinition>
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <!-- VARIABILITY -->
-        <mdef:VariabilityModel blkId="randomError" type="parameterVariability">
-            <mdef:Level symbId="subject"/>
-        </mdef:VariabilityModel>
-        
+        <VariabilityModel blkId="randomError" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
+
+        <StructuralModel blkId="sm1">
+            <!-- dummy variable to make observation model work -->
+            <ct:Variable symbolType="real" symbId="C"/>
+        </StructuralModel>
         
         <!-- OBSERVATIONS -->
-        <mdef:ObservationModel blkId="om1">
-                <TimeToEventData>
-
-                    <EventVariable symbId="y"/>
-                    
-                    <HazardFunction>
-                        <ct:Assign>
-                            <math:Equation>
-                                <!-- h0*exp(-beta*C) -->
-                            </math:Equation>
-                        </ct:Assign>
-                    </HazardFunction>
-                                        
-                    <SurvivalFunction>
-                        <ct:Assign>
-                            <math:Equation>
-                                <!-- exp(-lambda*t) -->
-                            </math:Equation>
-                        </ct:Assign>
-                    </SurvivalFunction>
-                    
-                    <Censoring censoringType="intervalCensored OR rightCensored">    
+        <ObservationModel blkId="om1">
+            <TimeToEventData>
+                <SimpleParameter symbId="lambda"/>
+                <SimpleParameter symbId="beta"/>
+                <SimpleParameter symbId="h0"/>
+                
+                <EventVariable symbId="y"/>
+                
+                <HazardFunction>
+                    <ct:Assign>
+                        <math:Equation>
+                            <!-- h0*exp(-beta*C) -->
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="h0"/>
+                                <math:Uniop op="exp">
+                                    <math:Binop op="times">
+                                        <math:Uniop op="minus">
+                                            <ct:SymbRef symbIdRef="beta"/>
+                                        </math:Uniop>
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                                    </math:Binop>
+                                </math:Uniop>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>
+                </HazardFunction>
+                
+                <SurvivalFunction>
+                    <ct:Assign>
+                        <math:Equation>
+                            <!-- exp(-lambda*t) -->
+                            <math:Uniop op="exp">
+                                <math:Binop op="times">
+                                    <math:Uniop op="minus">
+                                        <ct:SymbRef symbIdRef="lambda"/>
+                                    </math:Uniop>
+                                    <ct:SymbRef symbIdRef="t"/>
+                                </math:Binop>
+                            </math:Uniop>
+                        </math:Equation>
+                    </ct:Assign>
+                </SurvivalFunction>
+                
+                
+<!--                    <Censoring censoringType="intervalCensored OR rightCensored">    
                         <IntervalLength>
                             <ct:Assign>
-                                <!-- e.g. <Real>10</Real> -->
+                                <!-\- e.g. <Real>10</Real> -\->
                             </ct:Assign>
                         </IntervalLength>
                         
                         <LeftCensoringTime>
                             <ct:Assign>
-                                <!-- e.g. <Real>10</Real> -->
+                                <!-\- e.g. <Real>10</Real> -\->
                             </ct:Assign>                            
                         </LeftCensoringTime>
                         
                         <RightCensoringTime>
                             <ct:Assign>
-                                <!-- e.g. <Real>200</Real> -->
+                                <!-\- e.g. <Real>200</Real> -\->
                             </ct:Assign>
                         </RightCensoringTime>
-                    </Censoring>
+                    </Censoring>-->
                     
-                    <MaximumNumberEvents>
+<!--                    <MaximumNumberEvents>
                         <ct:Assign>
-                            <!-- e.g. <Real>5</Real> -->
+                            <!-\- e.g. <Real>5</Real> -\->
                         </ct:Assign>
-                    </MaximumNumberEvents>
-                    
+                    </MaximumNumberEvents>-->
                 </TimeToEventData>
             
-        </mdef:ObservationModel>
-    </mdef:ModelDefinition>
+        </ObservationModel>
+    </ModelDefinition>
     
     
 </PharmML>

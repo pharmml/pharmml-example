@@ -29,29 +29,28 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <Discrete>
+            <CategoricalData ordered="no">
                 <SimpleParameter symbId="p"/>
                 
-                <CategoricalData ordered="no">
-                    <ListOfCategories> 
-                        <Category symbId="cat0"/>
-                        <Category symbId="cat1"/>
-                    </ListOfCategories>
-                    
-                    <CategoryVariable symbId="y"/>
-                    
-                    <!-- P(y = 1) = p -->
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="cat1"/>
-                        </math:LogicBinop>
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="p"/>
-                        </ct:Assign>
-                    </Probability>
-                    
-<!--                    <!-\- ALTERNATIVE -\->
+                <ListOfCategories> 
+                    <Category symbId="cat0"/>
+                    <Category symbId="cat1"/>
+                </ListOfCategories>
+                
+                <CategoryVariable symbId="y"/>
+                
+                <!-- P(y = 1) = p -->
+                <Probability linkFunction="identity">
+                    <math:LogicBinop op="eq">
+                        <ct:SymbRef symbIdRef="y"/>
+                        <ct:SymbRef symbIdRef="cat1"/>
+                    </math:LogicBinop>
+                    <ct:Assign>
+                        <ct:SymbRef symbIdRef="p"/>
+                    </ct:Assign>
+                </Probability>
+                
+                <!--                    <!-\- ALTERNATIVE -\->
                     <PMF>
                         <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
                             <un:categoryProb definition="http://www.uncertml.org/3.0">
@@ -62,8 +61,7 @@
                             </un:categoryProb>
                         </un:BernoulliDistribution>
                     </PMF>-->
-                </CategoricalData>
-            </Discrete>
+            </CategoricalData>
         </ObservationModel>
         
     </ModelDefinition>
