@@ -1020,10 +1020,6 @@
                         <un:var varId="RC"/><un:var varId="RD"/><un:var varId="RR"/>
                     </un:counts>
                 </un:ConfusionMatrix>-->
-                
-
-
-            </RandomVariable>
             <IndividualParameter symbId="kout">
                 <GaussianModel>
                     <Transformation>log</Transformation>

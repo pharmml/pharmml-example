@@ -12,7 +12,7 @@
     <ct:Name id="i2">Tail probabilities model (3 categories)</ct:Name>
     
     <ct:Description>Categorical model - tail probabilities with three categories - based on code provided by Mats Karlsson</ct:Description>
-
+    
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
@@ -30,7 +30,7 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <Discrete>
+            <CategoricalData ordered="yes">
                 <!-- b1 -->
                 <SimpleParameter symbId="pop_b1"/>
                 <SimpleParameter symbId="omega_b1"/>
@@ -67,63 +67,61 @@
                 <!-- b3 -->
                 <SimpleParameter symbId="b3"/>
                 
-                <CategoricalData ordered="yes">
-                    <ListOfCategories> 
-                        <Category symbId="cat1"/>
-                        <Category symbId="cat2"/>
-                        <Category symbId="cat3"/>
-                    </ListOfCategories>
-                    
-                    <CategoryVariable symbId="y"/>
-                    
-                    <!-- logit(P(y >= 1)) = b1 --> 
-                    <Probability linkFunction="logit">
-                        <math:LogicBinop op="geq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="cat1"/>
-                        </math:LogicBinop>
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="b1"/>
-                        </ct:Assign>
-                    </Probability>
-                    
-                    <!-- logit(P(y >= 2)) = b1 + b2 --> 
-                    <Probability linkFunction="logit">
-                        <math:LogicBinop op="geq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="cat2"/>
-                        </math:LogicBinop>
-                        <ct:Assign>
-                            <math:Equation>
+                <ListOfCategories> 
+                    <Category symbId="cat1"/>
+                    <Category symbId="cat2"/>
+                    <Category symbId="cat3"/>
+                </ListOfCategories>
+                
+                <CategoryVariable symbId="y"/>
+                
+                <!-- logit(P(y >= 1)) = b1 --> 
+                <Probability linkFunction="logit">
+                    <math:LogicBinop op="geq">
+                        <ct:SymbRef symbIdRef="y"/>
+                        <ct:SymbRef symbIdRef="cat1"/>
+                    </math:LogicBinop>
+                    <ct:Assign>
+                        <ct:SymbRef symbIdRef="b1"/>
+                    </ct:Assign>
+                </Probability>
+                
+                <!-- logit(P(y >= 2)) = b1 + b2 --> 
+                <Probability linkFunction="logit">
+                    <math:LogicBinop op="geq">
+                        <ct:SymbRef symbIdRef="y"/>
+                        <ct:SymbRef symbIdRef="cat2"/>
+                    </math:LogicBinop>
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="b1"/>
+                                <ct:SymbRef symbIdRef="b2"/>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>
+                </Probability>
+                
+                <!-- logit(P(y >= 3)) = b1 + b2 + b3 --> 
+                <Probability linkFunction="logit">
+                    <math:LogicBinop op="geq">
+                        <ct:SymbRef symbIdRef="y"/>
+                        <ct:SymbRef symbIdRef="cat3"/>
+                    </math:LogicBinop>
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="plus">
                                 <math:Binop op="plus">
                                     <ct:SymbRef symbIdRef="b1"/>
                                     <ct:SymbRef symbIdRef="b2"/>
                                 </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
-                    </Probability>
-                    
-                    <!-- logit(P(y >= 3)) = b1 + b2 + b3 --> 
-                    <Probability linkFunction="logit">
-                        <math:LogicBinop op="geq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="cat3"/>
-                        </math:LogicBinop>
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="plus">
-                                    <math:Binop op="plus">
-                                        <ct:SymbRef symbIdRef="b1"/>
-                                        <ct:SymbRef symbIdRef="b2"/>
-                                    </math:Binop>
-                                    <ct:SymbRef symbIdRef="b3"/>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
-                    </Probability>
-                    
-                </CategoricalData>
-            </Discrete>
+                                <ct:SymbRef symbIdRef="b3"/>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>
+                </Probability>
+                
+            </CategoricalData>
         </ObservationModel>
     </ModelDefinition>
     
