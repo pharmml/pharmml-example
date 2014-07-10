@@ -287,7 +287,6 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <Discrete>
                 <CountData>
 
                     <CountVariable symbId="k"/>
@@ -322,12 +321,11 @@
                         </PoissonDistribution>
                     </PMF>
                 </CountData>
-            </Discrete>
         </ObservationModel>
         
         
         <ObservationModel blkId="om2">
-            <Continuous>
+            <ContinuousData>
                 <SimpleParameter symbId="a"/>
                 <SimpleParameter symbId="b"/>
                 <General symbId="C_obs">
@@ -343,7 +341,7 @@
                         </math:Equation>
                     </ct:Assign>
                 </General>
-            </Continuous>
+            </ContinuousData>
         </ObservationModel>
         
     </ModelDefinition>

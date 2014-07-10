@@ -82,89 +82,87 @@
                 </ct:Assign>
             </IndividualParameter>
         </ParameterModel>
-
-    <!-- P1 = - lambda1 + k*log(lambda1) - factln(k)
+        
+        <!-- P1 = - lambda1 + k*log(lambda1) - factln(k)
          P2 = - lambda2 + k*log(lambda2) - factln(k)
          Log(P(Y=k)) = MP*P1 + (1-MP)*P2 -->
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <Discrete>
-                <CountData>
-                    <CountVariable symbId="y"/>
-                    <IntensityParameter symbId="Lambda1">
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
-                        </ct:Assign>
-                    </IntensityParameter>
-                    <IntensityParameter symbId="Lambda2">
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda2"/>
-                        </ct:Assign>
-                    </IntensityParameter>
-                    <MixtureProbabilityParameter symbId="Pi">
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="pi"/>
-                        </ct:Assign>
-                    </MixtureProbabilityParameter>
-                    
-                    <PMF linkFunction="log">
-                        <!-- P(Y=k) -->
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="k"/>
-                        </math:LogicBinop>
-                        <ct:Assign>
-                            <!-- MP*P1; P1 = - lambda1 + k*log(lambda1) - factln(k) -->
-                            <math:Equation>
-                                <math:Binop op="plus">
-                                    <math:Binop op="times">
-                                        <ct:SymbRef symbIdRef="Pi"/>
-                                        <math:Binop op="plus">
-                                            <math:Uniop op="minus">
-                                                <ct:SymbRef symbIdRef="Lambda1"/>
-                                            </math:Uniop>
-                                            <math:Binop op="minus">
-                                                <math:Binop op="times">
-                                                    <ct:SymbRef symbIdRef="k"/>
-                                                    <math:Uniop op="log">
-                                                        <ct:SymbRef symbIdRef="Lambda1"/>
-                                                    </math:Uniop>
-                                                </math:Binop>
-                                                <math:Uniop op="factln">
-                                                    <ct:SymbRef symbIdRef="k"/>
-                                                </math:Uniop>
-                                            </math:Binop>
-                                        </math:Binop>
-                                    </math:Binop>
-                                    <!-- (1-MP)*P2; P2 = - lambda2 + k*log(lambda2) - factln(k) -->
-                                    <math:Binop op="times">
+            <CountData>
+                <CountVariable symbId="y"/>
+                <IntensityParameter symbId="Lambda1">
+                    <ct:Assign>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
+                    </ct:Assign>
+                </IntensityParameter>
+                <IntensityParameter symbId="Lambda2">
+                    <ct:Assign>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda2"/>
+                    </ct:Assign>
+                </IntensityParameter>
+                <MixtureProbabilityParameter symbId="Pi">
+                    <ct:Assign>
+                        <ct:SymbRef symbIdRef="pi"/>
+                    </ct:Assign>
+                </MixtureProbabilityParameter>
+                
+                <PMF linkFunction="log">
+                    <!-- P(Y=k) -->
+                    <math:LogicBinop op="eq">
+                        <ct:SymbRef symbIdRef="y"/>
+                        <ct:SymbRef symbIdRef="k"/>
+                    </math:LogicBinop>
+                    <ct:Assign>
+                        <!-- MP*P1; P1 = - lambda1 + k*log(lambda1) - factln(k) -->
+                        <math:Equation>
+                            <math:Binop op="plus">
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="Pi"/>
+                                    <math:Binop op="plus">
+                                        <math:Uniop op="minus">
+                                            <ct:SymbRef symbIdRef="Lambda1"/>
+                                        </math:Uniop>
                                         <math:Binop op="minus">
-                                            <ct:Real>1</ct:Real>
-                                            <ct:SymbRef symbIdRef="Pi"/>
-                                        </math:Binop>
-                                        <math:Binop op="plus">
-                                            <math:Uniop op="minus">
-                                                <ct:SymbRef symbIdRef="Lambda2"/>
-                                            </math:Uniop>
-                                            <math:Binop op="minus">
-                                                <math:Binop op="times">
-                                                    <ct:SymbRef symbIdRef="k"/>
-                                                    <math:Uniop op="log">
-                                                        <ct:SymbRef symbIdRef="Lambda2"/>
-                                                    </math:Uniop>
-                                                </math:Binop>
-                                                <math:Uniop op="factln">
-                                                    <ct:SymbRef symbIdRef="k"/>
+                                            <math:Binop op="times">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                                <math:Uniop op="log">
+                                                    <ct:SymbRef symbIdRef="Lambda1"/>
                                                 </math:Uniop>
                                             </math:Binop>
+                                            <math:Uniop op="factln">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                            </math:Uniop>
                                         </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
-                    </PMF>
-                </CountData>
-            </Discrete>
+                                <!-- (1-MP)*P2; P2 = - lambda2 + k*log(lambda2) - factln(k) -->
+                                <math:Binop op="times">
+                                    <math:Binop op="minus">
+                                        <ct:Real>1</ct:Real>
+                                        <ct:SymbRef symbIdRef="Pi"/>
+                                    </math:Binop>
+                                    <math:Binop op="plus">
+                                        <math:Uniop op="minus">
+                                            <ct:SymbRef symbIdRef="Lambda2"/>
+                                        </math:Uniop>
+                                        <math:Binop op="minus">
+                                            <math:Binop op="times">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                                <math:Uniop op="log">
+                                                    <ct:SymbRef symbIdRef="Lambda2"/>
+                                                </math:Uniop>
+                                            </math:Binop>
+                                            <math:Uniop op="factln">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>
+                </PMF>
+            </CountData>
         </ObservationModel>
         
     </ModelDefinition>

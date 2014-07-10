@@ -20,7 +20,7 @@
         
         <!-- VARIABILITY -->
         <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
+            <Level id="l1" symbId="subject"/>
         </VariabilityModel>
         
         <!-- PARAMETERS -->
@@ -60,7 +60,7 @@
         <ObservationModel blkId="om1">
             <CountData>
                 <!-- gamma = gamma_s + x*delta1 -->
-                <ct:Variable symbolType="real" symbId="gamma">
+                <ct:Variable symbolType="real" symbId="gamma" id="i4">
                     <ct:Assign>
                         <!-- omitted equation for gamma -->
                     </ct:Assign>
