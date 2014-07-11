@@ -90,18 +90,40 @@
 
         <!-- PARAMETER MODEL -->
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="fourthParameter">
+            <SimpleParameter symbId="W">
                 <ct:Assign>
                     <math:Equation>
-                        <math:Binop op="plus">
-                            <ct:SymbRef symbIdRef="Product"/>
-                            <ct:Delay>
-                                <ct:SymbRef symbIdRef="A"/>
-                                <ct:DelayVariable>
-                                    <ct:SymbRef symbIdRef="tau"/>
-                                </ct:DelayVariable>
-                            </ct:Delay>
-                        </math:Binop>
+                        <ct:Product>
+                            <ct:SymbRef symbIdRef="V"/>
+                            <ct:ProductIndex>
+                                <ct:SymbRef symbIdRef="i"/>
+                            </ct:ProductIndex>
+                            <ct:LowLimit>
+                                <ct:Int>1</ct:Int>
+                            </ct:LowLimit>
+                            <ct:UpLimit>
+                                <ct:SymbRef symbIdRef="N"/>
+                            </ct:UpLimit>
+                        </ct:Product>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+
+            <SimpleParameter symbId="M">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Sum>
+                            <ct:SymbRef symbIdRef="V"/>
+                            <ct:SumIndex>
+                                <ct:SymbRef symbIdRef="i"/>
+                            </ct:SumIndex>
+                            <ct:LowLimit>
+                                <ct:Int>1</ct:Int>
+                            </ct:LowLimit>
+                            <ct:UpLimit>
+                                <ct:SymbRef symbIdRef="N"/>
+                            </ct:UpLimit>
+                        </ct:Sum>
                     </math:Equation>
                 </ct:Assign>
             </SimpleParameter>

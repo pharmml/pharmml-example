@@ -29,45 +29,47 @@
         </StructuralModel>
         
         <ObservationModel blkId="om1">
-            <TimeToEventData>
-                <EventVariable symbId="y"/>
-
-                <HazardFunction symbId="H">
-                    <ct:Assign>
-                        <math:Equation>
-                            <!-- h0*exp(-beta*C) -->
-                        </math:Equation>
-                    </ct:Assign>
-                </HazardFunction>
-
-                <SurvivalFunction symbId="S">
-                    <ct:Assign>
-                        <math:Equation>
-                            <!-- exp(-lambda*t) -->
-                        </math:Equation>
-                    </ct:Assign>
-                </SurvivalFunction>
-
-                <Censoring censoringType="intervalCensored">    
-                    <IntervalLength>
-                        <ct:Assign>
-                            <!-- e.g. <ct:Real>10</ct:Real> -->
-                        </ct:Assign>
-                    </IntervalLength>
+            <Discrete>
+                <TimeToEventData>
+                    <EventVariable symbId="y"/>
                     
-                    <RightCensoringTime>
+                    <HazardFunction symbId="H">
                         <ct:Assign>
-                            <!-- e.g. <ct:Real>200</ct:Real> -->
+                            <math:Equation>
+                                <!-- h0*exp(-beta*C) -->
+                            </math:Equation>
                         </ct:Assign>
-                    </RightCensoringTime>
-                </Censoring>
-                
-                <MaximumNumberEvents>
-                    <ct:Assign>
-                        <!-- e.g. <ct:Real>5</ct:Real> -->
-                    </ct:Assign>
-                </MaximumNumberEvents>
-            </TimeToEventData>
+                    </HazardFunction>
+                    
+                    <SurvivalFunction symbId="S">
+                        <ct:Assign>
+                            <math:Equation>
+                                <!-- exp(-lambda*t) -->
+                            </math:Equation>
+                        </ct:Assign>
+                    </SurvivalFunction>
+                    
+                    <Censoring censoringType="intervalCensored">    
+                        <IntervalLength>
+                            <ct:Assign>
+                                <!-- e.g. <ct:Real>10</ct:Real> -->
+                            </ct:Assign>
+                        </IntervalLength>
+                        
+                        <RightCensoringTime>
+                            <ct:Assign>
+                                <!-- e.g. <ct:Real>200</ct:Real> -->
+                            </ct:Assign>
+                        </RightCensoringTime>
+                    </Censoring>
+                    
+                    <MaximumNumberEvents>
+                        <ct:Assign>
+                            <!-- e.g. <ct:Real>5</ct:Real> -->
+                        </ct:Assign>
+                    </MaximumNumberEvents>
+                </TimeToEventData>
+            </Discrete>
             
         </ObservationModel>
     </ModelDefinition>

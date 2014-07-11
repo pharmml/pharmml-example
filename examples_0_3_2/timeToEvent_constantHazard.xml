@@ -16,29 +16,30 @@
     <ct:Description>Time-to-event model with constant hazard function</ct:Description>
     
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
-                
+        
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="lambda"/>
         </ParameterModel>
         
         <ObservationModel blkId="om1">
-            <TimeToEventData>
-                <EventVariable symbId="y"/>
-                
-                <!-- h(t) = 1/lambda -->
-                <HazardFunction symbId="H">
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:Binop op="divide">
-                                <ct:Real>1</ct:Real>
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                            </math:Binop>
-                        </math:Equation>
-                    </ct:Assign>
-                </HazardFunction>
-            </TimeToEventData>
+            <Discrete>
+                <TimeToEventData>
+                    <EventVariable symbId="y"/>
+                    
+                    <!-- h(t) = 1/lambda -->
+                    <HazardFunction symbId="H">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:Real>1</ct:Real>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </HazardFunction>
+                </TimeToEventData>
+            </Discrete>            
         </ObservationModel>
-        
     </ModelDefinition>
     
 </PharmML>
