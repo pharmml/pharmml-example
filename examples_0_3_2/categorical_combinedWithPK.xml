@@ -287,45 +287,47 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <CategoricalData ordered="no">
-                <ListOfCategories> 
-                    <Category symbId="cat0"/>
-                    <Category symbId="cat1"/>
-                </ListOfCategories>
-                
-                <CategoryVariable symbId="y"/>
-                
-                <!-- P(y = 1) = 1 / (1 + exp(-theta1 - theta2*log(Cc))) -->
-                <Probability linkFunction="identity">
-                    <math:LogicBinop op="eq">
-                        <ct:SymbRef symbIdRef="y"/>
-                        <ct:SymbRef symbIdRef="cat1"/>
-                    </math:LogicBinop>
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:Binop op="divide">
-                                <ct:Real>1</ct:Real>
-                                <math:Binop op="plus">
+            <Discrete>
+                <CategoricalData ordered="no">
+                    <ListOfCategories> 
+                        <Category symbId="cat0"/>
+                        <Category symbId="cat1"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    
+                    <!-- P(y = 1) = 1 / (1 + exp(-theta1 - theta2*log(Cc))) -->
+                    <Probability linkFunction="identity">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
                                     <ct:Real>1</ct:Real>
-                                    <math:Uniop op="exp">
-                                        <math:Binop op="minus">
-                                            <math:Uniop op="minus">
-                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="theta1"/>
-                                            </math:Uniop>
-                                            <math:Binop op="times">
-                                                <ct:SymbRef symbIdRef="theta2"/>
-                                                <math:Uniop op="log">
-                                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                    <math:Binop op="plus">
+                                        <ct:Real>1</ct:Real>
+                                        <math:Uniop op="exp">
+                                            <math:Binop op="minus">
+                                                <math:Uniop op="minus">
+                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="theta1"/>
                                                 </math:Uniop>
+                                                <math:Binop op="times">
+                                                    <ct:SymbRef symbIdRef="theta2"/>
+                                                    <math:Uniop op="log">
+                                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                                    </math:Uniop>
+                                                </math:Binop>
                                             </math:Binop>
-                                        </math:Binop>
-                                    </math:Uniop>
+                                        </math:Uniop>
+                                    </math:Binop>
                                 </math:Binop>
-                            </math:Binop>
-                        </math:Equation>
-                    </ct:Assign>
-                </Probability>
-            </CategoricalData>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Probability>
+                </CategoricalData>
+            </Discrete>
         </ObservationModel>
         
 

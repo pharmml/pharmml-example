@@ -287,10 +287,10 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
+            <Discrete>
                 <CountData>
-
                     <CountVariable symbId="k"/>
-
+                    
                     <!-- Poisson ’intensity’ is function of drug concentration, Cc -->                    
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
@@ -321,6 +321,7 @@
                         </PoissonDistribution>
                     </PMF>
                 </CountData>
+            </Discrete>
         </ObservationModel>
         
         

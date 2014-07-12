@@ -28,100 +28,109 @@
         </ParameterModel>
         
         
+<!--        <!-\- b1 -\->
+        <SimpleParameter symbId="pop_b1"/>
+        <SimpleParameter symbId="omega_b1"/>
+        <RandomVariable symbId="eta_b1">
+            <ct:VariabilityReference>
+                <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
+            </ct:VariabilityReference>
+            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                <mean>
+                    <rVal>0</rVal>
+                </mean>
+                <stddev>
+                    <var varId="omega_b1"/>
+                </stddev>
+            </NormalDistribution>
+        </RandomVariable>
+        <IndividualParameter symbId="b1">
+            <GaussianModel>
+                <Transformation>log</Transformation>
+                <LinearCovariate>
+                    <PopulationParameter>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="pop_b1"/>
+                        </ct:Assign>
+                    </PopulationParameter>
+                </LinearCovariate>
+                <RandomEffects>
+                    <ct:SymbRef symbIdRef="eta_b1"/>
+                </RandomEffects>
+            </GaussianModel>
+        </IndividualParameter>
+        <!-\- b2 -\->
+        <SimpleParameter symbId="b2"/>
+        <!-\- b3 -\->
+        <SimpleParameter symbId="b3"/> -->
+        
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <CategoricalData ordered="yes">
-                <!-- b1 -->
-                <SimpleParameter symbId="pop_b1"/>
-                <SimpleParameter symbId="omega_b1"/>
-                <RandomVariable symbId="eta_b1">
-                    <ct:VariabilityReference>
-                        <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                    </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <var varId="omega_b1"/>
-                        </stddev>
-                    </NormalDistribution>
-                </RandomVariable>
-                <IndividualParameter symbId="b1">
-                    <GaussianModel>
-                        <Transformation>log</Transformation>
-                        <LinearCovariate>
-                            <PopulationParameter>
-                                <ct:Assign>
-                                    <ct:SymbRef symbIdRef="pop_b1"/>
-                                </ct:Assign>
-                            </PopulationParameter>
-                        </LinearCovariate>
-                        <RandomEffects>
-                            <ct:SymbRef symbIdRef="eta_b1"/>
-                        </RandomEffects>
-                    </GaussianModel>
-                </IndividualParameter>
-                <!-- b2 -->
-                <SimpleParameter symbId="b2"/>
-                <!-- b3 -->
-                <SimpleParameter symbId="b3"/>
-                
-                <ListOfCategories> 
-                    <Category symbId="cat1"/>
-                    <Category symbId="cat2"/>
-                    <Category symbId="cat3"/>
-                </ListOfCategories>
-                
-                <CategoryVariable symbId="y"/>
-                
-                <!-- logit(P(y >= 1)) = b1 --> 
-                <Probability linkFunction="logit">
-                    <math:LogicBinop op="geq">
-                        <ct:SymbRef symbIdRef="y"/>
-                        <ct:SymbRef symbIdRef="cat1"/>
-                    </math:LogicBinop>
-                    <ct:Assign>
-                        <ct:SymbRef symbIdRef="b1"/>
-                    </ct:Assign>
-                </Probability>
-                
-                <!-- logit(P(y >= 2)) = b1 + b2 --> 
-                <Probability linkFunction="logit">
-                    <math:LogicBinop op="geq">
-                        <ct:SymbRef symbIdRef="y"/>
-                        <ct:SymbRef symbIdRef="cat2"/>
-                    </math:LogicBinop>
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:Binop op="plus">
-                                <ct:SymbRef symbIdRef="b1"/>
-                                <ct:SymbRef symbIdRef="b2"/>
-                            </math:Binop>
-                        </math:Equation>
-                    </ct:Assign>
-                </Probability>
-                
-                <!-- logit(P(y >= 3)) = b1 + b2 + b3 --> 
-                <Probability linkFunction="logit">
-                    <math:LogicBinop op="geq">
-                        <ct:SymbRef symbIdRef="y"/>
-                        <ct:SymbRef symbIdRef="cat3"/>
-                    </math:LogicBinop>
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:Binop op="plus">
+            <Discrete>
+                <CategoricalData ordered="yes">                    
+                    <!-- b1 -->
+                    <!-- omitted definition with IIV -->
+                    <!-- b2 -->
+                    <mdef:SimpleParameter symbId="b2"/>
+                    <!-- b3 -->
+                    <mdef:SimpleParameter symbId="b3"/>
+                    
+                    <ListOfCategories> 
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    
+                    <!-- logit(P(y >= 1)) = b1 --> 
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="geq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="b1"/>
+                        </ct:Assign>
+                    </Probability>
+                    
+                    <!-- logit(P(y >= 2)) = b1 + b2 --> 
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="geq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat2"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <math:Equation>
                                 <math:Binop op="plus">
                                     <ct:SymbRef symbIdRef="b1"/>
                                     <ct:SymbRef symbIdRef="b2"/>
                                 </math:Binop>
-                                <ct:SymbRef symbIdRef="b3"/>
-                            </math:Binop>
-                        </math:Equation>
-                    </ct:Assign>
-                </Probability>
-                
-            </CategoricalData>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Probability>
+                    
+                    <!-- logit(P(y >= 3)) = b1 + b2 + b3 --> 
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="geq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat3"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="b1"/>
+                                        <ct:SymbRef symbIdRef="b2"/>
+                                    </math:Binop>
+                                    <ct:SymbRef symbIdRef="b3"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Probability>
+                    
+                </CategoricalData>
+            </Discrete>
         </ObservationModel>
     </ModelDefinition>
     

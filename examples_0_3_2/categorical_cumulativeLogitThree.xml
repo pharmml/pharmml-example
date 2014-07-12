@@ -30,17 +30,18 @@
        
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <CategoricalData ordered="yes">
-                <SimpleParameter symbId="theta1"/>
-                <SimpleParameter symbId="theta2"/>
-                
+            <Discrete>
+                <CategoricalData ordered="yes">
+                    <SimpleParameter symbId="theta1"/>
+                    <SimpleParameter symbId="theta2"/>
+                    
                     <ListOfCategories> 
                         <Category symbId="cat1"/>
                         <Category symbId="cat2"/>
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="y"/>
-
+                    
                     <!-- logit(P(y <= 1)) = theta1 -->
                     <Probability linkFunction="logit">
                         <math:LogicBinop op="leq">
@@ -67,7 +68,8 @@
                             </math:Equation>
                         </ct:Assign>
                     </Probability>
-            </CategoricalData>
+                </CategoricalData>
+            </Discrete>
         </ObservationModel>
     </ModelDefinition>
     

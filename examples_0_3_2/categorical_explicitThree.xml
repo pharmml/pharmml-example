@@ -30,64 +30,65 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <CategoricalData ordered="no">
-                <SimpleParameter symbId="a1"/>
-                <SimpleParameter symbId="a2"/>
-                <SimpleParameter symbId="a3"/>
-                
-                <ListOfCategories> 
-                    <Category symbId="cat1"/>
-                    <Category symbId="cat2"/>
-                    <Category symbId="cat3"/>
-                </ListOfCategories>
-                
-                <CategoryVariable symbId="y"/>
-                
-                <!-- P(y = 1) = a1/(a1+a2+a3) -->
-                <Probability linkFunction="identity">
-                    <math:LogicBinop op="eq">
-                        <ct:SymbRef symbIdRef="y"/>
-                        <ct:SymbRef symbIdRef="cat1"/>
-                    </math:LogicBinop>
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:Binop op="divide">
-                                <ct:SymbRef symbIdRef="a1"/>
-                                <math:Binop op="plus">
+            <Discrete>
+                <CategoricalData ordered="no">
+                    <SimpleParameter symbId="a1"/>
+                    <SimpleParameter symbId="a2"/>
+                    <SimpleParameter symbId="a3"/>
+                    
+                    <ListOfCategories> 
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    
+                    <!-- P(y = 1) = a1/(a1+a2+a3) -->
+                    <Probability linkFunction="identity">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
                                     <ct:SymbRef symbIdRef="a1"/>
                                     <math:Binop op="plus">
-                                        <ct:SymbRef symbIdRef="a2"/>
-                                        <ct:SymbRef symbIdRef="a3"/>
+                                        <ct:SymbRef symbIdRef="a1"/>
+                                        <math:Binop op="plus">
+                                            <ct:SymbRef symbIdRef="a2"/>
+                                            <ct:SymbRef symbIdRef="a3"/>
+                                        </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
-                            </math:Binop>
-                        </math:Equation>
-                    </ct:Assign>
-                </Probability>
-                
-                <!-- P(y = 2) = a2/(a1+a2+a3) -->
-                <Probability linkFunction="identity"> 
-                    <math:LogicBinop op="eq">
-                        <ct:SymbRef symbIdRef="y"/>
-                        <ct:SymbRef symbIdRef="cat2"/>
-                    </math:LogicBinop>
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:Binop op="divide">
-                                <ct:SymbRef symbIdRef="a2"/>
-                                <math:Binop op="plus">
-                                    <ct:SymbRef symbIdRef="a1"/>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Probability>
+                    
+                    <!-- P(y = 2) = a2/(a1+a2+a3) -->
+                    <Probability linkFunction="identity"> 
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="cat2"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="a2"/>
                                     <math:Binop op="plus">
-                                        <ct:SymbRef symbIdRef="a2"/>
-                                        <ct:SymbRef symbIdRef="a3"/>
+                                        <ct:SymbRef symbIdRef="a1"/>
+                                        <math:Binop op="plus">
+                                            <ct:SymbRef symbIdRef="a2"/>
+                                            <ct:SymbRef symbIdRef="a3"/>
+                                        </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
-                            </math:Binop>
-                        </math:Equation>
-                    </ct:Assign>
-                </Probability>
-                
-            </CategoricalData>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Probability>
+                </CategoricalData>
+            </Discrete>
         </ObservationModel>
     </ModelDefinition>
     
