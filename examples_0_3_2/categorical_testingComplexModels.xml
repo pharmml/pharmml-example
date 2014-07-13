@@ -15,139 +15,9 @@
     
     <IndependentVariable symbId="t"/>
     
-    <!-- FUNCTION DEFINITION -->
-    <ct:FunctionDefinition  xmlns="http://www.pharmml.org/2013/03/CommonTypes" 
-        symbId="combinedErrorModel" symbolType="real">
-        <FunctionArgument symbolType="real" symbId="a"/>
-        <FunctionArgument symbolType="real" symbId="b"/>
-        <FunctionArgument symbolType="real" symbId="f"/>
-        <Definition>
-            <math:Equation>
-                <math:Binop op="plus">
-                    <ct:SymbRef symbIdRef="a"/>
-                    <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="b"/>
-                        <ct:SymbRef symbIdRef="f"/>
-                    </math:Binop>
-                </math:Binop>
-            </math:Equation>
-        </Definition>
-    </ct:FunctionDefinition>
-    
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
-        
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
-        <VariabilityModel blkId="obsErr" type="residualError">
-            <Level symbId="residual"/>
-        </VariabilityModel>
-        
-        <!-- PARAMETERS -->
-        <ParameterModel blkId="pm1">
-
-            <!-- ka -->
-            <SimpleParameter symbId="pop_ka"/>
-            <SimpleParameter symbId="omega_ka"/>
-            <RandomVariable symbId="eta_ka">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_ka"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="ka">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="pop_ka"/>
-                            <math:Uniop op="exp">
-                                <ct:SymbRef symbIdRef="eta_ka"/>
-                            </math:Uniop>
-                        </math:Binop>                        
-                    </math:Equation>
-                </ct:Assign>
-            </IndividualParameter>
-            
-            <!-- V -->
-            <SimpleParameter symbId="pop_V"/>
-            <SimpleParameter symbId="omega_V"/>
-            <RandomVariable symbId="eta_V">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_V"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="V">
-                <GaussianModel>
-                    <Transformation>log</Transformation>
-                    <LinearCovariate>
-                        <PopulationParameter>
-                            <ct:Assign>
-                                <ct:SymbRef symbIdRef="omega_V"></ct:SymbRef>
-                            </ct:Assign>
-                        </PopulationParameter>
-                    </LinearCovariate>
-                    <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_V"/>
-                    </RandomEffects>
-                </GaussianModel>
-            </IndividualParameter>
-            
-            <!-- k -->
-            <SimpleParameter symbId="pop_k"/>
-            <SimpleParameter symbId="omega_k"/>
-            <RandomVariable symbId="eta_k">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_k"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="k">
-                <GaussianModel>
-                    <Transformation>log</Transformation>
-                    <LinearCovariate>
-                        <PopulationParameter>
-                            <ct:Assign>
-                                <ct:SymbRef symbIdRef="omega_k"></ct:SymbRef>
-                            </ct:Assign>
-                        </PopulationParameter>
-                    </LinearCovariate>
-                    <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_k"/>
-                    </RandomEffects>
-                </GaussianModel>
-            </IndividualParameter>
-
-            <!-- ommited other parameters -->
-            <!-- a1, a2, Emax, EC50 -->
-            <!-- th1, th2, th3 -->
-
-        </ParameterModel>
-        
+ 
         <!-- STRUCTURE -->
         <StructuralModel blkId="sm1">
 
@@ -384,6 +254,30 @@
                         </math:LogicBinop>
                     </ProbabilityAssignment>
                     
+                    <!-- LOG-LOG model -->
+                    <!-- log(-log( P(y=cat1)) = beta0 + beta1*x -->                    
+                    <ProbabilityAssignment>
+                        <math:LogicBinop op="eq">
+                            <math:Uniop op="log">
+                                <math:Uniop op="minus">
+                                    <Probability linkFunction="log">
+                                        <math:LogicBinop op="eq">
+                                            <ct:SymbRef symbIdRef="y"/>
+                                            <ct:SymbRef symbIdRef="cat1"/>
+                                        </math:LogicBinop>
+                                    </Probability>
+                                </math:Uniop>
+                            </math:Uniop>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="beta0"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="beta1"/>
+                                    <ct:SymbRef symbIdRef="x"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:LogicBinop>
+                    </ProbabilityAssignment>
+                    
                     <!-- logit( P(y<=j) / P(y>j) ) = a + b + sum_{i=1}^{N} beta_i -->
                     <ProbabilityAssignment>
                         <math:LogicBinop op="eq">
@@ -465,6 +359,84 @@
                             </math:Binop>
                         </math:LogicBinop>
                     </ProbabilityAssignment>
+                    
+                    <!-- log(P(n_j=r | n_{j-1}=q) / (1 - \sum_{0,2} P(n_j=k | n_{j-1} = q)) = p_{rqkq} -->
+                    <ProbabilityAssignment>
+                        <math:LogicBinop op="eq">
+                            <math:Uniop op="log">
+                                <math:Binop op="divide">
+                                    <!-- P(n_j=r | n_{j-1}=q) -->
+                                    <Probability>
+                                        <CurrentState>
+                                            <math:LogicBinop op="eq">
+                                                <ct:VectorSelector>
+                                                    <ct:SymbRef symbIdRef="n"/>
+                                                    <ct:Cell>
+                                                        <ct:SymbRef symbIdRef="j"></ct:SymbRef>
+                                                    </ct:Cell>
+                                                </ct:VectorSelector>
+                                                <ct:SymbRef symbIdRef="q"/>
+                                            </math:LogicBinop>
+                                        </CurrentState>
+                                        <PreviousState>
+                                            <math:LogicBinop op="eq">
+                                                <ct:VectorSelector>
+                                                    <ct:SymbRef symbIdRef="n"/>
+                                                    <ct:Cell>
+                                                        <ct:SymbRef symbIdRef="n-1"/>
+                                                    </ct:Cell>
+                                                </ct:VectorSelector>
+                                                <ct:SymbRef symbIdRef="q"/>
+                                            </math:LogicBinop>
+                                        </PreviousState>
+                                    </Probability>
+                                    <!-- (1 - \sum_{0,2} P(n_j=k | n_{j-1} = q) -->
+                                    <math:Binop op="minus">
+                                        <ct:Real>1</ct:Real>
+                                        <ct:Sum>
+                                            <Probability>
+                                                <CurrentState>
+                                                    <math:LogicBinop op="eq">
+                                                        <ct:VectorSelector>
+                                                            <ct:SymbRef symbIdRef="n"/>
+                                                            <ct:Cell>
+                                                                <ct:SymbRef symbIdRef="j"/>
+                                                            </ct:Cell>
+                                                        </ct:VectorSelector>
+                                                        <ct:SymbRef symbIdRef="k"/>
+                                                    </math:LogicBinop>
+                                                </CurrentState>
+                                                <PreviousState>
+                                                    <math:LogicBinop op="eq">
+                                                        <ct:VectorSelector>
+                                                            <ct:SymbRef symbIdRef="n"/>
+                                                            <ct:Cell>
+                                                                <ct:SymbRef symbIdRef="j-1"/>
+                                                            </ct:Cell>
+                                                        </ct:VectorSelector>
+                                                        <ct:SymbRef symbIdRef="q"/>
+                                                    </math:LogicBinop>
+                                                </PreviousState>
+                                            </Probability>
+                                            <ct:SumIndex>
+                                                <ct:SymbRef symbIdRef="j"/>
+                                            </ct:SumIndex>
+                                            <ct:SumIndexSet>
+                                                <ct:Vector>
+                                                    <ct:VectorElements>
+                                                        <ct:Int>0</ct:Int>
+                                                        <ct:Int>2</ct:Int>
+                                                    </ct:VectorElements>
+                                                </ct:Vector>
+                                            </ct:SumIndexSet>
+                                        </ct:Sum>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Uniop>
+                            <ct:SymbRef symbIdRef="p_rqkq"/>
+                        </math:LogicBinop>
+                    </ProbabilityAssignment>
+                    
                     
                 </CategoricalData>
             </Discrete>

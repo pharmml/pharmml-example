@@ -17,17 +17,7 @@
     
     <!-- MODEL -->
     <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
-        
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
-        <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="simpleP1"/>
-        </ParameterModel>
-        
-        
+
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
@@ -47,15 +37,17 @@
                     <Dependance type="continuousMarkov"/>
                     
                     <!-- P(y = 1) = p1 -->
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="yinit"/>
-                            <ct:SymbRef symbIdRef="cat1"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability>
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="yinit"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <ct:SymbRef symbIdRef="p1"/>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     
                     <!-- transitionRate(1, 2) = q12 -->
                     <TransitionRate>
@@ -98,62 +90,6 @@
             </Discrete>
         </ObservationModel>
     </ModelDefinition>
-    
-    <mstep:ModellingSteps>
-        
-        <mstep:NONMEMdataSet oid="NMoid">
-            
-            <mstep:ColumnMapping>
-                <ds:ColumnRef columnIdRef="TIME"/>
-                <ct:SymbRef symbIdRef="t"/>
-            </mstep:ColumnMapping>
-            
-            <mstep:ColumnMapping>
-                <ds:ColumnRef columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
-            </mstep:ColumnMapping>
-            
-            <ds:DataSet>
-                <ds:Definition>
-                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
-                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
-                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                </ds:Definition>
-                <ds:ImportData oid="importData">
-                    <ds:path>myFile.csv</ds:path>
-                    <ds:format>CSV</ds:format>
-                    <ds:delimiter>COMMA</ds:delimiter>
-                </ds:ImportData>
-            </ds:DataSet>
-        </mstep:NONMEMdataSet>
-        
-        <mstep:EstimationStep oid="estStep1">
-            
-            <mstep:TargetToolReference>
-                <ct:OidRef oidRef="NMoid"/>
-            </mstep:TargetToolReference>
-            
-            <mstep:ParametersToEstimate>
-                <mstep:ParameterEstimation>
-                    <ct:SymbRef symbIdRef="THETA1"/>
-                    <mstep:InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </mstep:InitialEstimate>
-                </mstep:ParameterEstimation>
-                
-                <mstep:ParameterEstimation>
-                    <ct:SymbRef symbIdRef="OMEGA1"/>
-                    <mstep:InitialEstimate>
-                        <ct:Real>0.6</ct:Real>
-                    </mstep:InitialEstimate>
-                </mstep:ParameterEstimation>
-                
-            </mstep:ParametersToEstimate>
-            
-            <mstep:Operation order="1" opType="estPop"/>
-        </mstep:EstimationStep>
-        
-    </mstep:ModellingSteps>
-    
+
 </PharmML>
 

@@ -18,39 +18,33 @@
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
-        <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="simpleP1"/>
-        </ParameterModel>
-        
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <CategoricalData ordered="no">
-                <SimpleParameter symbId="p"/>
-                
-                <ListOfCategories> 
-                    <Category symbId="cat0"/>
-                    <Category symbId="cat1"/>
-                </ListOfCategories>
-                
-                <CategoryVariable symbId="y"/>
-                
-                <!-- P(y = 1) = p -->
-                <Probability linkFunction="identity">
-                    <math:LogicBinop op="eq">
-                        <ct:SymbRef symbIdRef="y"/>
-                        <ct:SymbRef symbIdRef="cat1"/>
-                    </math:LogicBinop>
-                    <ct:Assign>
-                        <ct:SymbRef symbIdRef="p"/>
-                    </ct:Assign>
-                </Probability>
-                
-                <!--                    <!-\- ALTERNATIVE -\->
+            <Discrete>
+                <CategoricalData ordered="no">
+                    <SimpleParameter symbId="p"/>
+                    
+                    <ListOfCategories> 
+                        <Category symbId="cat0"/>
+                        <Category symbId="cat1"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    
+                    <!-- P(y = 1) = p -->
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </Probability>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="p"/>
+                        </ct:Assign>
+                    </ProbabilityAssignment>
+                    
+                    <!--                    <!-\- ALTERNATIVE -\->
                     <PMF>
                         <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
                             <un:categoryProb definition="http://www.uncertml.org/3.0">
@@ -61,7 +55,8 @@
                             </un:categoryProb>
                         </un:BernoulliDistribution>
                     </PMF>-->
-            </CategoricalData>
+                </CategoricalData>
+            </Discrete>
         </ObservationModel>
         
     </ModelDefinition>
