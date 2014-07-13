@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    writtenVersion="0.3.1" id="i1">
+    
+    <!-- MODEL NAME -->
+    <ct:Name>Example 5 - estimation for growth tumor model - with NONMEM dataset</ct:Name>
+    
+    <ct:Description>based on A Tumor Growth Inhibition Model for Low-Grade Glioma Treated with Chemotherapy or Radiotherapy
+        Benjamin Ribba, Gentian Kaloshi, Mathieu Peyre, et al. Clin Cancer Res Published OnlineFirst July 3, 2012.</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- BLOCK I: MODEL DEFINITION -->
+    <ModelDefinition  xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+
+        <ParameterModel blkId="pm1"/>
+        
+        <!-- STRUCTURAL MODEL - ODEs -->
+        <StructuralModel blkId="sm1">
+            
+            <!-- dC/dt -->
+            <ct:DerivativeVariable symbolType="real" symbId="C">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="times">
+                            <Uniop op="minus">
+                                <ct:SymbRef symbIdRef="KDE"/>
+                            </Uniop>
+                            <ct:SymbRef symbIdRef="C"/>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="C0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                    <ct:InitialTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:InitialTime>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- dPT/dt -->
+            <ct:DerivativeVariable symbolType="real" symbId="PT">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="plus">
+                            <Binop op="times">
+                                <ct:SymbRef symbIdRef="LAMBDAP"/>
+                                <Binop op="times">
+                                    <ct:SymbRef symbIdRef="PT"/>
+                                    <Binop op="minus">
+                                        <ct:Real>1</ct:Real>
+                                        <Binop op="divide">
+                                            <ct:SymbRef symbIdRef="PSTAR"/>
+                                            <ct:SymbRef symbIdRef="K"/>
+                                        </Binop>
+                                    </Binop>
+                                </Binop>
+                            </Binop>
+                            <Binop op="minus">
+                                <Binop op="times">
+                                    <ct:SymbRef symbIdRef="KQPP"/>
+                                    <ct:SymbRef symbIdRef="QP"/>
+                                </Binop>
+                                <Binop op="minus">
+                                    <Binop op="times">
+                                        <ct:SymbRef symbIdRef="KPQ"/>
+                                        <ct:SymbRef symbIdRef="PT"/>
+                                    </Binop>
+                                    <Binop op="times">
+                                        <ct:SymbRef symbIdRef="GAMMA"/>
+                                        <Binop op="times">
+                                            <ct:SymbRef symbIdRef="C"/>
+                                            <Binop op="times">
+                                                <ct:SymbRef symbIdRef="KDE"/>
+                                                <ct:SymbRef symbIdRef="PT"/>
+                                            </Binop>
+                                        </Binop>
+                                    </Binop>
+                                </Binop>
+                            </Binop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="PT0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                    <ct:InitialTime>
+                        <ct:Assign>
+                            <ct:Real>5</ct:Real>
+                        </ct:Assign>
+                    </ct:InitialTime>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- dQ/dt --> 
+            <ct:DerivativeVariable symbolType="real" symbId="Q">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="minus">
+                            <ct:SymbRef symbIdRef="KPQ"/>
+                            <Binop op="times">
+                                <ct:SymbRef  symbIdRef="GAMMA"/>
+                                <Binop op="times">
+                                    <ct:SymbRef symbIdRef="C"/>
+                                    <Binop op="times">
+                                        <ct:SymbRef symbIdRef="KDE"/>
+                                        <ct:SymbRef symbIdRef="Q"/>
+                                    </Binop>
+                                </Binop>
+                            </Binop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="Q0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                    <ct:InitialTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:InitialTime>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- dQP/dt -->
+            <ct:DerivativeVariable symbolType="real" symbId="QP">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="minus">
+                            <Binop op="minus">
+                                <Binop op="times">
+                                    <ct:SymbRef symbIdRef="GAMMA"/>
+                                    <Binop op="times">
+                                        <ct:SymbRef symbIdRef="C"/>
+                                        <Binop op="times">
+                                            <ct:SymbRef symbIdRef="KDE"/>
+                                            <ct:SymbRef symbIdRef="Q"/>
+                                        </Binop>
+                                    </Binop>
+                                </Binop>
+                                <Binop op="times">
+                                    <ct:SymbRef symbIdRef="KQPP"/>
+                                    <ct:SymbRef symbIdRef="QP"/>
+                                </Binop>
+                            </Binop>
+                            <Binop op="times">
+                                <ct:SymbRef symbIdRef="DELTAQP"/>
+                                <ct:SymbRef symbIdRef="QP"/>
+                            </Binop>                        
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="QP0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                    <ct:InitialTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:InitialTime>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+
+            <!-- PSTAR -->
+            <ct:Variable symbolType="real" symbId="PSTAR" >
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="plus">
+                            <ct:SymbRef symbIdRef="PT"/>
+                            <Binop op="plus">
+                                <ct:SymbRef symbIdRef="Q"/>
+                                <ct:SymbRef symbIdRef="QP"/>
+                            </Binop>
+                        </Binop>                    
+                    </Equation>
+                </ct:Assign>
+            </ct:Variable>
+        </StructuralModel>
+
+    </ModelDefinition>
+    
+
+</PharmML>
