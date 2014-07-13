@@ -18,6 +18,16 @@
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
  
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="ka"/>
+            <SimpleParameter symbId="V"/>
+            <SimpleParameter symbId="k"/>
+            <SimpleParameter symbId="EC50"/>
+            <SimpleParameter symbId="Emax"/>
+            <SimpleParameter symbId="th1"/>
+            <SimpleParameter symbId="th2"/>
+        </ParameterModel>
+
         <!-- STRUCTURE -->
         <StructuralModel blkId="sm1">
 

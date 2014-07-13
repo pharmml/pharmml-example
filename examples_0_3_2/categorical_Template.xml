@@ -139,9 +139,17 @@
                         <Probability>
                             <CurrentState>
                                 <!-- y<=1 -->
+                                <math:LogicBinop op="eq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>
                             </CurrentState>
                             <PreviousState>
                                 <!-- yp1=0 -->
+                                <math:LogicBinop op="eq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>
                             </PreviousState>
                         </Probability>
                         <ct:Assign>
@@ -154,16 +162,32 @@
                     <ProbabilityAssignment>
                         <Probability linkFunction="logit">
                             <CurrentState>
+                                <math:LogicBinop op="eq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>
                                 <!-- y<=1 -->
                             </CurrentState>
                             <PreviousState MarkovOrder="1">
                                 <!-- yp1=1 -->
+                                <math:LogicBinop op="eq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>
                             </PreviousState>
                             <PreviousState MarkovOrder="2">
                                 <!-- yp2=2 -->
+                                <math:LogicBinop op="eq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>
                             </PreviousState>
                             <Condition>
                                 <!-- other condition -->
+                                <math:LogicBinop op="eq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>
                             </Condition>
                         </Probability>
                         <ct:Assign>
@@ -190,17 +214,28 @@
                     <Dependance type="continuousMarkov"/>
                     
                     <!-- TransitionRate(y2,y1) = exp(a+b*t) -->
-                    <TransitionRate>
-                        <CurrentState>
-                            <!-- y=1 -->
-                        </CurrentState>
-                        <PreviousState>
-                            <!-- yp1=1 -->
-                        </PreviousState>
+                    <ProbabilityAssignment>
+                        <TransitionRate>
+                            <CurrentState>
+                                <!-- y=1 -->
+                                <math:LogicBinop op="eq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>
+                            </CurrentState>
+                            <PreviousState>
+                                <!-- yp1=1 -->
+                                <math:LogicBinop op="eq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>
+                            </PreviousState>
+                        </TransitionRate>
                         <ct:Assign>
                             <!-- exp(a+b*t) -->
+                            <ct:SymbRef symbIdRef="t"/>
                         </ct:Assign>
-                    </TransitionRate>
+                    </ProbabilityAssignment>
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
