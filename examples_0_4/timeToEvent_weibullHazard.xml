@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:un="http://www.uncertml.org/3.0"
+    implementedBy="MJS" writtenVersion="0.4" id="i1">
+    
+    <ct:Name>TTE - Weibull hazard</ct:Name>
+    
+    <ct:Description>Time-to-event model with Weibull hazard function</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="beta"/>
+            <SimpleParameter symbId="lambda"/>
+        </ParameterModel>
+        
+        
+        <!-- OBSERVATIONS -->
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <TimeToEventData>
+                    <EventVariable symbId="y"/>
+                    
+                    <!-- h(t) = beta/lambda * t^(beta-1)/lambda -->
+                    <HazardFunction symbId="h">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="times">
+                                    <math:Binop op="divide">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                                    </math:Binop>
+                                    <math:Binop op="divide">
+                                        <math:Binop op="power">
+                                            <ct:SymbRef symbIdRef="t"/>
+                                            <math:Binop op="minus">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
+                                                <ct:Real>1</ct:Real>
+                                            </math:Binop>
+                                        </math:Binop>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>   
+                    </HazardFunction>
+                </TimeToEventData>
+            </Discrete>
+        </ObservationModel>
+    </ModelDefinition>
+
+</PharmML>

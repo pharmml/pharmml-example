@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:un="http://www.uncertml.org/3.0"
+    implementedBy="MJS" writtenVersion="0.4" id="i1">
+    
+    <ct:Name>TTE - constant hazard</ct:Name>
+    
+    <ct:Description>Time-to-event model with constant hazard function</ct:Description>
+    
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="lambda"/>
+        </ParameterModel>
+        
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <TimeToEventData>
+                    <EventVariable symbId="y"/>
+                    
+                    <!-- h(t) = 1/lambda -->
+                    <HazardFunction symbId="H">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:Real>1</ct:Real>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </HazardFunction>
+                </TimeToEventData>
+            </Discrete>            
+        </ObservationModel>
+    </ModelDefinition>
+    
+</PharmML>

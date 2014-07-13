@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    implementedBy="MJS" writtenVersion="0.4" id="i1">
+    
+    <ct:Name>Binomial model</ct:Name>
+    
+    <ct:Description>Categorical model - binomial</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <!-- OBSERVATIONS -->
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <CategoricalData ordered="no">
+                    <SimpleParameter symbId="p"/>
+                    
+                    <ListOfCategories> 
+                        <Category symbId="cat0"/>
+                        <Category symbId="cat1"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    
+                    <!-- P(y = 1) = p -->
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </Probability>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="p"/>
+                        </ct:Assign>
+                    </ProbabilityAssignment>
+                    
+                    <!--                    <!-\- ALTERNATIVE -\->
+                    <PMF>
+                        <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
+                            <un:categoryProb definition="http://www.uncertml.org/3.0">
+                                <un:name>1</un:name>
+                                <un:probability>
+                                    <un:var varId="p"/>
+                                </un:probability>
+                            </un:categoryProb>
+                        </un:BernoulliDistribution>
+                    </PMF>-->
+                </CategoricalData>
+            </Discrete>
+        </ObservationModel>
+        
+    </ModelDefinition>
+    
+    <mstep:ModellingSteps>
+        
+        <mstep:NONMEMdataSet oid="NMoid">
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </mstep:ColumnMapping>
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="0" modelSymbol="cat1"/>
+                    <ds:Map dataSymbol="1" modelSymbol="cat2"/>
+                    <ds:Map dataSymbol="2" modelSymbol="cat3"/>
+                    <ds:Map dataSymbol="3" modelSymbol="cat4"/>
+                </ds:CategoryMapping>
+            </mstep:ColumnMapping>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                </ds:Definition>
+                <ds:ImportData oid="importData">
+                    <ds:path>myFile.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
+        </mstep:NONMEMdataSet>
+        
+        <mstep:EstimationStep oid="estStep1">
+            
+            <mstep:TargetToolReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </mstep:TargetToolReference>
+            
+            <mstep:ParametersToEstimate>
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef symbIdRef="THETA1"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+                
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef symbIdRef="OMEGA1"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>0.6</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+                
+            </mstep:ParametersToEstimate>
+            
+            <mstep:Operation order="1" opType="estPop"/>
+        </mstep:EstimationStep>
+        
+    </mstep:ModellingSteps>
+    
+</PharmML>
+
+
+<!-- implementing RHS of LNegBinom = gammaln(k+1/tau) - factln(k) - gammaln(1/tau) - 1/tau log(1+tau * lambda) + k*log(lambda) - k*log(1/tau + lambda) -->
+
+<!--           <SimpleParameter symbId="logP">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="plus">
+                                <math:Binop op="minus">
+                                    <math:Binop op="minus">
+                                        <math:Binop op="minus">
+                                            <math:Uniop op="gammaln">                   <!-\- gammaln(k+1/tau) -\->
+                                                <math:Binop op="plus">
+                                                    <ct:SymbRef symbIdRef="k"/>
+                                                    <math:Binop op="divide">
+                                                        <ct:Real>1</ct:Real>
+                                                        <ct:SymbRef symbIdRef="tau"/>
+                                                    </math:Binop>
+                                                </math:Binop>
+                                            </math:Uniop>
+                                            <math:Uniop op="factln">                    <!-\- factln(k) -\->
+                                                <ct:SymbRef symbIdRef="k"/>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                        <math:Uniop op="gammaln">                       <!-\- gammaln(1/tau) -\->
+                                            <math:Binop op="divide">
+                                                <ct:Real>1</ct:Real>
+                                                <ct:SymbRef symbIdRef="tau"/>
+                                            </math:Binop>
+                                        </math:Uniop>
+                                    </math:Binop>
+                                    <math:Binop op="times">                             <!-\- 1/tau log(1+tau * lambda) -\->
+                                        <math:Binop op="divide">
+                                            <ct:Real>1</ct:Real>
+                                            <ct:SymbRef symbIdRef="tau"/>
+                                        </math:Binop>
+                                        <math:Uniop op="log">
+                                            <math:Binop op="plus">
+                                                <ct:Real>1</ct:Real>
+                                                <math:Binop op="times">
+                                                    <ct:SymbRef symbIdRef="tau"/>
+                                                    <ct:SymbRef symbIdRef="lambda"/>
+                                                </math:Binop>
+                                            </math:Binop>
+                                        </math:Uniop>
+                                    </math:Binop>
+                                </math:Binop>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="k"/>                         <!-\- k*log(lambda) -\->
+                                    <math:Uniop op="log">
+                                        <ct:SymbRef symbIdRef="lambda"/>
+                                    </math:Uniop>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="k"/>                             <!-\- k*log(1/tau + lambda) -\->
+                                <math:Uniop op="log">
+                                    <math:Binop op="plus">
+                                        <math:Binop op="divide">
+                                            <ct:Real>1</ct:Real>
+                                            <ct:SymbRef symbIdRef="tau"/>
+                                        </math:Binop>
+                                        <ct:SymbRef symbIdRef="lambda"/>
+                                    </math:Binop>
+                                </math:Uniop>
+                            </math:Binop>
+                        </math:Binop>
+                   </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>-->
+

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    implementedBy="MJS" writtenVersion="0.4" id="i1">
+    
+    <ct:Name id="i2">Cumulative logit model (3 categories)</ct:Name>
+    
+    <ct:Description>Categorical model - cumulative logit with three categories</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+       
+        <!-- OBSERVATIONS -->
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <CategoricalData ordered="yes">
+                    <SimpleParameter symbId="theta1"/>
+                    <SimpleParameter symbId="theta2"/>
+                    
+                    <ListOfCategories> 
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    
+                    <!-- logit(P(y <= 1)) = theta1 -->
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="logit">
+                            <math:LogicBinop op="leq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </Probability>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="theta1"/>
+                        </ct:Assign>
+                    </ProbabilityAssignment>
+                    
+                    <!-- logit(P(y <= 2)) = theta1 + theta2 -->
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="logit">
+                            <math:LogicBinop op="leq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat2"/>
+                            </math:LogicBinop>
+                        </Probability>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="theta1"/>
+                                    <ct:SymbRef symbIdRef="theta2"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ProbabilityAssignment>
+                </CategoricalData>
+            </Discrete>
+        </ObservationModel>
+    </ModelDefinition>
+    
+</PharmML>
+
