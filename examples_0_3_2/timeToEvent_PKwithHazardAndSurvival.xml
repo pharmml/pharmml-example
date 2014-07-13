@@ -31,6 +31,7 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
+            <Discrete>
                 <TimeToEventData>
                     <EventVariable symbId="Hemorrhaging"/>
                     
@@ -58,7 +59,7 @@
                             </math:Equation>
                         </ct:Assign>
                     </SurvivalFunction>
-                                        
+                    
                     <Censoring censoringType="rightCensored">
                         <RightCensoringTime>
                             <ct:Assign>
@@ -73,9 +74,8 @@
                         </ct:Assign>
                     </MaximumNumberEvents>
                 </TimeToEventData>
+            </Discrete>
         </ObservationModel>
-        
     </ModelDefinition>
-    
     
 </PharmML>

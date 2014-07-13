@@ -203,9 +203,7 @@
                     </TransitionRate>
                 </CategoricalData>
             </Discrete>
-            
         </ObservationModel>
     </ModelDefinition>
-    
-    
+
 </PharmML>

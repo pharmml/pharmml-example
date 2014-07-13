@@ -35,24 +35,24 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
-            <TimeToEventData>
-                <EventVariable symbId="hemorrhaging"/>
-                
-                <!-- h(t) = beta*Cc -->
-                <HazardFunction symbId="h">
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:Binop op="times">
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
-                                <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                            </math:Binop>
-                        </math:Equation>
-                    </ct:Assign>   
-                </HazardFunction>
-            </TimeToEventData>
+            <Discrete>
+                <TimeToEventData>
+                    <EventVariable symbId="hemorrhaging"/>
+                    
+                    <!-- h(t) = beta*Cc -->
+                    <HazardFunction symbId="h">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>   
+                    </HazardFunction>
+                </TimeToEventData>
+            </Discrete>
         </ObservationModel>
-        
     </ModelDefinition>
-    
-    
+
 </PharmML>

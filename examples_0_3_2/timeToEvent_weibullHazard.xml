@@ -28,6 +28,7 @@
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
+            <Discrete>
                 <TimeToEventData>
                     <EventVariable symbId="y"/>
                     
@@ -55,9 +56,8 @@
                         </ct:Assign>   
                     </HazardFunction>
                 </TimeToEventData>
+            </Discrete>
         </ObservationModel>
-        
     </ModelDefinition>
-    
-    
+
 </PharmML>

@@ -119,7 +119,6 @@
                 </CountData>
             </Discrete>
         </ObservationModel>
-        
     </ModelDefinition>
-    
+
 </PharmML>

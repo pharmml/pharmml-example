@@ -18,16 +18,7 @@
     <IndependentVariable symbId="t"/>
     
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
-        
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-
-        <StructuralModel blkId="sm1">
-            <!-- dummy variable -->
-            <ct:Variable symbolType="real" symbId="C"/>
-        </StructuralModel>
-        
+                
         <ObservationModel blkId="om1">
             <Discrete>
                 <TimeToEventData>
@@ -73,6 +64,5 @@
             
         </ObservationModel>
     </ModelDefinition>
-    
-    
+
 </PharmML>
