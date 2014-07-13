@@ -327,31 +327,87 @@
                     
                     <CategoryVariable symbId="Level"/>
                     
-                    <!-- logit(P(Level<=1)) = lp1-->
+                    <!-- logit( P(y=cat1) ) = a1 -->                    
                     <ProbabilityAssignment>
                         <Probability linkFunction="logit">
-                            <math:LogicBinop op="leq">
-                                <ct:SymbRef symbIdRef="Level"/>
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="y"/>
                                 <ct:SymbRef symbIdRef="cat1"/>
                             </math:LogicBinop>
                         </Probability>
                         <ct:Assign>
-                            <ct:SymbRef blkIdRef="sm1" symbIdRef="lp1"/>
+                            <ct:SymbRef symbIdRef="a1"/>
                         </ct:Assign>
                     </ProbabilityAssignment>
                     
-                    <!-- logit(P(Level<=2)) = lp2-->
+                    <!-- logit( P(y=cat1 | yp<= cat5) ) = a15 -->                    
                     <ProbabilityAssignment>
                         <Probability linkFunction="logit">
-                            <math:LogicBinop op="leq">
-                                <ct:SymbRef symbIdRef="Level"/>
-                                <ct:SymbRef symbIdRef="cat2"/>
-                            </math:LogicBinop>
+                            <CurrentState>
+                                <math:LogicBinop op="eq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>                                
+                            </CurrentState>
+                            <PreviousState>
+                                <math:LogicBinop op="leq">
+                                    <ct:SymbRef symbIdRef="yp"/>
+                                    <ct:SymbRef symbIdRef="cat5"/>
+                                </math:LogicBinop>                                                                
+                            </PreviousState>
                         </Probability>
                         <ct:Assign>
-                            <ct:SymbRef blkIdRef="sm1" symbIdRef="lp2"/>
+                            <ct:SymbRef symbIdRef="a15"/>
                         </ct:Assign>
                     </ProbabilityAssignment>
+                    
+                    <!-- logit( P(y=cat1) / P(yp<=cat5) ) = r15 -->                    
+                    <ProbabilityAssignment>
+                        <math:LogicBinop op="eq">
+                            <math:Uniop op="logit">
+                                <math:Binop op="divide">
+                                    <Probability linkFunction="identity">
+                                        <math:LogicBinop op="eq">
+                                            <ct:SymbRef symbIdRef="y"/>
+                                            <ct:SymbRef symbIdRef="cat1"/>
+                                        </math:LogicBinop>
+                                    </Probability>
+                                    <Probability linkFunction="identity">
+                                        <math:LogicBinop op="leq">
+                                            <ct:SymbRef symbIdRef="y"/>
+                                            <ct:SymbRef symbIdRef="cat5"/>
+                                        </math:LogicBinop>
+                                    </Probability>
+                                </math:Binop>
+                            </math:Uniop>
+                            <ct:SymbRef symbIdRef="r15"/>
+                        </math:LogicBinop>
+                    </ProbabilityAssignment>
+                    
+                    <!-- logit( P(y<=j) / P(y>j) ) = a + b + sum_{i=1}^{N} beta_1 -->
+                    <ProbabilityAssignment>
+                        <math:LogicBinop op="eq">
+                            <math:Uniop op="logit">
+                                <math:Binop op="divide">
+                                    <Probability linkFunction="identity">
+                                        <math:LogicBinop op="eq">
+                                            <ct:SymbRef symbIdRef="y"/>
+                                            <ct:SymbRef symbIdRef="cat1"/>
+                                        </math:LogicBinop>
+                                    </Probability>
+                                    <Probability linkFunction="identity">
+                                        <math:LogicBinop op="leq">
+                                            <ct:SymbRef symbIdRef="y"/>
+                                            <ct:SymbRef symbIdRef="cat5"/>
+                                        </math:LogicBinop>
+                                    </Probability>
+                                </math:Binop>
+                            </math:Uniop>
+                            <ct:SymbRef symbIdRef="r15"/>
+                        </math:LogicBinop>
+                    </ProbabilityAssignment>
+                    
+                    
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
