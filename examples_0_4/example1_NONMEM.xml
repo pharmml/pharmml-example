@@ -8,17 +8,17 @@
     xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
-    implementedBy="MJS" writtenVersion="0.4" id="i1"> 
+    writtenVersion="0.4" id="i1"> 
     
     <!-- model name -->
-    <ct:Name>Example 1 - simulation continuous PK/PD</ct:Name>
+    <ct:Name>Example 1 - testing NONMEM for simulations</ct:Name>
     
     <!-- independent variable -->
     <IndependentVariable symbId="t"/>
     
     <!-- function definition -->
-    <FunctionDefinition symbolType="real" xmlns="http://www.pharmml.org/2013/03/CommonTypes" symbId="constantErrorModel">
-        <FunctionArgument symbolType="real" symbId="a"/>
+    <FunctionDefinition xmlns="http://www.pharmml.org/2013/03/CommonTypes" symbId="constantErrorModel" symbolType="real">
+        <FunctionArgument symbId="a" symbolType="real"/>
         <Definition>
             <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                 <ct:SymbRef symbIdRef="a"/>
@@ -26,10 +26,10 @@
         </Definition>
     </FunctionDefinition>
     
-    <FunctionDefinition symbolType="real" xmlns="http://www.pharmml.org/2013/03/CommonTypes" symbId="combinedErrorModel">
-        <FunctionArgument symbolType="real" symbId="a"/>
-        <FunctionArgument symbolType="real" symbId="b"/>
-        <FunctionArgument symbolType="real" symbId="f"/>
+    <FunctionDefinition xmlns="http://www.pharmml.org/2013/03/CommonTypes" symbId="combinedErrorModel" symbolType="real">
+        <FunctionArgument symbId="a" symbolType="real"/>
+        <FunctionArgument symbId="b" symbolType="real"/>
+        <FunctionArgument symbId="f" symbolType="real"/>
         <Definition>
             <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                 <Binop op="plus">
@@ -318,7 +318,7 @@
         
         <!-- structural model -->
         <StructuralModel blkId="sm1">
-            <ct:Variable symbolType="real" symbId="k">
+            <ct:Variable symbId="k" symbolType="real">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="divide">
@@ -328,7 +328,7 @@
                     </Equation>
                 </ct:Assign>
             </ct:Variable>
-            <ct:DerivativeVariable symbolType="real" symbId="Ad">
+            <ct:DerivativeVariable symbId="Ad" symbolType="real">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="times">
@@ -350,7 +350,7 @@
                     </ct:InitialValue>
                 </ct:InitialCondition>
             </ct:DerivativeVariable>
-            <ct:DerivativeVariable symbolType="real" symbId="Ac">
+            <ct:DerivativeVariable symbId="Ac" symbolType="real">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="minus">
@@ -376,7 +376,7 @@
                     </ct:InitialValue>
                 </ct:InitialCondition>
             </ct:DerivativeVariable>
-            <ct:DerivativeVariable symbolType="real" symbId="E">
+            <ct:DerivativeVariable symbId="E" symbolType="real">
                 <ct:Description>PCA</ct:Description>
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
@@ -420,7 +420,7 @@
                     </ct:InitialValue>
                 </ct:InitialCondition>
             </ct:DerivativeVariable>
-            <ct:Variable symbolType="real" symbId="Cc">
+            <ct:Variable symbId="Cc" symbolType="real">
                 <ct:Description>Concentration</ct:Description>
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
@@ -464,7 +464,6 @@
                         </math:Equation>
                     </ct:Assign>
                 </General>
-                
             </ContinuousData>
         </ObservationModel>
         
@@ -697,9 +696,25 @@
     <!-- modeling steps -->
     <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
         
+        <NONMEMdataSet oid="NMoid">
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"></ds:Column>
+                </ds:Definition>
+                <ds:ImportData oid="id1">
+                    <ds:path>myData.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
+        </NONMEMdataSet>
+        
         <!-- simulation steps -->
         <SimulationStep oid="s1">
-
+            <NONMEMdataSetReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </NONMEMdataSetReference>
+            
             <ct:VariableAssignment>
                 <ct:SymbRef blkIdRef="c1" symbIdRef="pop_W"/>
                 <ct:Assign>
@@ -828,47 +843,6 @@
                 </ct:Assign>
             </ct:VariableAssignment>
 
-            <Observations>
-                <Timepoints>
-                    <ct:Sequence>
-                        <ct:Begin><ct:Int>0</ct:Int></ct:Begin>
-                        <ct:StepSize><ct:Int>24</ct:Int></ct:StepSize>
-                        <ct:End><ct:Int>288</ct:Int></ct:End>
-                    </ct:Sequence>
-                </Timepoints>
-                <Continuous>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="E_obs"/>
-                </Continuous>
-            </Observations>
-            
-            <Observations>
-                <Timepoints>
-                    <ct:Vector>
-                        <ct:VectorElements>
-                            <ct:Real>0.5</ct:Real>
-                            <ct:Sequence>
-                                <ct:Begin><ct:Int>4</ct:Int></ct:Begin>
-                                <ct:StepSize><ct:Int>4</ct:Int></ct:StepSize>
-                                <ct:End><ct:Int>48</ct:Int></ct:End>
-                            </ct:Sequence>
-                            <ct:Sequence>
-                                <ct:Begin><ct:Int>52</ct:Int></ct:Begin>
-                                <ct:StepSize><ct:Int>24</ct:Int></ct:StepSize>
-                                <ct:End><ct:Int>192</ct:Int></ct:End>
-                            </ct:Sequence>
-                            <ct:Sequence>
-                                <ct:Begin><ct:Int>192</ct:Int></ct:Begin>
-                                <ct:StepSize><ct:Int>4</ct:Int></ct:StepSize>
-                                <ct:End><ct:Int>250</ct:Int></ct:End>
-                            </ct:Sequence>                            
-                        </ct:VectorElements>
-                    </ct:Vector>
-                </Timepoints>
-                <Continuous>
-                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                    <ct:SymbRef blkIdRef="om2" symbIdRef="Cc_obs"/>
-                </Continuous>
-            </Observations>
         </SimulationStep>
         
         <!-- step dependencies -->
