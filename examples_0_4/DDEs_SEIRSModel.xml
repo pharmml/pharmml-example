@@ -12,10 +12,11 @@
     <!-- MODEL NAME -->
     <ct:Name>SEIRS model - DDE</ct:Name>
     
-    <ct:Description>Delay Ddifferential Eexample - SEIRS Model</ct:Description>
+    <ct:Description>EDDE example - SEIRS Model</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>
+
 
     <!-- MODEL DEFINITION -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
@@ -119,8 +120,8 @@
                 </ct:History>
             </ct:DerivativeVariable>
         
-            <!-- SKIPPED other ODEs -->
-
+            <!-- Skipped other ODEs -->
+            
             <!--HISTORY t0 = 0, S_0 = 15, E_0 = 0, I_0 = 2, R_0 = 3
             ddt_S = A - d*S -lambda*S*I/N +gamma*delay(I,tau)*exp(-d*tau)
             ddt_E = - lambda*delay(S,omega)*delay(I,omega)*exp(-d*omega)/(delay(I,omega) + delay(S,omega) + delay(E,omega) + delay(R,omega)) + lambda*S*I/N - d*E
