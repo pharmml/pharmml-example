@@ -19,64 +19,66 @@
     <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <ObservationModel blkId="om2">
-            <CategoricalData ordered="no">
-                
-                <SimpleParameter symbId="P1">
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:Binop op="divide">
-                                <math:Uniop op="exp">
-                                    <ct:SymbRef symbIdRef="G1"/>
-                                </math:Uniop>
-                                <math:Binop op="plus">
+            <Discrete>
+                <CategoricalData ordered="no">
+                    
+                    <SimpleParameter symbId="P1">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <math:Uniop op="exp">
+                                        <ct:SymbRef symbIdRef="G1"/>
+                                    </math:Uniop>
                                     <math:Binop op="plus">
                                         <math:Binop op="plus">
-                                            <ct:Real>1</ct:Real>
+                                            <math:Binop op="plus">
+                                                <ct:Real>1</ct:Real>
+                                                <math:Uniop op="exp">
+                                                    <ct:SymbRef symbIdRef="G1"/>
+                                                </math:Uniop>
+                                            </math:Binop>
                                             <math:Uniop op="exp">
-                                                <ct:SymbRef symbIdRef="G1"/>
+                                                <ct:SymbRef symbIdRef="G2"/>
                                             </math:Uniop>
                                         </math:Binop>
                                         <math:Uniop op="exp">
-                                            <ct:SymbRef symbIdRef="G2"/>
+                                            <ct:SymbRef symbIdRef="G3"/>
                                         </math:Uniop>
                                     </math:Binop>
-                                    <math:Uniop op="exp">
-                                        <ct:SymbRef symbIdRef="G3"/>
-                                    </math:Uniop>
                                 </math:Binop>
-                            </math:Binop>
-                        </math:Equation>
-                    </ct:Assign>
-                </SimpleParameter>
-                <!-- omitted P2...P5 -->
-                
-                <ListOfCategories>
-                    <Category symbId="cat1"/>
-                    <!-- cat2...cat4 -->
-                    <Category symbId="cat5"/>
-                </ListOfCategories>
-                <CategoryVariable symbId="y"/>
-                
-                <!-- P(Y = 1) = exp(G1)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
-                <PMF linkFunction="identity">
-                    <CategoricalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                        <categoryProb definition="">
-                            <name>cat1</name>
-                            <probability>
-                                <var varId="P1"/>
-                            </probability>
-                        </categoryProb>
-                        <!-- omitted P2...P4 -->
-                        <categoryProb definition="">
-                            <name>cat5</name>
-                            <probability>
-                                <var varId="P5"/>
-                            </probability>
-                        </categoryProb>
-                    </CategoricalDistribution>
-                </PMF>
-                
-            </CategoricalData>
+                            </math:Equation>
+                        </ct:Assign>
+                    </SimpleParameter>
+                    <!-- omitted P2...P5 -->
+                    
+                    <ListOfCategories>
+                        <Category symbId="cat1"/>
+                        <!-- cat2...cat4 -->
+                        <Category symbId="cat5"/>
+                    </ListOfCategories>
+                    <CategoryVariable symbId="y"/>
+                    
+                    <!-- P(Y = 1) = exp(G1)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
+                    <PMF linkFunction="identity">
+                        <CategoricalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                            <categoryProb definition="">
+                                <name>cat1</name>
+                                <probability>
+                                    <var varId="P1"/>
+                                </probability>
+                            </categoryProb>
+                            <!-- omitted P2...P4 -->
+                            <categoryProb definition="">
+                                <name>cat5</name>
+                                <probability>
+                                    <var varId="P5"/>
+                                </probability>
+                            </categoryProb>
+                        </CategoricalDistribution>
+                    </PMF>
+                    
+                </CategoricalData>
+            </Discrete>
         </ObservationModel>
         
         <!-- OBSERVATIONS -->
@@ -119,11 +121,13 @@
                     <CategoryVariable symbId="Y"/>
                     
                     <!-- P(Y = 1) = exp(G1)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="Y"/>
-                            <ct:SymbRef symbIdRef="cat1"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="Y"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
@@ -149,14 +153,16 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     
                     <!-- P(Y = 2) = exp(G2)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="Y"/>
-                            <ct:SymbRef symbIdRef="cat1"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="Y"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
@@ -182,36 +188,42 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     
                     <!-- P(Y = 3) = 0 -->
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="Y"/>
-                            <ct:SymbRef symbIdRef="cat3"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="Y"/>
+                                <ct:SymbRef symbIdRef="cat3"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <ct:Real>0</ct:Real>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     
                     <!-- P(Y = 4) = 0 --> 
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="Y"/>
-                            <ct:SymbRef symbIdRef="cat4"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="Y"/>
+                                <ct:SymbRef symbIdRef="cat4"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <ct:Real>0</ct:Real>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     
                     <!-- P(Y = 5) = exp(G5)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="Y"/>
-                            <ct:SymbRef symbIdRef="cat5"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="Y"/>
+                                <ct:SymbRef symbIdRef="cat5"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
@@ -237,67 +249,11 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
     </ModelDefinition>
-    
-    <mstep:ModellingSteps>
-        
-        <mstep:NONMEMdataSet oid="NMoid">
-            
-            <mstep:ColumnMapping>
-                <ds:ColumnRef columnIdRef="TIME"/>
-                <ct:SymbRef symbIdRef="t"/>
-            </mstep:ColumnMapping>
-            
-            <mstep:ColumnMapping>
-                <ds:ColumnRef columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
-            </mstep:ColumnMapping>
-            
-            <ds:DataSet>
-                <ds:Definition>
-                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
-                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
-                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                </ds:Definition>
-                <ds:ImportData oid="importData">
-                    <ds:path>myFile.csv</ds:path>
-                    <ds:format>CSV</ds:format>
-                    <ds:delimiter>COMMA</ds:delimiter>
-                </ds:ImportData>
-            </ds:DataSet>
-        </mstep:NONMEMdataSet>
-        
-        <mstep:EstimationStep oid="estStep1">
-            
-            <mstep:TargetToolReference>
-                <ct:OidRef oidRef="NMoid"/>
-            </mstep:TargetToolReference>
-            
-            <mstep:ParametersToEstimate>
-                <mstep:ParameterEstimation>
-                    <ct:SymbRef symbIdRef="THETA1"/>
-                    <mstep:InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </mstep:InitialEstimate>
-                </mstep:ParameterEstimation>
-                
-                <mstep:ParameterEstimation>
-                    <ct:SymbRef symbIdRef="OMEGA1"/>
-                    <mstep:InitialEstimate>
-                        <ct:Real>0.6</ct:Real>
-                    </mstep:InitialEstimate>
-                </mstep:ParameterEstimation>
-                
-            </mstep:ParametersToEstimate>
-            
-            <mstep:Operation order="1" opType="estPop"/>
-        </mstep:EstimationStep>
-        
-    </mstep:ModellingSteps>
     
 </PharmML>
 

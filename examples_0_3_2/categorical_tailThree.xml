@@ -18,62 +18,16 @@
     <!-- MODEL -->
     <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
-        <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="simpleP1"/>
-        </ParameterModel>
-        
-        
-<!--        <!-\- b1 -\->
-        <SimpleParameter symbId="pop_b1"/>
-        <SimpleParameter symbId="omega_b1"/>
-        <RandomVariable symbId="eta_b1">
-            <ct:VariabilityReference>
-                <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-            </ct:VariabilityReference>
-            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                <mean>
-                    <rVal>0</rVal>
-                </mean>
-                <stddev>
-                    <var varId="omega_b1"/>
-                </stddev>
-            </NormalDistribution>
-        </RandomVariable>
-        <IndividualParameter symbId="b1">
-            <GaussianModel>
-                <Transformation>log</Transformation>
-                <LinearCovariate>
-                    <PopulationParameter>
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="pop_b1"/>
-                        </ct:Assign>
-                    </PopulationParameter>
-                </LinearCovariate>
-                <RandomEffects>
-                    <ct:SymbRef symbIdRef="eta_b1"/>
-                </RandomEffects>
-            </GaussianModel>
-        </IndividualParameter>
-        <!-\- b2 -\->
-        <SimpleParameter symbId="b2"/>
-        <!-\- b3 -\->
-        <SimpleParameter symbId="b3"/> -->
-        
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
-                <CategoricalData ordered="yes">                    
+                <CategoricalData ordered="yes">           
                     <!-- b1 -->
                     <!-- omitted definition with IIV -->
                     <!-- b2 -->
-                    <mdef:SimpleParameter symbId="b2"/>
+                    <SimpleParameter symbId="b2"/>
                     <!-- b3 -->
-                    <mdef:SimpleParameter symbId="b3"/>
+                    <SimpleParameter symbId="b3"/>
                     
                     <ListOfCategories> 
                         <Category symbId="cat1"/>
@@ -83,23 +37,27 @@
                     
                     <CategoryVariable symbId="y"/>
                     
-                    <!-- logit(P(y >= 1)) = b1 --> 
-                    <Probability linkFunction="logit">
-                        <math:LogicBinop op="geq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="cat1"/>
-                        </math:LogicBinop>
+                    <!-- logit(P(y >= 1)) = b1 -->
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="logit">
+                            <math:LogicBinop op="geq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <ct:SymbRef symbIdRef="b1"/>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     
                     <!-- logit(P(y >= 2)) = b1 + b2 --> 
-                    <Probability linkFunction="logit">
-                        <math:LogicBinop op="geq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="cat2"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="logit">
+                            <math:LogicBinop op="geq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat2"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="plus">
@@ -108,14 +66,16 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     
                     <!-- logit(P(y >= 3)) = b1 + b2 + b3 --> 
-                    <Probability linkFunction="logit">
-                        <math:LogicBinop op="geq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="cat3"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="logit">
+                            <math:LogicBinop op="geq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat3"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="plus">
@@ -127,68 +87,10 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
-                    </Probability>
-                    
+                    </ProbabilityAssignment>
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
     </ModelDefinition>
-    
-    <mstep:ModellingSteps>
-        
-        <mstep:NONMEMdataSet oid="NMoid">
-            
-            <mstep:ColumnMapping>
-                <ds:ColumnRef columnIdRef="TIME"/>
-                <ct:SymbRef symbIdRef="t"/>
-            </mstep:ColumnMapping>
-            
-            <mstep:ColumnMapping>
-                <ds:ColumnRef columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
-            </mstep:ColumnMapping>
-            
-            <ds:DataSet>
-                <ds:Definition>
-                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
-                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
-                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                </ds:Definition>
-                <ds:ImportData oid="importData">
-                    <ds:path>myFile.csv</ds:path>
-                    <ds:format>CSV</ds:format>
-                    <ds:delimiter>COMMA</ds:delimiter>
-                </ds:ImportData>
-            </ds:DataSet>
-        </mstep:NONMEMdataSet>
-        
-        <mstep:EstimationStep oid="estStep1">
-            
-            <mstep:TargetToolReference>
-                <ct:OidRef oidRef="NMoid"/>
-            </mstep:TargetToolReference>
-            
-            <mstep:ParametersToEstimate>
-                <mstep:ParameterEstimation>
-                    <ct:SymbRef symbIdRef="THETA1"/>
-                    <mstep:InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </mstep:InitialEstimate>
-                </mstep:ParameterEstimation>
-                
-                <mstep:ParameterEstimation>
-                    <ct:SymbRef symbIdRef="OMEGA1"/>
-                    <mstep:InitialEstimate>
-                        <ct:Real>0.6</ct:Real>
-                    </mstep:InitialEstimate>
-                </mstep:ParameterEstimation>
-                
-            </mstep:ParametersToEstimate>
-            
-            <mstep:Operation order="1" opType="estPop"/>
-        </mstep:EstimationStep>
-        
-    </mstep:ModellingSteps>
-    
 </PharmML>
 

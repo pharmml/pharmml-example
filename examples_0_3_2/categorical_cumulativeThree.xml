@@ -18,16 +18,6 @@
     <!-- MODEL -->
     <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
-        <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="simpleP1"/>
-        </ParameterModel>
-       
-        
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
@@ -45,11 +35,13 @@
                     <CategoryVariable symbId="y"/>
                     
                     <!-- P(y <= 1) = a1/(a1+a2+a3) --> 
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="leq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="cat1"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="leq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
@@ -64,14 +56,16 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     
                     <!-- P(y <= 2) = a2/(a1+a2+a3) -->
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="leq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="cat2"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="leq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat2"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
@@ -86,7 +80,7 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                 </CategoricalData>
             </Discrete>
         </ObservationModel>

@@ -18,16 +18,6 @@
     <!-- MODEL -->
     <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
-        <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="simpleP1"/>
-        </ParameterModel>
-        
-        
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
@@ -49,60 +39,68 @@
                     <Dependance type="discreteMarkov"/>
                     
                     <!-- P(y = 1) = a1 -->
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="yinit"/>
-                            <ct:SymbRef symbIdRef="cat1"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="yinit"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <ct:SymbRef symbIdRef="a1"/>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     
                     <!-- P(y = 2) = a2 -->
-                    <Probability linkFunction="identity">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="yinit"/>
-                            <ct:SymbRef symbIdRef="cat2"/>
-                        </math:LogicBinop>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="yinit"/>
+                                <ct:SymbRef symbIdRef="cat2"/>
+                            </math:LogicBinop>
+                        </Probability>
                         <ct:Assign>
                             <ct:SymbRef symbIdRef="a2"/>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     
                     <!--   logit(P(y <= 1|yp = 1)) = a11 -->
-                    <Probability linkFunction="logit">
-                        <CurrentState> 
-                            <math:LogicBinop op="leq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </CurrentState>
-                        <PreviousState>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="yp"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </PreviousState>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="logit">
+                            <CurrentState> 
+                                <math:LogicBinop op="leq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>
+                            </CurrentState>
+                            <PreviousState>
+                                <math:LogicBinop op="eq">
+                                    <ct:SymbRef symbIdRef="yp"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>
+                            </PreviousState>
+                        </Probability>
                         <ct:Assign>
                             <ct:SymbRef symbIdRef="a11"/>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     
                     <!--  logit(P(y <= 2|yp = 1)) = a11 + a12 -->
-                    <Probability linkFunction="logit">
-                        <CurrentState>
-                            <math:LogicBinop op="leq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:SymbRef symbIdRef="cat2"/>
-                            </math:LogicBinop>
-                        </CurrentState>
-                        <PreviousState>
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="yp"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
-                        </PreviousState>
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="logit">
+                            <CurrentState>
+                                <math:LogicBinop op="leq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:SymbRef symbIdRef="cat2"/>
+                                </math:LogicBinop>
+                            </CurrentState>
+                            <PreviousState>
+                                <math:LogicBinop op="eq">
+                                    <ct:SymbRef symbIdRef="yp"/>
+                                    <ct:SymbRef symbIdRef="cat1"/>
+                                </math:LogicBinop>
+                            </PreviousState>
+                        </Probability>
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="plus">
@@ -111,7 +109,7 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
-                    </Probability>
+                    </ProbabilityAssignment>
                     <!--  logit(P(y <= 1|yp = 2)) = a21 -->
                     <!-- omitted here -->
                     <!--  logit(P(y <= 2|yp = 2)) = a21 + a22 -->
