@@ -18,90 +18,12 @@
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
-        <!-- PARAMETERS -->
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="pop_lambda"/>
-            <SimpleParameter symbId="omega_lambda"/>
-            <SimpleParameter symbId="pop_tau"/>
-            <SimpleParameter symbId="omega_tau"/>
-            <!-- lambda -->
-            <RandomVariable symbId="eta_lambda">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0"  definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_lambda"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="lambda">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="pop_lambda"/>
-                            <math:Uniop op="exp">
-                                <ct:SymbRef symbIdRef="eta_lambda"/>
-                            </math:Uniop>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </IndividualParameter>
-            
-            <!-- tau -->
-            <RandomVariable symbId="eta_tau">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0"  definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_tau"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="tau">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="pop_tau"/>
-                            <math:Uniop op="exp">
-                                <ct:SymbRef symbIdRef="eta_tau"/>
-                            </math:Uniop>
-                        </math:Binop>                        
-                    </math:Equation>
-                </ct:Assign>
-            </IndividualParameter>
-            
+            <SimpleParameter symbId="tau"/>
+            <!-- individual def with IIV omitted -->
+            <SimpleParameter symbId="lambda"/>
+            <!-- individual def with IIV omitted -->
         </ParameterModel>
-        
-        <!-- IDEAs FOR MVN Distribution -->
-        <!--   
-        MVN
-        parameters for which the MVN
-        p1p2p3 = SET(p1,p2,p3)
-        
-        <RandomVariable symbId="p1p2p3">
-            <MVNormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                <meanVector>
-                    ...
-                </meanVector>
-                <covMatrix>
-                    ...
-                </covMatrix>
-            </MVNormalDistribution>
-        </RandomVariable>-->
-        
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">

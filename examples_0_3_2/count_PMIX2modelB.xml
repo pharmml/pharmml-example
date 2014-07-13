@@ -18,44 +18,11 @@
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level id="l1" symbId="subject"/>
-        </VariabilityModel>
-        
-        <!-- PARAMETERS -->
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="pop_lambda"/>
-            <SimpleParameter symbId="omega_lambda"/>
-            <!-- lambda -->
-            <RandomVariable symbId="eta_lambda">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0"  definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_lambda"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="lambda">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="pop_lambda"/>
-                            <math:Uniop op="exp">
-                                <ct:SymbRef symbIdRef="eta_lambda"/>
-                            </math:Uniop>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </IndividualParameter>
+            <SimpleParameter symbId="lambda"/>
+            <!-- individual def with IIV omitted -->
         </ParameterModel>
-
-
+        
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
@@ -179,7 +146,5 @@
                 </CountData>
             </Discrete>
         </ObservationModel>
-        
     </ModelDefinition>
-    
 </PharmML>

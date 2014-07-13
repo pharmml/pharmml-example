@@ -18,212 +18,15 @@
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
-        <CovariateModel blkId="cm1">
-            <Covariate symbId="W">
-                <Continuous>
-                    <Transformation>
-                        <math:Equation>
-                            <math:Binop op="divide">
-                                <ct:SymbRef symbIdRef="W"/>
-                                <ct:Real>70</ct:Real>
-                            </math:Binop>
-                        </math:Equation>
-                    </Transformation>
-                </Continuous>
-            </Covariate>
-        </CovariateModel>
-        
-        <!-- PARAMETERS -->
         <ParameterModel blkId="pm1">
-
-            <!-- ka -->
-            <SimpleParameter symbId="pop_ka"/>
-            <SimpleParameter symbId="omega_ka"/>
-            <RandomVariable symbId="eta_ka">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_ka"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="ka">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="pop_ka"/>
-                            <math:Uniop op="exp">
-                                <ct:SymbRef symbIdRef="eta_ka"/>
-                            </math:Uniop>
-                        </math:Binop>                        
-                    </math:Equation>
-                </ct:Assign>
-            </IndividualParameter>
-            
-            <!-- V -->
-            <SimpleParameter symbId="pop_V"/>
-            <SimpleParameter symbId="omega_V"/>
-            <RandomVariable symbId="eta_V">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_V"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="V">
-                <GaussianModel>
-                    <Transformation>log</Transformation>
-                    <LinearCovariate>
-                        <PopulationParameter>
-                            <ct:Assign>
-                                <ct:SymbRef symbIdRef="omega_V"></ct:SymbRef>
-                            </ct:Assign>
-                        </PopulationParameter>
-                        <Covariate>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
-                            <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_V"/>
-                            </FixedEffect>
-                        </Covariate>
-                    </LinearCovariate>
-                    <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_V"/>
-                    </RandomEffects>
-                </GaussianModel>
-            </IndividualParameter>
-            
-            <!-- CL -->
-            <SimpleParameter symbId="pop_CL"/>
-            <SimpleParameter symbId="omega_CL"/>
-            <RandomVariable symbId="eta_CL">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_CL"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="CL">
-                <GaussianModel>
-                    <Transformation>log</Transformation>
-                    <LinearCovariate>
-                        <PopulationParameter>
-                            <ct:Assign>
-                                <ct:SymbRef symbIdRef="omega_CL"></ct:SymbRef>
-                            </ct:Assign>
-                        </PopulationParameter>
-                        <Covariate>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
-                            <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_CL"/>
-                            </FixedEffect>
-                        </Covariate>
-                    </LinearCovariate>
-                    <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_CL"/>
-                    </RandomEffects>
-                </GaussianModel>
-            </IndividualParameter>
-            
-            <!-- lambda0 -->
-            <SimpleParameter symbId="pop_lambda0"/>
-            <SimpleParameter symbId="omega_lambda0"/>
-            <RandomVariable symbId="eta_lambda0">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_lambda0"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="lambda0">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="pop_lambda0"/>
-                            <math:Uniop op="exp">
-                                <ct:SymbRef symbIdRef="eta_lambda0"/>
-                            </math:Uniop>
-                        </math:Binop>                        
-                    </math:Equation>
-                </ct:Assign>
-            </IndividualParameter>     
-            
-            <!-- IC50 -->
-            <SimpleParameter symbId="pop_IC50"/>
-            <SimpleParameter symbId="omega_IC50"/>
-            <RandomVariable symbId="eta_IC50">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_IC50"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="IC50">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="pop_IC50"/>
-                            <math:Uniop op="exp">
-                                <ct:SymbRef symbIdRef="eta_IC50"/>
-                            </math:Uniop>
-                        </math:Binop>                        
-                    </math:Equation>
-                </ct:Assign>
-            </IndividualParameter>
-            
-            <Correlation>
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <Pairwise>
-                    <RandomVariable1>
-                        <ct:SymbRef symbIdRef="eta_V"/>
-                    </RandomVariable1>
-                    <RandomVariable2>
-                        <ct:SymbRef symbIdRef="eta_CL"/>
-                    </RandomVariable2>
-                    <CorrelationCoefficient>
-                        <ct:SymbRef symbIdRef="rho_V_CL"/>
-                    </CorrelationCoefficient>
-                </Pairwise>
-            </Correlation>
-            
-            
+            <SimpleParameter symbId="kq"/>
+            <SimpleParameter symbId="V"/>
+            <SimpleParameter symbId="CL"/>
+            <SimpleParameter symbId="lambda0"/>
+            <SimpleParameter symbId="IC50"/>
+            <!-- individual def with IIV omitted -->
         </ParameterModel>
-        
+
         <!-- STRUCTURE -->
         <StructuralModel blkId="sm1">
 
@@ -285,7 +88,8 @@
             
         </StructuralModel>
         
-        <!-- OBSERVATIONS -->
+
+        <!-- Count data - observation model -->
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
@@ -314,6 +118,10 @@
                     
                     <!-- log(P(Y=k)) = -lambda+k*log(lambda)-log(k!) -->
                     <PMF linkFunction="log">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="Y"/>
+                            <ct:SymbRef symbIdRef="k"/>
+                        </math:LogicBinop>
                         <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
                             <rate>
                                 <var varId="Lambda"/>
@@ -324,7 +132,7 @@
             </Discrete>
         </ObservationModel>
         
-        
+        <!-- C_obs -->
         <ObservationModel blkId="om2">
             <ContinuousData>
                 <SimpleParameter symbId="a"/>
@@ -344,69 +152,5 @@
                 </General>
             </ContinuousData>
         </ObservationModel>
-        
     </ModelDefinition>
-    
-    <mstep:ModellingSteps>
-        
-        <mstep:NONMEMdataSet oid="NMoid">
-            
-            <mstep:ColumnMapping>
-                <ds:ColumnRef columnIdRef="TIME"/>
-                <ct:SymbRef symbIdRef="t"/>
-            </mstep:ColumnMapping>
-            
-            <mstep:ColumnMapping>
-                <ds:ColumnRef columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="k"/>
-            </mstep:ColumnMapping>
-            
-            <mstep:ColumnMapping>
-                <ds:ColumnRef columnIdRef="DV2"/>
-                <ct:SymbRef blkIdRef="om2" symbIdRef="C_obs"/>
-            </mstep:ColumnMapping>
-            
-            <ds:DataSet>
-                <ds:Definition>
-                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
-                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
-                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                    <ds:Column columnId="DV2" columnType="dv" valueType="real" columnNum="4"/>
-                </ds:Definition>
-                <ds:ImportData oid="importData">
-                    <ds:path>myFile.csv</ds:path>
-                    <ds:format>CSV</ds:format>
-                    <ds:delimiter>COMMA</ds:delimiter>
-                </ds:ImportData>
-            </ds:DataSet>
-        </mstep:NONMEMdataSet>
-        
-        <mstep:EstimationStep oid="estStep1">
-            
-            <mstep:TargetToolReference>
-                <ct:OidRef oidRef="NMoid"/>
-            </mstep:TargetToolReference>
-            
-            <mstep:ParametersToEstimate>
-                <mstep:ParameterEstimation>
-                    <ct:SymbRef symbIdRef="THETA1"/>
-                    <mstep:InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </mstep:InitialEstimate>
-                </mstep:ParameterEstimation>
-                
-                <mstep:ParameterEstimation>
-                    <ct:SymbRef symbIdRef="OMEGA1"/>
-                    <mstep:InitialEstimate>
-                        <ct:Real>0.6</ct:Real>
-                    </mstep:InitialEstimate>
-                </mstep:ParameterEstimation>
-                
-            </mstep:ParametersToEstimate>
-            
-            <mstep:Operation order="1" opType="estPop"/>
-        </mstep:EstimationStep>
-        
-    </mstep:ModellingSteps>
-    
 </PharmML>

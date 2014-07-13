@@ -18,6 +18,13 @@
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="lambda"/>
+            <!-- individual def with IIV omitted -->
+            <SimpleParameter symbId="delta"/>
+            <!-- individual def with IIV omitted -->
+        </ParameterModel>
+        
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>

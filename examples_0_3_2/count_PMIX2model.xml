@@ -18,70 +18,13 @@
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
-        <!-- PARAMETERS -->
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="pop_lambda1"/>
-            <SimpleParameter symbId="omega_lambda1"/>
-            <SimpleParameter symbId="pop_lambda2"/>
-            <SimpleParameter symbId="omega_lambda2"/>
-            <!-- lambda1 -->
-            <RandomVariable symbId="eta_lambda1">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0"  definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_lambda1"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="lambda1">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="pop_lambda1"/>
-                            <math:Uniop op="exp">
-                                <ct:SymbRef symbIdRef="eta_lambda1"/>
-                            </math:Uniop>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </IndividualParameter>            
-            <!-- lambda2 -->
-            <RandomVariable symbId="eta_lambda2">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0"  definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_lambda2"/>
-                    </variance>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="lambda2">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="pop_lambda2"/>
-                            <math:Uniop op="exp">
-                                <ct:SymbRef symbIdRef="eta_lambda2"/>
-                            </math:Uniop>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </IndividualParameter>
+            <SimpleParameter symbId="lambda1"/>
+            <!-- individual def with IIV omitted -->
+            <SimpleParameter symbId="lambda2"/>
+            <!-- individual def with IIV omitted -->
         </ParameterModel>
+        
         
         <!-- P1 = - lambda1 + k*log(lambda1) - factln(k)
          P2 = - lambda2 + k*log(lambda2) - factln(k)
@@ -166,7 +109,5 @@
                 </CountData>
             </Discrete>
         </ObservationModel>
-        
     </ModelDefinition>
-    
 </PharmML>
