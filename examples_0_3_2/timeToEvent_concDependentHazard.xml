@@ -20,11 +20,6 @@
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
-            <Level symbId="subject"/>
-        </VariabilityModel>
-        
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="beta"/>
         </ParameterModel>
