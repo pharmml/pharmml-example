@@ -254,6 +254,7 @@
         </StructuralModel>
         
         <!-- OBSERVATIONS -->
+        <!-- Continuous model for Cc -->
         <ObservationModel blkId="om1">
             <ContinuousData>
                 <RandomVariable symbId="eta_Cc">
@@ -275,7 +276,7 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <ct:SymbRef symbIdRef="a1"></ct:SymbRef>
+                            <ct:SymbRef symbIdRef="a1"/>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>
@@ -285,6 +286,7 @@
             </ContinuousData>
         </ObservationModel>
         
+        <!-- Continuous model for E -->
         <ObservationModel blkId="om2">
             <ContinuousData>
                 <RandomVariable symbId="eta_E">
@@ -313,39 +315,41 @@
             </ContinuousData>
         </ObservationModel>
         
+        <!-- Discrete model for Level -->
         <ObservationModel blkId="om3">
-            <CategoricalData ordered="no">
-                <ListOfCategories>
-                    <Category symbId="cat1"/>
-                    <Category symbId="cat2"/>
-                    <Category symbId="cat3"/>
-                </ListOfCategories>
-                
-                <CategoryVariable symbId="Level"/>
-                
-                <!-- logit(P(Level<=1)) = lp1-->
-                <Probability linkFunction="logit">
-                    <math:LogicBinop op="leq">
-                        <ct:SymbRef symbIdRef="Level"/>
-                        <ct:SymbRef symbIdRef="cat1"/>
-                    </math:LogicBinop>
-                    <ct:Assign>
-                        <ct:SymbRef blkIdRef="sm1" symbIdRef="lp1"/>
-                    </ct:Assign>
-                </Probability>
-                
-                <!-- logit(P(Level<=2)) = lp2-->
-                <Probability linkFunction="logit">
-                    <math:LogicBinop op="leq">
-                        <ct:SymbRef symbIdRef="Level"/>
-                        <ct:SymbRef symbIdRef="cat2"/>
-                    </math:LogicBinop>
-                    <ct:Assign>
-                        <ct:SymbRef blkIdRef="sm1" symbIdRef="lp2"/>
-                    </ct:Assign>
-                </Probability>
-                
-            </CategoricalData>
+            <Discrete>
+                <CategoricalData ordered="no">
+                    <ListOfCategories>
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="Level"/>
+                    
+                    <!-- logit(P(Level<=1)) = lp1-->
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="leq">
+                            <ct:SymbRef symbIdRef="Level"/>
+                            <ct:SymbRef symbIdRef="cat1"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="sm1" symbIdRef="lp1"/>
+                        </ct:Assign>
+                    </Probability>
+                    
+                    <!-- logit(P(Level<=2)) = lp2-->
+                    <Probability linkFunction="logit">
+                        <math:LogicBinop op="leq">
+                            <ct:SymbRef symbIdRef="Level"/>
+                            <ct:SymbRef symbIdRef="cat2"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="sm1" symbIdRef="lp2"/>
+                        </ct:Assign>
+                    </Probability>
+                </CategoricalData>
+            </Discrete>
         </ObservationModel>
         
     </ModelDefinition>
