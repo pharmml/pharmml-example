@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:un="http://www.uncertml.org/3.0"
+    implementedBy="MJS" writtenVersion="0.4" id="i1">
+    
+    <ct:Name>Latent variable model</ct:Name>
+    
+    <ct:Description>CLatent variable model - Hu et al. JPP 2010 paper.</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <StructuralModel blkId="sm1">
+            <!-- follwing equations skipped here        
+                dACRL/dt =  kin*IH-kout*ACRL(t)
+                IH = 1-plb-drug;
+                plb = plb_{max}*(1-exp(-k_{plb}*t))
+                drug = (Emax*Cp)/(EC50+Cp)-->
+        </StructuralModel>
+        
+        <!-- NOMINAL -->
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <CategoricalData ordered="yes">
+                    <RandomVariable symbId="eta">
+                        <ct:VariabilityReference>
+                            <ct:SymbRef symbIdRef="subject"/>
+                        </ct:VariabilityReference>
+                        <un:NormalDistribution definition="http://www.uncertml.org/3.0">
+                            <un:mean><un:rVal>0</un:rVal></un:mean>
+                            <un:stddev><un:var varId="omega"/></un:stddev>
+                        </un:NormalDistribution>
+                    </RandomVariable>
+                    <ListOfCategories> 
+                        <Category symbId="cat20"/>
+                        <Category symbId="cat50"/>
+                        <Category symbId="cat70"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    
+                    <!-- logit(P(y=ACR20)) = logit(1-r/100) + logit(1-ACRL) + eta -->
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="ACR20"/>
+                            </math:LogicBinop>
+                        </Probability>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <math:Uniop op="logit">
+                                        <math:Binop op="minus">
+                                            <ct:Real>1</ct:Real>
+                                            <math:Binop op="divide">
+                                                <ct:SymbRef symbIdRef="r"/>
+                                                <ct:Real>100</ct:Real>
+                                            </math:Binop>
+                                        </math:Binop>
+                                    </math:Uniop>
+                                    <math:Binop op="plus">
+                                        <math:Uniop op="logit">
+                                            <math:Binop op="minus">
+                                                <ct:Real>1</ct:Real>
+                                                <ct:SymbRef symbIdRef="ACRL"/>
+                                            </math:Binop>
+                                        </math:Uniop>
+                                        <ct:SymbRef symbIdRef="eta"/>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ProbabilityAssignment>
+                    
+                    <!-- assignments for two other categories skipped -->
+                    <!-- logit(P(y=ACR20)) = logit(1-r/100) + logit(1-ACRL) + eta -->
+                    <!-- logit(P(y=ACR20)) = logit(1-r/100) + logit(1-ACRL) + eta -->
+                    
+                </CategoricalData>
+            </Discrete>
+        </ObservationModel>
+        
+     
+    </ModelDefinition>
+
+</PharmML>

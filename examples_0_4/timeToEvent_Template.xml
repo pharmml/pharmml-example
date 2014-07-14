@@ -23,39 +23,25 @@
                     <EventVariable symbId="y"/>
                     
                     <HazardFunction symbId="H">
-                        <ct:Assign>
-                            <math:Equation>
-                                <!-- h0*exp(-beta*C) -->
-                            </math:Equation>
-                        </ct:Assign>
+                        <!-- h0*exp(-beta*C) -->
                     </HazardFunction>
                     
                     <SurvivalFunction symbId="S">
-                        <ct:Assign>
-                            <math:Equation>
-                                <!-- exp(-lambda*t) -->
-                            </math:Equation>
-                        </ct:Assign>
+                        <!-- exp(-lambda*t) -->
                     </SurvivalFunction>
                     
                     <Censoring censoringType="intervalCensored">    
                         <IntervalLength>
-                            <ct:Assign>
-                                <!-- e.g. <ct:Real>10</ct:Real> -->
-                            </ct:Assign>
+                            <!-- e.g. <ct:Real>10</ct:Real> -->
                         </IntervalLength>
                         
                         <RightCensoringTime>
-                            <ct:Assign>
-                                <!-- e.g. <ct:Real>200</ct:Real> -->
-                            </ct:Assign>
+                            <!-- e.g. <ct:Real>200</ct:Real> -->
                         </RightCensoringTime>
                     </Censoring>
                     
                     <MaximumNumberEvents>
-                        <ct:Assign>
-                            <!-- e.g. <ct:Real>5</ct:Real> -->
-                        </ct:Assign>
+                        <!-- e.g. <ct:Real>5</ct:Real> -->
                     </MaximumNumberEvents>
                 </TimeToEventData>
             </Discrete>

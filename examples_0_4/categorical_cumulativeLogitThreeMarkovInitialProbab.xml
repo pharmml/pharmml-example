@@ -66,49 +66,12 @@
                     
                     <!--   logit(P(y <= 1|yp = 1)) = a11 -->
                     <ProbabilityAssignment>
-                        <Probability linkFunction="logit">
-                            <CurrentState> 
-                                <math:LogicBinop op="leq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
-                            </CurrentState>
-                            <PreviousState>
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="yp"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
-                            </PreviousState>
-                        </Probability>
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="a11"/>
-                        </ct:Assign>
+                        <!-- omitted here, identical as in previous example -->
                     </ProbabilityAssignment>
                     
                     <!--  logit(P(y <= 2|yp = 1)) = a11 + a12 -->
                     <ProbabilityAssignment>
-                        <Probability linkFunction="logit">
-                            <CurrentState>
-                                <math:LogicBinop op="leq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat2"/>
-                                </math:LogicBinop>
-                            </CurrentState>
-                            <PreviousState>
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="yp"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
-                            </PreviousState>
-                        </Probability>
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="plus">
-                                    <ct:SymbRef symbIdRef="a11"/>
-                                    <ct:SymbRef symbIdRef="a12"/>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
+                        <!-- omitted here, identical as in previous example -->
                     </ProbabilityAssignment>
                     <!--  logit(P(y <= 1|yp = 2)) = a21 -->
                     <!-- omitted here -->

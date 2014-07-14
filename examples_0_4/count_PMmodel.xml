@@ -29,7 +29,6 @@
                 <CountData>
                     <CountVariable symbId="Y"/>
                     
-                    <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
@@ -82,7 +81,6 @@
                 <CountData>
                     <CountVariable symbId="Y"/>
                     
-                    <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>

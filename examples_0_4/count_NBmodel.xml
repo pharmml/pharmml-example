@@ -32,7 +32,6 @@
                     <!-- y = DV in NMTRAN code -->
                     <CountVariable symbId="y"/>
                     
-                    <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
@@ -45,10 +44,8 @@
                         </ct:Assign>
                     </DispersionParameter>
                     
-                    <!-- log(y=k;lambda) = gammaln(k+1/tau) - factln(k) - gammaln(1/tau) - 
-                        1/tau log(1+tau * lambda) + k*log(lambda) - 
-                        k*log(1/tau + lambda) -->
                     <PMF linkFunction="log">
+                        <!-- log(y=k)  -->
                         <math:LogicBinop op="eq">
                             <ct:SymbRef symbIdRef="y"/>
                             <ct:SymbRef symbIdRef="k"/>

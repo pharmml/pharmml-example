@@ -26,7 +26,6 @@
                 <CountData>
                     <CountVariable symbId="Y"/>
 
-                    <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
                         <!-- e.g. assignment for Lambda -->
                     </IntensityParameter>
@@ -37,7 +36,7 @@
                             <ct:SymbRef symbIdRef="Y"/>
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0">
                             <rate>
                                 <var varId="Lambda"/>
                             </rate>
@@ -63,14 +62,12 @@
             <Discrete>
                 <CountData>
                     <CountVariable symbId="Y"/>
-
                     <PreviousCountVariable symbId="Yp"/>
 
                     <Dependance type="continuousMarkov">
                         <!-- ... or discreteMarkov -->
                     </Dependance>
                     
-                    <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
                         <!-- e.g. assignment for Lambda -->
                     </IntensityParameter>
@@ -113,7 +110,7 @@
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
                         <ct:Assign>
-                            <!-- omitted details -->
+                            <!-- -Lambda+k*log(Lambda)-log(k!) -->
                         </ct:Assign>
                     </PMF>
                 </CountData>
@@ -125,7 +122,6 @@
                 <CountData>
                     <CountVariable symbId="Y"/>
                     
-                    <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>

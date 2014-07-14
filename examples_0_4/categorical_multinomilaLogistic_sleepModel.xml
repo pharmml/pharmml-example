@@ -49,7 +49,7 @@
                             </math:Equation>
                         </ct:Assign>
                     </SimpleParameter>
-                    <!-- omitted P2...P5 -->
+                    <!-- omitted P2...P5 - similar to P1 -->
                     
                     <ListOfCategories>
                         <Category symbId="cat1"/>
@@ -85,33 +85,7 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CategoricalData ordered="no">
-                    
-                    <SimpleParameter symbId="Y0">
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="divide">
-                                    <ct:Real>1</ct:Real>
-                                    <math:Binop op="plus">
-                                        <math:Binop op="plus">
-                                            <math:Binop op="plus">
-                                                <ct:Real>1</ct:Real>
-                                                <math:Uniop op="exp">
-                                                    <ct:SymbRef symbIdRef="G1"/>
-                                                </math:Uniop>
-                                            </math:Binop>
-                                            <math:Uniop op="exp">
-                                                <ct:SymbRef symbIdRef="G2"/>
-                                            </math:Uniop>
-                                        </math:Binop>
-                                        <math:Uniop op="exp">
-                                            <ct:SymbRef symbIdRef="G3"/>
-                                        </math:Uniop>
-                                    </math:Binop>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
-                    </SimpleParameter>
-                    
+
                     <ListOfCategories> 
                         <Category symbId="cat0"/>
                         <!-- omitted cat1...cat4 -->
@@ -122,7 +96,7 @@
                     
                     <!-- P(Y = 1) = exp(G1)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
                     <ProbabilityAssignment>
-                        <Probability linkFunction="identity">
+                        <Probability>
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="Y"/>
                                 <ct:SymbRef symbIdRef="cat1"/>
@@ -157,7 +131,7 @@
                     
                     <!-- P(Y = 2) = exp(G2)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
                     <ProbabilityAssignment>
-                        <Probability linkFunction="identity">
+                        <Probability>
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="Y"/>
                                 <ct:SymbRef symbIdRef="cat1"/>
@@ -192,7 +166,7 @@
                     
                     <!-- P(Y = 3) = 0 -->
                     <ProbabilityAssignment>
-                        <Probability linkFunction="identity">
+                        <Probability>
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="Y"/>
                                 <ct:SymbRef symbIdRef="cat3"/>
@@ -205,7 +179,7 @@
                     
                     <!-- P(Y = 4) = 0 --> 
                     <ProbabilityAssignment>
-                        <Probability linkFunction="identity">
+                        <Probability>
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="Y"/>
                                 <ct:SymbRef symbIdRef="cat4"/>
@@ -218,7 +192,7 @@
                     
                     <!-- P(Y = 5) = exp(G5)/(1+exp(G1)+exp(G2)+exp(G3)) --> 
                     <ProbabilityAssignment>
-                        <Probability linkFunction="identity">
+                        <Probability>
                             <math:LogicBinop op="eq">
                                 <ct:SymbRef symbIdRef="Y"/>
                                 <ct:SymbRef symbIdRef="cat5"/>

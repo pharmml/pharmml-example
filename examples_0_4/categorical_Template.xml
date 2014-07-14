@@ -123,10 +123,6 @@
                     <ProbabilityAssignment>
                         <Probability>
                             <!-- yinit = 1 -->
-                            <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="yinit"/>
-                                <ct:SymbRef symbIdRef="cat1"/>
-                            </math:LogicBinop>
                         </Probability>
                         <ct:Assign>
                             <ct:SymbRef symbIdRef="a1"/>
@@ -139,17 +135,9 @@
                         <Probability>
                             <CurrentState>
                                 <!-- y<=1 -->
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
                             </CurrentState>
                             <PreviousState>
                                 <!-- yp1=0 -->
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
                             </PreviousState>
                         </Probability>
                         <ct:Assign>
@@ -162,32 +150,16 @@
                     <ProbabilityAssignment>
                         <Probability linkFunction="logit">
                             <CurrentState>
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
                                 <!-- y<=1 -->
                             </CurrentState>
                             <PreviousState MarkovOrder="1">
                                 <!-- yp1=1 -->
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
                             </PreviousState>
                             <PreviousState MarkovOrder="2">
                                 <!-- yp2=2 -->
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
                             </PreviousState>
                             <Condition>
                                 <!-- other condition -->
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
                             </Condition>
                         </Probability>
                         <ct:Assign>
@@ -218,22 +190,13 @@
                         <TransitionRate>
                             <CurrentState>
                                 <!-- y=1 -->
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
                             </CurrentState>
                             <PreviousState>
                                 <!-- yp1=1 -->
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
                             </PreviousState>
                         </TransitionRate>
                         <ct:Assign>
                             <!-- exp(a+b*t) -->
-                            <ct:SymbRef symbIdRef="t"/>
                         </ct:Assign>
                     </ProbabilityAssignment>
                 </CategoricalData>

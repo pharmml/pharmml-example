@@ -25,7 +25,6 @@
             <!-- individual def with IIV omitted -->
         </ParameterModel>
         
-        
         <!-- P1 = - lambda1 + k*log(lambda1) - factln(k)
          P2 = - lambda2 + k*log(lambda2) - factln(k)
          Log(P(Y=k)) = MP*P1 + (1-MP)*P2 -->

@@ -35,7 +35,7 @@
                     <Dependance type="discreteMarkov"/>
                     
                     <!-- Version 1 -->
-                    <!-- homogenous Poisson with Markov - choose one lambda -->
+                    <!-- Poisson with Markov - choose one lambda dependent on yp -->
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
                             <math:Equation>
@@ -103,7 +103,7 @@
                     <Dependance type="discreteMarkov"/>
                     
                     <!-- Version 2 -->
-                    <!-- homogenous Poisson with Markov - choose one lambda -->
+                    <!-- Poisson with Markov -->
                     <IntensityParameter symbId="Lambda1">
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>

@@ -23,8 +23,7 @@
             <Discrete>
                 <CategoricalData ordered="no">
                     <SimpleParameter symbId="a1"/>
-                    <SimpleParameter symbId="a2"/>
-                    <SimpleParameter symbId="a3"/>
+                    <!-- a1, a2 omitted -->
                     
                     <ListOfCategories> 
                         <Category symbId="cat1"/>

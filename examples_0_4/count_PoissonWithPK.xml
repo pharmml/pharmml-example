@@ -88,14 +88,13 @@
             
         </StructuralModel>
         
-
         <!-- Count data - observation model -->
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
                     <CountVariable symbId="k"/>
                     
-                    <!-- Poisson ’intensity’ is function of drug concentration, Cc -->                    
+                    <!-- Poisson intensity - function of drug concentration, Cc -->                    
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
                             <math:Equation>
@@ -122,7 +121,8 @@
                             <ct:SymbRef symbIdRef="Y"/>
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" 
+                            definition="http://www.uncertml.org/3.0">
                             <rate>
                                 <var varId="Lambda"/>
                             </rate>

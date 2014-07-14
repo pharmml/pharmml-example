@@ -14,7 +14,7 @@
     <ct:Description>Poisson Mixture model PMIX with regressor - based on code from Marc Lavielle</ct:Description>
     
     <IndependentVariable symbId="t"/>
-    
+
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
@@ -27,32 +27,20 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
-                    <!-- gamma = gamma_s + x*delta1 -->
                     <ct:Variable symbolType="real" symbId="gamma" id="i4">
-                        <ct:Assign>
-                            <!-- omitted equation for gamma -->
-                        </ct:Assign>
+                        <!-- gamma = gamma_s + x*delta1 -->
                     </ct:Variable>
                     
-                    <!-- lambda1 = (1-x)*lambda_s + x*delta2*lambda_s -->
                     <ct:Variable symbolType="real" symbId="lambda1">
-                        <ct:Assign>
-                            <!-- omitted equation for lambda1 -->
-                        </ct:Assign>
+                        <!-- lambda1 = (1-x)*lambda_s + x*delta2*lambda_s -->
                     </ct:Variable>
                     
-                    <!-- alpha = (1-x)*alpha_s + x*delta3*alpha_s -->
                     <ct:Variable symbolType="real" symbId="alpha">
-                        <ct:Assign>
-                            <!-- omitted equation for alpha -->
-                        </ct:Assign>
+                        <!-- alpha = (1-x)*alpha_s + x*delta3*alpha_s -->
                     </ct:Variable>
                     
-                    <!-- lambda2 = lambda1 + alpha -->
                     <ct:Variable symbolType="real" symbId="lambda2">
-                        <ct:Assign>
-                            <!-- omitted equation for lambda2 -->
-                        </ct:Assign>
+                        <!-- lambda2 = lambda1 + alpha -->
                     </ct:Variable>
                     
                     <!-- Lk1 = -lambda1 + k*log(lambda1) - factln(k) -->
@@ -79,17 +67,13 @@
                         </ct:Assign>
                     </ct:Variable>
                     
-                    <!-- Lk2 = -lambda2 + k*log(lambda2) - factln(k) -->
                     <ct:Variable symbolType="real" symbId="Lk2">
-                        <ct:Assign>
-                            <!-- omitted equation for Lk2 -->
-                        </ct:Assign>
+                        <!-- Lk2 = -lambda2 + k*log(lambda2) - factln(k) -->
                     </ct:Variable>
                     
                     <!-- y = DV in NMTRAN code -->
                     <CountVariable symbId="y"/>
                     
-                    <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>

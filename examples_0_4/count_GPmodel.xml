@@ -32,7 +32,6 @@
                     <!-- y = DV in NMTRAN code -->
                     <CountVariable symbId="y"/>
                     
-                    <!-- homogenous Poisson -->
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
