@@ -98,6 +98,34 @@
                 </Matrix>
             </Correlation>-->
             
+            <Correlation>
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="iiv"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="CorrMatrix">
+                    <ct:MatrixRow>
+                        <ct:Real>1</ct:Real><ct:Real>2</ct:Real>
+                    </ct:MatrixRow>
+                    <ct:MatrixRow>
+                        <ct:Real>3</ct:Real><ct:Real>4</ct:Real>
+                    </ct:MatrixRow>
+                </Matrix>
+            </Correlation>
+
+            <Correlation deviationMatrixType="CorrMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="iiv"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any">
+                    <ct:MatrixRow>
+                        <ct:Real>1</ct:Real><ct:Real>2</ct:Real>
+                    </ct:MatrixRow>
+                    <ct:MatrixRow>
+                        <ct:Real>3</ct:Real><ct:Real>4</ct:Real>
+                    </ct:MatrixRow>
+                </Matrix>
+            </Correlation>
+            
         </ParameterModel>
         
         <!-- STRUCTURAL MODEL -->
