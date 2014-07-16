@@ -36,7 +36,7 @@
                             <ct:SymbRef symbIdRef="Y"/>
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0">
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
                             <rate>
                                 <var varId="Lambda"/>
                             </rate>

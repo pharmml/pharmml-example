@@ -12,7 +12,7 @@
     
     <ct:Name>Latent variable model</ct:Name>
     
-    <ct:Description>CLatent variable model - Hu et al. JPP 2010 paper.</ct:Description>
+    <ct:Description>Latent variable model - Hu et al. JPP 2010 paper.</ct:Description>
     
     <IndependentVariable symbId="t"/>
     

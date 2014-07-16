@@ -9,9 +9,9 @@
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.4" id="i1">
     
-    <ct:Name id="i2">Cumulative Logit Markov (3 categories)</ct:Name>
+    <ct:Name id="i2">Cumulative Logit 2nd order Markov (3 categories)</ct:Name>
     
-    <ct:Description>Categorical model - cumulative logut model with Markov dependency</ct:Description>
+    <ct:Description>Categorical model - cumulative logut model with 2nd order Markov dependency.</ct:Description>
     
     <IndependentVariable symbId="t"/>
     

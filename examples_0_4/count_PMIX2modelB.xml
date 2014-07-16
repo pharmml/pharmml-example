@@ -9,7 +9,7 @@
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.4" id="i1">
     
-    <ct:Name>Poisson Mixture model – PMIX</ct:Name>
+    <ct:Name>Poisson Mixture model – PMIX with regressor</ct:Name>
     
     <ct:Description>Poisson Mixture model PMIX with regressor - based on code from Marc Lavielle</ct:Description>
     
