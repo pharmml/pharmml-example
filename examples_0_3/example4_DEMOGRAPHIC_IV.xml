@@ -499,11 +499,21 @@
                 <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
             </ct:VariabilityReference>
             
+            <!-- TEST -->                                                   <!-- TESTING DEMOGRAPHIC MAPPING -->
+            <Demographic oid="country">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="iov1" symbIdRef="country"/>
+                </ct:VariabilityReference>
+                <ct:String>UK</ct:String>
+                <ct:String>US</ct:String>
+                <ds:ColumnRef columnIdRef="COUNTRY"/>
+            </Demographic>
+            
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="SEX"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
                 <ds:CategoryMapping>
-                    <ds:Map dataSymbol="1" modelSymbol="F"/>
+                    <ds:Map dataSymbol="1" modelSymbol="F   "/>
                     <ds:Map dataSymbol="0" modelSymbol="M"/>
                 </ds:CategoryMapping>
             </ColumnMapping>
