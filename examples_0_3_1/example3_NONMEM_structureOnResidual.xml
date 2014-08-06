@@ -321,36 +321,6 @@
                     </stddev>
                 </NormalDistribution>
             </RandomVariable>
-            <RandomVariable symbId="epsilon_C3">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="resErr" symbIdRef="replicate"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="0.1">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="sigma3"/>
-                    </stddev>
-                </NormalDistribution>
-            </RandomVariable>
-
-            <Correlation>
-                <ct:VariabilityReference>
-                    <ct:SymbRef symbIdRef="replicate"/>
-                </ct:VariabilityReference>
-                <Pairwise>
-                    <RandomVariable1>
-                        <ct:SymbRef symbIdRef="epsilon_C2"/>
-                    </RandomVariable1>
-                    <RandomVariable2>
-                        <ct:SymbRef symbIdRef="epsilon_C3"/>
-                    </RandomVariable2>
-                    <CorrelationCoefficient>
-                        <ct:SymbRef symbIdRef="rho_eps2_eps3"/>
-                    </CorrelationCoefficient>
-                </Pairwise>
-            </Correlation>
 
             <General symbId="C_obs">
                 <ct:Assign>
