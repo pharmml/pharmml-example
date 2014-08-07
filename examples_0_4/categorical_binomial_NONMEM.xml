@@ -31,7 +31,6 @@
                     
                     <CategoryVariable symbId="y"/>
                     
-                    <!-- P(y = 1) = p -->
                     <ProbabilityAssignment>
                         <Probability linkFunction="identity">
                             <math:LogicBinop op="eq">
@@ -43,25 +42,13 @@
                             <ct:SymbRef symbIdRef="p"/>
                         </ct:Assign>
                     </ProbabilityAssignment>
-                    
-                    <!-- ALTERNATIVE -->
-<!--                    <PMF>
-                        <BernoulliDistribution xmlns="http://www.uncertml.org/3.0" 
-                            definition="http://www.uncertml.org/3.0">
-                            <categoryProb definition="http://www.uncertml.org/3.0">
-                                <name>cat1</name>
-                                <probability>
-                                    <var varId="p"/>
-                                </probability>
-                            </categoryProb>
-                        </BernoulliDistribution>
-                    </PMF>-->
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
         
     </ModelDefinition>
     
+    <!-- MODELLING STEPS -->
     <mstep:ModellingSteps>
         
         <mstep:NONMEMdataSet oid="NMoid">
@@ -94,6 +81,7 @@
             </ds:DataSet>
         </mstep:NONMEMdataSet>
         
+        <!-- ESTIMATION STEPS -->
         <mstep:EstimationStep oid="estStep1">
             
             <mstep:TargetToolReference>
@@ -111,22 +99,6 @@
             
             <mstep:Operation order="1" opType="estPop"/>
         </mstep:EstimationStep>
-        
-        <mstep:SimulationStep oid="sim1">
-            <mstep:Observations>
-                <mstep:Timepoints>
-                    <math:Vector>
-                        <math:VectorElements>
-                            <ct:Int>1</ct:Int>
-                        </math:VectorElements>
-                    </math:Vector>
-                </mstep:Timepoints>
-                <mstep:Continuous>
-                    <ct:SymbRef symbIdRef="E"/>
-                </mstep:Continuous>
-            </mstep:Observations>
-        </mstep:SimulationStep>
-        
+
     </mstep:ModellingSteps>
-    
 </PharmML>

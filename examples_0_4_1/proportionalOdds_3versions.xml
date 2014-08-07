@@ -10,29 +10,391 @@
     xmlns:un="http://www.uncertml.org/3.0"
     implementedBy="MJS" writtenVersion="0.4.1" id="i1">
     
-    <ct:Name>Categorical template</ct:Name>
+    <ct:Name>Proportional Odds model - 3 versions</ct:Name>
     
-    <ct:Description>Categorical model template</ct:Description>
+    <ct:Description>Proportional Odds model - 3 versions - NMTRAN / MDL / MLXTRAN</ct:Description>
     
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
-        <!-- ORDERED -->
-        <ObservationModel blkId="om2">
+        <!-- Variability Model -->
+        <VariabilityModel blkId="randomEff" type="parameterVariability">
+            <Level symbId="indiv"/>
+        </VariabilityModel>
+        
+        <!-- Structural Model -->
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="CP"/>
+        </StructuralModel>
+        
+        <!-- Observation Model -->
+        
+        <!-- NMTRAN version -->
+        <ObservationModel blkId="om1">
             <Discrete>
                 <CategoricalData ordered="yes">
+                    
+                    <SimpleParameter symbId="pop_B0"/>
+                    <SimpleParameter symbId="omega_B0"/>
+                    <!-- eta_B0 -->
+                    <RandomVariable symbId="eta_B0">
+                        <ct:VariabilityReference>
+                            <ct:SymbRef blkIdRef="randomEff" symbIdRef="indiv"/>
+                        </ct:VariabilityReference>
+                        <un:NormalDistribution definition="http://uncertml.org/3.0/">
+                            <un:mean><un:rVal>0</un:rVal></un:mean>
+                            <un:stddev><un:prVal>1</un:prVal></un:stddev>
+                        </un:NormalDistribution>
+                    </RandomVariable>
+                    <!-- B0 with IIV -->
+                    <IndividualParameter symbId="B0">
+                        <GaussianModel>
+                            <Transformation>log</Transformation>
+                            <LinearCovariate>
+                                <PopulationParameter>
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="B0"/>
+                                    </ct:Assign>
+                                </PopulationParameter>
+                            </LinearCovariate>
+                            <RandomEffects>
+                                <ct:SymbRef symbIdRef="eta_B0"/>
+                            </RandomEffects>
+                        </GaussianModel>
+                    </IndividualParameter>
+                    <!-- B1 -->
+                    <SimpleParameter symbId="B1"/>
+                    <!-- B2 -->
+                    <SimpleParameter symbId="B2"/>
+                    
+                    <!-- EDRUG = POP_BETA * CP -->
+                    <ct:Variable symbolType="real" symbId="EDRUG">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="POP_BETA"/>
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="CP"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:Variable>
+                    
+                    <!-- A0 = EDRUG + B0 -->
+                    <ct:Variable symbolType="real" symbId="A0">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="B0"/>
+                                    <ct:SymbRef symbIdRef="EDRUG"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:Variable>
+                    <!-- A1 = EDRUG + B0 + B1 -->
+                    <!-- omitted -->
+                    <!-- A2 = EDRUG + B0 + B1 + B2 -->
+                    <!-- omitted -->
+                    
+                    <!-- cp0 -->
+                    <ct:Variable symbolType="real" symbId="cp0">
+                        <!-- cp0 = 1 / (1 + exp(-A0)) -->
+                    </ct:Variable>
+                    <!-- cp1 -->
+                    <ct:Variable symbolType="real" symbId="cp1">
+                        <!-- cp1 = 1 / (1 + exp(-A1)) -->
+                    </ct:Variable>
+                    <!-- cp2 -->
+                    <ct:Variable symbolType="real" symbId="cp2">
+                        <!-- cp2 = 1 / (1 + exp(-A2)) -->
+                    </ct:Variable>
+                    
+                    <!-- cat0_Probab = cp0 -->
+                    <ct:Variable symbolType="real" symbId="cat0_Probab">
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="cp0"/>
+                        </ct:Assign>
+                    </ct:Variable>
+                    
+                    <!-- cat1_Probab = cp1 - cp0 -->
+                    <ct:Variable symbolType="real" symbId="cat1_Probab">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="minus">
+                                    <ct:SymbRef symbIdRef="cp1"/>
+                                    <ct:SymbRef symbIdRef="cp0"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:Variable>
+                    
+                    <!-- cat2_Probab = cp2 - cp1 -->
+                    <ct:Variable symbolType="real" symbId="cat2_Probab">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="minus">
+                                    <ct:SymbRef symbIdRef="cp2"/>
+                                    <ct:SymbRef symbIdRef="cp1"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:Variable>
+                    
+                    <!-- cat3_Probab = 1 - cp2 -->
+                    <ct:Variable symbolType="real" symbId="cat3_Probab">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="minus">
+                                    <ct:Real>1</ct:Real>
+                                    <ct:SymbRef symbIdRef="cp2"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:Variable>
+                    
                     <ListOfCategories> 
+                        <Category symbId="cat0"/>
                         <Category symbId="cat1"/>
-                        <!-- omitted other assignments -->
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="y"/>
                     
-                    <!-- P(y <= 1) = a1/(a1+a2+a3) --> 
+                    <!-- UncertML PMF -->
+                    <PMF linkFunction="identity">
+                        <un:CategoricalDistribution definition="http://uncertml.org/3.0">
+                            <un:categoryProb definition="http://uncertml.org/3.0">
+                                <un:name>cat0</un:name>
+                                <un:probability>
+                                    <un:var varId="cat0_Probab"/>
+                                </un:probability>
+                            </un:categoryProb>
+                            <un:categoryProb definition="http://uncertml.org/3.0">
+                                <un:name>cat1</un:name>
+                                <un:probability>
+                                    <un:var varId="cat1_Probab"/>
+                                </un:probability>
+                            </un:categoryProb>
+                            <un:categoryProb definition="http://uncertml.org/3.0">
+                                <un:name>cat2</un:name>
+                                <un:probability>
+                                    <un:var varId="cat2_Probab"/>
+                                </un:probability>
+                            </un:categoryProb>
+                            <un:categoryProb definition="http://uncertml.org/3.0">
+                                <un:name>cat3</un:name>
+                                <un:probability>
+                                    <un:var varId="cat3_Probab"/>
+                                </un:probability>
+                            </un:categoryProb>
+                        </un:CategoricalDistribution>
+                    </PMF>
+                    
+                </CategoricalData>
+            </Discrete>
+        </ObservationModel>
+        
+        
+        <!-- MDL version -->
+        <ObservationModel blkId="om2">
+            <Discrete>
+                <CategoricalData>
+                    <!-- B0 with IIV -->
+                    <!-- B1 -->
+                    <!-- B2 -->
+                    <!-- EDRUG -->
+                    <ct:Variable symbolType="real" symbId="EDRUG">
+                        <!-- POP_BETA * CP -->
+                    </ct:Variable>
+                    
+                    <!-- P0 -->
+                    <ct:Variable symbolType="real" symbId="P0"/>
+                    <!-- P1 -->
+                    <ct:Variable symbolType="real" symbId="P1"/>
+                    <!-- P2 -->
+                    <ct:Variable symbolType="real" symbId="P2"/>
+                    <!-- P3 -->
+                    <ct:Variable symbolType="real" symbId="P3"/>
+                    
+                    <!-- cat0_Probab = P0 -->
+                    <ct:Variable symbolType="real" symbId="cat0_Probab">
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="P0"/>
+                        </ct:Assign>
+                    </ct:Variable>
+                    
+                    <!-- cat1_Probab = P1 - P0 -->
+                    <ct:Variable symbolType="real" symbId="cat1_Probab">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="minus">
+                                    <ct:SymbRef symbIdRef="P1"/>
+                                    <ct:SymbRef symbIdRef="P0"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:Variable>
+                    
+                    <!-- cat2_Probab = P2 - P1 -->
+                    <ct:Variable symbolType="real" symbId="cat2_Probab">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="minus">
+                                    <ct:SymbRef symbIdRef="P2"/>
+                                    <ct:SymbRef symbIdRef="P1"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:Variable>
+                    
+                    <!-- cat3_Probab = 1 - P2 -->
+                    <ct:Variable symbolType="real" symbId="cat3_Probab">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="minus">
+                                    <ct:Real>1</ct:Real>
+                                    <ct:SymbRef symbIdRef="P2"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:Variable>
+                    
+                    <ListOfCategories>
+                        <Category symbId="cat0"/>
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    
+                    <!-- logit(P0) = EDRUG + B0 -->
                     <ProbabilityAssignment>
-                        <Probability>
+                        <math:LogicBinop op="eq">
+                            <math:Uniop op="logit">
+                                <ct:SymbRef symbIdRef="P0"/>
+                            </math:Uniop>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="EDRUG"/>
+                                <ct:SymbRef symbIdRef="B0"/>
+                            </math:Binop>
+                        </math:LogicBinop>
+                    </ProbabilityAssignment>
+                    
+                    <!-- logit(P1) = EDRUG + B0 + B1 -->
+                    <ProbabilityAssignment>
+                        <math:LogicBinop op="eq">
+                            <math:Uniop op="logit">
+                                <ct:SymbRef symbIdRef="P1"/>
+                            </math:Uniop>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="EDRUG"/>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="B0"/>
+                                    <ct:SymbRef symbIdRef="B1"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:LogicBinop>
+                    </ProbabilityAssignment>
+                    
+                    <!-- logit(P2) = EDRUG + B0 + B1 + B2 -->
+                    <ProbabilityAssignment>
+                        <math:LogicBinop op="eq">
+                            <math:Uniop op="logit">
+                                <ct:SymbRef symbIdRef="P2"/>
+                            </math:Uniop>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="EDRUG"/>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="B0"/>
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="B1"/>
+                                        <ct:SymbRef symbIdRef="B2"/>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:LogicBinop>
+                    </ProbabilityAssignment>
+                    
+                    <!-- UncertML PMF -->
+                    <PMF linkFunction="identity">
+                        <un:CategoricalDistribution definition="http://uncertml.org/3.0">
+                            <un:categoryProb definition="http://uncertml.org/3.0">
+                                <un:name>cat0</un:name>
+                                <un:probability>
+                                    <un:var varId="cat0_Probab"/>
+                                </un:probability>
+                            </un:categoryProb>
+                            <un:categoryProb definition="http://uncertml.org/3.0">
+                                <un:name>cat1</un:name>
+                                <un:probability>
+                                    <un:var varId="cat1_Probab"/>
+                                </un:probability>
+                            </un:categoryProb>
+                            <un:categoryProb definition="http://uncertml.org/3.0">
+                                <un:name>cat2</un:name>
+                                <un:probability>
+                                    <un:var varId="cat2_Probab"/>
+                                </un:probability>
+                            </un:categoryProb>
+                            <un:categoryProb definition="http://uncertml.org/3.0">
+                                <un:name>cat3</un:name>
+                                <un:probability>
+                                    <un:var varId="cat3_Probab"/>
+                                </un:probability>
+                            </un:categoryProb>
+                        </un:CategoricalDistribution>
+                    </PMF>
+                    
+                </CategoricalData>
+            </Discrete>
+        </ObservationModel>
+        
+        
+        <!-- MLXTRAN version -->
+        <ObservationModel blkId="om3">
+            <Discrete>
+                <CategoricalData>
+                    <!-- B0 with IIV -->
+                    <!-- B1 -->
+                    <!-- B2 -->
+                    <!-- EDRUG -->
+                    <ct:Variable symbolType="real" symbId="EDRUG">
+                        <!-- POP_BETA * CP -->
+                    </ct:Variable>
+                    
+                    <ListOfCategories>
+                        <Category symbId="cat0"/>
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    
+                    <!-- logit(P(y<=cat0)) = EDRUG + B0 -->
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="logit">
+                            <math:LogicBinop op="leq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat0"/>
+                            </math:LogicBinop>
+                        </Probability>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="EDRUG"/>
+                                    <ct:SymbRef symbIdRef="B0"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ProbabilityAssignment>
+                    
+                    <!-- logit(P(y<=cat1)) = EDRUG + B0 + B1 -->
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="logit">
                             <math:LogicBinop op="leq">
                                 <ct:SymbRef symbIdRef="y"/>
                                 <ct:SymbRef symbIdRef="cat1"/>
@@ -40,19 +402,41 @@
                         </Probability>
                         <ct:Assign>
                             <math:Equation>
-                                <math:Binop op="divide">
-                                    <ct:SymbRef symbIdRef="a1"/>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="EDRUG"/>
                                     <math:Binop op="plus">
-                                        <ct:SymbRef symbIdRef="a1"/>
+                                        <ct:SymbRef symbIdRef="B0"/>
+                                        <ct:SymbRef symbIdRef="B1"/>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ProbabilityAssignment>
+                    
+                    <!-- logit(P(y<=cat2)) = EDRUG + B0 + B1 + B2 -->
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="logit">
+                            <math:LogicBinop op="leq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat2"/>
+                            </math:LogicBinop>
+                        </Probability>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="EDRUG"/>
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="B0"/>
                                         <math:Binop op="plus">
-                                            <ct:SymbRef symbIdRef="a2"/>
-                                            <ct:SymbRef symbIdRef="a3"/>
+                                            <ct:SymbRef symbIdRef="B1"/>
+                                            <ct:SymbRef symbIdRef="B2"/>
                                         </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
                     </ProbabilityAssignment>
+                    
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
