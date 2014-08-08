@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    writtenVersion="0.3" id="i1">
+    
+    <!-- MODEL NAME -->
+    <ct:Name>Example 5 - estimation for growth tumor model - with NONMEM dataset</ct:Name>
+    
+    <ct:Description>based on A Tumor Growth Inhibition Model for Low-Grade Glioma Treated with Chemotherapy or Radiotherapy
+        Benjamin Ribba, Gentian Kaloshi, Mathieu Peyre, et al. Clin Cancer Res Published OnlineFirst July 3, 2012.</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- SYMBOL DEFINITION - RESUIDUAL ERROR MODEL -->
+    <ct:FunctionDefinition symbId="constantErrorModel" symbolType="real">
+        <ct:FunctionArgument symbId="a" symbolType="real"/>
+        <ct:Definition>
+            <ct:SymbRef symbIdRef="a"/>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+
+    <!-- BLOCK I: MODEL DEFINITION -->
+    <ModelDefinition  xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm1">
+            
+            <SimpleParameter symbId="V"/>
+            <SimpleParameter symbId="k"/>
+            
+        </ParameterModel>
+
+    
+        <!-- STRUCTURAL MODEL - ODEs -->
+        <StructuralModel blkId="sm1">
+
+<!--ADVAN1, TRANS1 - 1-comp IV input -->
+<!--compartment(cmt=1, amount=Ac, volume=V)
+iv(cmt=1)
+elimination(cmt=1, k)-->
+            
+            <PKmacro>
+                <Compartment>  
+                    <Cmt>1</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ac"/>                        
+                    </Amount>
+                    <Volume>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Volume>
+                </Compartment>
+                
+                <IV>
+                    <Cmt>1</Cmt>
+                    <AdminType>1</AdminType>
+                </IV>
+                
+                <Elimination>
+                    <Cmt>1</Cmt>
+                    <EliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                    </EliminationRate>
+                </Elimination>
+                
+            </PKmacro>
+            
+            
+            
+            
+            <!-- ORIGINAL PK MACROS -->
+            <!--            [LONGITUDINAL]
+            input = {F1, F2, ka, Tk0, kl, k23, k32, V, k, Vm, Km}
+            PK:
+            compartment(cmt=1, amount=Al)                                                   
+            compartment(cmt=2, amount=Ac)
+            peripheral(k23,k32)
+            oral(type=1, cmt=1, ka, p=F1)
+            oral(type=2, cmt=2, Tk0, p=F2)
+            iv(type=3, cmt=2)
+            transfer(from=1, to=2, kt=kl)
+            elimination(cmt=1, k)
+            elimination(cmt=2, Km, Vm)
+            Cc = Ac/V-->
+            
+            <ct:Variable symbolType="real" symbId="Al"/>
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Ap"/>
+            <ct:Variable symbolType="real" symbId="Cc"/>  <!-- Al = 1, Ac = 2 -->
+            <PKmacro>
+                <!-- compartment(cmt=1, amount=Al) -->
+                <Compartment>  
+                    <Cmt>1</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Al"/>                        
+                    </Amount>
+                    <Volume>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Volume>
+                </Compartment>
+                <!-- compartment(cmt=2, amount=Ac) -->
+                <Compartment>
+                    <Cmt>2</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ac"/>                        
+                    </Amount>
+                    <Volume>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>                        
+                    </Volume>
+                </Compartment>
+                
+                <!-- peripheral(k23,k32) - kij - 'i' sourceComp, 'j' - periphCompId -->
+                <Peripheral>
+                    <PeripheralComp>3</PeripheralComp>     
+                    <SourceComp>2</SourceComp>
+                    <InputRate> <!-- k23 or k_2_3 -->
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
+                    </InputRate>
+                    <OutputRate> <!-- k32 or k_3_2 -->
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>                        
+                    </OutputRate>
+                </Peripheral>
+                
+                <!-- oral(type=1, cmt=1, ka, p=F1) -->
+                <Oral>
+                    <Cmt>1</Cmt>
+                    <AdminType>1</AdminType>
+                    <AbsorptionConstant>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>                        
+                    </AbsorptionConstant>
+                    <PortionAmountAbsorbed>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="F1"/>
+                        </ct:Assign>
+                    </PortionAmountAbsorbed>
+                </Oral>
+                
+                <!-- oral(type=2, cmt=2, Tk0, p=F2) -->
+                <Oral>
+                    <Cmt>1</Cmt>
+                    <AdminType>2</AdminType>
+                    <AbsorptionDuration>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>                        
+                    </AbsorptionDuration>
+                    <PortionAmountAbsorbed>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="F2"/>
+                        </ct:Assign>
+                    </PortionAmountAbsorbed>
+                </Oral>
+                
+                <!-- iv(type=3, cmt=2) -->
+                <IV>
+                    <Cmt>1</Cmt>
+                    <AdminType>1</AdminType>
+                </IV>
+                
+                <!-- transfer(from=1, to=2, kt=kl) -->
+                <Transfer>    
+                    <From>1</From>
+                    <To>2</To>
+                    <TransferRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
+                    </TransferRate>
+                </Transfer>
+                
+                <!-- elimination(cmt=1, k) -->
+                <Elimination>
+                    <Cmt>1</Cmt>
+                    <EliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
+                    </EliminationRate>
+                </Elimination>
+                
+                <!-- elimination(cmt=2, Km, Vm) -->
+                <Elimination>
+                    <Cmt>2</Cmt>
+                    <MaximumEliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
+                    </MaximumEliminationRate>
+                    <MichaelisMentenConstant>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
+                    </MichaelisMentenConstant>
+                </Elimination>
+                                
+            </PKmacro>
+            
+        </StructuralModel>
+
+    </ModelDefinition>
+</PharmML>

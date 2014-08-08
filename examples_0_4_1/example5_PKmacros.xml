@@ -1,0 +1,1166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    writtenVersion="0.3" id="i1">
+    
+    <!-- MODEL NAME -->
+    <ct:Name>Example 5 - estimation for growth tumor model - with NONMEM dataset</ct:Name>
+    
+    <ct:Description>based on A Tumor Growth Inhibition Model for Low-Grade Glioma Treated with Chemotherapy or Radiotherapy
+        Benjamin Ribba, Gentian Kaloshi, Mathieu Peyre, et al. Clin Cancer Res Published OnlineFirst July 3, 2012.</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- SYMBOL DEFINITION - RESUIDUAL ERROR MODEL -->
+    <ct:FunctionDefinition symbId="constantErrorModel" symbolType="real">
+        <ct:FunctionArgument symbId="a" symbolType="real"/>
+        <ct:Definition>
+            <ct:SymbRef symbIdRef="a"/>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+
+    <!-- BLOCK I: MODEL DEFINITION -->
+    <ModelDefinition  xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <!-- VARIABILITY MODEL -->
+        <VariabilityModel blkId="modelVar" type="parameterVariability"> 
+            <Level symbId="indiv"/>
+        </VariabilityModel>
+        
+        <VariabilityModel blkId="obsErr" type="residualError"> 
+            <Level symbId="residual"/>
+        </VariabilityModel>
+        
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="SEX">
+                <Categorical>
+                    <Category catId="1"/>
+                </Categorical>
+            </Covariate>
+        </CovariateModel>
+        
+        <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm1">
+            <!-- **************************************** -->
+            <!-- PARAMETERS: initial conditions           -->
+            <!-- **************************************** -->
+            <!-- C0 -->
+            <SimpleParameter symbId="C0"/>
+            <!-- P0 -->
+            <SimpleParameter symbId="pop_P0"/>
+            <SimpleParameter symbId="omega_P0"/>
+            <RandomVariable symbId="eta_P0">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                    <mean><rVal>0</rVal></mean>
+                    <stddev><var varId="omega_P0"/></stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="P0">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_P0"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_P0"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>            
+            <!-- Q0 -->
+            <SimpleParameter symbId="pop_Q0"/>
+            <SimpleParameter symbId="omega_Q0"/>
+            <RandomVariable symbId="eta_Q0">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                    <mean><rVal>0</rVal></mean>
+                    <stddev><var varId="omega_Q0"/></stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="Q0">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_Q0"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_Q0"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>            
+            <!-- QP0 -->
+            <SimpleParameter symbId="QP0">
+                <ct:Assign>
+                    <ct:Real>0</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- **************************************** -->
+            <!-- PARAMETERS: population values & omegas   -->
+            <!-- **************************************** -->
+            <SimpleParameter symbId="K">
+                <ct:Assign>
+                    <ct:Real>100</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <SimpleParameter symbId="pop_KDE"/>
+            <SimpleParameter symbId="omega_KDE">
+                <ct:Assign>
+                    <ct:Real>0.5</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <SimpleParameter symbId="pop_LAMBDAP"/>
+            <SimpleParameter symbId="omega_LAMBDAP"/>
+            <SimpleParameter symbId="pop_KQPP"/>
+            <SimpleParameter symbId="omega_KQPP"/>
+            <SimpleParameter symbId="pop_KPQ"/>
+            <SimpleParameter symbId="omega_KPQ"/>
+            <SimpleParameter symbId="pop_GAMA"/>
+            <SimpleParameter symbId="omega_GAMA"/>
+            <SimpleParameter symbId="pop_DELTAQP"/>
+            <SimpleParameter symbId="omega_DELTAQP"/>
+            
+            <!-- LAMBDAP log-normal distributed -->
+            <RandomVariable symbId="eta_LAMBDAP">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <stddev>
+                        <var varId="omega_LAMBDAP"/>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="LAMBDAP">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_LAMBDAP"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_LAMBDA"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+            <!-- KQPP log-normal distributed -->
+            <RandomVariable symbId="eta_KQPP">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <stddev>
+                        <var varId="omega_KQPP"/>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="KQPP">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_KQPP"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_KQPP"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+            <!-- KPQ log-normal distributed -->
+            <RandomVariable symbId="eta_KPQ">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <stddev>
+                        <var varId="omega_KPQ"/>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="KPQ">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_KPQ"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_KPQ"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+            <!-- GAMMA log-normal distributed -->
+            <RandomVariable symbId="eta_GAMMA">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <stddev>
+                        <var varId="omega_GAMMA"/>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="GAMMA">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_GAMMA"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_GAMMA"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+            <!-- DELTAQP log-normal distributed -->
+            <RandomVariable symbId="eta_DELTAQP">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <stddev>
+                        <var varId="omega_DELTAQP"/>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="DELTAQP">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_DELTAQP"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_DELTAQP"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+
+<!--       <Correlation>
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Pairwise>
+                    <RandomVariable1>
+                        <ct:SymbRef symbIdRef="eta1"/>
+                    </RandomVariable1>
+                    <RandomVariable2>
+                        <ct:SymbRef symbIdRef="eta2"/>
+                    </RandomVariable2>
+                    <!-\- EITHER -\->
+                    <Covariance>.2</Covariance>
+                    <!-\- OR -\->
+                    <CorrelationCoefficient>.05</CorrelationCoefficient>
+                </Pairwise>
+            </Correlation>-->
+            
+        </ParameterModel>
+
+        <!-- STRUCTURAL MODEL - ODEs -->
+        <StructuralModel blkId="sm1">
+            
+            <ct:Variable symbolType="real" symbId="Al"/>
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Ap"/>
+            <ct:Variable symbolType="real" symbId="Cc"/>
+            
+            <ct:DerivativeVariable symbId="Ac" symbolType="real">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        ka*Ad
+                    </Equation>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+<!--            compartment(cmt=1,concentration=Cc,volume=V)
+            iv(cmt=1)
+            elimination(cmt=1, Cl)-->
+            
+            <ct:Variable symbolType="real" symbId="Cc"/>
+            
+            <!-- ID=1 - 1-comp bolus with linear elimination -->
+            <PKmacro>
+                <Compartment symbId="Ac">
+                    <Concentration>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="Cc"/>
+                        </ct:Assign>    
+                    </Concentration>
+                    <Volume>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </ct:Assign>    
+                    </Volume>
+                </Compartment>
+                <IV symbIdRef="Ac"/>
+                <Elimination symbIdRef="Ac">
+                    <Clearence symbIdRef="Cl"/>
+                </Elimination>                
+                <CompartmentMapping>
+                    <CompSymbol symbIdRef="Ac"/>
+                    <CompNumber compNo="1"/>
+                </CompartmentMapping>
+            </PKmacro>
+            
+            <!-- ID=2 - 1-comp bolus with MM elimination -->
+            <PKmacro>
+                <Compartment symbId="Ac">
+                    <Concentration symbIdRef="Cc"/>
+                    <Volume symbIdRef="V"/>
+                </Compartment>
+                <IV symbIdRef="Ac"/>
+                <Elimination symbIdRef="Ac">
+                    <Vmax symbIdRef="Vmax"/>
+                    <Km symbIdRef="Km"/>
+                </Elimination>                
+                <CompartmentMapping>
+                    <!-- ommited, identical as in previous example -->
+                </CompartmentMapping>
+            </PKmacro>
+            
+            <!-- ID=3 - 1-comp with 0-order oral absorption and linear elimination -->
+            <PKmacro>
+                <Compartment symbIdRef="Ac">
+                    <Concentration symbIdRef="Cc"/>
+                    <Volume symbIdRef="V"/>
+                </Compartment>
+                <Oral symbIdRef="Ac" order="0">
+                    <AbrsoptionDuration symbIdRef="Tk0"/>
+                    <Bioavailability symbIdRef="p">
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="Fr0"/>
+                        </ct:Assign>                        
+                    </Bioavailability>
+                </Oral>
+                <Elimination>
+                    <Comp symbIdRef="Ac"/>
+                    <RateOfElimination symbIdRef="k"/>
+                </Elimination>                
+                <CompartmentMapping>
+                    <!-- ommited, identical as in previous example -->
+                </CompartmentMapping>
+            </PKmacro>
+            
+            <!-- ID=4 - 1-comp with 0-order oral absorption and MM elimination -->
+            <PKmacro>
+                <Compartment symbIdRef="Ac">
+                    <Concentration symbIdRef="Cc"/>
+                    <Volume symbIdRef="V"/>
+                </Compartment>
+                <Oral symbIdRef="Ac" order="0">
+                    <AbrsoptionDuration symbIdRef="Tk0"/>
+                    <Bioavailability symbIdRef="p">
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="Fr0"/>
+                        </ct:Assign>                        
+                    </Bioavailability>
+                </Oral>
+                <Elimination symbIdRef="Ac">
+                    <Vmax symbIdRef="Vmax"/>
+                    <Km symbIdRef="Km"/>
+                </Elimination>
+                <CompartmentMapping>
+                    <!-- ommited, identical as in previous example -->
+                </CompartmentMapping>
+            </PKmacro>
+            
+            <!-- ID=5 - 1-comp with 0-order and 1-order oral absorption and MM elimination and Tlag -->
+            <PKmacro>
+                <Compartment symbIdRef="Ac">
+                    <Concentration symbIdRef="Cc"/>
+                    <Volume symbIdRef="V"/>
+                </Compartment>
+                <Oral symbIdRef="Ac" order="0">
+                    <AbsorptionDuration symbIdRef="Tk0"/>
+                    <Bioavailability symbIdRef="p">
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="Fr0"/>
+                        </ct:Assign>                        
+                    </Bioavailability>
+                </Oral>
+                <Oral symbIdRef="Ac" order="1">
+                    <AbrsoptionConstant symbIdRef="ka"/>
+                    <Tlag symbIdRef="Tk0"/>
+                    <Tlag>                                                   <!-- ALTERNATIVE ???? -->
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Tlag"/>                        
+                    </Tlag>
+                    <Bioavailability symbIdRef="p">
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                                <Binop op="minus">
+                                    <ct:Real>1</ct:Real>
+                                    <ct:SymbRef symbIdRef="Fr0"/>
+                                </Binop>
+                            </Equation>
+                        </ct:Assign>                        
+                    </Bioavailability>
+                </Oral>
+                <Elimination symbIdRef="Ac">
+                    <Vmax symbIdRef="Vmax"/>
+                    <Km symbIdRef="Km"/>
+                </Elimination>
+                <CompartmentMapping>
+                    <!-- ommited, identical as in previous example -->
+                </CompartmentMapping>
+            </PKmacro>
+            
+                                                                                    <!-- Modified PK MACROS -->
+            <!--            [LONGITUDINAL]
+            input = {F1, F2, ka, Tk0, kl, k23, k32, V, k, Vm, Km}
+            PK:
+            compartment(cmt=1, amount=Al)                                                   
+            compartment(cmt=2, amount=Ac)
+            peripheral(k23,k32)
+            oral(type=1, cmt=1, ka, p=F1)
+            oral(type=2, cmt=2, Tk0, p=F2)
+            iv(type=3, cmt=2)
+            transfer(from=1, to=2, kt=kl)
+            elimination(cmt=1, k)
+            elimination(cmt=2, Km, Vm)
+            Cc = Ac/V-->
+            
+            <ct:Variable symbolType="real" symbId="Al"/>
+            <ct:Variable symbolType="real" symbId="amountAl"/>
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="amountAc"/>
+            <ct:Variable symbolType="real" symbId="Cc">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="divide">
+                            <ct:SymbRef symbIdRef="Ac"/>
+                            <ct:SymbRef symbIdRef="V"/>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </ct:Variable>      <!-- Al = 1, Ac = 2 -->
+                       
+
+            <ct:DerivativeVariable symbId="Ac" symbolType="real" compartmentNo="1">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        ka*Ad
+                    </Equation>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+            
+            <PKmacro>
+                
+                <!-- compartment(cmt=1, amount=Al) -->
+                <Compartment>
+                    <Cmt>
+                        <ct:SymbRef symbIdRef="Al"/>
+                    </Cmt>
+<!--                    <Amount>
+                        <ct:SymbRef symbIdRef="amountAl"/>                        
+                    </Amount>-->
+                </Compartment>
+                
+                <!-- compartment(cmt=2, amount=Ac) -->
+                <Compartment> 
+<!--                    <Cmt>
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Cmt>-->
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ac"/>                        
+                    </Amount>
+                </Compartment>
+                
+                <!-- peripheral(k23,k32) - kij - 'i' sourceComp, 'j' - periphCompId -->
+                <Peripheral>
+                    <PeripheralComp symbIdRef="Ap"/>
+                    <SourceComp symbIdRef="Ac"/>
+                    <InputRate> <!-- kij or k_i_j -->
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kAcAp"/>
+                    </InputRate>
+                    <OutputRate> <!-- kji or k_j_i -->
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kApAc"/>                        
+                    </OutputRate>
+                </Peripheral>
+                
+                <!-- oral(type=1, cmt=1, ka, p=F1) -->
+                <Oral>
+                    <Cmt>
+                        <ct:SymbRef symbIdRef="Al"/>
+                    </Cmt>
+                    <AdminType>1</AdminType>
+                    <AbsorptionConstant>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>                        
+                    </AbsorptionConstant>
+                    <PortionAmountAbsorbed>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="F1"/>
+                        </ct:Assign>
+                    </PortionAmountAbsorbed>
+                </Oral>
+                <!-- oral(type=2, cmt=2, Tk0, p=F2) -->
+                <Oral>
+                    <Cmt>
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Cmt>
+                    <AdminType>2</AdminType>
+                    <AbsorptionDuration>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>                        
+                    </AbsorptionDuration>
+                    <PortionAmountAbsorbed>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="F2"/>
+                        </ct:Assign>
+                    </PortionAmountAbsorbed>
+                </Oral>
+                
+                <!-- iv(type=3, cmt=2) -->
+                <IV>
+                    <Cmt>
+                        <ct:SymbRef symbIdRef="Al"/>
+                    </Cmt>
+                    <AdminType>1</AdminType>
+                </IV>
+                
+                <!-- transfer(from=1, to=2, kt=kl) -->
+                <Transfer>    
+                    <From>
+                        <ct:SymbRef symbIdRef="Al"/>
+                    </From>
+                    <To>
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </To>
+                    <TransferRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
+                    </TransferRate>
+                </Transfer>
+                
+                <!-- elimination(cmt=1, k) -->
+                <Elimination>
+                    <Cmt>
+                        <ct:SymbRef symbIdRef="Al"/>
+                    </Cmt>
+                    <EliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
+                    </EliminationRate>
+                </Elimination>
+                
+                <!-- elimination(cmt=2, Km, Vm) -->
+                <Elimination>
+                    <Cmt>
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Cmt>
+                    <MaximumEliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
+                    </MaximumEliminationRate>
+                    <MichaelisMentenConstant>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
+                    </MichaelisMentenConstant>
+                </Elimination>
+                
+                <CompartmentMapping>
+                    <CompSymbol symbIdRef="Al"/>
+                    <CompNumber compNo="1"/>
+                </CompartmentMapping>
+                <CompartmentMapping>
+                    <CompSymbol symbIdRef="Ac"/>
+                    <CompNumber compNo="2"/>
+                </CompartmentMapping>
+                <CompartmentMapping>
+                    <CompSymbol symbIdRef="Ap"/>
+                    <CompNumber compNo="3"/>
+                </CompartmentMapping>
+                
+            </PKmacro>
+            
+            
+                                                                            <!-- ORIGINAL PK MACROS -->
+            <!--            [LONGITUDINAL]
+            input = {F1, F2, ka, Tk0, kl, k23, k32, V, k, Vm, Km}
+            PK:
+            compartment(cmt=1, amount=Al)                                                   
+            compartment(cmt=2, amount=Ac)
+            peripheral(k23,k32)
+            oral(type=1, cmt=1, ka, p=F1)
+            oral(type=2, cmt=2, Tk0, p=F2)
+            iv(type=3, cmt=2)
+            transfer(from=1, to=2, kt=kl)
+            elimination(cmt=1, k)
+            elimination(cmt=2, Km, Vm)
+            Cc = Ac/V-->
+            
+            <ct:Variable symbolType="real" symbId="Al"/>
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Ap"/>
+            <ct:Variable symbolType="real" symbId="Cc"/>  <!-- Al = 1, Ac = 2 -->
+            <PKmacro>
+                <!-- compartment(cmt=1, amount=Al) -->
+                <Compartment>  
+                    <Cmt>1</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Al"/>                        
+                    </Amount>
+                    <Volume>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Volume>
+                </Compartment>
+                <!-- compartment(cmt=2, amount=Ac) -->
+                <Compartment>
+                    <Cmt>2</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ac"/>                        
+                    </Amount>
+                    <Volume>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>                        
+                    </Volume>
+                </Compartment>
+                
+                <!-- peripheral(k23,k32) - kij - 'i' sourceComp, 'j' - periphCompId -->
+                <Peripheral>
+                    <PeripheralComp>3</PeripheralComp>     
+                    <SourceComp>2</SourceComp>
+                    <InputRate> <!-- k23 or k_2_3 -->
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
+                    </InputRate>
+                    <OutputRate> <!-- k32 or k_3_2 -->
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>                        
+                    </OutputRate>
+                </Peripheral>
+                
+                <!-- oral(type=1, cmt=1, ka, p=F1) -->
+                <Oral>
+                    <Cmt>1</Cmt>
+                    <AdminType>1</AdminType>
+                    <AbsorptionConstant>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>                        
+                    </AbsorptionConstant>
+                    <PortionAmountAbsorbed>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="F1"/>
+                        </ct:Assign>
+                    </PortionAmountAbsorbed>
+                </Oral>
+                
+                <!-- oral(type=2, cmt=2, Tk0, p=F2) -->
+                <Oral>
+                    <Cmt>1</Cmt>
+                    <AdminType>2</AdminType>
+                    <AbsorptionDuration>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>                        
+                    </AbsorptionDuration>
+                    <PortionAmountAbsorbed>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="F2"/>
+                        </ct:Assign>
+                    </PortionAmountAbsorbed>
+                </Oral>
+                
+                <!-- iv(type=3, cmt=2) -->
+                <IV>
+                    <Cmt>1</Cmt>
+                    <AdminType>1</AdminType>
+                </IV>
+                
+                <!-- transfer(from=1, to=2, kt=kl) -->
+                <Transfer>    
+                    <From>1</From>
+                    <To>2</To>
+                    <TransferRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
+                    </TransferRate>
+                </Transfer>
+                
+                <!-- elimination(cmt=1, k) -->
+                <Elimination>
+                    <Cmt>1</Cmt>
+                    <EliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
+                    </EliminationRate>
+                </Elimination>
+                
+                <!-- elimination(cmt=2, Km, Vm) -->
+                <Elimination>
+                    <Cmt>2</Cmt>
+                    <MaximumEliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
+                    </MaximumEliminationRate>
+                    <MichaelisMentenConstant>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
+                    </MichaelisMentenConstant>
+                </Elimination>
+                                
+            </PKmacro>
+            
+            
+            <!-- dC/dt -->
+            <ct:DerivativeVariable symbolType="real" symbId="C">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="times">
+                            <Uniop op="minus">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                            </Uniop>
+                            <ct:SymbRef symbIdRef="C"/>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="C0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                    <ct:InitialTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:InitialTime>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- dPT/dt -->
+            <ct:DerivativeVariable symbolType="real" symbId="PT">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="plus">
+                            <Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="LAMBDAP"/>
+                                <Binop op="times">
+                                    <ct:SymbRef symbIdRef="PT"/>
+                                    <Binop op="minus">
+                                        <ct:Real>1</ct:Real>
+                                        <Binop op="divide">
+                                            <ct:SymbRef symbIdRef="PSTAR"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="K"/>
+                                        </Binop>
+                                    </Binop>
+                                </Binop>
+                            </Binop>
+                            <Binop op="minus">
+                                <Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KQPP"/>
+                                    <ct:SymbRef symbIdRef="QP"/>
+                                </Binop>
+                                <Binop op="minus">
+                                    <Binop op="times">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="KPQ"/>
+                                        <ct:SymbRef symbIdRef="PT"/>
+                                    </Binop>
+                                    <Binop op="times">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="GAMMA"/>
+                                        <Binop op="times">
+                                            <ct:SymbRef symbIdRef="C"/>
+                                            <Binop op="times">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                                                <ct:SymbRef symbIdRef="PT"/>
+                                            </Binop>
+                                        </Binop>
+                                    </Binop>
+                                </Binop>
+                            </Binop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="P0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                    <ct:InitialTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:InitialTime>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- dQ/dt --> 
+            <ct:DerivativeVariable symbolType="real" symbId="Q">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="minus">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="KPQ"/>
+                            <Binop op="times">
+                                <ct:SymbRef  blkIdRef="pm1" symbIdRef="GAMMA"/>
+                                <Binop op="times">
+                                    <ct:SymbRef symbIdRef="C"/>
+                                    <Binop op="times">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                                        <ct:SymbRef symbIdRef="Q"/>
+                                    </Binop>
+                                </Binop>
+                            </Binop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Q0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                    <ct:InitialTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:InitialTime>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- dQP/dt -->
+            <ct:DerivativeVariable symbolType="real" symbId="QP">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="minus">
+                            <Binop op="minus">
+                                <Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="GAMMA"/>
+                                    <Binop op="times">
+                                        <ct:SymbRef symbIdRef="C"/>
+                                        <Binop op="times">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                                            <ct:SymbRef symbIdRef="Q"/>
+                                        </Binop>
+                                    </Binop>
+                                </Binop>
+                                <Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KQPP"/>
+                                    <ct:SymbRef symbIdRef="QP"/>
+                                </Binop>
+                            </Binop>
+                            <Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="DELTAQP"/>
+                                <ct:SymbRef symbIdRef="QP"/>
+                            </Binop>                        
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="QP0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                    <ct:InitialTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:InitialTime>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+
+            <!-- PSTAR -->
+            <ct:Variable symbolType="real" symbId="PSTAR" >
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="plus">
+                            <ct:SymbRef symbIdRef="PT"/>
+                            <Binop op="plus">
+                                <ct:SymbRef symbIdRef="Q"/>
+                                <ct:SymbRef symbIdRef="QP"/>
+                            </Binop>
+                        </Binop>                    
+                    </Equation>
+                </ct:Assign>
+            </ct:Variable>
+        </StructuralModel>
+
+        <!-- OBSERVATION MODEL - PSTAR -->
+        <ObservationModel blkId="om1">
+            <SimpleParameter symbId="a"/>
+            <RandomVariable symbId="eps">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <stddev>
+                        <prVal>1</prVal>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <Standard symbId="PSTAR_obs">
+                <Output>
+                    <ct:SymbRef blkIdRef="sm1" symbIdRef="PSTAR"/>
+                </Output>
+                <ErrorModel>
+                    <ct:Assign>
+                        <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                            <FunctionCall>
+                                <ct:SymbRef symbIdRef="constantErrorModel"/>
+                                <FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </FunctionArgument>
+                            </FunctionCall>
+                        </Equation>
+                    </ct:Assign>
+                </ErrorModel>
+                <ResidualError>
+                    <ct:SymbRef symbIdRef="eps"/>
+                </ResidualError>
+            </Standard>
+        </ObservationModel>
+
+    </ModelDefinition>
+    
+
+    <!-- BLOCK III: MODELLING STEPS -->
+    <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
+        
+        <NONMEMdataSet oid="NMoid">
+            
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </ColumnMapping>
+            
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="PSTAR_obs"/>
+            </ColumnMapping>
+            
+            <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
+                <Definition>
+                    <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                    <Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
+                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="5"/>
+                    <Column columnId="EVID" columnType="evid" valueType="int" columnNum="6"/>
+                    <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>     <!-- mapping to sm1 'compartmentNo="1"' -->
+                </Definition>
+                <ImportData oid="importNONMEM">
+                    <path>RIBBA2012_PCV.csv</path>
+                    <format>CSV</format>
+                    <delimiter>COMMA</delimiter>
+                </ImportData>
+            </DataSet>
+        </NONMEMdataSet>
+        
+        <!-- ESTIMATION STEP -->
+        <EstimationStep oid="estTask1">
+            
+            <TargetToolReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </TargetToolReference>
+            
+            <ParametersToEstimate>
+                <!-- INITIAL CONDITIONS -->
+                <!-- P0 -->
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_P0"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_P0"/>
+                    <InitialEstimate>
+                        <ct:Real>0.5</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <!-- Q0 -->
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_Q0"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_Q0"/>
+                    <InitialEstimate>
+                        <ct:Real>0.5</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- RESIDUAL ERROR PARAMETER -->
+                <!-- a -->
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- STRUCTURAL PARAMETERS and RANDOM EFFECTS -->
+                <!-- LAMBDAP -->
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_LAMBDAP"/>
+                    <InitialEstimate>
+                        <ct:Real>10</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_LAMBDAP"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- KDE -->
+                <!-- omega_KDE is fixed, see pm1 -->
+                <!-- only pop_KDE to be estimated -->
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_KDE"/>
+                    <InitialEstimate>
+                        <ct:Real>10</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+
+                <!-- KQPP -->
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_KQPP"/>
+                    <InitialEstimate>
+                        <ct:Real>10</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_KQPP"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- LAMBDAP -->
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_LAMBDAP"/>
+                    <InitialEstimate>
+                        <ct:Real>10</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_LAMBDAP"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- KPQ -->
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_KQP"/>
+                    <InitialEstimate>
+                        <ct:Real>10</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_KQP"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- GAMMA -->
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_GAMMA"/>
+                    <InitialEstimate>
+                        <ct:Real>10</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_GAMMA"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- DELTAQP -->
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_DELTAQP"/>
+                    <InitialEstimate>
+                        <ct:Real>10</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_DELTAQP"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+            </ParametersToEstimate>
+            <Operation order="1" opType="estPop">
+                <Property name="Settings">
+                    <ct:Assign>
+                        <ct:String>defaultSettings</ct:String>
+                    </ct:Assign>
+                </Property>
+                <Algorithm definition="ode15s">
+                    <Property name="tolerance">
+                        <ct:Assign>
+                            <ct:Real>0.0001</ct:Real>
+                        </ct:Assign>
+                    </Property>
+                </Algorithm>
+            </Operation>
+            <Operation order="2" opType="estIndiv"/>
+        </EstimationStep>
+
+        <!-- STEP DEPENDENCIES -->
+        <StepDependencies>
+            <Step>
+                <ct:OidRef oidRef="estTask1"/>
+            </Step>
+        </StepDependencies>
+    </ModellingSteps>
+</PharmML>
