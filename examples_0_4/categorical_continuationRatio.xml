@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    implementedBy="MJS" writtenVersion="0.4" id="i1">
+    
+    <ct:Name>Continuation Ratio Logit</ct:Name>
+    
+    <ct:Description>Categorical model - Continuation Ratio Logit, from 0.4 document</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <!-- OBSERVATIONS -->
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <CategoricalData>
+                    <SimpleParameter symbId="p"/>
+                    
+                    <ct:Variable symbolType="real" symbId="beta_x_summand">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="times">
+                                    <ct:VectorSelector>
+                                        <ct:SymbRef symbIdRef="beta"/>
+                                        <ct:Cell>
+                                            <ct:SymbRef symbIdRef="j"/>
+                                        </ct:Cell>
+                                    </ct:VectorSelector>
+                                    <ct:VectorSelector>
+                                        <ct:SymbRef symbIdRef="x"/>
+                                        <ct:Cell>
+                                            <ct:SymbRef symbIdRef="j"/>
+                                        </ct:Cell>
+                                    </ct:VectorSelector>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:Variable>
+                    
+                    <ListOfCategories> 
+                        <Category symbId="cat0"/>
+                        <!-- omitted other categories -->
+                    </ListOfCategories>
+                    
+                    <CategoryVariable symbId="y"/>
+                    
+                    <ProbabilityAssignment>
+                        <math:LogicBinop op="eq">
+                            <math:Uniop op="logit">
+                                <math:Binop op="divide">
+                                    <Probability>
+                                        <math:LogicBinop op="eq">
+                                            <ct:SymbRef symbIdRef="y"/>
+                                            <ct:SymbRef symbIdRef="j"/>
+                                        </math:LogicBinop>
+                                    </Probability>
+                                    <ct:Sum>
+                                        <Probability>
+                                            <math:LogicBinop op="eq">
+                                                <ct:SymbRef symbIdRef="y"/>
+                                                <ct:SymbRef symbIdRef="i"/>
+                                            </math:LogicBinop>
+                                        </Probability>
+                                        <ct:SumIndex>
+                                            <ct:SymbRef symbIdRef="i"/>
+                                        </ct:SumIndex>
+                                        <ct:LowLimit>
+                                            <!-- should be j+1 -->
+                                            <ct:SymbRef symbIdRef="j"/>
+                                        </ct:LowLimit>
+                                        <ct:UpLimit>
+                                            <ct:SymbRef symbIdRef="N"/>
+                                        </ct:UpLimit>
+                                    </ct:Sum>
+                                </math:Binop>
+                            </math:Uniop>
+                            <ct:Sum>
+                                <ct:SymbRef symbIdRef="beta_x_summand"/>
+                                <ct:SumIndex>
+                                    <ct:SymbRef symbIdRef="j"/>
+                                </ct:SumIndex>
+                                <ct:LowLimit>
+                                    <ct:Int>1</ct:Int>
+                                </ct:LowLimit>
+                                <ct:UpLimit>
+                                    <ct:SymbRef symbIdRef="N"/>
+                                </ct:UpLimit>
+                            </ct:Sum>
+                        </math:LogicBinop>
+                    </ProbabilityAssignment>
+                    
+                </CategoricalData>
+            </Discrete>
+        </ObservationModel>
+        
+    </ModelDefinition>
+    
+    <mstep:ModellingSteps>
+        
+        <mstep:NONMEMdataSet oid="NMoid">
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </mstep:ColumnMapping>
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="0" modelSymbol="cat0"/>
+                    <ds:Map dataSymbol="1" modelSymbol="cat1"/>
+                    <!-- OMITTED OTHER MAPPINGS -->
+                </ds:CategoryMapping>
+            </mstep:ColumnMapping>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                </ds:Definition>
+                <ds:ImportData oid="importData">
+                    <ds:path>myFile.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
+        </mstep:NONMEMdataSet>
+        
+        <mstep:EstimationStep oid="estStep1">
+            
+            <mstep:TargetToolReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </mstep:TargetToolReference>
+            
+            <mstep:ParametersToEstimate>
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="p"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+            </mstep:ParametersToEstimate>
+            
+            <mstep:Operation order="1" opType="estPop"/>
+        </mstep:EstimationStep>
+        
+        <mstep:SimulationStep oid="sim1">
+            <mstep:Observations>
+                <mstep:Timepoints>
+                    <math:Vector>
+                        <math:VectorElements>
+                            <ct:Int>1</ct:Int>
+                        </math:VectorElements>
+                    </math:Vector>
+                </mstep:Timepoints>
+                <mstep:Continuous>
+                    <ct:SymbRef symbIdRef="E"/>
+                </mstep:Continuous>
+            </mstep:Observations>
+        </mstep:SimulationStep>
+        
+    </mstep:ModellingSteps>
+    
+</PharmML>
