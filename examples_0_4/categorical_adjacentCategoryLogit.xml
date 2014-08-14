@@ -24,20 +24,6 @@
                 <CategoricalData>
                     <SimpleParameter symbId="p"/>
                     
-                    <!-- define vector beta -->
-                    <IndividualParameter symbId="beta">
-                        <ct:Assign>
-                            <ct:Vector>
-                                <ct:VectorElements>
-                                    <ct:Real>1</ct:Real>
-                                    <ct:SymbRef symbIdRef="secondElement"/>
-                                    <ct:Real>3</ct:Real>
-                                </ct:VectorElements>
-                            </ct:Vector>
-                        </ct:Assign>
-                    </IndividualParameter>
-                    
-                    <!-- the summd for beta*x -->
                     <ct:Variable symbolType="real" symbId="beta_x_summand">
                         <ct:Assign>
                             <math:Equation>
@@ -68,7 +54,7 @@
                     
                     <ProbabilityAssignment>
                         <math:LogicBinop op="eq">
-                            <math:Uniop op="logit">
+                            <math:Uniop op="log">
                                 <math:Binop op="divide">
                                     <Probability>
                                         <math:LogicBinop op="eq">
@@ -76,24 +62,15 @@
                                             <ct:SymbRef symbIdRef="j"/>
                                         </math:LogicBinop>
                                     </Probability>
-                                    <ct:Sum>
-                                        <Probability>
-                                            <math:LogicBinop op="eq">
-                                                <ct:SymbRef symbIdRef="y"/>
-                                                <ct:SymbRef symbIdRef="i"/>
-                                            </math:LogicBinop>
-                                        </Probability>
-                                        <ct:SumIndex>
-                                            <ct:SymbRef symbIdRef="i"/>
-                                        </ct:SumIndex>
-                                        <ct:LowLimit>
-                                            <!-- should be j+1 -->
-                                            <ct:SymbRef symbIdRef="j"/>
-                                        </ct:LowLimit>
-                                        <ct:UpLimit>
-                                            <ct:SymbRef symbIdRef="N"/>
-                                        </ct:UpLimit>
-                                    </ct:Sum>
+                                    <Probability>
+                                        <math:LogicBinop op="eq">
+                                            <ct:SymbRef symbIdRef="y"/>
+                                            <math:Binop op="plus">
+                                                <ct:SymbRef symbIdRef="j"/>
+                                                <ct:Real>1</ct:Real>
+                                            </math:Binop>
+                                        </math:LogicBinop>
+                                    </Probability>
                                 </math:Binop>
                             </math:Uniop>
                             <ct:Sum>

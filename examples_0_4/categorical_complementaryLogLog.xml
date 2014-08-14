@@ -54,7 +54,7 @@
                             </math:Binop>
                         </math:LogicBinop>
                     </ProbabilityAssignment>
-                    
+
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
