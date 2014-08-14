@@ -115,11 +115,11 @@
         <mstep:SimulationStep oid="sim1">
             <mstep:Observations>
                 <mstep:Timepoints>
-                    <math:Vector>
-                        <math:VectorElements>
+                    <ct:Vector>
+                        <ct:VectorElements>
                             <ct:Int>1</ct:Int>
-                        </math:VectorElements>
-                    </math:Vector>
+                        </ct:VectorElements>
+                    </ct:Vector>
                 </mstep:Timepoints>
                 <mstep:Continuous>
                     <ct:SymbRef symbIdRef="E"/>

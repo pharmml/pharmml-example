@@ -28,18 +28,18 @@
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="times">
-                                    <ct:VectorSelector>
+                                    <math:VectorSelector>
                                         <ct:SymbRef symbIdRef="beta"/>
-                                        <ct:Cell>
+                                        <math:Cell>
                                             <ct:SymbRef symbIdRef="j"/>
-                                        </ct:Cell>
-                                    </ct:VectorSelector>
-                                    <ct:VectorSelector>
+                                        </math:Cell>
+                                    </math:VectorSelector>
+                                    <math:VectorSelector>
                                         <ct:SymbRef symbIdRef="x"/>
-                                        <ct:Cell>
+                                        <math:Cell>
                                             <ct:SymbRef symbIdRef="j"/>
-                                        </ct:Cell>
-                                    </ct:VectorSelector>
+                                        </math:Cell>
+                                    </math:VectorSelector>
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
@@ -73,18 +73,18 @@
                                     </Probability>
                                 </math:Binop>
                             </math:Uniop>
-                            <ct:Sum>
+                            <math:Sum>
                                 <ct:SymbRef symbIdRef="beta_x_summand"/>
-                                <ct:SumIndex>
+                                <math:SumIndex>
                                     <ct:SymbRef symbIdRef="j"/>
-                                </ct:SumIndex>
-                                <ct:LowLimit>
+                                </math:SumIndex>
+                                <math:LowLimit>
                                     <ct:Int>1</ct:Int>
-                                </ct:LowLimit>
-                                <ct:UpLimit>
+                                </math:LowLimit>
+                                <math:UpLimit>
                                     <ct:SymbRef symbIdRef="N"/>
-                                </ct:UpLimit>
-                            </ct:Sum>
+                                </math:UpLimit>
+                            </math:Sum>
                         </math:LogicBinop>
                     </ProbabilityAssignment>
                     
