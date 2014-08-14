@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"  
     
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
-    writtenVersion="0.2.1">
+    writtenVersion="0.4" id="i1">
     
     <Name id="id1" xmlns="http://www.pharmml.org/2013/03/CommonTypes">Friberg_PANSS_2009</Name>
     
@@ -539,7 +539,7 @@
         
         <!-- OBSERVATION MODEL -->
         <ObservationModel blkId="om1">
-            <Continuous>
+            <ContinuousData>
                 <RandomVariable symbId="eps">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
@@ -573,127 +573,10 @@
                         <ct:SymbRef symbIdRef="eps"></ct:SymbRef>
                     </ResidualError>
                 </Standard>
-            </Continuous>
+            </ContinuousData>
         </ObservationModel>
     </ModelDefinition>     
     
-
-    <!-- BLOCK II: TRIAL DEFINITION -->
-    <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign">
-        
-        <!-- STRUCTURE -->
-        <!-- I have create a fake structure since I do not use the dose in the model -->
-        <Structure>
-            <Epoch oid="epoch1">
-                <Start>
-                    <ct:Real>0</ct:Real>
-                </Start>
-                <End>
-                    <ct:Real>50</ct:Real>
-                </End>
-                <Order>1</Order>
-            </Epoch>
-            <Arm oid="arm1"/>
-            <Cell oid="cell1">
-                <EpochRef oidRef="epoch1"/>
-                <ArmRef oidRef="arm1"/>
-                <SegmentRef oidRef="TA"/>
-            </Cell>
-            <Segment oid="TA">
-                <ActivityRef oidRef="dummy"/>
-            </Segment>
-            <Activity oid="dummy">
-                <Washout/>
-            </Activity>
-        </Structure> 
-        
-        <!-- POPULATION -->
-        <Population> 
-            <ct:VariabilityReference>
-                <ct:SymbRef blkIdRef="model" symbIdRef="model"/>
-            </ct:VariabilityReference>
-            <IndividualTemplate> 
-                <IndividualMapping> 
-                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="ID"/> 
-                </IndividualMapping> 
-                <ArmMapping> 
-                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="ARM"/> 
-                </ArmMapping> 
-                <CovariateMapping>
-                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="STUD"></ColumnRef>
-                    <ct:SymbRef blkIdRef="c1" symbIdRef="STUD"/>
-                </CovariateMapping>
-                <CovariateMapping>
-                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DDUR"></ColumnRef>
-                    <ct:SymbRef blkIdRef="c1" symbIdRef="DDUR"/>
-                </CovariateMapping>
-                <CovariateMapping>
-                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="US"></ColumnRef>
-                    <ct:SymbRef blkIdRef="c1" symbIdRef="US"/>
-                </CovariateMapping>
-                <CovariateMapping>
-                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="HOSP"></ColumnRef>
-                    <ct:SymbRef blkIdRef="c1" symbIdRef="HOSP"/>
-                </CovariateMapping>
-                <CovariateMapping>
-                    <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="AUC"></ColumnRef>
-                    <ct:SymbRef blkIdRef="c1" symbIdRef="AUC"/>
-                </CovariateMapping>               
-            </IndividualTemplate>
-            <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
-                <Definition>
-                    <Column columnId="ID" valueType="id" columnNum="1"/> 
-                    <Column columnId="ARM" valueType="id" columnNum="2"/> 
-                    <Column columnId="STUD" valueType="int" columnNum="3"/> 
-                    <Column columnId="DDUR" valueType="int" columnNum="4"/> 
-                    <Column columnId="US" valueType="int" columnNum="5"/>
-                    <Table tableId="HOSP-tab" columnNum="6">
-                        <Definition>
-                            <Column columnId="TIME" valueType="int" columnNum="1"/> 
-                            <Column columnId="HOSP" valueType="int" columnNum="2"/>                           
-                            <Column columnId="AUC" valueType="int" columnNum="3"/>
-                        </Definition>
-                    </Table>
-                </Definition>
-                <Table>
-                    <!-- SUBJECT 1 -->
-                    <Row><ct:Id>i1</ct:Id><ct:Id>arm1</ct:Id><ct:Real>20</ct:Real><ct:Real>3</ct:Real><ct:Real>1</ct:Real>
-                        <Table>
-                            <Row><ct:Real>0</ct:Real><ct:Real>1</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>6.167</ct:Real><ct:Real>1</ct:Real><ct:Real>2</ct:Real></Row>                     
-                        </Table>                     
-                    </Row>
-                    <!-- SUBJECT 2 -->
-                    <Row><ct:Id>i2</ct:Id><ct:Id>arm1</ct:Id><ct:Real>20</ct:Real><ct:Real>2</ct:Real><ct:Real>1</ct:Real>
-                        <Table>
-                            <Row><ct:Real>0</ct:Real><ct:Real>1</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>6.063</ct:Real><ct:Real>1</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>13.063</ct:Real><ct:Real>1</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>20.063</ct:Real><ct:Real>1</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>28.063</ct:Real><ct:Real>0</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>46.063</ct:Real><ct:Real>0</ct:Real><ct:Real>0</ct:Real></Row>                          
-                        </Table>
-                    </Row>
-                    <!-- SNIP -->
-                    <!-- SUBJECT 1323 -->
-                    <Row><ct:Id>i1323</ct:Id><ct:Id>arm1</ct:Id><ct:Real>32</ct:Real><ct:Real>2</ct:Real><ct:Real>0</ct:Real>
-                        <Table>
-                            <Row><ct:Real>0</ct:Real><ct:Real>1</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>3.167</ct:Real><ct:Real>1</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>6.167</ct:Real><ct:Real>1</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>13.167</ct:Real><ct:Real>1</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>20.167</ct:Real><ct:Real>0</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>28.167</ct:Real><ct:Real>0</ct:Real><ct:Real>0</ct:Real></Row>
-                            <Row><ct:Real>34.167</ct:Real><ct:Real>0</ct:Real><ct:Real>0</ct:Real></Row>                          
-                            <Row><ct:Real>41.167</ct:Real><ct:Real>0</ct:Real><ct:Real>0</ct:Real></Row>                          
-                        </Table>
-                    </Row>                   
-                </Table>
-            </DataSet>
-        </Population>
-    </TrialDesign>
-        
-        
 
     <!-- BLOCK III: MODELLING STEPS -->
     <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">

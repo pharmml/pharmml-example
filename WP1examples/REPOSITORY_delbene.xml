@@ -186,7 +186,7 @@
         
         
         <ObservationModel blkId="om1">
-            <Continuous>
+            <ContinuousData>
                 <SimpleParameter symbId="CV"/>
                 <SimpleParameter symbId="sigma_res_W"/>
                 
@@ -226,7 +226,7 @@
                         <ct:SymbRef symbIdRef="eps_res_W"/>
                     </ResidualError>
                 </Standard>
-            </Continuous>
+            </ContinuousData>
         </ObservationModel>
     </ModelDefinition>
     
