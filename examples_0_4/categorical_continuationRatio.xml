@@ -37,7 +37,7 @@
                         </ct:Assign>
                     </IndividualParameter>
                     
-                    <!-- the summd for beta*x -->
+<!--                    <!-\- the summd for beta*x -\->
                     <ct:Variable symbolType="real" symbId="beta_x_summand">
                         <ct:Assign>
                             <math:Equation>
@@ -57,7 +57,7 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
-                    </ct:Variable>
+                    </ct:Variable>-->
                     
                     <ListOfCategories> 
                         <Category symbId="cat0"/>
@@ -77,18 +77,24 @@
                                         </math:LogicBinop>
                                     </Probability>
                                     <ct:Sum>
-                                        <Probability>
-                                            <math:LogicBinop op="eq">
-                                                <ct:SymbRef symbIdRef="y"/>
-                                                <ct:SymbRef symbIdRef="i"/>
-                                            </math:LogicBinop>
-                                        </Probability>
+                                        <math:Equation>
+                                            <Probability>
+                                                <math:LogicBinop op="eq">
+                                                    <ct:SymbRef symbIdRef="y"/>
+                                                    <ct:SymbRef symbIdRef="i"/>
+                                                </math:LogicBinop>
+                                            </Probability>
+                                        </math:Equation>
                                         <ct:SumIndex>
                                             <ct:SymbRef symbIdRef="i"/>
                                         </ct:SumIndex>
                                         <ct:LowLimit>
-                                            <!-- should be j+1 -->
-                                            <ct:SymbRef symbIdRef="j"/>
+                                            <math:Equation>
+                                                <math:Binop op="plus">
+                                                    <ct:SymbRef symbIdRef="j"/>
+                                                    <ct:Real>1</ct:Real>
+                                                </math:Binop>
+                                            </math:Equation>
                                         </ct:LowLimit>
                                         <ct:UpLimit>
                                             <ct:SymbRef symbIdRef="N"/>
@@ -97,7 +103,22 @@
                                 </math:Binop>
                             </math:Uniop>
                             <ct:Sum>
-                                <ct:SymbRef symbIdRef="beta_x_summand"/>
+                                <math:Equation>
+                                    <math:Binop op="times">
+                                        <ct:VectorSelector>
+                                            <ct:SymbRef symbIdRef="beta"/>
+                                            <ct:Cell>
+                                                <ct:SymbRef symbIdRef="j"/>
+                                            </ct:Cell>
+                                        </ct:VectorSelector>
+                                        <ct:VectorSelector>
+                                            <ct:SymbRef symbIdRef="x"/>
+                                            <ct:Cell>
+                                                <ct:SymbRef symbIdRef="j"/>
+                                            </ct:Cell>
+                                        </ct:VectorSelector>
+                                    </math:Binop>
+                                </math:Equation>
                                 <ct:SumIndex>
                                     <ct:SymbRef symbIdRef="j"/>
                                 </ct:SumIndex>

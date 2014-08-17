@@ -21,7 +21,7 @@
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
-                <CategoricalData>
+                <CategoricalData ordered="yes">
                     <SimpleParameter symbId="p"/>
                     
                     <ListOfCategories> 
@@ -30,7 +30,7 @@
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="y"/>
-                    
+
                     <ProbabilityAssignment>
                         <math:LogicBinop op="eq">
                             <math:Uniop op="log">
@@ -52,8 +52,13 @@
                                                 <ct:VectorSelector>
                                                     <ct:SymbRef symbIdRef="n"/>
                                                     <ct:Cell>
-                                                        <!-- should be j-1 -->
-                                                        <ct:SymbRef symbIdRef="j"/>
+                                                        <!-- index: j-1 -->
+                                                        <math:Equation>
+                                                            <math:Binop op="minus">
+                                                                <ct:SymbRef symbIdRef="j"/>
+                                                                <ct:Int>1</ct:Int>
+                                                            </math:Binop>
+                                                        </math:Equation>
                                                     </ct:Cell>
                                                 </ct:VectorSelector>
                                                 <ct:SymbRef symbIdRef="q"/>
@@ -63,31 +68,38 @@
                                     <math:Binop op="minus">
                                         <ct:Real>1</ct:Real>
                                         <ct:Sum>
-                                            <Probability>
-                                                <CurrentState>
-                                                    <math:LogicBinop op="eq">
-                                                        <ct:VectorSelector>
-                                                            <ct:SymbRef symbIdRef="n"/>
-                                                            <ct:Cell>
-                                                                <ct:SymbRef symbIdRef="j"/>
-                                                            </ct:Cell>
-                                                        </ct:VectorSelector>
-                                                        <ct:SymbRef symbIdRef="k"/>
-                                                    </math:LogicBinop>
-                                                </CurrentState>
-                                                <PreviousState>
-                                                    <math:LogicBinop op="eq">
-                                                        <ct:VectorSelector>
-                                                            <ct:SymbRef symbIdRef="n"/>
-                                                            <ct:Cell>
-                                                                <!-- should be j-1 -->
-                                                                <ct:SymbRef symbIdRef="j"/>
-                                                            </ct:Cell>
-                                                        </ct:VectorSelector>
-                                                        <ct:SymbRef symbIdRef="q"/>
-                                                    </math:LogicBinop>
-                                                </PreviousState>
-                                            </Probability>
+                                            <math:Equation>
+                                                <Probability>
+                                                    <CurrentState>
+                                                        <math:LogicBinop op="eq">
+                                                            <ct:VectorSelector>
+                                                                <ct:SymbRef symbIdRef="n"/>
+                                                                <ct:Cell>
+                                                                    <ct:SymbRef symbIdRef="j"/>
+                                                                </ct:Cell>
+                                                            </ct:VectorSelector>
+                                                            <ct:SymbRef symbIdRef="k"/>
+                                                        </math:LogicBinop>
+                                                    </CurrentState>
+                                                    <PreviousState>
+                                                        <math:LogicBinop op="eq">
+                                                            <ct:VectorSelector>
+                                                                <ct:SymbRef symbIdRef="n"/>
+                                                                <ct:Cell>
+                                                                    <!-- index: j-1 -->
+                                                                    <math:Equation>
+                                                                        <math:Binop op="minus">
+                                                                            <ct:SymbRef symbIdRef="j"/>
+                                                                            <ct:Real>1</ct:Real>
+                                                                        </math:Binop>
+                                                                    </math:Equation>
+                                                                </ct:Cell>
+                                                            </ct:VectorSelector>
+                                                            <ct:SymbRef symbIdRef="q"/>
+                                                        </math:LogicBinop>
+                                                    </PreviousState>
+                                                </Probability>
+                                            </math:Equation>
                                             <ct:SumIndex>
                                                 <ct:SymbRef symbIdRef="j"/>
                                             </ct:SumIndex>

@@ -24,27 +24,6 @@
                 <CategoricalData>
                     <SimpleParameter symbId="p"/>
                     
-                    <ct:Variable symbolType="real" symbId="beta_x_summand">
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="times">
-                                    <math:VectorSelector>
-                                        <ct:SymbRef symbIdRef="beta"/>
-                                        <math:Cell>
-                                            <ct:SymbRef symbIdRef="j"/>
-                                        </math:Cell>
-                                    </math:VectorSelector>
-                                    <math:VectorSelector>
-                                        <ct:SymbRef symbIdRef="x"/>
-                                        <math:Cell>
-                                            <ct:SymbRef symbIdRef="j"/>
-                                        </math:Cell>
-                                    </math:VectorSelector>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
-                    </ct:Variable>
-                    
                     <ListOfCategories> 
                         <Category symbId="cat0"/>
                         <!-- omitted other categories -->
@@ -73,18 +52,45 @@
                                     </Probability>
                                 </math:Binop>
                             </math:Uniop>
-                            <math:Sum>
-                                <ct:SymbRef symbIdRef="beta_x_summand"/>
-                                <math:SumIndex>
+                            <ct:Sum>
+                                <math:Equation>
+                                    <math:Binop op="times">
+                                        <ct:VectorSelector>
+                                            <ct:SymbRef symbIdRef="beta"/>
+                                            <ct:Cell>
+                                                <ct:SymbRef symbIdRef="j"/>
+                                            </ct:Cell>
+                                        </ct:VectorSelector>
+                                        <ct:VectorSelector>
+                                            <ct:SymbRef symbIdRef="x"/>
+                                            <ct:Cell>
+                                                <ct:SymbRef symbIdRef="j"/>
+                                            </ct:Cell>
+                                        </ct:VectorSelector>
+                                    </math:Binop>
+                                </math:Equation>
+                                <ct:SumIndex>
                                     <ct:SymbRef symbIdRef="j"/>
-                                </math:SumIndex>
-                                <math:LowLimit>
+                                </ct:SumIndex>
+                                <ct:LowLimit>
                                     <ct:Int>1</ct:Int>
-                                </math:LowLimit>
-                                <math:UpLimit>
+                                </ct:LowLimit>
+                                <ct:UpLimit>
                                     <ct:SymbRef symbIdRef="N"/>
-                                </math:UpLimit>
-                            </math:Sum>
+                                </ct:UpLimit>
+                            </ct:Sum>
+<!--                            <ct:Sum>
+                                <ct:SymbRef symbIdRef="beta_x_summand"/>
+                                <ct:SumIndex>
+                                    <ct:SymbRef symbIdRef="j"/>
+                                </ct:SumIndex>
+                                <ct:LowLimit>
+                                    <ct:Int>1</ct:Int>
+                                </ct:LowLimit>
+                                <ct:UpLimit>
+                                    <ct:SymbRef symbIdRef="N"/>
+                                </ct:UpLimit>
+                            </ct:Sum>-->
                         </math:LogicBinop>
                     </ProbabilityAssignment>
                     
