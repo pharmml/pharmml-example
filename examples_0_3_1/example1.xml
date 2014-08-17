@@ -298,6 +298,7 @@
                 </GaussianModel>
             </IndividualParameter>
             
+            <!-- pairwise -->
             <Correlation>
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
@@ -313,6 +314,44 @@
                         <ct:SymbRef symbIdRef="rho_V_Cl"/>
                     </CorrelationCoefficient>
                 </Pairwise>
+            </Correlation>
+                        
+            <!-- full matrix 1-->
+            <Correlation deviationMatrixType="CorrMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any">
+                    <ct:ColumnNames>
+                        <ct:SymbRef symbIdRef="eta_V"/><ct:SymbRef symbIdRef="eta_CL"/>
+                    </ct:ColumnNames>
+                    <ct:MatrixRow>
+                        <ct:Real>1</ct:Real><ct:SymbRef symbIdRef="rho_V_Cl"/>
+                        <ct:SymbRef symbIdRef="rho_V_Cl"/><ct:Real>1</ct:Real>
+                    </ct:MatrixRow>
+                </Matrix>
+            </Correlation>
+            
+            <!-- matrix with cells -->
+            <Correlation deviationMatrixType="CorrMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any" diagDefault="1">
+                    <ct:ColumnNames>
+                        <ct:SymbRef symbIdRef="eta_V"/><ct:SymbRef symbIdRef="eta_CL"/>
+                    </ct:ColumnNames>
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>2</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>1</ct:Int></ct:CellColumn>
+                        <ct:SymbRef symbIdRef="rho_V_CL"></ct:SymbRef>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>1</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>2</ct:Int></ct:CellColumn>
+                        <ct:SymbRef symbIdRef="rho_V_CL"></ct:SymbRef>
+                    </ct:MatrixCell>
+                </Matrix>
             </Correlation>
         </ParameterModel>
         
@@ -435,77 +474,81 @@
         
         <!-- observation model for E -->
         <ObservationModel blkId="om1">
-            <SimpleParameter symbId="a"/>
-            <RandomVariable symbId="epsilon_E">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="sigma_E"/></stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <General symbId="E_obs">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="plus">
-                            <ct:SymbRef blkIdRef="sm1" symbIdRef="E"/>
-                            <math:Binop op="times">
-                                <math:FunctionCall>
-                                    <ct:SymbRef symbIdRef="constantErrorModel"/>
-                                    <math:FunctionArgument symbId="a">
-                                        <ct:SymbRef symbIdRef="a"/>
-                                    </math:FunctionArgument>
-                                </math:FunctionCall>
-                                <ct:SymbRef symbIdRef="epsilon_E"/>
+            <ContinuousData>
+                <SimpleParameter symbId="a"/>
+                <RandomVariable symbId="epsilon_E">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean><rVal>0</rVal></mean>
+                        <stddev><var varId="sigma_E"/></stddev>
+                    </NormalDistribution>
+                </RandomVariable>
+                <General symbId="E_obs">
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="plus">
+                                <ct:SymbRef blkIdRef="sm1" symbIdRef="E"/>
+                                <math:Binop op="times">
+                                    <math:FunctionCall>
+                                        <ct:SymbRef symbIdRef="constantErrorModel"/>
+                                        <math:FunctionArgument symbId="a">
+                                            <ct:SymbRef symbIdRef="a"/>
+                                        </math:FunctionArgument>
+                                    </math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="epsilon_E"/>
+                                </math:Binop>
                             </math:Binop>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </General>
+                        </math:Equation>
+                    </ct:Assign>
+                </General>
+            </ContinuousData>
         </ObservationModel>
         
         <!-- observation model for Cc -->
         <ObservationModel blkId="om2">
-            <SimpleParameter symbId="a"/>
-            <SimpleParameter symbId="b"/>
-            <RandomVariable symbId="epsilon_Cc">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="sigma_Cc"/></stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <Standard symbId="Cc_obs">
-                <Output>
-                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                </Output>
-                <ErrorModel>
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:FunctionCall>
-                                <ct:SymbRef symbIdRef="combinedErrorModel"/>
-                                <math:FunctionArgument symbId="a">
-                                    <ct:SymbRef symbIdRef="a"/>
-                                </math:FunctionArgument>
-                                <math:FunctionArgument symbId="b">
-                                    <ct:SymbRef symbIdRef="b"/>
-                                </math:FunctionArgument>
-                                <math:FunctionArgument symbId="f">
-                                    <math:Equation>
-                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                                    </math:Equation>
-                                </math:FunctionArgument>
-                            </math:FunctionCall>
-                        </math:Equation>
-                    </ct:Assign>
-                </ErrorModel>
-                <ResidualError>
-                    <ct:SymbRef symbIdRef="epsilon_Cc"/>
-                </ResidualError>
-            </Standard>
+            <ContinuousData>
+                <SimpleParameter symbId="a"/>
+                <SimpleParameter symbId="b"/>
+                <RandomVariable symbId="epsilon_Cc">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean><rVal>0</rVal></mean>
+                        <stddev><var varId="sigma_Cc"/></stddev>
+                    </NormalDistribution>
+                </RandomVariable>
+                <Standard symbId="Cc_obs">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                    <math:FunctionArgument symbId="a">
+                                        <ct:SymbRef symbIdRef="a"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="b"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="f">
+                                        <math:Equation>
+                                            <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                        </math:Equation>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="epsilon_Cc"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
         </ObservationModel>
     </ModelDefinition>
     
@@ -839,22 +882,24 @@
             <Observations>
                 <Timepoints>
                     <ct:Vector>
-                        <ct:Real>0.5</ct:Real>
-                        <ct:Sequence>
-                            <ct:Begin><ct:Int>4</ct:Int></ct:Begin>
-                            <ct:StepSize><ct:Int>4</ct:Int></ct:StepSize>
-                            <ct:End><ct:Int>48</ct:Int></ct:End>
-                        </ct:Sequence>
-                        <ct:Sequence>
-                            <ct:Begin><ct:Int>52</ct:Int></ct:Begin>
-                            <ct:StepSize><ct:Int>24</ct:Int></ct:StepSize>
-                            <ct:End><ct:Int>192</ct:Int></ct:End>
-                        </ct:Sequence>
-                        <ct:Sequence>
-                            <ct:Begin><ct:Int>192</ct:Int></ct:Begin>
-                            <ct:StepSize><ct:Int>4</ct:Int></ct:StepSize>
-                            <ct:End><ct:Int>250</ct:Int></ct:End>
-                        </ct:Sequence>
+                        <ct:VectorElements>
+                            <ct:Real>0.5</ct:Real>
+                            <ct:Sequence>
+                                <ct:Begin><ct:Int>4</ct:Int></ct:Begin>
+                                <ct:StepSize><ct:Int>4</ct:Int></ct:StepSize>
+                                <ct:End><ct:Int>48</ct:Int></ct:End>
+                            </ct:Sequence>
+                            <ct:Sequence>
+                                <ct:Begin><ct:Int>52</ct:Int></ct:Begin>
+                                <ct:StepSize><ct:Int>24</ct:Int></ct:StepSize>
+                                <ct:End><ct:Int>192</ct:Int></ct:End>
+                            </ct:Sequence>
+                            <ct:Sequence>
+                                <ct:Begin><ct:Int>192</ct:Int></ct:Begin>
+                                <ct:StepSize><ct:Int>4</ct:Int></ct:StepSize>
+                                <ct:End><ct:Int>250</ct:Int></ct:End>
+                            </ct:Sequence>
+                        </ct:VectorElements>
                     </ct:Vector>
                 </Timepoints>
                 <Continuous>
