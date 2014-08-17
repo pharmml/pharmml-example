@@ -795,7 +795,7 @@
         elimination(cmt=1, k=0.2)
         peripheral(k12=0.6*V/(V + 0.1), k21=0.8, amount=Ap)-->
         
-        <StructuralModel blkId="sm4">
+        <StructuralModel blkId="sm6">
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Ap"/>
             <ct:Variable symbolType="real" symbId="Cc">
@@ -824,11 +824,13 @@
             <IV>
                 <Cmt>1</Cmt>
                 <P>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
                     <ct:Assign>
                         <ct:Real>0.1</ct:Real>
                     </ct:Assign>
                 </P>
                 <Tlag>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Tlag"/>
                     <ct:Assign>
                         <math:Equation>
                             <math:Binop op="divide">
@@ -847,6 +849,7 @@
             <Elimination>
                 <Cmt>1</Cmt>
                 <K>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                     <ct:Assign>
                         <ct:Real>0.2</ct:Real>
                     </ct:Assign>
@@ -855,7 +858,8 @@
             
             <!-- peripheral(k12=0.6*V/(V + 0.1), k21=0.8, amount=Ap) -->
             <Peripheral>
-                <k12>
+                <kij>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
                     <ct:Assign>
                         <math:Equation>
                             <math:Binop op="divide">
@@ -870,22 +874,22 @@
                             </math:Binop>
                         </math:Equation>
                     </ct:Assign>
-                </k12>
-                <k21> 
+                </kij>
+                <kji> 
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
                     <ct:Assign>
                         <ct:Real>0.8</ct:Real>
                     </ct:Assign>
-                </k21>
+                </kji>
                 <Amount>
                     <ct:SymbRef symbIdRef="Ap"/>
                 </Amount>
             </Peripheral>
-
+            
         </StructuralModel>
+        
 
-
-
-<!--        complex example - NEW -->
+<!--      Four models - complex example - NEW -->
         <StructuralModel blkId="sm5">
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
@@ -923,16 +927,12 @@
                 
                 <!-- peripheral(k23,k32) -->
                 <Peripheral>
-                    <k23>
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
-                        </ct:Assign>
-                    </k23>
-                    <k32>
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>
-                        </ct:Assign>
-                    </k32>
+                    <kij>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
+                    </kij>
+                    <kji>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>
+                    </kji>
                 </Peripheral>
                 
                 <!-- oral(type=1, cmt=1, ka, p=F1) -->
@@ -940,9 +940,7 @@
                     <Type>1</Type>
                     <Cmt>1</Cmt>
                     <Ka>
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                        </ct:Assign>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
                     </Ka>
                     <P>
                         <ct:Assign>
@@ -956,9 +954,7 @@
                     <Cmt>1</Cmt>
                     <AdminType>2</AdminType>
                     <Tk0>
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>
-                        </ct:Assign>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>
                     </Tk0>
                     <P>
                         <ct:Assign>
@@ -978,16 +974,18 @@
                     <From>1</From>
                     <To>2</To>
                     <kt>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
+                        </ct:Assign>
                     </kt>
                 </Transfer>
                 
                 <!-- elimination(cmt=1, k) -->
                 <Elimination>
                     <Cmt>1</Cmt>
-                    <k>
+                    <K>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                    </k>
+                    </K>
                 </Elimination>
                 
                 <!-- elimination(cmt=2, Km, Vm) -->
