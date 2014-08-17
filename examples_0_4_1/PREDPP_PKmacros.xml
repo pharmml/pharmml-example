@@ -810,7 +810,7 @@
             </ct:Variable>
             
             <!-- compartment(cmt=1, volume=V, concentration=Cc) -->
-            <Compartment>  
+            <Compartment>
                 <Cmt>1</Cmt>
                 <Volume>
                     <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
@@ -880,6 +880,127 @@
                     <ct:SymbRef symbIdRef="Ap"/>
                 </Amount>
             </Peripheral>
+
+        </StructuralModel>
+
+
+
+<!--        complex example - NEW -->
+        <StructuralModel blkId="sm5">
+            <ct:Variable symbolType="real" symbId="Al"/>
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Cc">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Ac"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <PKmacro>
+                <!-- compartment(cmt=1, amount=Al) -->
+                <Compartment>  
+                    <Cmt>1</Cmt>
+                    <Amount>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="Al"/>
+                        </ct:Assign>
+                    </Amount>
+                </Compartment>
+                
+                <!-- compartment(cmt=2, amount=Ac) -->
+                <Compartment>
+                    <Cmt>2</Cmt>
+                    <Amount>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="Ac"/>
+                        </ct:Assign>
+                    </Amount>
+                </Compartment>
+                
+                <!-- peripheral(k23,k32) -->
+                <Peripheral>
+                    <k23>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
+                        </ct:Assign>
+                    </k23>
+                    <k32>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>
+                        </ct:Assign>
+                    </k32>
+                </Peripheral>
+                
+                <!-- oral(type=1, cmt=1, ka, p=F1) -->
+                <Oral>
+                    <Type>1</Type>
+                    <Cmt>1</Cmt>
+                    <Ka>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                        </ct:Assign>
+                    </Ka>
+                    <P>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="F1"/>
+                        </ct:Assign>
+                    </P>
+                </Oral>
+                
+                <!-- oral(type=2, cmt=2, Tk0, p=F2) -->
+                <Oral>
+                    <Cmt>1</Cmt>
+                    <AdminType>2</AdminType>
+                    <Tk0>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>
+                        </ct:Assign>
+                    </Tk0>
+                    <P>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="F2"/>
+                        </ct:Assign>
+                    </P>
+                </Oral>
+                
+                <!-- iv(type=3, cmt=2) -->
+                <IV>
+                    <Cmt>2</Cmt>
+                    <Type>3</Type>
+                </IV>
+                
+                <!-- transfer(from=1, to=2, kt=kl) -->
+                <Transfer>    
+                    <From>1</From>
+                    <To>2</To>
+                    <kt>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
+                    </kt>
+                </Transfer>
+                
+                <!-- elimination(cmt=1, k) -->
+                <Elimination>
+                    <Cmt>1</Cmt>
+                    <k>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                    </k>
+                </Elimination>
+                
+                <!-- elimination(cmt=2, Km, Vm) -->
+                <Elimination>
+                    <Cmt>2</Cmt>
+                    <Km>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Vm"/>
+                    </Km>
+                    <Vm>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
+                    </Vm>
+                </Elimination>
+            </PKmacro>
             
         </StructuralModel>
         
