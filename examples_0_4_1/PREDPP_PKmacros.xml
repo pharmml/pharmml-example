@@ -500,7 +500,6 @@
             oral(cmt=1, ka)
             elimination(cmt=1, k)-->
             
-            
             <PKmacro>
                 <Compartment>  
                     <Cmt>1</Cmt>
@@ -553,11 +552,10 @@
                 </Elimination>
             </PKmacro>
             
+        </StructuralModel>
             
-            
-            
-            <!-- ORIGINAL PK MACROS -->
-            <!--            [LONGITUDINAL]
+
+        <!--            [LONGITUDINAL]
             input = {F1, F2, ka, Tk0, kl, k23, k32, V, k, Vm, Km}
             PK:
             compartment(cmt=1, amount=Al)                                                   
@@ -571,8 +569,7 @@
             elimination(cmt=2, Km, Vm)
             Cc = Ac/V-->
         
-        </StructuralModel>
-            
+        <!-- OLD version -->
         <StructuralModel blkId="sm2">
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
@@ -595,6 +592,7 @@
                         <ct:SymbRef symbIdRef="Al"/>
                     </Amount>
                 </Compartment>
+                
                 <!-- compartment(cmt=2, amount=Ac) -->
                 <Compartment>
                     <Cmt>2</Cmt>
@@ -676,118 +674,7 @@
             </PKmacro>
             
         </StructuralModel>
-        
-        
-        <StructuralModel blkId="sm3">
-            <ct:Variable symbolType="real" symbId="Al"/>
-            <ct:Variable symbolType="real" symbId="Ac"/>
-            <ct:Variable symbolType="real" symbId="Cc">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </ct:Variable>
-            
-            <PKmacro>
-                <!-- compartment(cmt=1, amount=Al) -->
-                <Compartment>  
-                    <Cmt>1</Cmt>
-                    <Amount>
-                        <ct:SymbRef symbIdRef="Al"/>
-                    </Amount>
-                </Compartment>
-                <!-- compartment(cmt=2, amount=Ac) -->
-                <Compartment>
-                    <Cmt>2</Cmt>
-                    <Amount>
-                        <ct:SymbRef symbIdRef="Ac"/>
-                    </Amount>
-                </Compartment>
-                
-                <!-- peripheral(k23,k32) -->
-                <Peripheral>
-                    <kij>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
-                    </kij>
-                    <kji> 
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>
-                    </kji>
-                </Peripheral>
-                
-                <!-- oral(type=1, cmt=1, ka, p=F1) -->
-                <Oral>
-                    <Cmt>1</Cmt>
-                    <Type>1</Type>
-                    <Ka>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                    </Ka>
-                    <P>
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="F1"/>
-                        </ct:Assign>
-                    </P>
-                </Oral>
-                
-                <!-- oral(type=2, cmt=2, Tk0, p=F2) -->
-                <Oral>
-                    <Cmt>1</Cmt>
-                    <Type>2</Type>
-                    <Tk0>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>
-                    </Tk0>
-                    <P>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="F2"/>
-                    </P>
-                </Oral>
-                
-                <!-- iv(type=3, cmt=2) -->
-                <IV>
-                    <Cmt>1</Cmt>
-                    <Type>1</Type>
-                </IV>
-                
-                <!-- transfer(from=1, to=2, kt=kl) -->
-                <Transfer>    
-                    <From>1</From>
-                    <To>2</To>
-                    <Kt>
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
-                        </ct:Assign>
-                    </Kt>
-                </Transfer>
-                
-                <!-- elimination(cmt=1, k) -->
-                <Elimination>
-                    <Cmt>1</Cmt>
-                    <K>
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                        </ct:Assign>
-                    </K>
-                </Elimination>
-                
-                <!-- elimination(cmt=2, Km, Vm) -->
-                <Elimination>
-                    <Cmt>2</Cmt>
-                    <Km>
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
-                        </ct:Assign>
-                    </Km>
-                    <Vm>
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Vm"/>
-                        </ct:Assign>
-                    </Vm>
-                </Elimination>
-            </PKmacro>
-            
-        </StructuralModel>
+
         
         
 <!--    compartment(cmt=1, volume=V, concentration=Cc)
@@ -890,6 +777,20 @@
         
 
 <!--      Four models - complex example - NEW -->
+        <!--            [LONGITUDINAL]
+            input = {F1, F2, ka, Tk0, kl, k23, k32, V, k, Vm, Km}
+            PK:
+            compartment(cmt=1, amount=Al)                                                   
+            compartment(cmt=2, amount=Ac)
+            peripheral(k23,k32)
+            oral(type=1, cmt=1, ka, p=F1)
+            oral(type=2, cmt=2, Tk0, p=F2)
+            iv(type=3, cmt=2)
+            transfer(from=1, to=2, kt=kl)
+            elimination(cmt=1, k)
+            elimination(cmt=2, Km, Vm)
+            Cc = Ac/V-->
+        
         <StructuralModel blkId="sm5">
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
@@ -909,9 +810,7 @@
                 <Compartment>  
                     <Cmt>1</Cmt>
                     <Amount>
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="Al"/>
-                        </ct:Assign>
+                        <ct:SymbRef symbIdRef="Al"/>
                     </Amount>
                 </Compartment>
                 
@@ -919,20 +818,18 @@
                 <Compartment>
                     <Cmt>2</Cmt>
                     <Amount>
-                        <ct:Assign>
-                            <ct:SymbRef symbIdRef="Ac"/>
-                        </ct:Assign>
+                        <ct:SymbRef symbIdRef="Ac"/>
                     </Amount>
                 </Compartment>
                 
                 <!-- peripheral(k23,k32) -->
                 <Peripheral>
-                    <kij>
+                    <Kij>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
-                    </kij>
-                    <kji>
+                    </Kij>
+                    <Kji>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>
-                    </kji>
+                    </Kji>
                 </Peripheral>
                 
                 <!-- oral(type=1, cmt=1, ka, p=F1) -->
@@ -943,6 +840,7 @@
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
                     </Ka>
                     <P>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="F1"/>
                         </ct:Assign>
@@ -957,6 +855,7 @@
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>
                     </Tk0>
                     <P>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="F2"/>
                         </ct:Assign>
@@ -973,11 +872,12 @@
                 <Transfer>    
                     <From>1</From>
                     <To>2</To>
-                    <kt>
+                    <Kt>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kt"/>
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
                         </ct:Assign>
-                    </kt>
+                    </Kt>
                 </Transfer>
                 
                 <!-- elimination(cmt=1, k) -->
@@ -999,7 +899,6 @@
                     </Vm>
                 </Elimination>
             </PKmacro>
-            
         </StructuralModel>
         
     </ModelDefinition>
