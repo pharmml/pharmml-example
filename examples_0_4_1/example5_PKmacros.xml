@@ -313,13 +313,13 @@
             <ct:Variable symbolType="real" symbId="Ap"/>
             <ct:Variable symbolType="real" symbId="Cc"/>
             
-            <ct:DerivativeVariable symbId="Ac" symbolType="real">
+<!--            <ct:DerivativeVariable symbId="Ac" symbolType="real">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         ka*Ad
                     </Equation>
                 </ct:Assign>
-            </ct:DerivativeVariable>
+            </ct:DerivativeVariable>-->
 <!--            compartment(cmt=1,concentration=Cc,volume=V)
             iv(cmt=1)
             elimination(cmt=1, Cl)-->
@@ -483,14 +483,14 @@
             </ct:Variable>      <!-- Al = 1, Ac = 2 -->
                        
 
-            <ct:DerivativeVariable symbId="Ac" symbolType="real" compartmentNo="1">
+<!--            <ct:DerivativeVariable symbId="Ac" symbolType="real" compartmentNo="1">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         ka*Ad
                     </Equation>
                 </ct:Assign>
             </ct:DerivativeVariable>
-            
+-->            
             <PKmacro>
                 
                 <!-- compartment(cmt=1, amount=Al) -->
