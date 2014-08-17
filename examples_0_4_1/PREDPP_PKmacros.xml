@@ -3,6 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"    
     writtenVersion="0.3" id="i1">
     
     <!-- MODEL NAME -->
@@ -28,22 +29,92 @@
         <!-- PARAMETER MODEL -->
         <ParameterModel blkId="pm1">
             
+            <!-- no IIV assumed for simplicity -->
             <SimpleParameter symbId="V"/>
+
             <SimpleParameter symbId="k"/>
             
+            <SimpleParameter symbId="k">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL"/>
+                            <ct:SymbRef symbIdRef="V"/>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="k21">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Q2"/>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="k21">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Q2"/>
+                            <ct:SymbRef symbIdRef="V2"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="k13">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Q3"/>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="k31">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Q3"/>
+                            <ct:SymbRef symbIdRef="V3"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="k">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL"/>
+                            <ct:SymbRef symbIdRef="V"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
         </ParameterModel>
 
     
         <!-- STRUCTURAL MODEL - ODEs -->
         <StructuralModel blkId="sm1">
+            
+<!--        ADVAN1, TRANS1 - 1-comp IV input
+            compartment(cmt=1, amount=Ac, volume=V)
+            iv(cmt=1)
+            elimination(cmt=1, k)-->
 
-<!--ADVAN1, TRANS1 - 1-comp IV input -->
-<!--compartment(cmt=1, amount=Ac, volume=V)
-iv(cmt=1)
-elimination(cmt=1, k)-->
+            <ct:Variable symbolType="real" symbId="Ap1"/>
             
             <PKmacro>
                 <Compartment>  
+                    <!-- omitted, identical to ADVAN1 -->
                     <Cmt>1</Cmt>
                     <Amount>
                         <ct:SymbRef symbIdRef="Ac"/>
@@ -55,7 +126,6 @@ elimination(cmt=1, k)-->
                 
                 <IV>
                     <Cmt>1</Cmt>
-                    <AdminType>1</AdminType>
                 </IV>
                 
                 <Elimination>
@@ -63,10 +133,21 @@ elimination(cmt=1, k)-->
                     <EliminationRate>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                     </EliminationRate>
+                    <EliminationRate>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="CL"/>
+                                    <ct:SymbRef symbIdRef="V"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </EliminationRate>
                 </Elimination>
             </PKmacro>
             
-<!--        compartment(cmt=1, amount=Ac, volume=V)
+<!--        ADVAN2, TRANS1 - 1-comp 1st order input
+            compartment(cmt=1, amount=Ac, volume=V)
             oral(cmt=1, ka)
             elimination(cmt=1, k)-->
             
@@ -96,6 +177,384 @@ elimination(cmt=1, k)-->
                 </Elimination>
             </PKmacro>
             
+<!--        ADVAN3, TRANS1 - 2-comp IV input
+            compartment(cmt=1, amount=Ac, volume=V)
+            peripheral(k12, k21, amount=Ap)
+            iv(cmt=1)
+            elimination(cmt=1, k)-->
+            
+            <PKmacro>
+                <Compartment>  
+                    <Cmt>1</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Amount>
+                    <Volume>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Volume>
+                </Compartment>
+                
+                <Peripheral>  
+                    <Cmt>2</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ap"/>
+                    </Amount>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
+                    </Rate>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
+                    </Rate>
+                </Peripheral>
+                
+                <IV>
+                    <Cmt>1</Cmt>
+                </IV>
+                
+                <Elimination>
+                    <Cmt>1</Cmt>
+                    <EliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                    </EliminationRate>
+                </Elimination>
+            </PKmacro>
+            
+<!--        ADVAN4, TRANS1 – 2-comp 1st order input
+            compartment(cmt=1, amount=Ac, volume=V)
+            peripheral(k12, k21, amount=Ap)
+            oral(cmt=1, ka)
+            elimination(cmt=1, k)-->
+            
+            <PKmacro>
+                <Compartment>  
+                    <Cmt>1</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Amount>
+                    <Volume>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Volume>
+                </Compartment>
+                
+                <Peripheral>  
+                    <Cmt>2</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ap"/>
+                    </Amount>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
+                    </Rate>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
+                    </Rate>
+                </Peripheral>
+                
+                <Oral>
+                    <Cmt>1</Cmt>
+                    <AbsorptionConstant>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>                        
+                    </AbsorptionConstant>
+                </Oral>
+                
+                <Elimination>
+                    <Cmt>1</Cmt>
+                    <EliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                    </EliminationRate>
+                </Elimination>
+            </PKmacro>
+            
+            
+<!--        ADVAN10, TRANS1 – 1-comp IV input with saturable elimination
+            compartment(cmt=1, amount=Ac, volume=V)
+            iv(cmt=1)
+            elimination(cmt=1, Km, Vm)-->
+            
+            <PKmacro>
+                <Compartment>  
+                    <Cmt>1</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Amount>
+                    <Volume>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Volume>
+                </Compartment>
+                
+                <IV>
+                    <Cmt>1</Cmt>
+                </IV>
+                
+                <Elimination>
+                    <Cmt>1</Cmt>
+                    <MaximumEliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Vmax"/>
+                    </MaximumEliminationRate>
+                    <MichaelisMentenConstant>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
+                    </MichaelisMentenConstant>
+                </Elimination>
+            </PKmacro>
+            
+            
+<!--        ADVAN11, TRANS1 – 3-comp IV input
+            compartment(cmt=1, amount=Ac, volume=V)
+            peripheral(k12, k21, amount=Ap1)
+            peripheral(k13, k31, amount=Ap2)
+            iv(cmt=1)
+            elimination(cmt=1, k)-->
+            
+            <PKmacro>
+                <Compartment>  
+                    <Cmt>1</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Amount>
+                    <Volume>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Volume>
+                </Compartment>
+                
+                <Peripheral>  
+                    <Cmt>2</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ap1"/>
+                    </Amount>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="Q2"/>
+                                    <ct:SymbRef symbIdRef="V1"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Rate>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="Q2"/>
+                                    <ct:SymbRef symbIdRef="V2"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Rate>
+                </Peripheral>
+                
+                <Peripheral>  
+                    <Cmt>2</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ap2"/>
+                    </Amount>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k13"/>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="Q3"/>
+                                    <ct:SymbRef symbIdRef="V1"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Rate>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k31"/>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="Q3"/>
+                                    <ct:SymbRef symbIdRef="V3"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Rate>
+                </Peripheral>
+                
+                <IV>
+                    <Cmt>1</Cmt>
+                </IV>
+                
+                <Elimination>
+                    <Cmt>1</Cmt>
+                    <EliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="CL"/>
+                                    <ct:SymbRef symbIdRef="V"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </EliminationRate>
+                </Elimination>
+            </PKmacro>
+            
+            <PKmacro>
+                
+                <!-- compartment(cmt=1, amount=Al) -->
+                <Compartment>  
+                    <Cmt>1</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Al"/>                        
+                    </Amount>
+                </Compartment>
+                
+                <!-- compartment(cmt=2, amount=Ac) -->
+                <Compartment>
+                    <Cmt>2</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ac"/>                        
+                    </Amount>
+                </Compartment>
+                
+                <!-- peripheral(kij,kji) - 'i' source compartment, 'j' - peripheral compartment -->
+                <!-- peripheral(k23,k32) -->
+                <Peripheral>
+                    <PeripheralComp>3</PeripheralComp>     
+                    <SourceComp>2</SourceComp>
+                    <InputRate>
+                        <ct:SymbRef symbIdRef="k23"/>
+                    </InputRate>
+                    <OutputRate>
+                        <ct:SymbRef symbIdRef="k32"/>                        
+                    </OutputRate>
+                </Peripheral>
+                
+                <!-- oral(type=1, cmt=1, ka, p=F1) -->
+                <Oral>
+                    <Cmt>1</Cmt>
+                    <AdminType>1</AdminType>
+                    <AbsorptionConstant>
+                        <ct:SymbRef symbIdRef="ka"/>                        
+                    </AbsorptionConstant>
+                    <PortionAmountAbsorbed>
+                        <ct:SymbRef symbIdRef="p"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="F1"/>
+                        </ct:Assign>
+                    </PortionAmountAbsorbed>
+                </Oral>
+                
+                <!-- oral(type=2, cmt=2, Tk0, p=F2) -->
+                <Oral>
+                    <Cmt>1</Cmt>
+                    <AdminType>2</AdminType>
+                    <AbsorptionDuration>
+                        <ct:SymbRef symbIdRef="Tk0"/>                        
+                    </AbsorptionDuration>    
+                    <PortionAmountAbsorbed>
+                        <ct:SymbRef symbIdRef="p"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="F2"/>
+                        </ct:Assign>
+                    </PortionAmountAbsorbed>
+                </Oral>
+                
+                <!-- iv(type=3, cmt=2) -->
+                <IV>
+                    <Cmt>2</Cmt>
+                    <AdminType>3</AdminType>
+                </IV>
+                
+                <!-- transfer(from=1, to=2, kt=kl) -->
+                <Transfer>    
+                    <From>1</From>
+                    <To>2</To>
+                    <TransferRate>
+                        <ct:SymbRef symbIdRef="kt"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="kl"/>
+                        </ct:Assign>
+                    </TransferRate>
+                </Transfer>
+                
+                <!-- elimination(cmt=1, k) -->
+                <Elimination>
+                    <Cmt>1</Cmt>
+                    <EliminationRateConstant>
+                        <ct:SymbRef symbIdRef="k"/>
+                    </EliminationRateConstant>
+                </Elimination>
+                
+                <!-- elimination(cmt=2, Km, Vm) -->
+                <Elimination>
+                    <Cmt>2</Cmt>
+                    <MaximumEliminationRate>
+                        <ct:SymbRef symbIdRef="Vmax"/>
+                    </MaximumEliminationRate>
+                    <MichaelisMentenConstant>
+                        <ct:SymbRef symbIdRef="Km"/>
+                    </MichaelisMentenConstant>
+                </Elimination>
+                
+            </PKmacro>
+            
+<!--        ADVAN12, TRANS1 – 3-comp 1st order input
+            compartment(cmt=1, amount=Ac, volume=V)
+            peripheral(k12, k21, amount=Ap1)
+            peripheral(k13, k31, amount=Ap2)
+            oral(cmt=1, ka)
+            elimination(cmt=1, k)-->
+            
+            
+            <PKmacro>
+                <Compartment>  
+                    <Cmt>1</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Amount>
+                    <Volume>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Volume>
+                </Compartment>
+                
+                <Peripheral>  
+                    <Cmt>2</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ap1"/>
+                    </Amount>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
+                    </Rate>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
+                    </Rate>
+                </Peripheral>
+                
+                <Peripheral>  
+                    <Cmt>2</Cmt>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ap2"/>
+                    </Amount>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k13"/>
+                    </Rate>
+                    <Rate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k31"/>
+                    </Rate>
+                </Peripheral>
+                
+                <Oral>
+                    <Cmt>1</Cmt>
+                    <AbsorptionConstant>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>                        
+                    </AbsorptionConstant>
+                </Oral>
+                
+                <Elimination>
+                    <Cmt>1</Cmt>
+                    <EliminationRate>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                    </EliminationRate>
+                </Elimination>
+            </PKmacro>
+            
+            
+            
             
             <!-- ORIGINAL PK MACROS -->
             <!--            [LONGITUDINAL]
@@ -111,7 +570,10 @@ elimination(cmt=1, k)-->
             elimination(cmt=1, k)
             elimination(cmt=2, Km, Vm)
             Cc = Ac/V-->
+        
+        </StructuralModel>
             
+        <StructuralModel blkId="sm2">
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Ap"/>
@@ -213,10 +675,70 @@ elimination(cmt=1, k)-->
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
                     </MichaelisMentenConstant>
                 </Elimination>
-                                
+                
             </PKmacro>
             
         </StructuralModel>
-
+        
     </ModelDefinition>
+
+
+    <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign">
+        
+        
+<!--        <Structure>
+            <Epoch oid="">
+                <Start>
+                    <ct:Real></ct:Real>
+                </Start>
+                <End>
+                    <ct:Real></ct:Real>
+                </End>
+                <Order></Order>
+            </Epoch>
+            <Arm oid=""></Arm>
+            <Cell oid="">
+                <EpochRef oidRef=""></EpochRef>
+                <ArmRef oidRef=""></ArmRef>
+                <SegmentRef oidRef=""></SegmentRef>
+            </Cell>
+            <Segment oid="">
+                <ActivityRef oidRef=""></ActivityRef>
+            </Segment>
+            <Activity oid="act1">
+                <Bolus>
+                    <DoseAmount inputTarget="parameter">
+                        <ct:SymbRef symbIdRef="D"/>
+                        <ct:Assign>
+                            <ct:Real>10</ct:Real>
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <!-\- e.g. 10 -\->
+                    </DosingTimes>
+                </Bolus>
+            </Activity>
+            <Activity oid="act1">
+                <Bolus>
+                    <DoseAmount inputTarget="compartment">
+                        <CompartmentNumber compNo="1"/>
+                        <ct:Assign>
+                            <ct:Real>10</ct:Real>
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <!-\- e.g. 10 -\->
+                    </DosingTimes>
+                </Bolus>
+            </Activity>
+        </Structure>
+        <Population>
+            <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
+                <Definition>
+                    <Column columnId="" columnType="" valueType="" columnNum=""></Column>
+                </Definition>
+            </DataSet>
+        </Population>
+    </TrialDesign>-->
+    
 </PharmML>
