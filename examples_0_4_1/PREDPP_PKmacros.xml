@@ -460,7 +460,6 @@
 
             <PKmacro>
                 <Compartment>  
-                    <!-- omitted, identical to ADVAN1 -->
                     <Cmt>1</Cmt>
                     <Amount>
                         <ct:SymbRef symbIdRef="Ac"/>
