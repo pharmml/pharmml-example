@@ -455,6 +455,8 @@
         </StructuralModel>
             
             
+        <!-- OLD version 1-->
+
         <!-- Modified PK MACROS -->
         <!--            [LONGITUDINAL]
             input = {F1, F2, ka, Tk0, kl, k23, k32, V, k, Vm, Km}
@@ -624,6 +626,8 @@
             
         </StructuralModel>
         
+        
+        
                     <!--            [LONGITUDINAL]
             input = {F1, F2, ka, Tk0, kl, k23, k32, V, k, Vm, Km}
             PK:
@@ -638,7 +642,7 @@
             elimination(cmt=2, Km, Vm)
             Cc = Ac/V-->
         
-        <!-- OLD version -->
+        <!-- OLD version 2 -->
         <StructuralModel blkId="sm3">
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
@@ -745,108 +749,9 @@
         </StructuralModel>
         
         
-<!--    compartment(cmt=1, volume=V, concentration=Cc)
-        iv(cmt=1, p=amtDose/(amtDose+10), Tlag = t/(t + 10))
-        elimination(cmt=1, k=0.2)
-        peripheral(k12=0.6*V/(V + 0.1), k21=0.8, amount=Ap)-->
         
-        <StructuralModel blkId="sm6">
-            <ct:Variable symbolType="real" symbId="Ac"/>
-            <ct:Variable symbolType="real" symbId="Ap"/>
-            <ct:Variable symbolType="real" symbId="Cc">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </ct:Variable>
-            
-            <PKmacro>
-                <!-- compartment(cmt=1, volume=V, concentration=Cc) -->
-                <Compartment>
-                    <Cmt>1</Cmt>
-                    <Volume>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                    </Volume>
-                    <Concentration>
-                        <ct:SymbRef symbIdRef="Cc"/>
-                    </Concentration>
-                </Compartment>
-                
-                <!-- iv(cmt=1, p=0.1, Tlag = t/(t + 10)) -->
-                <IV>
-                    <Cmt>1</Cmt>
-                    <P>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
-                        <ct:Assign>
-                            <ct:Real>0.1</ct:Real>
-                        </ct:Assign>
-                    </P>
-                    <Tlag>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Tlag"/>
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="divide">
-                                    <ct:SymbRef symbIdRef="t"/>
-                                    <math:Binop op="plus">
-                                        <ct:SymbRef symbIdRef="Cc"/>
-                                        <ct:Real>10</ct:Real>
-                                    </math:Binop>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
-                    </Tlag>
-                </IV>
-                
-                <!-- elimination(cmt=1, k=0.2) -->
-                <Elimination>
-                    <Cmt>1</Cmt>
-                    <K>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                        <ct:Assign>
-                            <ct:Real>0.2</ct:Real>
-                        </ct:Assign>
-                    </K>
-                </Elimination>
-                
-                <!-- peripheral(k12=0.6*V/(V + 0.1), k21=0.8, amount=Ap) -->
-                <Peripheral>
-                    <kij>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="divide">
-                                    <math:Binop op="times">
-                                        <ct:Real>0.6</ct:Real>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                                    </math:Binop>
-                                    <math:Binop op="plus">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                                        <ct:Real>0.1</ct:Real>
-                                    </math:Binop>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
-                    </kij>
-                    <kji> 
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
-                        <ct:Assign>
-                            <ct:Real>0.8</ct:Real>
-                        </ct:Assign>
-                    </kji>
-                    <Amount>
-                        <ct:SymbRef symbIdRef="Ap"/>
-                    </Amount>
-                </Peripheral>
-            </PKmacro>
-            
-        </StructuralModel>
+        <!-- Example 1 -->
         
-
-<!--      Four models - complex example - NEW -->
         <!--            [LONGITUDINAL]
             input = {F1, F2, ka, Tk0, kl, k23, k32, V, k, Vm, Km}
             PK:
@@ -971,6 +876,111 @@
             </PKmacro>
         </StructuralModel>
         
+        
+        <!-- Example 2 -->
+
+        <!--    compartment(cmt=1, volume=V, concentration=Cc)
+        iv(cmt=1, p=amtDose/(amtDose+10), Tlag = t/(t + 10))
+        elimination(cmt=1, k=0.2)
+        peripheral(k12=0.6*V/(V + 0.1), k21=0.8, amount=Ap)-->
+        
+        <StructuralModel blkId="sm6">
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Ap"/>
+            <ct:Variable symbolType="real" symbId="Cc">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Ac"/>
+                            <ct:SymbRef symbIdRef="V"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <PKmacro>
+                <!-- compartment(cmt=1, volume=V, concentration=Cc) -->
+                <Compartment>
+                    <Cmt>1</Cmt>
+                    <Volume>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Volume>
+                    <Concentration>
+                        <ct:SymbRef symbIdRef="Cc"/>
+                    </Concentration>
+                </Compartment>
+                
+                <!-- iv(cmt=1, p=0.1, Tlag = t/(t + 10)) -->
+                <IV>
+                    <Cmt>1</Cmt>
+                    <P>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
+                        <ct:Assign>
+                            <ct:Real>0.1</ct:Real>
+                        </ct:Assign>
+                    </P>
+                    <Tlag>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Tlag"/>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="t"/>
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="Cc"/>
+                                        <ct:Real>10</ct:Real>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Tlag>
+                </IV>
+                
+                <!-- elimination(cmt=1, k=0.2) -->
+                <Elimination>
+                    <Cmt>1</Cmt>
+                    <K>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                        <ct:Assign>
+                            <ct:Real>0.2</ct:Real>
+                        </ct:Assign>
+                    </K>
+                </Elimination>
+                
+                <!-- peripheral(k12=0.6*V/(V + 0.1), k21=0.8, amount=Ap) -->
+                <Peripheral>
+                    <kij>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <math:Binop op="times">
+                                        <ct:Real>0.6</ct:Real>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                                    </math:Binop>
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                                        <ct:Real>0.1</ct:Real>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </kij>
+                    <kji> 
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
+                        <ct:Assign>
+                            <ct:Real>0.8</ct:Real>
+                        </ct:Assign>
+                    </kji>
+                    <Amount>
+                        <ct:SymbRef symbIdRef="Ap"/>
+                    </Amount>
+                </Peripheral>
+            </PKmacro>
+            
+        </StructuralModel>
+        
+        
+        <!-- Example 3 -->
 <!--        compartment(cmt=1, volume=V+2∗t, concentration=Cc) 
             iv(cmt=1)
             elimination(cmt=1, k=0.2)
@@ -978,17 +988,8 @@
         
         
         <StructuralModel blkId="sm7">
-            <ct:Variable symbolType="real" symbId="Ac"/>
-            <ct:Variable symbolType="real" symbId="Cc">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </ct:Variable>
+            <ct:Variable symbolType="real" symbId="Cc"/>
+            <ct:Variable symbolType="real" symbId="Ap"/>
             
             <PKmacro>
                 <!-- compartment(cmt=1, volume=V+2∗t, concentration=Cc) -->
@@ -1065,16 +1066,9 @@
         
         <StructuralModel blkId="sm8">
             <ct:Variable symbolType="real" symbId="Ac"/>
-            <ct:Variable symbolType="real" symbId="Cc">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </ct:Variable>
+            <ct:Variable symbolType="real" symbId="Ap2"/>
+            <ct:Variable symbolType="real" symbId="Ap3"/>
+            <ct:Variable symbolType="real" symbId="Ap6"/>
             
             <PKmacro>
                 <!-- compartment(cmt=1, volume=V, concentration=Cc) -->
