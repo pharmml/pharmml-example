@@ -307,7 +307,7 @@
         </ParameterModel>
 
         <!-- STRUCTURAL MODEL - ODEs -->
-        <StructuralModel blkId="sm1">
+        <StructuralModel blkId="sm1old">
             
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
@@ -472,7 +472,7 @@
             elimination(cmt=2, Km, Vm)
             Cc = Ac/V-->
 
-        <StructuralModel blkId="sm2">
+        <StructuralModel blkId="sm2old">
             
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="amountAl"/>
@@ -643,7 +643,7 @@
             Cc = Ac/V-->
         
         <!-- OLD version 2 -->
-        <StructuralModel blkId="sm3">
+        <StructuralModel blkId="sm3old">
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Cc">
@@ -766,7 +766,7 @@
             elimination(cmt=2, Km, Vm)
             Cc = Ac/V-->
         
-        <StructuralModel blkId="sm5">
+        <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Cc">
@@ -884,7 +884,7 @@
         elimination(cmt=1, k=0.2)
         peripheral(k12=0.6*V/(V + 0.1), k21=0.8, amount=Ap)-->
         
-        <StructuralModel blkId="sm6">
+        <StructuralModel blkId="sm2">
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Ap"/>
             <ct:Variable symbolType="real" symbId="Cc">
@@ -987,7 +987,7 @@
             peripheral(k12=0.6, k21=0.8, amount=Ap)-->
         
         
-        <StructuralModel blkId="sm7">
+        <StructuralModel blkId="sm3">
             <ct:Variable symbolType="real" symbId="Cc"/>
             <ct:Variable symbolType="real" symbId="Ap"/>
             
@@ -1051,6 +1051,9 @@
             </PKmacro>
         </StructuralModel>
         
+        
+        <!-- Example 4 -->
+        
 <!--        compartment(cmt=1, volume=V, concentration=Cc) 
             iv(cmt=1, p=0.1, Tlag = t/(t + 10),type=1) 
             oral(cmt=1, Tk0=0.1, type=2)
@@ -1064,7 +1067,7 @@
             peripheral(k56=0.6, k65=0.8, amount=Ap6)-->
         
         
-        <StructuralModel blkId="sm8">
+        <StructuralModel blkId="sm4">
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Ap2"/>
             <ct:Variable symbolType="real" symbId="Ap3"/>
@@ -1109,6 +1112,16 @@
                 </IV>
 
                 <!-- oral(cmt=1, Tk0=0.1, type=2) -->
+                <Oral>
+                    <Type>2</Type>
+                    <Cmt>1</Cmt>
+                    <Tk0>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>
+                        <ct:Assign>
+                            <ct:Real>0.1</ct:Real>
+                        </ct:Assign>
+                    </Tk0>
+                </Oral>
 
                 <!-- elimination(cmt=1, k=0.2) -->
                 <Elimination>
@@ -1209,6 +1222,7 @@
                 <Elimination>
                     <Cmt>5</Cmt>
                     <K>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                         <ct:Assign>
                             <ct:Real>0.2</ct:Real>
                         </ct:Assign>
