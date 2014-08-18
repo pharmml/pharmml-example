@@ -101,20 +101,20 @@
             </SimpleParameter>
         </ParameterModel>
 
-    
-        <!-- STRUCTURAL MODEL - ODEs -->
+   <!-- 
+        <!-\- STRUCTURAL MODEL - ODEs -\->
         <StructuralModel blkId="sm1">
             
-<!--        ADVAN1, TRANS1 - 1-comp IV input
+<!-\-        ADVAN1, TRANS1 - 1-comp IV input
             compartment(cmt=1, amount=Ac, volume=V)
             iv(cmt=1)
-            elimination(cmt=1, k)-->
+            elimination(cmt=1, k)-\->
 
             <ct:Variable symbolType="real" symbId="Ap1"/>
             
-            <PKmacro>
+            <PKmacros>
                 <Compartment>  
-                    <!-- omitted, identical to ADVAN1 -->
+                    <!-\- omitted, identical to ADVAN1 -\->
                     <Cmt>1</Cmt>
                     <Amount>
                         <ct:SymbRef symbIdRef="Ac"/>
@@ -144,14 +144,14 @@
                         </ct:Assign>
                     </EliminationRate>
                 </Elimination>
-            </PKmacro>
+            </PKmacros>
             
-<!--        ADVAN2, TRANS1 - 1-comp 1st order input
+<!-\-        ADVAN2, TRANS1 - 1-comp 1st order input
             compartment(cmt=1, amount=Ac, volume=V)
             oral(cmt=1, ka)
-            elimination(cmt=1, k)-->
+            elimination(cmt=1, k)-\->
             
-            <PKmacro>
+            <PKmacros>
                 <Compartment>  
                     <Cmt>1</Cmt>
                     <Amount>
@@ -175,15 +175,15 @@
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                     </EliminationRate>
                 </Elimination>
-            </PKmacro>
+            </PKmacros>
             
-<!--        ADVAN3, TRANS1 - 2-comp IV input
+<!-\-        ADVAN3, TRANS1 - 2-comp IV input
             compartment(cmt=1, amount=Ac, volume=V)
             peripheral(k12, k21, amount=Ap)
             iv(cmt=1)
-            elimination(cmt=1, k)-->
+            elimination(cmt=1, k)-\->
             
-            <PKmacro>
+            <PKmacros>
                 <Compartment>
                     <Cmt>1</Cmt>
                     <Amount>
@@ -216,15 +216,15 @@
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                     </EliminationRate>
                 </Elimination>
-            </PKmacro>
+            </PKmacros>
             
-<!--        ADVAN4, TRANS1 – 2-comp 1st order input
+<!-\-        ADVAN4, TRANS1 – 2-comp 1st order input
             compartment(cmt=1, amount=Ac, volume=V)
             peripheral(k12, k21, amount=Ap)
             oral(cmt=1, ka)
-            elimination(cmt=1, k)-->
+            elimination(cmt=1, k)-\->
             
-            <PKmacro>
+            <PKmacros>
                 <Compartment>  
                     <Cmt>1</Cmt>
                     <Amount>
@@ -260,14 +260,14 @@
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                     </EliminationRate>
                 </Elimination>
-            </PKmacro>
+            </PKmacros>
             
-<!--        ADVAN10, TRANS1 – 1-comp IV input with saturable elimination
+<!-\-        ADVAN10, TRANS1 – 1-comp IV input with saturable elimination
             compartment(cmt=1, amount=Ac, volume=V)
             iv(cmt=1)
-            elimination(cmt=1, Km, Vm)-->
+            elimination(cmt=1, Km, Vm)-\->
             
-            <PKmacro>
+            <PKmacros>
                 <Compartment>  
                     <Cmt>1</Cmt>
                     <Amount>
@@ -291,16 +291,16 @@
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
                     </MichaelisMentenConstant>
                 </Elimination>
-            </PKmacro>
+            </PKmacros>
             
-<!--        ADVAN11, TRANS1 – 3-comp IV input
+<!-\-        ADVAN11, TRANS1 – 3-comp IV input
             compartment(cmt=1, amount=Ac, volume=V)
             peripheral(k12, k21, amount=Ap1)
             peripheral(k13, k31, amount=Ap2)
             iv(cmt=1)
-            elimination(cmt=1, k)-->
+            elimination(cmt=1, k)-\->
             
-            <PKmacro>
+            <PKmacros>
                 <Compartment>  
                     <Cmt>1</Cmt>
                     <Amount>
@@ -385,16 +385,16 @@
                         </ct:Assign>
                     </EliminationRate>
                 </Elimination>
-            </PKmacro>
+            </PKmacros>
            
-<!--        ADVAN12, TRANS1 – 3-comp 1st order input
+<!-\-        ADVAN12, TRANS1 – 3-comp 1st order input
             compartment(cmt=1, amount=Ac, volume=V)
             peripheral(k12, k21, amount=Ap1)
             peripheral(k13, k31, amount=Ap2)
             oral(cmt=1, ka)
-            elimination(cmt=1, k)-->
+            elimination(cmt=1, k)-\->
             
-            <PKmacro>
+            <PKmacros>
                 <Compartment>  
                     <Cmt>1</Cmt>
                     <Amount>
@@ -442,44 +442,50 @@
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                     </EliminationRate>
                 </Elimination>
-            </PKmacro>
+            </PKmacros>
             
         </StructuralModel>
-        
+   -->     
         
         
         <!-- STRUCTURAL MODEL - ODEs -->
-        <StructuralModel blkId="sm2">
-            
-            <ct:Variable symbolType="real" symbId="Ac"/>
-            
-<!--        ADVAN1, TRANS1 - 1-comp IV input
+
+        <!--        ADVAN1, TRANS1 - 1-comp IV input
             compartment(cmt=1, amount=Ac, volume=V)
             iv(cmt=1)
             elimination(cmt=1, k)-->
-
-            <PKmacro>
-                <Compartment>  
-                    <Cmt>1</Cmt>
-                    <Amount>
+        
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            
+            <PKmacros>
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ac"/>
-                    </Amount>
-                    <Volume>
+                    </Value>
+                    <Value argument="volume">
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                    </Volume>
+                    </Value>
                 </Compartment>
                 
                 <IV>
-                    <Cmt>1</Cmt>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
                 </IV>
                 
                 <Elimination>
-                    <Cmt>1</Cmt>
-                    <K>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                    </K>
+                    </Value>
                     <!-- TRANS2 -->
-                    <K>
+                    <Value argument="k">
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
@@ -488,159 +494,205 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
-                    </K>
+                    </Value>
                 </Elimination>
-            </PKmacro>
+            </PKmacros>
             
-<!--        ADVAN2, TRANS1 - 1-comp 1st order input
+        </StructuralModel>
+        
+
+        <!--        ADVAN2, TRANS1 - 1-comp 1st order input
             compartment(cmt=1, amount=Ac, volume=V)
             oral(cmt=1, ka)
             elimination(cmt=1, k)-->
+
+        <StructuralModel blkId="sm2">
+            <ct:Variable symbolType="real" symbId="Ac"/>
             
-            <PKmacro>
-                <Compartment>  
-                    <Cmt>1</Cmt>
-                    <Amount>
+            <PKmacros>
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ac"/>
-                    </Amount>
-                    <Volume>
+                    </Value>
+                    <Value argument="volume">
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                    </Volume>
+                    </Value>
                 </Compartment>
                 
                 <Oral>
-                    <Cmt>1</Cmt>
-                    <Ka>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>                        
-                    </Ka>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="ka">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                    </Value>
                 </Oral>
                 
                 <Elimination>
-                    <Cmt>1</Cmt>
-                    <K>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="k">
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                    </K>
+                    </Value>
                 </Elimination>
-            </PKmacro>
+            </PKmacros>            
+        </StructuralModel>
             
-<!--        ADVAN3, TRANS1 - 2-comp IV input
+
+        <!--        ADVAN3, TRANS1 - 2-comp IV input
             compartment(cmt=1, amount=Ac, volume=V)
             peripheral(k12, k21, amount=Ap)
             iv(cmt=1)
             elimination(cmt=1, k)-->
+
+        <StructuralModel blkId="sm3">
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Ap"/>
             
-            <PKmacro>
+            <PKmacros>
                 <Compartment>  
-                    <Cmt>1</Cmt>
-                    <Amount>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ac"/>
-                    </Amount>
-                    <Volume>
+                    </Value>
+                    <Value argument="volume">
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                    </Volume>
+                    </Value>
                 </Compartment>
                 
-                <Peripheral>  
-                    <Cmt>2</Cmt>
-                    <Kij>
+                <Peripheral>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
-                    </Kij>
-                    <Kji>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
-                    </Kji>
-                    <Amount>
+                    </Value>
+                    <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ap"/>
-                    </Amount>
+                    </Value>
                 </Peripheral>
                 
                 <IV>
-                    <Cmt>1</Cmt>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
                 </IV>
                 
                 <Elimination>
-                    <Cmt>1</Cmt>
-                    <K>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                    </K>
+                    </Value>
                 </Elimination>
-            </PKmacro>
-            
-<!--        ADVAN4, TRANS1 – 2-comp 1st order input
+            </PKmacros>
+        </StructuralModel>
+
+        
+        <!--        ADVAN4, TRANS1 – 2-comp 1st order input
             compartment(cmt=1, amount=Ac, volume=V)
             peripheral(k12, k21, amount=Ap)
             oral(cmt=1, ka)
             elimination(cmt=1, k)-->
+        
+        <StructuralModel blkId="sm4">
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Ap"/>
             
-            <PKmacro>
-                <Compartment>  
-                    <Cmt>1</Cmt>
-                    <Amount>
+            <PKmacros>
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ac"/>
-                    </Amount>
-                    <Volume>
+                    </Value>
+                    <Value argument="volume">
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                    </Volume>
+                    </Value>
                 </Compartment>
                 
                 <Peripheral>
-                    <Amount>
-                        <ct:SymbRef symbIdRef="Ap"/>
-                    </Amount>
-                    <Kij>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
-                    </Kij>
-                    <Kji>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
-                    </Kji>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap"/>
+                    </Value>
                 </Peripheral>
                 
                 <Oral>
-                    <Cmt>1</Cmt>
-                    <Ka>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>                        
-                    </Ka>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                    </Value>
                 </Oral>
                 
                 <Elimination>
-                    <Cmt>1</Cmt>
-                    <K>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                    </K>
+                    </Value>
                 </Elimination>
-            </PKmacro>
-            
+            </PKmacros>
+        </StructuralModel>
+        
             
 <!--        ADVAN10, TRANS1 – 1-comp IV input with saturable elimination
             compartment(cmt=1, amount=Ac, volume=V)
             iv(cmt=1)
             elimination(cmt=1, Km, Vm)-->
+        
+        <StructuralModel blkId="sm10">
+            <ct:Variable symbolType="real" symbId="Ac"/>
             
-            <PKmacro>
-                <Compartment>  
-                    <Cmt>1</Cmt>
-                    <Amount>
+            <PKmacros>
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ac"/>
-                    </Amount>
-                    <Volume>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                    </Volume>
+                    </Value>
                 </Compartment>
                 
                 <IV>
-                    <Cmt>1</Cmt>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
                 </IV>
                 
                 <Elimination>
-                    <Cmt>1</Cmt>
-                    <Km>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
-                    </Km>
-                    <Vm>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="Vmax"/>
-                    </Vm>
+                    </Value>
                 </Elimination>
-            </PKmacro>
-            
+            </PKmacros>
+        </StructuralModel>
+                        
             
 <!--        ADVAN11, TRANS1 – 3-comp IV input
             compartment(cmt=1, amount=Ac, volume=V)
@@ -648,114 +700,136 @@
             peripheral(k13, k31, amount=Ap2)
             iv(cmt=1)
             elimination(cmt=1, k)-->
+        
+        <StructuralModel blkId="sm11">
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Ap1"/>
+            <ct:Variable symbolType="real" symbId="Ap2"/>
             
-            <PKmacro>
-                <Compartment>  
-                    <Cmt>1</Cmt>
-                    <Amount>
+            <PKmacros>
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ac"/>
-                    </Amount>
-                    <Volume>
+                    </Value>
+                    <Value argument="volume">
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                    </Volume>
+                    </Value>
                 </Compartment>
                 
                 <Peripheral>
-                    <Amount>
-                        <ct:SymbRef symbIdRef="Ap1"/>
-                    </Amount>
-                    <Kij>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
-                    </Kij>
-                    <Kji>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
-                    </Kji>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap1"/>
+                    </Value>
                 </Peripheral>
                 
                 <Peripheral>
-                    <Amount>
-                        <ct:SymbRef symbIdRef="Ap2"/>
-                    </Amount>
-                    <Kij>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k13"/>
-                    </Kij>
-                    <Kji>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k31"/>
-                    </Kji>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap2"/>
+                    </Value>
                 </Peripheral>
                 
                 <IV>
-                    <Cmt>1</Cmt>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
                 </IV>
                 
                 <Elimination>
-                    <Cmt>1</Cmt>
-                    <K>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="k">
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                    </K>
+                    </Value>
                 </Elimination>
-            </PKmacro>
+            </PKmacros>
+        </StructuralModel>
+        
 
 
-<!--        ADVAN12, TRANS1 – 3-comp 1st order input
+        <!--        ADVAN12, TRANS1 – 3-comp 1st order input
             compartment(cmt=1, amount=Ac, volume=V)
             peripheral(k12, k21, amount=Ap1)
             peripheral(k13, k31, amount=Ap2)
             oral(cmt=1, ka)
             elimination(cmt=1, k)-->
+        <StructuralModel blkId="sm12">
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Ap1"/>
+            <ct:Variable symbolType="real" symbId="Ap2"/>
             
-            <PKmacro>
-                <Compartment>  
-                    <Cmt>1</Cmt>
-                    <Amount>
+            <PKmacros>
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ac"/>
-                    </Amount>
-                    <Volume>
+                    </Value>
+                    <Value argument="volume">
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                    </Volume>
+                    </Value>
                 </Compartment>
                 
                 <Peripheral>
-                    <Amount>
-                        <ct:SymbRef symbIdRef="Ap1"/>
-                    </Amount>
-                    <Kij>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
-                    </Kij>
-                    <Kji>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
-                    </Kji>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap1"/>
+                    </Value>
                 </Peripheral>
                 
                 <Peripheral>
-                    <Amount>
-                        <ct:SymbRef symbIdRef="Ap2"/>
-                    </Amount>
-                    <Kij>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k13"/>
-                    </Kij>
-                    <Kji>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k31"/>
-                    </Kji>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap2"/>
+                    </Value>
                 </Peripheral>
                 
                 <Oral>
-                    <Cmt>1</Cmt>
-                    <Ka>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>                        
-                    </Ka>
+                    </Value>
                 </Oral>
                 
                 <Elimination>
-                    <Cmt>1</Cmt>
-                    <K>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                    </K>
+                    </Value>
                 </Elimination>
-            </PKmacro>
-
+            </PKmacros>
         </StructuralModel>
-            
+                        
     </ModelDefinition>
 
 
