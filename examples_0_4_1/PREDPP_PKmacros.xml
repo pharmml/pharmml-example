@@ -101,20 +101,20 @@
             </SimpleParameter>
         </ParameterModel>
 
-   <!-- 
-        <!-\- STRUCTURAL MODEL - ODEs -\->
-        <StructuralModel blkId="sm1">
+    
+        <!-- STRUCTURAL MODEL - ODEs -->
+        <StructuralModel blkId="sm1A">
             
-<!-\-        ADVAN1, TRANS1 - 1-comp IV input
+<!--        ADVAN1, TRANS1 - 1-comp IV input
             compartment(cmt=1, amount=Ac, volume=V)
             iv(cmt=1)
-            elimination(cmt=1, k)-\->
+            elimination(cmt=1, k)-->
 
             <ct:Variable symbolType="real" symbId="Ap1"/>
             
             <PKmacros>
                 <Compartment>  
-                    <!-\- omitted, identical to ADVAN1 -\->
+                    <!-- omitted, identical to ADVAN1 -->
                     <Cmt>1</Cmt>
                     <Amount>
                         <ct:SymbRef symbIdRef="Ac"/>
@@ -146,10 +146,10 @@
                 </Elimination>
             </PKmacros>
             
-<!-\-        ADVAN2, TRANS1 - 1-comp 1st order input
+<!--        ADVAN2, TRANS1 - 1-comp 1st order input
             compartment(cmt=1, amount=Ac, volume=V)
             oral(cmt=1, ka)
-            elimination(cmt=1, k)-\->
+            elimination(cmt=1, k)-->
             
             <PKmacros>
                 <Compartment>  
@@ -177,11 +177,11 @@
                 </Elimination>
             </PKmacros>
             
-<!-\-        ADVAN3, TRANS1 - 2-comp IV input
+<!--        ADVAN3, TRANS1 - 2-comp IV input
             compartment(cmt=1, amount=Ac, volume=V)
             peripheral(k12, k21, amount=Ap)
             iv(cmt=1)
-            elimination(cmt=1, k)-\->
+            elimination(cmt=1, k)-->
             
             <PKmacros>
                 <Compartment>
@@ -218,11 +218,11 @@
                 </Elimination>
             </PKmacros>
             
-<!-\-        ADVAN4, TRANS1 – 2-comp 1st order input
+<!--        ADVAN4, TRANS1 – 2-comp 1st order input
             compartment(cmt=1, amount=Ac, volume=V)
             peripheral(k12, k21, amount=Ap)
             oral(cmt=1, ka)
-            elimination(cmt=1, k)-\->
+            elimination(cmt=1, k)-->
             
             <PKmacros>
                 <Compartment>  
@@ -262,10 +262,10 @@
                 </Elimination>
             </PKmacros>
             
-<!-\-        ADVAN10, TRANS1 – 1-comp IV input with saturable elimination
+<!--        ADVAN10, TRANS1 – 1-comp IV input with saturable elimination
             compartment(cmt=1, amount=Ac, volume=V)
             iv(cmt=1)
-            elimination(cmt=1, Km, Vm)-\->
+            elimination(cmt=1, Km, Vm)-->
             
             <PKmacros>
                 <Compartment>  
@@ -293,12 +293,12 @@
                 </Elimination>
             </PKmacros>
             
-<!-\-        ADVAN11, TRANS1 – 3-comp IV input
+<!--        ADVAN11, TRANS1 – 3-comp IV input
             compartment(cmt=1, amount=Ac, volume=V)
             peripheral(k12, k21, amount=Ap1)
             peripheral(k13, k31, amount=Ap2)
             iv(cmt=1)
-            elimination(cmt=1, k)-\->
+            elimination(cmt=1, k)-->
             
             <PKmacros>
                 <Compartment>  
@@ -387,12 +387,12 @@
                 </Elimination>
             </PKmacros>
            
-<!-\-        ADVAN12, TRANS1 – 3-comp 1st order input
+<!--        ADVAN12, TRANS1 – 3-comp 1st order input
             compartment(cmt=1, amount=Ac, volume=V)
             peripheral(k12, k21, amount=Ap1)
             peripheral(k13, k31, amount=Ap2)
             oral(cmt=1, ka)
-            elimination(cmt=1, k)-\->
+            elimination(cmt=1, k)-->
             
             <PKmacros>
                 <Compartment>  
@@ -445,7 +445,7 @@
             </PKmacros>
             
         </StructuralModel>
-   -->     
+        
         
         
         <!-- STRUCTURAL MODEL - ODEs -->
