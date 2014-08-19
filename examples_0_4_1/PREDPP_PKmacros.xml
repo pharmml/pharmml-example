@@ -489,8 +489,8 @@
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
-                                    <ct:SymbRef symbIdRef="CL"/>
-                                    <ct:SymbRef symbIdRef="V"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
