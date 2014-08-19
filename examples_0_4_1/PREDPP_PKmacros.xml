@@ -723,8 +723,15 @@
                     <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
                     </Value>
-                    <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
+                    <Value argument="k21">
+                            <ct:Assign>
+                                <math:Equation>
+                                    <math:Binop op="divide">
+                                        <ct:SymbRef symbIdRef="Q2"/>
+                                        <ct:SymbRef symbIdRef="V1"/>
+                                    </math:Binop>
+                                </math:Equation>
+                            </ct:Assign>
                     </Value>
                     <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ap1"/>
