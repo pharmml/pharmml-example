@@ -815,7 +815,7 @@
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>                        
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
                     </Value>
                 </Oral>
                 
