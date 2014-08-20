@@ -1302,7 +1302,7 @@
                     <Value argument="k56">
                         <ct:Real>0.6</ct:Real>
                     </Value>
-                    <Value argument="k65">
+                    <Value argument="k_01_15">
                         <ct:Real>0.8</ct:Real>
                     </Value>
                     <Value argument="amount">
@@ -1364,7 +1364,7 @@
             <Activity oid="dfd">
                 <Bolus>
                     <DoseAmount inputTarget="compartmentNo">
-                        <Compartment>
+                        <Compartment blkIdRef="sm1">
                             <ct:Int>1</ct:Int>
                         </Compartment>
                         <ct:Assign>
