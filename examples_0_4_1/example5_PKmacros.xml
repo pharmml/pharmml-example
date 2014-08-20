@@ -1341,6 +1341,40 @@
         </ObservationModel>
     </ModelDefinition>
     
+    <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign">
+        <Structure>
+            <Epoch oid="e">
+                <Start>
+                    <ct:Real>0</ct:Real>
+                </Start>
+                <End>
+                    <ct:Real>10</ct:Real>
+                </End>
+                <Order>1</Order>
+            </Epoch>
+            <Arm oid="a"></Arm>
+            <Cell oid="c">
+                <EpochRef oidRef="e"></EpochRef>
+                <ArmRef oidRef="a"></ArmRef>
+                <SegmentRef oidRef="s"></SegmentRef>
+            </Cell>
+            <Segment oid="s">
+                <ActivityRef oidRef="dfd"></ActivityRef>
+            </Segment>
+            <Activity oid="dfd">
+                <Bolus>
+                    <DoseAmount inputTarget="compartmentNo">
+                        <Compartment>
+                            <ct:Int>1</ct:Int>
+                        </Compartment>
+                        <ct:Assign>
+                            <ct:Int>10</ct:Int>
+                        </ct:Assign>
+                    </DoseAmount>
+                </Bolus>
+            </Activity>
+        </Structure>
+    </TrialDesign>
 
     <!-- BLOCK III: MODELLING STEPS -->
     <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
