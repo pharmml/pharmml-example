@@ -861,9 +861,7 @@
                 <ct:String>centre2</ct:String>
                 <ds:ColumnRef columnIdRef="ctr"/>
             </Demographic>
-            
-            
-            
+
             <ds:DataSet>
                 <ds:Definition>
                     <ds:Column columnId="id" columnType="id" valueType="string" columnNum="1"/>
