@@ -867,12 +867,31 @@
         </StructuralModel>
                         
     </ModelDefinition>
+    
+<!--    <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
+        <SimulationStep oid="fdf">
+            <Observations>
+                <Timepoints>
+                    <ct:Sequence>
+                        <ct:Begin>1</ct:Begin>
+                        <ct:StepSize></ct:StepSize>
+                    </ct:Sequence>
+                </Timepoints>
+                <Discrete>
+                    <ct:SymbRef symbIdRef=""></ct:SymbRef>
+                </Discrete>
+                <Continuous>
+                    <ct:SymbRef symbIdRef="dsd"></ct:SymbRef>
+                </Continuous>
+            </Observations>
+        </SimulationStep>
+    </ModellingSteps>-->
 
 
-    <!-- <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign">-->
+     <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign">
         
         
-<!--        <Structure>
+        <Structure>
             <Epoch oid="">
                 <Start>
                     <ct:Real></ct:Real>
@@ -900,7 +919,33 @@
                         </ct:Assign>
                     </DoseAmount>
                     <DosingTimes>
-                        <!-\- e.g. 10 -\->
+                        <!-- e.g. 10 -->
+                    </DosingTimes>
+                </Bolus>
+            </Activity>
+            <Activity oid="act1_B">
+                <Bolus>
+                    <DoseAmount inputTarget="derivativeVariable">
+                        <ct:SymbRef symbIdRef="Ac"/>
+                        <ct:Assign>
+                            <ct:Real>10</ct:Real>
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <!-- e.g. 10 -->
+                    </DosingTimes>
+                </Bolus>
+            </Activity>
+            <Activity oid="act1_C">
+                <Bolus>
+                    <DoseAmount inputTarget="compartmentNo">
+                        <Compartment blkIdRef="sm1">1</Compartment>
+                        <ct:Assign>
+                            <ct:Real>10</ct:Real>
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <!-- e.g. 10 -->
                     </DosingTimes>
                 </Bolus>
             </Activity>
@@ -913,7 +958,7 @@
                         </ct:Assign>
                     </DoseAmount>
                     <DosingTimes>
-                        <!-\- e.g. 10 -\->
+                        <!-- e.g. 10 -->
                     </DosingTimes>
                 </Bolus>
             </Activity>
@@ -925,6 +970,6 @@
                 </Definition>
             </DataSet>
         </Population>
-    </TrialDesign>-->
+    </TrialDesign>
     
 </PharmML>

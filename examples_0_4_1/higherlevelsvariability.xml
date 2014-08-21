@@ -1025,9 +1025,9 @@
                         <ct:End><ct:Int>288</ct:Int></ct:End>
                     </ct:Sequence>
                 </Timepoints>
-                <Continuous>
+                <Discrete>
                     <ct:SymbRef blkIdRef="om2" symbIdRef="E_obs"/>
-                </Continuous>
+                </Discrete>
             </Observations>
 
             <Observations>

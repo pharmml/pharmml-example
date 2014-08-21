@@ -1391,6 +1391,39 @@
                 <ct:SymbRef blkIdRef="om1" symbIdRef="PSTAR_obs"/>
             </ColumnMapping>
             
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="SEX"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="SEX"/>
+                <CategoryMapping xmlns="http://www.pharmml.org/2013/08/Dataset">
+                    <Map dataSymbol="1" modelSymbol="F"/>
+                    <Map dataSymbol="0" modelSymbol="M"/>
+                </CategoryMapping>
+            </ColumnMapping>
+            
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+                <CategoryMapping xmlns="http://www.pharmml.org/2013/08/Dataset">
+                    <Map dataSymbol="1" modelSymbol="F"/>
+                    <Map dataSymbol="0" modelSymbol="M"/>
+                </CategoryMapping>
+            </ColumnMapping>
+            
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="CMT"/>
+                <CompartmentMapping>
+                    <Compartment blkIdRef="sm1">1</Compartment>
+                </CompartmentMapping>
+            </ColumnMapping>
+
+
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="CMT"/>
+                <ds:CompartmentMapping>
+                    <ds:Map dataSymbol="1" modelSymbol="Ac"></ds:Map>
+                </ds:CompartmentMapping>
+            </ColumnMapping>"
+            
             <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
                 <Definition>
                     <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
