@@ -1296,7 +1296,7 @@
                         <ct:Real>0.2</ct:Real>
                     </Value>
                 </Elimination>
-                                
+              
                 <!-- peripheral(k56=0.6, k65=0.8, amount=Ap6) -->
                 <Peripheral>
                     <Value argument="k56">

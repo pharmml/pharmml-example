@@ -100,13 +100,13 @@
                 </ct:Assign>
             </SimpleParameter>
             
-            <IndividualParameter symbId="k12">
-                <!-- omitted details -->
+<!--            <IndividualParameter symbId="k12">
+                <!-\- omitted details -\->
             </IndividualParameter>
             <IndividualParameter symbId="k21">
-                <!-- omitted details -->
+                <!-\- omitted details -\->
             </IndividualParameter>
-            
+-->            
         </ParameterModel>
 
 <!--    

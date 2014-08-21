@@ -108,5 +108,29 @@
             </Discrete>
         </ObservationModel>
     </ModelDefinition>
+    
+    <mstep:ModellingSteps>
+        <mstep:SimulationStep oid="simStep1">
+            <mstep:Observations>
+                <mstep:Timepoints>
+                    <ct:Sequence>
+                        <ct:Begin>
+                            <ct:Int>1</ct:Int>
+                        </ct:Begin>
+                        <ct:StepSize>
+                            <ct:Int>1</ct:Int>
+                        </ct:StepSize>
+                        <ct:End>
+                            <ct:Int>10</ct:Int>
+                        </ct:End>
+                    </ct:Sequence>
+                </mstep:Timepoints>
+                <mstep:Discrete>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+                    <ct:SymbRef blkIdRef="om2" symbIdRef="Y"/>
+                </mstep:Discrete>
+            </mstep:Observations>
+        </mstep:SimulationStep>
+    </mstep:ModellingSteps>
 
 </PharmML>

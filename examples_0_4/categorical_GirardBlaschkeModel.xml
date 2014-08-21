@@ -175,7 +175,51 @@
             
             <mstep:Operation order="1" opType="estPop"/>
         </mstep:EstimationStep>
+        
+        <mstep:SimulationStep oid="simStep1">
+            <mstep:Observations>
+                <mstep:Timepoints>
+                    <ct:Vector default="0" length="5">
+                        <ct:VectorCell>
+                            <ct:VectorIndex>
+                                <ct:Int>1</ct:Int>
+                            </ct:VectorIndex>
+                            <ct:Real>1</ct:Real>
+                        </ct:VectorCell>
+                        <ct:VectorSegment>
+                            <ct:StartIndex>
+                                <ct:Int>2</ct:Int>
+                            </ct:StartIndex>
+                            <ct:SegmentLength>
+                                <ct:Int>2</ct:Int>
+                            </ct:SegmentLength>
+                            <ct:VectorElements>
+                                <ct:Real>2</ct:Real>
+                                <ct:Real>3</ct:Real>
+                            </ct:VectorElements>
+                        </ct:VectorSegment>
+                        <ct:VectorCell>
+                            <ct:VectorIndex>
+                                <ct:Int>4</ct:Int>
+                            </ct:VectorIndex>
+                            <ct:Real>4</ct:Real>
+                        </ct:VectorCell>
+                        <ct:VectorCell>
+                            <ct:VectorIndex>
+                                <ct:Int>5</ct:Int>
+                            </ct:VectorIndex>
+                            <ct:Real>5</ct:Real>
+                        </ct:VectorCell>
+                    </ct:Vector>
+                </mstep:Timepoints>
+                <mstep:Discrete>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="y"></ct:SymbRef>
+                </mstep:Discrete>
+            </mstep:Observations>
+            
+        </mstep:SimulationStep>
 
     </mstep:ModellingSteps>
     
 </PharmML>
+
