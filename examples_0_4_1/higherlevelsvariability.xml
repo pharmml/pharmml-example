@@ -43,7 +43,7 @@
     </FunctionDefinition>
     
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
-        <VariabilityModel blkId="model" type="parameterVariability">
+        <VariabilityModel blkId="modelVar" type="parameterVariability">
             <Level symbId="country">
                 <ct:Name>Country</ct:Name>
             </Level>
@@ -62,12 +62,7 @@
         </VariabilityModel>
         
         <VariabilityModel blkId="obsErr" type="residualError">
-            <Level symbId="residual">
-                <ct:Name>Residual Error</ct:Name>
-                <ParentLevel>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
-                </ParentLevel>
-            </Level>
+            <Level symbId="residual"/>
         </VariabilityModel>
         
         <CovariateModel blkId="cm1">
@@ -107,7 +102,7 @@
             </SimpleParameter>
             <RandomVariable symbId="eta_V">
                 <ct:VariabilityReference>
-                   <ct:SymbRef blkIdRef="model" symbIdRef="level"/>
+                   <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
                     <mean><rVal>0</rVal></mean>
@@ -140,7 +135,7 @@
             <SimpleParameter symbId="omega_ka"/>
             <RandomVariable symbId="eta_ka">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"></ct:SymbRef>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"></ct:SymbRef>
                 </ct:VariabilityReference>
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                     <mean><rVal>0</rVal></mean>
@@ -167,7 +162,7 @@
             <SimpleParameter symbId="omega_Imax"/>
             <RandomVariable symbId="eta_Imax">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0"
                     definition="http://www.uncertml.org/distributions/normal">
@@ -195,7 +190,7 @@
             <SimpleParameter symbId="rho_V_Cl"/>
             <RandomVariable symbId="eta_Cl">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0"
                     definition="http://www.uncertml.org/distributions/normal">
@@ -227,7 +222,7 @@
             <SimpleParameter symbId="omega_Rin"/>
             <RandomVariable symbId="eta_Rin">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0"
                     definition="http://www.uncertml.org/distributions/normal">
@@ -252,7 +247,7 @@
             <SimpleParameter symbId="omega_kout"/>
             <RandomVariable symbId="eta_kout">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0"
                     definition="http://www.uncertml.org/distributions/normal">
@@ -306,7 +301,7 @@
             <SimpleParameter symbId="omega_IC50"/>
             <RandomVariable symbId="eta_IC50">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0"
                     definition="http://www.uncertml.org/distributions/normal">
@@ -333,7 +328,7 @@
             <!-- pairwise -->
             <Correlation>
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"></ct:SymbRef>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"></ct:SymbRef>
                 </ct:VariabilityReference>
                 <Pairwise>
                     <RandomVariable1>
@@ -351,7 +346,7 @@
             <!-- full matrix 1-->
             <Correlation deviationMatrixType="CorrMatrix">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <Matrix matrixType="Any">
                     <ct:ColumnNames>
@@ -367,7 +362,7 @@
             <!-- matrix with cells -->
             <Correlation deviationMatrixType="CorrMatrix">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <Matrix matrixType="Any" diagDefault="1">
                     <ct:ColumnNames>
@@ -606,7 +601,7 @@
                 <SimpleParameter symbId="pop_a"/>
                 <RandomVariable symbId="eta_a">
                     <ct:VariabilityReference>
-                        <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                        <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
                     </ct:VariabilityReference>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
                         <mean><rVal>0</rVal></mean>
@@ -628,7 +623,7 @@
                 <SimpleParameter symbId="pop_b"/>
                 <RandomVariable symbId="eta_b">
                     <ct:VariabilityReference>
-                        <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                        <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
                     </ct:VariabilityReference>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
                         <mean><rVal>0</rVal></mean>
@@ -846,12 +841,12 @@
         </Structure>
         <Population>
             <ct:VariabilityReference>
-                <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
             </ct:VariabilityReference>
             
             <Demographic oid="country">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="country"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="country"/>
                 </ct:VariabilityReference>
                 <ct:String>UK</ct:String>
                 <ct:String>US</ct:String>
@@ -860,12 +855,14 @@
             
             <Demographic oid="centre">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="model" symbIdRef="centre"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="centre"/>
                 </ct:VariabilityReference>
                 <ct:String>centre1</ct:String>
                 <ct:String>centre2</ct:String>
                 <ds:ColumnRef columnIdRef="ctr"/>
             </Demographic>
+            
+            
             
             <ds:DataSet>
                 <ds:Definition>
