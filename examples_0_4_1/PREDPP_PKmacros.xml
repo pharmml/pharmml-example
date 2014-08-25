@@ -888,7 +888,7 @@
     </ModellingSteps>-->
 
 
-     <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign">
+<!--     <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign">
         
         
         <Structure>
@@ -919,7 +919,7 @@
                         </ct:Assign>
                     </DoseAmount>
                     <DosingTimes>
-                        <!-- e.g. 10 -->
+                        <!-\- e.g. 10 -\->
                     </DosingTimes>
                 </Bolus>
             </Activity>
@@ -932,7 +932,7 @@
                         </ct:Assign>
                     </DoseAmount>
                     <DosingTimes>
-                        <!-- e.g. 10 -->
+                        <!-\- e.g. 10 -\->
                     </DosingTimes>
                 </Bolus>
             </Activity>
@@ -945,7 +945,7 @@
                         </ct:Assign>
                     </DoseAmount>
                     <DosingTimes>
-                        <!-- e.g. 10 -->
+                        <!-\- e.g. 10 -\->
                     </DosingTimes>
                 </Bolus>
             </Activity>
@@ -958,7 +958,7 @@
                         </ct:Assign>
                     </DoseAmount>
                     <DosingTimes>
-                        <!-- e.g. 10 -->
+                        <!-\- e.g. 10 -\->
                     </DosingTimes>
                 </Bolus>
             </Activity>
@@ -970,6 +970,6 @@
                 </Definition>
             </DataSet>
         </Population>
-    </TrialDesign>
+    </TrialDesign>-->
     
 </PharmML>
