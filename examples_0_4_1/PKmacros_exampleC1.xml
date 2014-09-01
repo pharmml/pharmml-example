@@ -181,13 +181,12 @@
                     <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
                     <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
                     <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                    <Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
-                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="5"/>
-                    <Column columnId="EVID" columnType="evid" valueType="int" columnNum="6"/>
-                    <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>
+                    <Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
+                    <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="5"/> 
+                    <Column columnId="ADM" columnType="cmt" valueType="int" columnNum="6"/> 
                 </Definition>
                 <ImportData oid="importNONMEM">
-                    <path>RIBBA2012_PCV.csv</path>
+                    <path>example3.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
