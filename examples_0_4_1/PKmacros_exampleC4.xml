@@ -8,9 +8,9 @@
     implementedBy="MJS" writtenVersion="0.4.1" id="i1">
     
     <!-- MODEL NAME -->
-    <ct:Name>Example C1</ct:Name>
+    <ct:Name>Example C4</ct:Name>
     
-    <ct:Description>Example C1 - model with PK macros</ct:Description>
+    <ct:Description>Example C4 - model with PK macros</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>
@@ -47,33 +47,40 @@
             <SimpleParameter symbId="V"/>
         </ParameterModel>
         
-        <!-- Example C1 -->
+        <!-- Example C4 -->
         
         <!--            [LONGITUDINAL]
-            input = {V, ka, k, k12, k21}
+            input = {F, ka, V, k}
             PK:
-            compartment(cmt=1, volume=V, concentration=Cc) 
+            compartment(cmt=1, amount=Ac) 
             compartment(cmt=2, amount=Depot) 
-            oral(adm=1, fromCmt=2, cmt=1,ka) 
-            elimination(cmt=1, ka)
-            peripheral(k12, k21, amount=Ap)
+            oral(adm=1, fromCmt=2, cmt=1, ka, p=F) 
+            iv(adm=2, cmt=1)
+            elimination(cmt=1, k) 
+            Cc = Ac/V
         -->
         
         <StructuralModel blkId="sm1">
-            <ct:Variable symbolType="real" symbId="Ap"/>
-            <ct:Variable symbolType="real" symbId="Cc"/>
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Cc">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Ac"/>
+                            <ct:SymbRef symbIdRef="V"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
             
             <PKmacros>
-                <!-- compartment(cmt=1, volume=V, concentration=Cc) -->
+                <!-- compartment(cmt=1, amount=Ac) -->
                 <Compartment>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
-                    <Value argument="volume">
-                        <ct:SymbRef symbIdRef="V"/>
-                    </Value>
-                    <Value argument="concentration">
-                        <ct:SymbRef symbIdRef="Cc"/>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ac"/>
                     </Value>
                 </Compartment>
                 
@@ -87,7 +94,7 @@
                     </Value>
                 </Compartment>
                 
-                <!-- oral(adm=1, fromCmt=2, cmt=1, ka) -->
+                <!-- oral(adm=1, fromCmt=2, cmt=1, ka, p=F) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
@@ -101,7 +108,20 @@
                     <Value>
                         <ct:SymbRef symbIdRef="ka"/>
                     </Value>
+                    <Value argument="p">
+                        <ct:SymbRef symbIdRef="F"/>
+                    </Value>
                 </Oral>
+                
+                <!-- iv(adm=2, cmt=1) -->
+                <IV>
+                    <Value argument="adm">
+                        <ct:Int>2</ct:Int>
+                    </Value>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                </IV>
                 
                 <!-- elimination(cmt=1, k) -->
                 <Elimination>
@@ -109,23 +129,9 @@
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                        <ct:SymbRef symbIdRef="k"/>
                     </Value>
                 </Elimination>
-
-                <!-- peripheral(k12, k21, amount=Ap) -->
-                <Peripheral>
-                    <Value argument="amount">
-                        <ct:SymbRef symbIdRef="Ap"/>
-                    </Value>
-                    <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
-                    </Value>
-                    <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
-                    </Value>
-                </Peripheral>
-                
             </PKmacros>
         </StructuralModel>
         
@@ -186,13 +192,12 @@
                     <Column columnId="ADM" columnType="cmt" valueType="int" columnNum="6"/> 
                 </Definition>
                 <ImportData oid="importNONMEM">
-                    <path>example1.csv</path>
+                    <path>example3.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
             </DataSet>
         </NONMEMdataSet>
-        
         
         <!-- ESTIMATION STEP -->
         <EstimationStep oid="estTask1">

@@ -192,7 +192,7 @@
                     <Column columnId="ADM" columnType="cmt" valueType="int" columnNum="6"/> 
                 </Definition>
                 <ImportData oid="importNONMEM">
-                    <path>example3.csv</path>
+                    <path>example2.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
