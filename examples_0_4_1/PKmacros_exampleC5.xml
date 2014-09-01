@@ -47,7 +47,7 @@
             <SimpleParameter symbId="V"/>
         </ParameterModel>
         
-        <!-- Example C4 -->
+        <!-- Example C5 -->
         
         <!--            [LONGITUDINAL]
             
@@ -151,8 +151,44 @@
                 </Elimination>
                 
                 <!-- peripheral(k12=0.6, k21=0.8, amount=Ap2) -->
+                <Peripheral>
+                    <Value argument="k12">
+                        <ct:Real>0.6</ct:Real>
+                    </Value>
+                    <Value argument="k21">
+                        <ct:Real>0.8</ct:Real>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap2"/>
+                    </Value>
+                </Peripheral>
                 
                 <!-- peripheral(k13=0.6+alpha, k21=0.8+beta, amount=Ap3) -->
+                <Peripheral>
+                    <Value argument="k13">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <ct:Real>0.6</ct:Real>
+                                    <ct:SymbRef symbIdRef="alpha"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Value>
+                    <Value argument="k31">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <ct:Real>0.8</ct:Real>
+                                    <ct:SymbRef symbIdRef="beta"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap3"/>
+                    </Value>
+                </Peripheral>
                 
             </PKmacros>
         </StructuralModel>
