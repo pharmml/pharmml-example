@@ -50,17 +50,23 @@
         <!-- Example C4 -->
         
         <!--            [LONGITUDINAL]
-            input = {F, ka, V, k}
+            input = {F1, F2, ka1, ka2, k1, k2, kl, V}
             PK:
-            compartment(cmt=1, amount=Ac) 
-            compartment(cmt=2, amount=Depot) 
-            oral(adm=1, fromCmt=2, cmt=1, ka, p=F) 
-            iv(adm=2, cmt=1)
-            elimination(cmt=1, k) 
+            compartment(cmt=1, amount=Al) 
+            compartment(cmt=2, amount=Ac) 
+            compartment(cmt=3, amount=Depot1) 
+            compartment(cmt=4, amount=Depot2) 
+            oral(adm=1, fromCmt=3, cmt=1, ka1, p=F1) 
+            oral(adm=2, fromCmt=4, cmt=2, ka2, p=F2) 
+            iv(adm=3, cmt=2)
+            transfer(from=1, to=2, kt=kl) 
+            elimination(cmt=1, k1) 
+            elimination(cmt=2, k2)
             Cc = Ac/V
         -->
         
         <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
@@ -74,64 +80,129 @@
             </ct:Variable>
             
             <PKmacros>
-                <!-- compartment(cmt=1, amount=Ac) -->
+                <!-- compartment(cmt=1, amount=Al) -->
                 <Compartment>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Al"/>
+                    </Value>
+                </Compartment>
+                
+                <!-- compartment(cmt=2, amount=Ac) -->
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>2</ct:Int>
                     </Value>
                     <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ac"/>
                     </Value>
                 </Compartment>
                 
-                <!-- compartment(cmt=2, amount=Depot) -->
+                
+                <!-- compartment(cmt=3, amount=Depot1) -->
                 <Compartment>
                     <Value argument="cmt">
-                        <ct:Int>2</ct:Int>
+                        <ct:Int>3</ct:Int>
                     </Value>
                     <Value argument="amount">
-                        <ct:SymbRef symbIdRef="Depot"/>
+                        <ct:SymbRef symbIdRef="Depot1"/>
                     </Value>
                 </Compartment>
+
+                <!-- compartment(cmt=4, amount=Depot2) -->
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>4</ct:Int>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Depot2"/>
+                    </Value>
+                </Compartment>
+                                
                 
-                <!-- oral(adm=1, fromCmt=2, cmt=1, ka, p=F) -->
+                <!-- oral(adm=1, fromCmt=3, cmt=1, ka1, p=F1) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value argument="fromCmt">
-                        <ct:Int>2</ct:Int>
+                        <ct:Int>3</ct:Int>
                     </Value>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="ka"/>
+                        <ct:SymbRef symbIdRef="ka1"/>
                     </Value>
                     <Value argument="p">
-                        <ct:SymbRef symbIdRef="F"/>
+                        <ct:SymbRef symbIdRef="F1"/>
                     </Value>
                 </Oral>
                 
-                <!-- iv(adm=2, cmt=1) -->
-                <IV>
+                <!-- oral(adm=2, fromCmt=4, cmt=2, ka2, p=F2) -->
+                <Oral>
                     <Value argument="adm">
                         <ct:Int>2</ct:Int>
                     </Value>
+                    <Value argument="fromCmt">
+                        <ct:Int>4</ct:Int>
+                    </Value>
                     <Value argument="cmt">
-                        <ct:Int>1</ct:Int>
+                        <ct:Int>2</ct:Int>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef symbIdRef="ka2"/>
+                    </Value>
+                    <Value argument="p">
+                        <ct:SymbRef symbIdRef="F2"/>
+                    </Value>
+                </Oral>
+                
+                <!-- iv(adm=3, cmt=2) -->
+                <IV>
+                    <Value argument="adm">
+                        <ct:Int>3</ct:Int>
+                    </Value>
+                    <Value argument="cmt">
+                        <ct:Int>2</ct:Int>
                     </Value>
                 </IV>
                 
-                <!-- elimination(cmt=1, k) -->
+                <!-- transfer(from=1, to=2, kt=kl) -->
+                <Transfer>
+                    <Value argument="from">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="to">
+                        <ct:Int>2</ct:Int>
+                    </Value>
+                    <Value argument="kt">
+                        <ct:SymbRef symbIdRef="kl"/>
+                    </Value>
+                </Transfer>
+                
+                <!-- elimination(cmt=1, k1) -->
                 <Elimination>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="k"/>
+                        <ct:SymbRef symbIdRef="k1"/>
                     </Value>
                 </Elimination>
+                
+                <!-- elimination(cmt=2, k2) -->
+                <Elimination>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef symbIdRef="k2"/>
+                    </Value>
+                </Elimination>
+                
             </PKmacros>
         </StructuralModel>
         
@@ -192,7 +263,7 @@
                     <Column columnId="ADM" columnType="cmt" valueType="int" columnNum="6"/> 
                 </Definition>
                 <ImportData oid="importNONMEM">
-                    <path>example3.csv</path>
+                    <path>example4.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
