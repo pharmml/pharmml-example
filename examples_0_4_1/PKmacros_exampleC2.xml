@@ -47,16 +47,16 @@
             <SimpleParameter symbId="V"/>
         </ParameterModel>
         
-        <!-- Example C1 -->
+        <!-- Example C2 -->
         
         <!--            [LONGITUDINAL]
-            input = {V, ka, k, k12, k21}
+            input = {V, ka, k, p, Tlag, k12, k21}
             PK:
             compartment(cmt=1, volume=V, concentration=Cc) 
-            compartment(cmt=2, amount=Depot) 
-            oral(adm=1, fromCmt=2, cmt=1,ka) 
-            elimination(cmt=1, ka)
-            peripheral(k12, k21, amount=Ap)
+            compartment(cmt=3, amount=Depot) 
+            oral(adm=1, fromCmt=3, cmt=1, ka, p, Tlag) 
+            elimination(cmt=1, k)
+            peripheral(k12=0.6, k21=0.8, amount=Ap)
         -->
         
         <StructuralModel blkId="sm1">
@@ -77,29 +77,35 @@
                     </Value>
                 </Compartment>
                 
-                <!-- compartment(cmt=2, amount=Depot) -->
+                <!-- compartment(cmt=3, amount=Depot) -->
                 <Compartment>
                     <Value argument="cmt">
-                        <ct:Int>2</ct:Int>
+                        <ct:Int>3</ct:Int>
                     </Value>
                     <Value argument="amount">
                         <ct:SymbRef symbIdRef="Depot"/>
                     </Value>
                 </Compartment>
                 
-                <!-- oral(adm=1, fromCmt=2, cmt=1, ka) -->
+                <!-- oral(adm=1, fromCmt=3, cmt=1, ka, p, Tlag) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value argument="fromCmt">
-                        <ct:Int>2</ct:Int>
+                        <ct:Int>3</ct:Int>
                     </Value>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
                         <ct:SymbRef symbIdRef="ka"/>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef symbIdRef="p"/>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef symbIdRef="Tlag"/>
                     </Value>
                 </Oral>
                 
@@ -113,16 +119,16 @@
                     </Value>
                 </Elimination>
 
-                <!-- peripheral(k12, k21, amount=Ap) -->
+                <!-- peripheral(k12=0.6, k21=0.8, amount=Ap) -->
                 <Peripheral>
                     <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ap"/>
                     </Value>
-                    <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
+                    <Value argument="k12">
+                        <ct:Real>0.6</ct:Real>
                     </Value>
-                    <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
+                    <Value argument="k21">
+                        <ct:Real>0.8</ct:Real>
                     </Value>
                 </Peripheral>
                 
