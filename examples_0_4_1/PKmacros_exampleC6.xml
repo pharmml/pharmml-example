@@ -8,9 +8,9 @@
     implementedBy="MJS" writtenVersion="0.4.1" id="i1">
     
     <!-- MODEL NAME -->
-    <ct:Name>Example C1</ct:Name>
+    <ct:Name>Example C6</ct:Name>
     
-    <ct:Description>Example C1 - model with PK macros</ct:Description>
+    <ct:Description>Example C6 - model with PK macros</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>
@@ -47,7 +47,7 @@
             <SimpleParameter symbId="V"/>
         </ParameterModel>
         
-        <!-- Example C1 -->
+        <!-- Example C6 -->
         
         <!--            [LONGITUDINAL]
             input = {F1, F2, ka, Tk0, kl, k23, k32, V, k, Vm, Km}
@@ -243,7 +243,7 @@
                     <Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
                     <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="5"/>
                     <Column columnId="EVID" columnType="evid" valueType="int" columnNum="6"/>
-                    <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>     <!-- mapping to sm1 'compartmentNo="1"' -->
+                    <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>
                 </Definition>
                 <ImportData oid="importNONMEM">
                     <path>RIBBA2012_PCV.csv</path>
@@ -253,6 +253,7 @@
             </DataSet>
         </NONMEMdataSet>
         
+        <!-- ALTERNATIVE -->
         <TargetTool oid="MLXoid">
             <TargetToolName>MONOLIX</TargetToolName>
             <ColumnMapping>
@@ -273,7 +274,7 @@
                     <ds:Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
                     <ds:Column columnId="DOSE" columnType="dose" valueType="real" columnNum="5"/>
                     <ds:Column columnId="EVID" columnType="evid" valueType="int" columnNum="6"/>
-                    <ds:Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>     <!-- mapping to sm1 'compartmentNo="1"' -->
+                    <ds:Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/> 
                 </ds:Definition>
                 <ds:ImportTargetData oid="importMONOLIOX">
                     <ds:path>RIBBA2012_PCV.csv</ds:path>
