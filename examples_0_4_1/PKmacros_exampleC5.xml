@@ -91,7 +91,7 @@
                 <!-- compartment(cmt=4, amount=Depot1) -->
                 <Compartment>
                     <Value argument="cmt">
-                        <ct:Int>3</ct:Int>
+                        <ct:Int>4</ct:Int>
                     </Value>
                     <Value argument="amount">
                         <ct:SymbRef symbIdRef="Depot1"/>
@@ -101,29 +101,42 @@
                 <!-- iv(adm=1, cmt=1, p=0.1, Tlag=t/(t + 10)) -->
                 <IV>
                     <Value argument="adm">
-                        <ct:Int>3</ct:Int>
+                        <ct:Int>1</ct:Int>
                     </Value>
                     <Value argument="cmt">
-                        <ct:Int>2</ct:Int>
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="p">
+                        <ct:Real>0.1</ct:Real>
+                    </Value>
+                    <Value argument="Tlag">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="t"/>
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="t"/>
+                                        <ct:Real>10</ct:Real>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
                     </Value>
                 </IV>
                 
                 <!-- oral(adm=2, fromCmt=4, cmt=1, Tk0=0.1) -->
                 <Oral>
                     <Value argument="adm">
-                        <ct:Int>1</ct:Int>
+                        <ct:Int>2</ct:Int>
                     </Value>
                     <Value argument="fromCmt">
-                        <ct:Int>3</ct:Int>
+                        <ct:Int>4</ct:Int>
                     </Value>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
-                    <Value>
-                        <ct:SymbRef symbIdRef="ka1"/>
-                    </Value>
-                    <Value argument="p">
-                        <ct:SymbRef symbIdRef="F1"/>
+                    <Value argument="Tk0">
+                        <ct:Real>0.1</ct:Real>
                     </Value>
                 </Oral>
                 
@@ -132,8 +145,8 @@
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
-                    <Value>
-                        <ct:SymbRef symbIdRef="k1"/>
+                    <Value argument="k">
+                        <ct:Real>0.2</ct:Real>
                     </Value>
                 </Elimination>
                 
