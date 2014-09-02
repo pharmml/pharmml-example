@@ -102,13 +102,32 @@
                 </Compartment>
                 
                 <!-- compartment(cmt=4, amount=Depot1) -->
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>4</ct:Int>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Depot1"/>
+                    </Value>
+                </Compartment>
                 
                 <!-- compartment(cmt=5, amount=Depot2) -->
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>5</ct:Int>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Depot2"/>
+                    </Value>
+                </Compartment>
                 
-                <!-- oral(type=1, cmt=1, ka, p=F1) -->
+                <!-- oral(adm=1, fromCmt=4, cmt=1, ka, p=F1) -->
                 <Oral>
-                    <Value argument="type">
+                    <Value argument="adm">
                         <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="fromCmt">
+                        <ct:Int>4</ct:Int>
                     </Value>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
@@ -121,12 +140,15 @@
                     </Value>
                 </Oral>
                 
-                <!-- oral(type=2, cmt=2, Tk0, p=F2) -->
+                <!-- oral(adm=2, fromCmt=5, cmt=2, Tk0, p=F2) -->
                 <Oral>
-                    <Value argument="cmt">
+                    <Value argument="adm">
                         <ct:Int>2</ct:Int>
                     </Value>
-                    <Value argument="type">
+                    <Value argument="fromCmt">
+                        <ct:Int>5</ct:Int>
+                    </Value>
+                    <Value argument="cmt">
                         <ct:Int>2</ct:Int>
                     </Value>
                     <Value>
@@ -139,11 +161,11 @@
                 
                 <!-- iv(type=3, cmt=2) -->
                 <IV>
-                    <Value argument="cmt">
-                        <ct:Int>2</ct:Int>
-                    </Value>
                     <Value argument="type">
                         <ct:Int>3</ct:Int>
+                    </Value>
+                    <Value argument="cmt">
+                        <ct:Int>2</ct:Int>
                     </Value>
                 </IV>
                 
@@ -167,6 +189,9 @@
                     </Value>
                     <Value>
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap"/>
                     </Value>
                 </Peripheral>
                 
