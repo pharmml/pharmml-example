@@ -62,6 +62,7 @@
         
         <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Depot"/>
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
                     <math:Equation>

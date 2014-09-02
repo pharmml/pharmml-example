@@ -52,7 +52,7 @@
         <!--            [LONGITUDINAL]
             
             compartment(cmt=1, volume=V, concentration=Cc)
-            compartment(cmt=4, amount=Depot1)
+            compartment(cmt=4, amount=Depot)
             iv(adm=1, cmt=1, p=0.1, Tlag=t/(t + 10)) 
             oral(adm=2, fromCmt=4, cmt=1, Tk0=0.1) 
             elimination(cmt=1, k=0.2)
@@ -61,18 +61,10 @@
         -->
         
         <StructuralModel blkId="sm1">
-            <ct:Variable symbolType="real" symbId="Al"/>
-            <ct:Variable symbolType="real" symbId="Ac"/>
-            <ct:Variable symbolType="real" symbId="Cc">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </ct:Variable>
+            <ct:Variable symbolType="real" symbId="Depot"/>
+            <ct:Variable symbolType="real" symbId="Ap2"/>
+            <ct:Variable symbolType="real" symbId="Ap3"/>
+            <ct:Variable symbolType="real" symbId="Cc"/>
             
             <PKmacros>
                 <!-- compartment(cmt=1, volume=V, concentration=Cc) -->
@@ -88,13 +80,13 @@
                     </Value>
                 </Compartment>
                 
-                <!-- compartment(cmt=4, amount=Depot1) -->
+                <!-- compartment(cmt=4, amount=Depot) -->
                 <Compartment>
                     <Value argument="cmt">
                         <ct:Int>4</ct:Int>
                     </Value>
                     <Value argument="amount">
-                        <ct:SymbRef symbIdRef="Depot1"/>
+                        <ct:SymbRef symbIdRef="Depot"/>
                     </Value>
                 </Compartment>
                 

@@ -50,22 +50,25 @@
         <!-- Example C6 -->
         
         <!--            [LONGITUDINAL]
-            input = {F1, F2, ka, Tk0, kl, k23, k32, V, k, Vm, Km}
-            PK:
-            compartment(cmt=1, amount=Al)                                                   
-            compartment(cmt=2, amount=Ac)
-            peripheral(k23,k32)
-            oral(type=1, cmt=1, ka, p=F1)
-            oral(type=2, cmt=2, Tk0, p=F2)
-            iv(type=3, cmt=2)
-            transfer(from=1, to=2, kt=kl)
-            elimination(cmt=1, k)
+            input = {F1, F2, ka, Tk0, kl, V, k, Vm, Km} PK:
+            compartment(cmt=1, amount=Al) 
+            compartment(cmt=2, amount=Ac) 
+            compartment(cmt=4, amount=Depot1) 
+            compartment(cmt=5, amount=Depot2) 
+            oral(adm=1, fromCmt=4, cmt=1, ka, p=F1) 
+            oral(adm=2, fromCmt=5, cmt=2, Tk0, p=F2) 
+            iv(adm=3, cmt=2)
+            transfer(from=1, to=2, kt=kl) 
+            peripheral(k23, k32, amount=Ap) 
+            elimination(cmt=1, k) 
             elimination(cmt=2, Km, Vm)
             Cc = Ac/V-->
         
         <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Depot1"/>
+            <ct:Variable symbolType="real" symbId="Depot2"/>
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
                     <math:Equation>
@@ -98,15 +101,9 @@
                     </Value>
                 </Compartment>
                 
-                <!-- peripheral(k23,k32) -->
-                <Peripheral>
-                    <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
-                    </Value>
-                    <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>
-                    </Value>
-                </Peripheral>
+                <!-- compartment(cmt=4, amount=Depot1) -->
+                
+                <!-- compartment(cmt=5, amount=Depot2) -->
                 
                 <!-- oral(type=1, cmt=1, ka, p=F1) -->
                 <Oral>
@@ -162,6 +159,16 @@
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
                     </Value>
                 </Transfer>
+                
+                <!-- peripheral(k23, k32, amount=Ap) -->
+                <Peripheral>
+                    <Value>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>
+                    </Value>
+                </Peripheral>
                 
                 <!-- elimination(cmt=1, k) -->
                 <Elimination>

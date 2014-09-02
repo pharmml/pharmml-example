@@ -61,6 +61,7 @@
         
         <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Ap"/>
+            <ct:Variable symbolType="real" symbId="Depot"/>
             <ct:Variable symbolType="real" symbId="Cc"/>
             
             <PKmacros>
