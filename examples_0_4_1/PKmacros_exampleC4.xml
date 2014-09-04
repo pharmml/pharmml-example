@@ -35,33 +35,19 @@
             <Level symbId="residual"/>
         </VariabilityModel>
         
-        <CovariateModel blkId="cm1">
-            <Covariate symbId="SEX">
-                <Categorical>
-                    <Category catId="1"/>
-                </Categorical>
-            </Covariate>
-        </CovariateModel>
-        
-        <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="V"/>
-        </ParameterModel>
-        
-        <!-- Example C4 -->
         
         <!--            [LONGITUDINAL]
-            input = {F1, F2, ka1, ka2, k1, k2, kl, V}
-            PK:
+            input = {F1, F2, ka, Tk0, kl, V, k, Vm, Km} PK:
             compartment(cmt=1, amount=Al) 
             compartment(cmt=2, amount=Ac) 
-            oral(adm=1, cmt=1, ka1, p=F1) 
-            oral(adm=2, cmt=2, ka2, p=F2) 
+            oral(adm=1, cmt=1, ka, p=F1) 
+            oral(adm=2, cmt=2, Tk0, p=F2) 
             iv(adm=3, cmt=2)
             transfer(from=1, to=2, kt=kl) 
-            elimination(cmt=1, k1) 
-            elimination(cmt=2, k2)
-            Cc = Ac/V
-        -->
+            peripheral(k23, k32, amount=Ap) 
+            elimination(cmt=1, k) 
+            elimination(cmt=2, Km, Vm)
+            Cc = Ac/V-->
         
         <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Al"/>
@@ -71,7 +57,7 @@
                     <math:Equation>
                         <math:Binop op="divide">
                             <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef symbIdRef="V"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
@@ -98,7 +84,7 @@
                     </Value>
                 </Compartment>
                 
-                <!-- oral(adm=1, cmt=1, ka1, p=F1) -->
+                <!-- oral(adm=1, cmt=1, ka, p=F1) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
@@ -107,14 +93,14 @@
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="ka1"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
                     </Value>
                     <Value argument="p">
-                        <ct:SymbRef symbIdRef="F1"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="F1"/>
                     </Value>
                 </Oral>
                 
-                <!-- oral(adm=2, cmt=2, ka2, p=F2) -->
+                <!-- oral(adm=2, cmt=2, Tk0, p=F2) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>2</ct:Int>
@@ -123,16 +109,16 @@
                         <ct:Int>2</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="ka2"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>
                     </Value>
                     <Value argument="p">
-                        <ct:SymbRef symbIdRef="F2"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="F2"/>
                     </Value>
                 </Oral>
                 
-                <!-- iv(adm=3, cmt=2) -->
+                <!-- iv(type=3, cmt=2) -->
                 <IV>
-                    <Value argument="adm">
+                    <Value argument="type">
                         <ct:Int>3</ct:Int>
                     </Value>
                     <Value argument="cmt">
@@ -149,30 +135,45 @@
                         <ct:Int>2</ct:Int>
                     </Value>
                     <Value argument="kt">
-                        <ct:SymbRef symbIdRef="kl"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
                     </Value>
                 </Transfer>
                 
-                <!-- elimination(cmt=1, k1) -->
+                <!-- peripheral(k23, k32, amount=Ap) -->
+                <Peripheral>
+                    <Value>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap"/>
+                    </Value>
+                </Peripheral>
+                
+                <!-- elimination(cmt=1, k) -->
                 <Elimination>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="k1"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                     </Value>
                 </Elimination>
                 
-                <!-- elimination(cmt=2, k2) -->
+                <!-- elimination(cmt=2, Km, Vm) -->
                 <Elimination>
                     <Value argument="cmt">
-                        <ct:Int>1</ct:Int>
+                        <ct:Int>2</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="k2"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Vm"/>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
                     </Value>
                 </Elimination>
-                
             </PKmacros>
         </StructuralModel>
         
@@ -233,12 +234,43 @@
                     <Column columnId="ADM" columnType="cmt" valueType="int" columnNum="6"/> 
                 </Definition>
                 <ImportData oid="importNONMEM">
-                    <path>example4.csv</path>
+                    <path>example6.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
             </DataSet>
         </NONMEMdataSet>
+        
+        <!-- ALTERNATIVE -->
+        <TargetTool oid="MLXoid">
+            <TargetToolName>MONOLIX</TargetToolName>
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </ColumnMapping>
+            
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="Cc_obs"/>
+            </ColumnMapping>
+            
+            <ds:TargetToolData>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                    <ds:Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
+                    <ds:Column columnId="CMT" columnType="cmt" valueType="int" columnNum="5"/> 
+                    <ds:Column columnId="ADM" columnType="cmt" valueType="int" columnNum="6"/> 
+                </ds:Definition>
+                <ds:ImportTargetData oid="importMLX">
+                    <ds:path>example6.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportTargetData>
+            </ds:TargetToolData>
+        </TargetTool>
+        
         
         <!-- ESTIMATION STEP -->
         <EstimationStep oid="estTask1">

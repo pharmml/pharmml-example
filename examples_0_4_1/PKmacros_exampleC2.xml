@@ -220,7 +220,8 @@
                 </ImportData>
             </DataSet>
         </NONMEMdataSet>
-        
+ 
+ 
         <!-- ESTIMATION STEP -->
         <EstimationStep oid="estTask1">
             
@@ -229,162 +230,35 @@
             </TargetToolReference>
             
             <ParametersToEstimate>
-                <!-- INITIAL CONDITIONS -->
-                <!-- P0 -->
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_P0"/>
-                    <InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_P0"/>
-                    <InitialEstimate>
-                        <ct:Real>0.5</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                <!-- Q0 -->
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_Q0"/>
-                    <InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_Q0"/>
-                    <InitialEstimate>
-                        <ct:Real>0.5</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
                 
-                <!-- RESIDUAL ERROR PARAMETER -->
-                <!-- a -->
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="a"/>
                     <InitialEstimate>
                         <ct:Real>1</ct:Real>
                     </InitialEstimate>
                 </ParameterEstimation>
                 
-                <!-- STRUCTURAL PARAMETERS and RANDOM EFFECTS -->
-                <!-- LAMBDAP -->
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_LAMBDAP"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                     <InitialEstimate>
                         <ct:Real>10</ct:Real>
                     </InitialEstimate>
                 </ParameterEstimation>
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_LAMBDAP"/>
-                    <InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
                 
-                <!-- KDE -->
-                <!-- omega_KDE is fixed, see pm1 -->
-                <!-- only pop_KDE to be estimated -->
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_KDE"/>
-                    <InitialEstimate>
-                        <ct:Real>10</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-
-                <!-- KQPP -->
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_KQPP"/>
-                    <InitialEstimate>
-                        <ct:Real>10</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_KQPP"/>
-                    <InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                
-                <!-- LAMBDAP -->
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_LAMBDAP"/>
-                    <InitialEstimate>
-                        <ct:Real>10</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_LAMBDAP"/>
-                    <InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                
-                <!-- KPQ -->
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_KQP"/>
-                    <InitialEstimate>
-                        <ct:Real>10</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_KQP"/>
-                    <InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                
-                <!-- GAMMA -->
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_GAMMA"/>
-                    <InitialEstimate>
-                        <ct:Real>10</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_GAMMA"/>
-                    <InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                
-                <!-- DELTAQP -->
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_DELTAQP"/>
-                    <InitialEstimate>
-                        <ct:Real>10</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_DELTAQP"/>
-                    <InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                
+                <!-- omitted other parameters -->
             </ParametersToEstimate>
-            <Operation order="1" opType="estPop">
-                <Property name="Settings">
-                    <ct:Assign>
-                        <ct:String>defaultSettings</ct:String>
-                    </ct:Assign>
-                </Property>
-                <Algorithm definition="ode15s">
-                    <Property name="tolerance">
-                        <ct:Assign>
-                            <ct:Real>0.0001</ct:Real>
-                        </ct:Assign>
-                    </Property>
-                </Algorithm>
-            </Operation>
+            
+            
+            <Operation order="1" opType="estPop"/>
             <Operation order="2" opType="estIndiv"/>
         </EstimationStep>
-
+        
         <!-- STEP DEPENDENCIES -->
         <StepDependencies>
             <Step>
                 <ct:OidRef oidRef="estTask1"/>
             </Step>
         </StepDependencies>
+        
     </ModellingSteps>
-
 </PharmML>
