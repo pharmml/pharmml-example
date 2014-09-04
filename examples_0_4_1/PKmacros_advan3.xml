@@ -44,7 +44,9 @@
         </CovariateModel>
         
         <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="k"/>
             <SimpleParameter symbId="V"/>
+            <!-- omitted other parameters -->
         </ParameterModel>
         
         <!--
@@ -71,8 +73,6 @@
             </ct:Variable>
             
             <PKmacros>
-                
-                <!-- compartment(cmt=1, amount=Ac, volume=V) -->
                 <Compartment>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
@@ -85,7 +85,6 @@
                     </Value>
                 </Compartment>
                 
-                <!-- peripheral(k12, k21, amount=Ap) -->
                 <Peripheral>
                     <Value>
                         <ct:SymbRef symbIdRef="k12"/>
@@ -98,7 +97,6 @@
                     </Value>
                 </Peripheral>
                 
-                <!-- iv(adm=1, cmt=1) -->
                 <IV>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
@@ -108,7 +106,6 @@
                     </Value>
                 </IV>
                 
-                <!-- elimination(cmt=1, k) -->
                 <Elimination>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
@@ -193,12 +190,43 @@
         </NONMEMdataSet>
         
 
+        <!-- ESTIMATION STEP -->
+        <EstimationStep oid="estTask1">
+            
+            <TargetToolReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </TargetToolReference>
+            
+            <ParametersToEstimate>
+                
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    <InitialEstimate>
+                        <ct:Real>10</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- omitted other parameters -->
+            </ParametersToEstimate>
+            
+            
+            <Operation order="1" opType="estPop"/>
+            <Operation order="2" opType="estIndiv"/>
+        </EstimationStep>
+        
         <!-- STEP DEPENDENCIES -->
         <StepDependencies>
             <Step>
                 <ct:OidRef oidRef="estTask1"/>
             </Step>
         </StepDependencies>
-    </ModellingSteps>
 
+    </ModellingSteps>
 </PharmML>

@@ -45,6 +45,7 @@
         
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
+            <!-- omitted other parameters -->
         </ParameterModel>
         
         <!--
@@ -62,7 +63,7 @@
                     <math:Equation>
                         <math:Binop op="divide">
                             <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef symbIdRef="V"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
@@ -77,7 +78,7 @@
                         <ct:SymbRef symbIdRef="Ac"/>
                     </Value>
                     <Value argument="volume">
-                        <ct:SymbRef symbIdRef="V"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                     </Value>
                 </Compartment>
                 
@@ -89,7 +90,7 @@
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="ka"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
                     </Value>
                 </Oral>
                 
@@ -98,7 +99,7 @@
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="k"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                     </Value>
                 </Elimination>
             </PKmacros>
@@ -184,32 +185,26 @@
             </TargetToolReference>
             
             <ParametersToEstimate>
-                
-                <!-- RESIDUAL ERROR PARAMETER -->
-                <!-- a -->
+
                 <ParameterEstimation>
                     <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
                     <InitialEstimate>
                         <ct:Real>1</ct:Real>
                     </InitialEstimate>
                 </ParameterEstimation>
-                
-                
+
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="V"/>
+                    <InitialEstimate>
+                        <ct:Real>10</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+
+                <!-- omitted other parameters -->
             </ParametersToEstimate>
-            <Operation order="1" opType="estPop">
-                <Property name="Settings">
-                    <ct:Assign>
-                        <ct:String>defaultSettings</ct:String>
-                    </ct:Assign>
-                </Property>
-                <Algorithm definition="ode15s">
-                    <Property name="tolerance">
-                        <ct:Assign>
-                            <ct:Real>0.0001</ct:Real>
-                        </ct:Assign>
-                    </Property>
-                </Algorithm>
-            </Operation>
+            
+                
+            <Operation order="1" opType="estPop"/>
             <Operation order="2" opType="estIndiv"/>
         </EstimationStep>
 
@@ -219,6 +214,6 @@
                 <ct:OidRef oidRef="estTask1"/>
             </Step>
         </StepDependencies>
-    </ModellingSteps>
 
+    </ModellingSteps>
 </PharmML>
