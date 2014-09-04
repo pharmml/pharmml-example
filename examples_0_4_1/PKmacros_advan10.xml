@@ -45,6 +45,7 @@
         
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
+            <!-- omitted other paremeters -->
         </ParameterModel>
         
         <!--
@@ -63,15 +64,13 @@
                     <math:Equation>
                         <math:Binop op="divide">
                             <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef symbIdRef="V"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
             </ct:Variable>
             
             <PKmacros>
-                
-                <!-- compartment(cmt=1, amount=Ac, volume=V) -->
                 <Compartment>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
@@ -80,11 +79,10 @@
                         <ct:SymbRef symbIdRef="Ac"/>
                     </Value>
                     <Value argument="volume">
-                        <ct:SymbRef symbIdRef="V"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                     </Value>
                 </Compartment>
                 
-                <!-- iv(adm=1, cmt=1) -->
                 <IV>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
@@ -94,21 +92,18 @@
                     </Value>
                 </IV>
                 
-                <!-- elimination(cmt=1, Km, Vm) -->
                 <Elimination>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="Km"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Km"/>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="Vm"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Vm"/>
                     </Value>
                 </Elimination>
-                
             </PKmacros>
-            
         </StructuralModel>
         
 
@@ -192,7 +187,7 @@
             <ParametersToEstimate>
                 
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="a"/>
                     <InitialEstimate>
                         <ct:Real>1</ct:Real>
                     </InitialEstimate>

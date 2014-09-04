@@ -45,6 +45,7 @@
         
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
+            <!-- omitted other paremeters -->
         </ParameterModel>
         
         <!--
@@ -67,15 +68,13 @@
                     <math:Equation>
                         <math:Binop op="divide">
                             <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef symbIdRef="V"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
             </ct:Variable>
             
             <PKmacros>
-                
-                <!-- compartment(cmt=1, amount=Ac, volume=V) -->
                 <Compartment>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
@@ -84,37 +83,34 @@
                         <ct:SymbRef symbIdRef="Ac"/>
                     </Value>
                     <Value argument="volume">
-                        <ct:SymbRef symbIdRef="V"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                     </Value>
                 </Compartment>
                 
-                <!-- peripheral(k12, k21, amount=Ap1) -->
                 <Peripheral>
                     <Value>
-                        <ct:SymbRef symbIdRef="k12"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="k21"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
                     </Value>
                     <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ap1"/>
                     </Value>
                 </Peripheral>
                 
-                <!-- peripheral(k13, k31, amount=Ap2) -->
                 <Peripheral>
                     <Value>
-                        <ct:SymbRef symbIdRef="k13"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k13"/>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="k31"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k31"/>
                     </Value>
                     <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ap2"/>
                     </Value>
                 </Peripheral>
                 
-                <!-- oral(adm=1, cmt=1, ka) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
@@ -123,17 +119,16 @@
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="ka"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
                     </Value>
                 </Oral>
                 
-                <!-- elimination(cmt=1, k) -->
                 <Elimination>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="k"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                     </Value>
                 </Elimination>
                 
@@ -222,7 +217,7 @@
             <ParametersToEstimate>
                 
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="a"/>
                     <InitialEstimate>
                         <ct:Real>1</ct:Real>
                     </InitialEstimate>

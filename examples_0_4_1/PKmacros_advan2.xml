@@ -187,7 +187,7 @@
             <ParametersToEstimate>
 
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="a"/>
                     <InitialEstimate>
                         <ct:Real>1</ct:Real>
                     </InitialEstimate>

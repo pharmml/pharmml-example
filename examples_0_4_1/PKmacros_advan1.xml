@@ -45,6 +45,7 @@
         
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
+            <!-- omitted other paremeters -->
         </ParameterModel>
         
         <!--
@@ -62,7 +63,7 @@
                     <math:Equation>
                         <math:Binop op="divide">
                             <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef symbIdRef="V"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
@@ -181,7 +182,7 @@
             <ParametersToEstimate>
                 
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="a"/>
                     <InitialEstimate>
                         <ct:Real>1</ct:Real>
                     </InitialEstimate>
