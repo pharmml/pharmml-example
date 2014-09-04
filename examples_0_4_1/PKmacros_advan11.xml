@@ -58,7 +58,16 @@
         -->
         
         
-
+        <StructuralModel blkId="sm1">
+            <!--  -->
+            
+            <!--  -->
+            
+            <!--  -->
+            
+        </StructuralModel>
+        
+        
 
 
         <ObservationModel blkId="om1">

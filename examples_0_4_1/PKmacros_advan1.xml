@@ -55,10 +55,14 @@
             elimination(cmt=1, k)
         -->
         
-        <StructuralModel blkId="sm1"></StructuralModel>
-        
-        
+        <StructuralModel blkId="sm1">
+            <!--  -->
+            
+            <!--  -->
+            
+            <!--  -->
 
+        </StructuralModel>
 
 
         <ObservationModel blkId="om1">

@@ -56,7 +56,14 @@
             elimination(cmt=1, k)
         -->
         
-        
+        <StructuralModel blkId="sm1">
+            <!--  -->
+            
+            <!--  -->
+            
+            <!--  -->
+            
+        </StructuralModel>
 
 
 
