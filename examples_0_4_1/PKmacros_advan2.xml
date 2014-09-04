@@ -62,11 +62,40 @@
             <PKmacros>
                 
                 <!-- compartment(cmt=1, amount=Ac, volume=V) -->
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Value>
+                    <Value argument="volume">
+                        <ct:SymbRef symbIdRef="V"/>
+                    </Value>
+                </Compartment>
                 
-                <!--  -->
+                <!-- oral(adm=1, cmt=1, ka) -->
+                <Oral>
+                    <Value argument="adm">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef symbIdRef="ka"/>
+                    </Value>
+                </Oral>
                 
-                <!--  -->
-                
+                <!-- elimination(cmt=1, k) -->
+                <Elimination>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef symbIdRef="k"/>
+                    </Value>
+                </Elimination>
             </PKmacros>
             
         </StructuralModel>
