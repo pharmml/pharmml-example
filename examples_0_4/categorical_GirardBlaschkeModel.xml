@@ -181,15 +181,15 @@
                 <mstep:Timepoints>
                     <ct:Vector default="0" length="5">
                         <ct:VectorCell>
-                            <ct:VectorIndex>
+                            <ct:CellIndex>
                                 <ct:Int>1</ct:Int>
-                            </ct:VectorIndex>
+                            </ct:CellIndex>
                             <ct:Real>1</ct:Real>
                         </ct:VectorCell>
                         <ct:VectorSegment>
-                            <ct:StartIndex>
+                            <ct:SegmentStartIndex>
                                 <ct:Int>2</ct:Int>
-                            </ct:StartIndex>
+                            </ct:SegmentStartIndex>
                             <ct:SegmentLength>
                                 <ct:Int>2</ct:Int>
                             </ct:SegmentLength>
@@ -199,15 +199,15 @@
                             </ct:VectorElements>
                         </ct:VectorSegment>
                         <ct:VectorCell>
-                            <ct:VectorIndex>
+                            <ct:CellIndex>
                                 <ct:Int>4</ct:Int>
-                            </ct:VectorIndex>
+                            </ct:CellIndex>
                             <ct:Real>4</ct:Real>
                         </ct:VectorCell>
                         <ct:VectorCell>
-                            <ct:VectorIndex>
+                            <ct:CellIndex>
                                 <ct:Int>5</ct:Int>
-                            </ct:VectorIndex>
+                            </ct:CellIndex>
                             <ct:Real>5</ct:Real>
                         </ct:VectorCell>
                     </ct:Vector>
