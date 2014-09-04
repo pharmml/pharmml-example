@@ -44,8 +44,26 @@
                         </ct:Assign>
                     </ProbabilityAssignment>
                     
+                    <!-- P(y = 0) = 1 - p -->
+                    <ProbabilityAssignment>
+                        <Probability linkFunction="identity">
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat0"/>
+                            </math:LogicBinop>
+                        </Probability>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="minus">
+                                    <ct:Real>1</ct:Real>
+                                    <ct:SymbRef symbIdRef="p"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ProbabilityAssignment>
+                    
                     <!-- ALTERNATIVE -->
-<!--                    <PMF>
+                    <PMF linkFunction="identity">
                         <BernoulliDistribution xmlns="http://www.uncertml.org/3.0" 
                             definition="http://www.uncertml.org/3.0">
                             <categoryProb definition="http://www.uncertml.org/3.0">
@@ -55,7 +73,7 @@
                                 </probability>
                             </categoryProb>
                         </BernoulliDistribution>
-                    </PMF>-->
+                    </PMF>
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
@@ -115,11 +133,11 @@
         <mstep:SimulationStep oid="sim1">
             <mstep:Observations>
                 <mstep:Timepoints>
-                    <math:Vector>
-                        <math:VectorElements>
+                    <ct:Vector>
+                        <ct:VectorElements>
                             <ct:Int>1</ct:Int>
-                        </math:VectorElements>
-                    </math:Vector>
+                        </ct:VectorElements>
+                    </ct:Vector>
                 </mstep:Timepoints>
                 <mstep:Continuous>
                     <ct:SymbRef symbIdRef="E"/>
