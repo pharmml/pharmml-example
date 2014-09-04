@@ -54,10 +54,8 @@
             PK:
             compartment(cmt=1, amount=Al) 
             compartment(cmt=2, amount=Ac) 
-            compartment(cmt=3, amount=Depot1) 
-            compartment(cmt=4, amount=Depot2) 
-            oral(adm=1, fromCmt=3, cmt=1, ka1, p=F1) 
-            oral(adm=2, fromCmt=4, cmt=2, ka2, p=F2) 
+            oral(adm=1, cmt=1, ka1, p=F1) 
+            oral(adm=2, cmt=2, ka2, p=F2) 
             iv(adm=3, cmt=2)
             transfer(from=1, to=2, kt=kl) 
             elimination(cmt=1, k1) 
@@ -68,8 +66,6 @@
         <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
-            <ct:Variable symbolType="real" symbId="Depot1"/>
-            <ct:Variable symbolType="real" symbId="Depot2"/>
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
                     <math:Equation>
@@ -102,35 +98,10 @@
                     </Value>
                 </Compartment>
                 
-                
-                <!-- compartment(cmt=3, amount=Depot1) -->
-                <Compartment>
-                    <Value argument="cmt">
-                        <ct:Int>3</ct:Int>
-                    </Value>
-                    <Value argument="amount">
-                        <ct:SymbRef symbIdRef="Depot1"/>
-                    </Value>
-                </Compartment>
-
-                <!-- compartment(cmt=4, amount=Depot2) -->
-                <Compartment>
-                    <Value argument="cmt">
-                        <ct:Int>4</ct:Int>
-                    </Value>
-                    <Value argument="amount">
-                        <ct:SymbRef symbIdRef="Depot2"/>
-                    </Value>
-                </Compartment>
-                                
-                
-                <!-- oral(adm=1, fromCmt=3, cmt=1, ka1, p=F1) -->
+                <!-- oral(adm=1, cmt=1, ka1, p=F1) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
-                    </Value>
-                    <Value argument="fromCmt">
-                        <ct:Int>3</ct:Int>
                     </Value>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
@@ -143,13 +114,10 @@
                     </Value>
                 </Oral>
                 
-                <!-- oral(adm=2, fromCmt=4, cmt=2, ka2, p=F2) -->
+                <!-- oral(adm=2, cmt=2, ka2, p=F2) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>2</ct:Int>
-                    </Value>
-                    <Value argument="fromCmt">
-                        <ct:Int>4</ct:Int>
                     </Value>
                     <Value argument="cmt">
                         <ct:Int>2</ct:Int>

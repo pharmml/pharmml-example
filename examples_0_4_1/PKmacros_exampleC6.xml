@@ -44,7 +44,35 @@
         </CovariateModel>
         
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="V"/>
+
+            <!-- V -->
+            <SimpleParameter symbId="V_pop"/>
+            <SimpleParameter symbId="omega_V"/>
+            <RandomVariable symbId="eta_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean><rVal>0</rVal></mean>
+                    <stddev><var varId="omaga_V"/></stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="V">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="V_pop"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_V"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
         </ParameterModel>
         
         <!-- Example C6 -->
@@ -53,10 +81,8 @@
             input = {F1, F2, ka, Tk0, kl, V, k, Vm, Km} PK:
             compartment(cmt=1, amount=Al) 
             compartment(cmt=2, amount=Ac) 
-            compartment(cmt=4, amount=Depot1) 
-            compartment(cmt=5, amount=Depot2) 
-            oral(adm=1, fromCmt=4, cmt=1, ka, p=F1) 
-            oral(adm=2, fromCmt=5, cmt=2, Tk0, p=F2) 
+            oral(adm=1, cmt=1, ka, p=F1) 
+            oral(adm=2, cmt=2, Tk0, p=F2) 
             iv(adm=3, cmt=2)
             transfer(from=1, to=2, kt=kl) 
             peripheral(k23, k32, amount=Ap) 
@@ -67,8 +93,6 @@
         <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Al"/>
             <ct:Variable symbolType="real" symbId="Ac"/>
-            <ct:Variable symbolType="real" symbId="Depot1"/>
-            <ct:Variable symbolType="real" symbId="Depot2"/>
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
                     <math:Equation>
@@ -101,33 +125,10 @@
                     </Value>
                 </Compartment>
                 
-                <!-- compartment(cmt=4, amount=Depot1) -->
-                <Compartment>
-                    <Value argument="cmt">
-                        <ct:Int>4</ct:Int>
-                    </Value>
-                    <Value argument="amount">
-                        <ct:SymbRef symbIdRef="Depot1"/>
-                    </Value>
-                </Compartment>
-                
-                <!-- compartment(cmt=5, amount=Depot2) -->
-                <Compartment>
-                    <Value argument="cmt">
-                        <ct:Int>5</ct:Int>
-                    </Value>
-                    <Value argument="amount">
-                        <ct:SymbRef symbIdRef="Depot2"/>
-                    </Value>
-                </Compartment>
-                
-                <!-- oral(adm=1, fromCmt=4, cmt=1, ka, p=F1) -->
+                <!-- oral(adm=1, cmt=1, ka, p=F1) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
-                    </Value>
-                    <Value argument="fromCmt">
-                        <ct:Int>4</ct:Int>
                     </Value>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
@@ -140,13 +141,10 @@
                     </Value>
                 </Oral>
                 
-                <!-- oral(adm=2, fromCmt=5, cmt=2, Tk0, p=F2) -->
+                <!-- oral(adm=2, cmt=2, Tk0, p=F2) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>2</ct:Int>
-                    </Value>
-                    <Value argument="fromCmt">
-                        <ct:Int>5</ct:Int>
                     </Value>
                     <Value argument="cmt">
                         <ct:Int>2</ct:Int>

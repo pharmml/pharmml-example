@@ -53,15 +53,13 @@
             input = {V, ka, k, k12, k21}
             PK:
             compartment(cmt=1, volume=V, concentration=Cc) 
-            compartment(cmt=2, amount=Depot) 
-            oral(adm=1, fromCmt=2, cmt=1,ka) 
+            oral(adm=1, cmt=1,ka) 
             elimination(cmt=1, ka)
             peripheral(k12, k21, amount=Ap)
         -->
         
         <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Ap"/>
-            <ct:Variable symbolType="real" symbId="Depot"/>
             <ct:Variable symbolType="real" symbId="Cc"/>
             
             <PKmacros>
@@ -78,23 +76,10 @@
                     </Value>
                 </Compartment>
                 
-                <!-- compartment(cmt=2, amount=Depot) -->
-                <Compartment>
-                    <Value argument="cmt">
-                        <ct:Int>2</ct:Int>
-                    </Value>
-                    <Value argument="amount">
-                        <ct:SymbRef symbIdRef="Depot"/>
-                    </Value>
-                </Compartment>
-                
-                <!-- oral(adm=1, fromCmt=2, cmt=1, ka) -->
+                <!-- oral(adm=1, cmt=1, ka) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
-                    </Value>
-                    <Value argument="fromCmt">
-                        <ct:Int>2</ct:Int>
                     </Value>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
