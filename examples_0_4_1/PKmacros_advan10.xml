@@ -62,10 +62,40 @@
             <PKmacros>
                 
                 <!-- compartment(cmt=1, amount=Ac, volume=V) -->
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Value>
+                    <Value argument="volume">
+                        <ct:SymbRef symbIdRef="V"/>
+                    </Value>
+                </Compartment>
                 
-                <!--  -->
+                <!-- iv(adm=1, cmt=1) -->
+                <IV>
+                    <Value argument="adm">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                </IV>
                 
-                <!--  -->
+                <!-- elimination(cmt=1, Km, Vm) -->
+                <Elimination>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef symbIdRef="Km"/>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef symbIdRef="Vm"/>
+                    </Value>
+                </Elimination>
                 
             </PKmacros>
             
