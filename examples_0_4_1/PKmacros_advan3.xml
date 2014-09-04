@@ -58,8 +58,8 @@
         -->
         
         <StructuralModel blkId="sm3">
-            
             <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Ap"/>
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
                     <math:Equation>

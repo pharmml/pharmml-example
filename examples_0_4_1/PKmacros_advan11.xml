@@ -60,7 +60,6 @@
         
         
         <StructuralModel blkId="sm11">
-            
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Ap1"/>
             <ct:Variable symbolType="real" symbId="Ap2"/>

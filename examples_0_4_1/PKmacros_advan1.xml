@@ -34,15 +34,7 @@
         <VariabilityModel blkId="obsErr" type="residualError"> 
             <Level symbId="residual"/>
         </VariabilityModel>
-        
-        <CovariateModel blkId="cm1">
-            <Covariate symbId="SEX">
-                <Categorical>
-                    <Category catId="1"/>
-                </Categorical>
-            </Covariate>
-        </CovariateModel>
-        
+                
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
             <!-- omitted other paremeters -->

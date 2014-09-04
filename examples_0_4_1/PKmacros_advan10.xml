@@ -57,7 +57,6 @@
         -->
         
         <StructuralModel blkId="sm10">
-            
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
