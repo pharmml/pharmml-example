@@ -143,7 +143,6 @@
     </ModelDefinition>
     
     
-    <!-- BLOCK III: MODELLING STEPS -->
     <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
         
         <NONMEMdataSet oid="NMoid">
@@ -175,7 +174,7 @@
                     <Column columnId="ADM" columnType="cmt" valueType="int" columnNum="5"/> 
                 </Definition>
                 <ImportData oid="importNONMEM">
-                    <path>example12.csv</path>
+                    <path>exampleC1b.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
