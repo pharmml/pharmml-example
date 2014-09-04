@@ -61,15 +61,70 @@
         <StructuralModel blkId="sm1">
             
             <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Ap1"/>
+            <ct:Variable symbolType="real" symbId="Ap2"/>
             
             <PKmacros>
                 
                 <!-- compartment(cmt=1, amount=Ac, volume=V) -->
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Value>
+                    <Value argument="volume">
+                        <ct:SymbRef symbIdRef="V"/>
+                    </Value>
+                </Compartment>
                 
-                <!--  -->
+                <!-- peripheral(k12, k21, amount=Ap1) -->
+                <Peripheral>
+                    <Value>
+                        <ct:SymbRef symbIdRef="k12"/>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef symbIdRef="k21"/>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap1"/>
+                    </Value>
+                </Peripheral>
                 
-                <!--  -->
+                <!-- peripheral(k13, k31, amount=Ap2) -->
+                <Peripheral>
+                    <Value>
+                        <ct:SymbRef symbIdRef="k13"/>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef symbIdRef="k31"/>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap2"/>
+                    </Value>
+                </Peripheral>
                 
+                <!-- iv(adm=1, cmt=1) -->
+                <IV>
+                    <Value argument="adm">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                </IV>
+                
+                <!-- elimination(cmt=1, k) -->
+                <Elimination>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef symbIdRef="k"/>
+                    </Value>
+                </Elimination>
+
             </PKmacros>
             
         </StructuralModel>
