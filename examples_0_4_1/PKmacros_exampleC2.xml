@@ -35,86 +35,122 @@
             <Level symbId="residual"/>
         </VariabilityModel>
         
-        <CovariateModel blkId="cm1">
-            <Covariate symbId="SEX">
-                <Categorical>
-                    <Category catId="1"/>
-                </Categorical>
-            </Covariate>
-        </CovariateModel>
         
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
+            <!-- omitted other paremeters -->
         </ParameterModel>
         
-        <!-- Example C2 -->
-        
-        <!--            [LONGITUDINAL]
-            input = {V, ka, k, p, Tlag, k12, k21}
+        <!--
+            input = {V, alpha, beta} 
             PK:
-            compartment(cmt=1, volume=V, concentration=Cc) 
-            oral(adm=1, cmt=1, ka, p, Tlag) 
-            elimination(cmt=1, k)
-            peripheral(k12=0.6, k21=0.8, amount=Ap)
+            compartment(cmt=1, volume=V, concentration=Cc)
+            iv(adm=1, cmt=1, p=0.1, Tlag=t/(t + 10)) 
+            oral(adm=2, cmt=1, Tk0=0.1) 
+            elimination(cmt=1, k=0.2)
+            peripheral(k12=0.6, k21=0.8, amount=Ap2) 
+            peripheral(k13=0.6+alpha, k21=0.8+beta, amount=Ap3)
         -->
         
-        <StructuralModel blkId="sm1">
-            <ct:Variable symbolType="real" symbId="Ap"/>
+        <StructuralModel blkId="smC2">
+            <ct:Variable symbolType="real" symbId="Ap2"/>
+            <ct:Variable symbolType="real" symbId="Ap3"/>
             <ct:Variable symbolType="real" symbId="Cc"/>
             
             <PKmacros>
-                <!-- compartment(cmt=1, volume=V, concentration=Cc) -->
                 <Compartment>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value argument="volume">
-                        <ct:SymbRef symbIdRef="V"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                     </Value>
                     <Value argument="concentration">
                         <ct:SymbRef symbIdRef="Cc"/>
                     </Value>
                 </Compartment>
                 
-                <!-- oral(adm=1, cmt=1, ka, p, Tlag) -->
-                <Oral>
+                <IV>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
-                    <Value>
-                        <ct:SymbRef symbIdRef="ka"/>
+                    <Value argument="p">
+                        <ct:Real>0.1</ct:Real>
                     </Value>
-                    <Value>
-                        <ct:SymbRef symbIdRef="p"/>
+                    <Value argument="Tlag">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="t"/>
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="t"/>
+                                        <ct:Real>10</ct:Real>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
                     </Value>
-                    <Value>
-                        <ct:SymbRef symbIdRef="Tlag"/>
+                </IV>
+                
+                <Oral>
+                    <Value argument="adm">
+                        <ct:Int>2</ct:Int>
+                    </Value>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="Tk0">
+                        <ct:Real>0.1</ct:Real>
                     </Value>
                 </Oral>
                 
-                <!-- elimination(cmt=1, k) -->
                 <Elimination>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
-                    <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                    <Value argument="k">
+                        <ct:Real>0.2</ct:Real>
                     </Value>
                 </Elimination>
-
-                <!-- peripheral(k12=0.6, k21=0.8, amount=Ap) -->
+                
                 <Peripheral>
-                    <Value argument="amount">
-                        <ct:SymbRef symbIdRef="Ap"/>
-                    </Value>
                     <Value argument="k12">
                         <ct:Real>0.6</ct:Real>
                     </Value>
                     <Value argument="k21">
                         <ct:Real>0.8</ct:Real>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap2"/>
+                    </Value>
+                </Peripheral>
+                
+                <Peripheral>
+                    <Value argument="k13">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <ct:Real>0.6</ct:Real>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="alpha"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Value>
+                    <Value argument="k31">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <ct:Real>0.8</ct:Real>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ap3"/>
                     </Value>
                 </Peripheral>
                 
@@ -136,7 +172,7 @@
                 </RandomVariable>
                 <Standard symbId="Cc_obs">
                     <Output>
-                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                        <ct:SymbRef blkIdRef="smC2" symbIdRef="Cc"/>
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
@@ -178,7 +214,7 @@
                     <Column columnId="ADM" columnType="cmt" valueType="int" columnNum="6"/> 
                 </Definition>
                 <ImportData oid="importNONMEM">
-                    <path>example2.csv</path>
+                    <path>example5.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
