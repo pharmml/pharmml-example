@@ -56,12 +56,9 @@
         -->
         
         <StructuralModel blkId="sm1">
-            
             <ct:Variable symbolType="real" symbId="Ac"/>
 
             <PKmacros>
-                
-                <!-- compartment(cmt=1, amount=Ac, volume=V) -->
                 <Compartment>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
@@ -70,11 +67,10 @@
                         <ct:SymbRef symbIdRef="Ac"/>
                     </Value>
                     <Value argument="volume">
-                        <ct:SymbRef symbIdRef="V"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                     </Value>
                 </Compartment>
                 
-                <!-- iv(adm=1, cmt=1) -->
                 <IV>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
@@ -84,17 +80,15 @@
                     </Value>
                 </IV>
                 
-                <!-- elimination(cmt=1, k) -->
                 <Elimination>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="k"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                     </Value>
                 </Elimination>
             </PKmacros>
-
         </StructuralModel>
 
 
