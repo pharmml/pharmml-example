@@ -40,7 +40,6 @@
             <SimpleParameter symbId="V"/>
             <!-- omitted other paremeters -->
         </ParameterModel>
-        
 
         <!--
             input = {F1, F2, ka1, ka2, k1, k2, kl, V}
@@ -53,7 +52,7 @@
             transfer(from=1, to=2, kt=kl) 
             elimination(cmt=1, k1) 
             elimination(cmt=2, k2)
-        -->
+            Cc = Ac/V-->
         
         <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Al"/>

@@ -50,12 +50,21 @@
             elimination(cmt=1, k=0.2)
             peripheral(k12=0.6, k21=0.8, amount=Ap2) 
             peripheral(k13=0.6+alpha, k21=0.8+beta, amount=Ap3)
-        -->
+            Cc = Ac/V-->
         
         <StructuralModel blkId="smC2">
             <ct:Variable symbolType="real" symbId="Ap2"/>
             <ct:Variable symbolType="real" symbId="Ap3"/>
-            <ct:Variable symbolType="real" symbId="Cc"/>
+            <ct:Variable symbolType="real" symbId="Cc">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Ac"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
             
             <PKmacros>
                 <Compartment>
