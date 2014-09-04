@@ -58,14 +58,20 @@
         
         
         <StructuralModel blkId="sm1">
-            <!--  -->
             
-            <!--  -->
+            <ct:Variable symbolType="real" symbId="Ac"/>
             
-            <!--  -->
+            <PKmacros>
+                
+                <!-- compartment(cmt=1, amount=Ac, volume=V) -->
+                
+                <!--  -->
+                
+                <!--  -->
+                
+            </PKmacros>
             
         </StructuralModel>
-        
         
 
 
