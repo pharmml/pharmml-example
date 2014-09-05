@@ -543,7 +543,7 @@
                     <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>
                 </Definition>
                 <ImportData oid="importNONMEM">
-                    <path>RIBBA2012_PCV.csv</path>
+                    <path>example.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
