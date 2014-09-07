@@ -168,12 +168,12 @@
                 <ct:SymbRef blkIdRef="om1" symbIdRef="Cc_obs"/>
             </ColumnMapping>
             
-<!--            <ColumnMapping>
+            <ColumnMapping>
                 <ds:ColumnRef columnIdRef="ADM"/>
                 <ds:TargetMapping blkIdRef="sm1">
                     <ds:Map dataSymbol="1" admNumber="1"/>
-                    </ds:CompartmentMapping>
-            </ColumnMapping>-->            
+                </ds:TargetMapping>
+            </ColumnMapping>             
 
             <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
                 <Definition>
