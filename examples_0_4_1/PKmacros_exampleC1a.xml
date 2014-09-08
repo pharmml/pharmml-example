@@ -65,7 +65,6 @@
             </ct:Variable>
             
             <PKmacros>
-                <!-- compartment(cmt=1, amount=Ac) -->
                 <Compartment>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
@@ -75,7 +74,6 @@
                     </Value>
                 </Compartment>
                 
-                <!-- oral(adm=1, cmt=1, ka, p=F) -->
                 <Oral>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
@@ -91,7 +89,6 @@
                     </Value>
                 </Oral>
                 
-                <!-- iv(adm=2, cmt=1) -->
                 <IV>
                     <Value argument="adm">
                         <ct:Int>2</ct:Int>
@@ -101,7 +98,6 @@
                     </Value>
                 </IV>
                 
-                <!-- elimination(cmt=1, k) -->
                 <Elimination>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
@@ -173,7 +169,7 @@
                     <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
                     <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
                     <Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
-                    <Column columnId="ADM" columnType="cmt" valueType="int" columnNum="5"/> 
+                    <Column columnId="ADM" columnType="adm" valueType="int" columnNum="5"/> 
                 </Definition>
                 <ImportData oid="importNONMEM">
                     <path>exampleC1a.csv</path>
