@@ -35,22 +35,20 @@
             <Level symbId="residual"/>
         </VariabilityModel>
         
-        
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
             <!-- omitted other paremeters -->
         </ParameterModel>
         
         <!--
-            input = {V, alpha, beta} 
-            PK:
             compartment(cmt=1, volume=V, concentration=Cc)
             iv(adm=1, cmt=1, p=0.1, Tlag=t/(t + 10)) 
             oral(adm=2, cmt=1, Tk0=0.1) 
             elimination(cmt=1, k=0.2)
             peripheral(k12=0.6, k21=0.8, amount=Ap2) 
             peripheral(k13=0.6+alpha, k21=0.8+beta, amount=Ap3)
-            Cc = Ac/V-->
+            Cc = Ac/V
+        -->
         
         <StructuralModel blkId="smC2">
             <ct:Variable symbolType="real" symbId="Ap2"/>

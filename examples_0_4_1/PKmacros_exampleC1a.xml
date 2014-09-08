@@ -35,20 +35,17 @@
             <Level symbId="residual"/>
         </VariabilityModel>
         
-
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
             <!-- omitted other paremeters -->
         </ParameterModel>
-        
 
         <!--
-            input = {F, ka, V, k}
-            PK:
             compartment(cmt=1, amount=Ac) 
             oral(adm=1, cmt=1, ka, p=F) 
             iv(adm=2, cmt=1) 
             elimination(cmt=1, k)
+            Cc = Ac/V
         -->
         
         <StructuralModel blkId="smC1a">
@@ -139,7 +136,6 @@
     </ModelDefinition>
     
     
-    <!-- BLOCK III: MODELLING STEPS -->
     <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
         
         <NONMEMdataSet oid="NMoid">

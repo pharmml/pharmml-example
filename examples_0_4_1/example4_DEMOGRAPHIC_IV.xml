@@ -508,7 +508,7 @@
             <!-- TEST -->                                                   <!-- TESTING DEMOGRAPHIC MAPPING -->
             <Demographic oid="country">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="iov1" symbIdRef="country"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="iov1"/>
                 </ct:VariabilityReference>
                 <ct:String>UK</ct:String>
                 <ct:String>US</ct:String>
@@ -536,6 +536,7 @@
                     <ds:Column columnId="SEX" columnType="covariate" valueType="id" columnNum="3"/>
                     <ds:Column columnId="EPOCH" columnType="epoch" valueType="id" columnNum="4"/>
                     <ds:Column columnId="TREAT" columnType="covariate" valueType="id" columnNum="5"/>
+                    <ds:Column columnId="COUNTRY" columnType="covariate" valueType="id" columnNum="6"/>
                 </ds:Definition>
                 <ds:Table>
                     <ds:Row><ct:Id>i1</ct:Id><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id></ds:Row>

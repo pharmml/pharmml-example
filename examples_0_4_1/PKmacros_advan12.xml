@@ -34,30 +34,21 @@
         <VariabilityModel blkId="obsErr" type="residualError"> 
             <Level symbId="residual"/>
         </VariabilityModel>
-        
-        <CovariateModel blkId="cm1">
-            <Covariate symbId="SEX">
-                <Categorical>
-                    <Category catId="1"/>
-                </Categorical>
-            </Covariate>
-        </CovariateModel>
-        
+                
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
             <!-- omitted other paremeters -->
         </ParameterModel>
         
         <!--
-           input = {ka, V, k, k12, k21, k13, k31}
-           PK:
            compartment(cmt=1, amount=Ac, volume=V) 
            peripheral(k12, k21, amount=Ap1) 
            peripheral(k13, k31, amount=Ap2) 
            oral(adm=1, cmt=1, ka)
            elimination(cmt=1, k)
+           Cc = Ac/V
         -->
-        
+
         <StructuralModel blkId="sm12">
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Ap1"/>
@@ -132,7 +123,6 @@
                 </Elimination>
             </PKmacros>
         </StructuralModel>
-        
 
 
         <ObservationModel blkId="om1">
