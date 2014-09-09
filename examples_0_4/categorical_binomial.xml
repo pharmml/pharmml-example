@@ -64,7 +64,15 @@
                     
                     <!-- ALTERNATIVE -->
                     <PMF linkFunction="identity">
-                        <BernoulliDistribution xmlns="http://www.uncertml.org/3.0" 
+                        <BinomialDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                            <numberOfTrials>
+                                <nVal>1</nVal>
+                            </numberOfTrials>
+                            <probabilityOfSuccess>
+                                <var varId="p"/>
+                            </probabilityOfSuccess>
+                        </BinomialDistribution>
+<!--                        <BernoulliDistribution xmlns="http://www.uncertml.org/3.0" 
                             definition="http://www.uncertml.org/3.0">
                             <categoryProb definition="http://www.uncertml.org/3.0">
                                 <name>cat1</name>
@@ -72,7 +80,7 @@
                                     <var varId="p"/>
                                 </probability>
                             </categoryProb>
-                        </BernoulliDistribution>
+                        </BernoulliDistribution>-->
                     </PMF>
                 </CategoricalData>
             </Discrete>
@@ -139,9 +147,9 @@
                         </ct:VectorElements>
                     </ct:Vector>
                 </mstep:Timepoints>
-                <mstep:Continuous>
-                    <ct:SymbRef symbIdRef="E"/>
-                </mstep:Continuous>
+                <mstep:Discrete>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
+                </mstep:Discrete>
             </mstep:Observations>
         </mstep:SimulationStep>
         

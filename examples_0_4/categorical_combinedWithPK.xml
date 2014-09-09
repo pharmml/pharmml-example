@@ -354,5 +354,98 @@
         </ObservationModel>
         
     </ModelDefinition>
+    <mstep:ModellingSteps>
+        
+        <mstep:NONMEMdataSet oid="NMoid">
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </mstep:ColumnMapping>
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="0" modelSymbol="cat0"/>
+                    <ds:Map dataSymbol="1" modelSymbol="cat1"/>
+                </ds:CategoryMapping>
+            </mstep:ColumnMapping>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                </ds:Definition>
+                <ds:ImportData oid="importData">
+                    <ds:path>myFile.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
+        </mstep:NONMEMdataSet>
+        
+        <mstep:EstimationStep oid="estStep1">
+            
+            <mstep:TargetToolReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </mstep:TargetToolReference>
+            
+            <mstep:ParametersToEstimate>
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="p"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+            </mstep:ParametersToEstimate>
+            
+            <mstep:Operation order="1" opType="estPop"/>
+        </mstep:EstimationStep>
+        
+        <mstep:SimulationStep oid="simStep1">
+            <mstep:Observations>
+                <mstep:Timepoints>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            <ct:Int>1</ct:Int>
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </mstep:Timepoints>
+                <mstep:Discrete>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
+                </mstep:Discrete>
+            </mstep:Observations>
+        </mstep:SimulationStep>
+        
+        <mstep:SimulationStep oid="simStep2">
+            <mstep:Observations>
+                <mstep:Timepoints>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            <ct:Int>1</ct:Int>
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </mstep:Timepoints>
+                <mstep:Continuous>
+                    <ct:SymbRef blkIdRef="om2" symbIdRef="C_obs"/>
+                </mstep:Continuous>
+            </mstep:Observations>
+        </mstep:SimulationStep>
+        
+        <mstep:StepDependencies>
+            <mstep:Step>
+                <ct:OidRef oidRef="estStep1"/>
+            </mstep:Step>
+            <mstep:Step>
+                <ct:OidRef oidRef="simStep1"/>
+            </mstep:Step>
+            <mstep:Step>
+                <ct:OidRef oidRef="simStep2"/>
+            </mstep:Step>
+        </mstep:StepDependencies>
+        
+    </mstep:ModellingSteps>
     
 </PharmML>
