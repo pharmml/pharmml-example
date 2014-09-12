@@ -353,6 +353,55 @@
                     </ct:MatrixCell>
                 </Matrix>
             </Correlation>
+            
+            <!-- matrix with expressions inside 
+                \Sigma = | sigma_V^2              rho*sigma_V*sigma_k|
+                         | rho*sigma_V*sigma_k              sigma_V^2|
+            -->
+            <Correlation>
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any">
+                    <ct:MatrixRow>
+                        <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
+                        <math:Equation>
+                            <math:Binop op="power">
+                                <ct:SymbRef symbIdRef="sigma_V"/>
+                                <ct:Real>2</ct:Real>
+                            </math:Binop>
+                        </math:Equation>
+                        <math:Equation>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="rho"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="sigma_V"/>
+                                    <ct:SymbRef symbIdRef="sigma_k"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:MatrixRow>
+                    <ct:MatrixRow>
+                        <ct:RowIndex><ct:Int>2</ct:Int></ct:RowIndex>
+                        <math:Equation>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="rho"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="sigma_V"/>
+                                    <ct:SymbRef symbIdRef="sigma_k"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Equation>
+                        <math:Equation>
+                            <math:Binop op="power">
+                                <ct:SymbRef symbIdRef="sigma_k"/>
+                                <ct:Real>2</ct:Real>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:MatrixRow>
+                </Matrix>
+            </Correlation>
+            
         </ParameterModel>
         
         <!-- structural model -->

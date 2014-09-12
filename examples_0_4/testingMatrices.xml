@@ -160,7 +160,7 @@
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="subject"/>
                 </ct:VariabilityReference>
-                <Matrix matrixType="Any"  diagDefault="1" offDiagDefault="1">
+                <Matrix symbId="faceMatrix" matrixType="Any" diagDefault="1" offDiagDefault="1">
                     <!-- Left eye block -->
                     <ct:MatrixBlock>
                         <ct:BlockStartRow><ct:Int>2</ct:Int></ct:BlockStartRow>
@@ -205,8 +205,8 @@
                         <ct:Real>0</ct:Real>
                     </ct:MatrixCell>
                     <!-- Mouth row -->
-                    <ct:MatrixRow default="8">
-                        <ct:RowIndex><ct:SymbRef symbIdRef="W"/></ct:RowIndex>
+                    <ct:MatrixRow default="0">
+                        <ct:RowIndex><ct:Int>8</ct:Int></ct:RowIndex>
                     </ct:MatrixRow>
                 </Matrix>
             </Correlation>
