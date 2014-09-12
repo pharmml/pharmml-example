@@ -20,9 +20,9 @@
     <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="V"/>
             <SimpleParameter symbId="ka"/>
-            <SimpleParameter symbId="k"/>
+            <SimpleParameter symbId="V"/>
+            <SimpleParameter symbId="CL"/>
             
             <SimpleParameter symbId="B0"/>
             <SimpleParameter symbId="B1"/>
@@ -39,6 +39,11 @@
                 <!-- EDRUG = POP_BETA*Cp -->
             </ct:Variable>
             
+<!--            input = {ka, V, k}
+            PK:
+            compartment(cmt=1, amount=Ac, volume=V) 
+            oral(adm=1, cmt=1, ka)
+            elimination(cmt=1, k)-->
             <PKmacros>
                 <Compartment>
                     <Value argument="cmt">
@@ -52,6 +57,9 @@
                     </Value>
                 </Compartment>
                 <Oral>
+                    <Value argument="adm">
+                        <ct:Int>1</ct:Int>
+                    </Value>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
@@ -63,12 +71,18 @@
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
-                    <Value>
-                        <ct:SymbRef symbIdRef="k"/>
+                    <Value argument="k">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
                     </Value>
                 </Elimination>
             </PKmacros>
-            
         </StructuralModel>
         
         <!-- MLXTRAN style -->
@@ -199,7 +213,8 @@
                     <CategoryVariable symbId="y"/>
                     
                     <PMF linkFunction="identity">
-                        <CategoricalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/...">
+                        <CategoricalDistribution xmlns="http://www.uncertml.org/3.0" 
+                            definition="http://www.uncertml.org/...">
                             <categoryProb definition="http://www.uncertml.org/...">
                                 <name>Probability for cat0</name>
                                 <probability>
