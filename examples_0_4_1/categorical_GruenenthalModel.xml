@@ -54,6 +54,12 @@
             <!-- arguments of function 'fp' -->
             <SimpleParameter symbId="Pmax"/>
             <SimpleParameter symbId="Kplc"/>
+            
+            <!-- betas definiton -->
+            <SimpleParameter symbId="beta_1"/>
+            <!-- omitted beta_2 .. beta_{m-1} -->
+            <SimpleParameter symbId="beta_m"/>
+            
         </ParameterModel>
         
         <StructuralModel blkId="sm1">
@@ -67,8 +73,20 @@
             <Discrete>
                 <CategoricalData>
                     <SimpleParameter symbId="m"/>
-                    <SimpleParameter symbId="k"/>
+                    <SimpleParameter symbId="beta">
+                        <ct:Assign>
+                            <ct:Vector>
+                                <ct:VectorElements>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_1"/>
+                                    <!-- omitted beta_2 .. beta_{m-1} -->
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_m"/>
+                                </ct:VectorElements>
+                            </ct:Vector>
+                        </ct:Assign>
+                    </SimpleParameter>
                     <ct:Variable symbolType="int" symbId="i"/>
+                    <ct:Variable symbolType="int" symbId="j"/>
+                    <ct:Variable symbolType="int" symbId="k"/>
                     <ct:Variable symbolType="real" symbId="PS">
                         <ct:Assign>
                             <ct:Matrix matrixType="Any">
@@ -84,8 +102,11 @@
                     
                     <CategoryVariable symbId="y"/>
                     
-                    <!-- SIMPLIFIED -->
-                    <!-- logit( P(PS_ij <= m) ) = \Sigma_{k=0}^{m} beta_k + theta_base*(PS_i0-4.2) + fp(t) + f(drug) -->
+                    <!-- 
+                    for j = 1 to m
+                        logit( P(PS_ij <= m) ) = \Sigma_{k=0}^{m} beta_k + theta_base*(PS_i0-4.2) + fp(t) + f(drug) 
+                    end
+                    -->
                     <ProbabilityAssignment>
                         <Probability linkFunction="logit">
                             <math:LogicBinop op="leq">
@@ -124,7 +145,7 @@
                                                     <ct:Int>0</ct:Int>
                                                 </ct:LowLimit>
                                                 <ct:UpLimit>
-                                                    <ct:Int>1</ct:Int>
+                                                    <ct:SymbRef symbIdRef="m"/>
                                                 </ct:UpLimit>
                                             </ct:Sum>
                                             <math:Binop op="times">
