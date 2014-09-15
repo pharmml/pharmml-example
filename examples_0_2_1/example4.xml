@@ -457,7 +457,7 @@
                 <ArmRef oidRef="a1"/>
                 <ArmRef oidRef="a2"/>
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="iov"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="iov1"/>
                 </ct:VariabilityReference>
                 <ObservationGroup oid="occ1">
                     <EpochRef oidRef="ep1"/>
@@ -471,7 +471,7 @@
                 <ArmRef oidRef="a1"/>
                 <ArmRef oidRef="a2"/>
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="iov"/>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="iov1"/>
                 </ct:VariabilityReference>
                 <ObservationGroup oid="occ1">
                     <Period>
