@@ -159,7 +159,7 @@
 
     <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
         
-        <NONMEMdataSet oid="NMoid">
+        <MONOLIXdataSet oid="MLXoid">
             <!-- omitted details -->
             
             <ColumnMapping>
@@ -187,13 +187,13 @@
                     <Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
                     <Column columnId="ADM" columnType="adm" valueType="int" columnNum="5"/> 
                 </Definition>
-                <ImportData oid="importNONMEM">
+                <ImportData oid="importMLX">
                     <path>example1.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
             </DataSet>
-        </NONMEMdataSet>
+        </MONOLIXdataSet>
         
         
         <!-- ESTIMATION STEP -->
