@@ -164,8 +164,36 @@
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
-        
     </ModelDefinition>
+    
+    <mstep:ModellingSteps>
+        
+        <mstep:MONOLIXdataSet oid="MLXoid">
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="" columnType="" valueType="" columnNum=""></ds:Column>
+                </ds:Definition>
+            </ds:DataSet>
+        </mstep:MONOLIXdataSet>
+        
+        <mstep:EstimationStep oid="estStep1">
+            <mstep:MONOLIXdataSetReference>
+                <ct:OidRef oidRef="MLXoid"/>
+            </mstep:MONOLIXdataSetReference>
+            <mstep:ParametersToEstimate>
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef symbIdRef="theta_1"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>10</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+            </mstep:ParametersToEstimate>
+            <!-- omitted other parameters theta_2  ... theta_m -->
+            
+            
+            <mstep:Operation order="1" opType="estPop"></mstep:Operation>
+        </mstep:EstimationStep>
+    </mstep:ModellingSteps>
     
 </PharmML>
 
