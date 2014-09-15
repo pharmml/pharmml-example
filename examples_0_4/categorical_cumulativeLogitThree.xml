@@ -86,6 +86,7 @@
                             </ct:Vector>
                         </ct:Assign>
                     </SimpleParameter>
+                    
                     <SimpleParameter symbId="categoryVector">
                         <ct:Assign>
                             <ct:Vector>
@@ -112,42 +113,53 @@
                         logit(P(y <= cat_j)) = \Sigma_{i=1}^j theta_i 
                         }
                     end -->
-                    <ProbabilityAssignment>
-                        <Probability linkFunction="logit">
-                            <math:LogicBinop op="leq">
-                                <ct:SymbRef symbIdRef="y"/>
-                                <ct:VectorSelector>
-                                    <ct:SymbRef symbIdRef="catVector"/>
-                                    <ct:Cell>
-                                        <ct:SymbRef symbIdRef="j"/>
-                                    </ct:Cell>
-                                </ct:VectorSelector>
-                            </math:LogicBinop>
-                        </Probability>
-                        <ct:Assign>
-                            <math:Equation>
-                                <ct:Sum>
-                                    <math:Equation>
-                                        <ct:VectorSelector>
-                                            <ct:SymbRef symbIdRef="theta"/>
-                                            <ct:Cell>
-                                                <ct:SymbRef symbIdRef="i"/>
-                                            </ct:Cell>
-                                        </ct:VectorSelector>
-                                    </math:Equation>
-                                    <ct:SumIndex>
-                                        <ct:SymbRef symbIdRef="i"/>
-                                    </ct:SumIndex>
-                                    <ct:LowLimit>
-                                        <ct:Int>1</ct:Int>
-                                    </ct:LowLimit>
-                                    <ct:UpLimit>
-                                        <ct:SymbRef symbIdRef="j"/>
-                                    </ct:UpLimit>
-                                </ct:Sum>
-                            </math:Equation>
-                        </ct:Assign>
-                    </ProbabilityAssignment>
+                    <ForLoop>
+                        <ct:ProbabilityAssignment>
+                            <Probability linkFunction="logit">
+                                <math:LogicBinop op="leq">
+                                    <ct:SymbRef symbIdRef="y"/>
+                                    <ct:VectorSelector>
+                                        <ct:SymbRef symbIdRef="catVector"/>
+                                        <ct:Cell>
+                                            <ct:SymbRef symbIdRef="j"/>
+                                        </ct:Cell>
+                                    </ct:VectorSelector>
+                                </math:LogicBinop>
+                            </Probability>
+                            <ct:Assign>
+                                <math:Equation>
+                                    <ct:Sum>
+                                        <math:Equation>
+                                            <ct:VectorSelector>
+                                                <ct:SymbRef symbIdRef="theta"/>
+                                                <ct:Cell>
+                                                    <ct:SymbRef symbIdRef="i"/>
+                                                </ct:Cell>
+                                            </ct:VectorSelector>
+                                        </math:Equation>
+                                        <ct:SumIndex>
+                                            <ct:SymbRef symbIdRef="i"/>
+                                        </ct:SumIndex>
+                                        <ct:LowLimit>
+                                            <ct:Int>1</ct:Int>
+                                        </ct:LowLimit>
+                                        <ct:UpLimit>
+                                            <ct:SymbRef symbIdRef="j"/>
+                                        </ct:UpLimit>
+                                    </ct:Sum>
+                                </math:Equation>
+                            </ct:Assign>
+                        </ct:ProbabilityAssignment>
+                        <ct:LoopIndex>
+                            <ct:SymbRef symbIdRef="j"/>
+                        </ct:LoopIndex>
+                        <ct:StartIndex>
+                            <ct:Int>1</ct:Int>
+                        </ct:StartIndex>
+                        <ct:EndIndex>
+                            <ct:Int>3</ct:Int>
+                        </ct:EndIndex>
+                    </ForLoop>
 
                 </CategoricalData>
             </Discrete>
