@@ -15,15 +15,67 @@
     
     <IndependentVariable symbId="t"/>
     
+    <ct:FunctionDefinition symbolType="real" symbId="fp">
+        <ct:FunctionArgument symbolType="real" symbId="p_max"/> <!-- Pmax -->
+        <ct:FunctionArgument symbolType="real" symbId="k_plc"/> <!-- Kplc -->
+        <ct:FunctionArgument symbolType="real" symbId="time"/>  <!-- t -->
+        <ct:Definition>
+            <math:Equation>
+                <math:Binop op="times">
+                    <ct:SymbRef symbIdRef="p_max"/>
+                    <math:Binop op="minus">
+                        <ct:Real>1</ct:Real>
+                        <math:Uniop op="exp">
+                            <math:Uniop op="minus">
+                                <math:Binop op="times">
+                                    <math:Binop op="divide">
+                                        <math:Uniop op="log">
+                                            <ct:Real>2</ct:Real>
+                                        </math:Uniop>
+                                        <ct:SymbRef symbIdRef="k_plc"/>
+                                    </math:Binop>
+                                    <ct:SymbRef symbIdRef="time"/>
+                                </math:Binop>
+                            </math:Uniop>
+                        </math:Uniop>
+                    </math:Binop>
+                </math:Binop>
+            </math:Equation>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="Emax"/>
+            <SimpleParameter symbId="EC50"/>
+            
+            <!-- arguments of function 'fp' -->
+            <SimpleParameter symbId="Pmax"/>
+            <SimpleParameter symbId="Kplc"/>
+        </ParameterModel>
+        
+        <StructuralModel blkId="sm1">
+            <!-- dummy PK model -->
+            <ct:Variable symbolType="real" symbId="C_M"/>
+        </StructuralModel>
+        
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
                 <CategoricalData>
-                    <SimpleParameter symbId="p"/>
+                    <SimpleParameter symbId="m"/>
+                    <SimpleParameter symbId="k"/>
                     <ct:Variable symbolType="int" symbId="i"/>
+                    <ct:Variable symbolType="real" symbId="PS">
+                        <ct:Assign>
+                            <ct:Matrix matrixType="Any">
+                                <!-- omitted details -->
+                            </ct:Matrix>
+                        </ct:Assign>
+                    </ct:Variable>
                     
                     <ListOfCategories> 
                         <Category symbId="cat0"/>
@@ -32,19 +84,93 @@
                     
                     <CategoryVariable symbId="y"/>
                     
-                    <!-- logit( P(PS_ij <= m) ) = \Sigma_{k=0}^{m} beta_k + theta_base (PS_i0-4.2) -->
+                    <!-- SIMPLIFIED -->
+                    <!-- logit( P(PS_ij <= m) ) = \Sigma_{k=0}^{m} beta_k + theta_base*(PS_i0-4.2) + fp(t) + f(drug) -->
                     <ProbabilityAssignment>
                         <Probability linkFunction="logit">
                             <math:LogicBinop op="leq">
                                 <ct:MatrixSelector>
                                     <ct:SymbRef symbIdRef="PS"/>
                                     <ct:Cell>
-                                        <ct:RowIndex><ct:SymbRef symbIdRef="i"/></ct:RowIndex>
-                                        <ct:ColumnIndex></ct:ColumnIndex>
+                                        <ct:RowIndex>
+                                            <ct:SymbRef symbIdRef="i"/>
+                                        </ct:RowIndex>
+                                        <ct:ColumnIndex>
+                                            <ct:SymbRef symbIdRef="j"/>
+                                        </ct:ColumnIndex>
                                     </ct:Cell>
                                 </ct:MatrixSelector>
+                                <ct:SymbRef symbIdRef="m"/>
                             </math:LogicBinop>
                         </Probability>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <math:Binop op="plus">
+                                        <math:Binop op="plus">
+                                            <ct:Sum>
+                                                <math:Equation>
+                                                    <ct:VectorSelector>
+                                                        <ct:SymbRef symbIdRef="beta"/>
+                                                        <ct:Cell>
+                                                            <ct:SymbRef symbIdRef="k"/>
+                                                        </ct:Cell>
+                                                    </ct:VectorSelector>
+                                                </math:Equation>
+                                                <ct:SumIndex>
+                                                    <ct:SymbRef symbIdRef="k"/>
+                                                </ct:SumIndex>
+                                                <ct:LowLimit>
+                                                    <ct:Int>0</ct:Int>
+                                                </ct:LowLimit>
+                                                <ct:UpLimit>
+                                                    <ct:Int>1</ct:Int>
+                                                </ct:UpLimit>
+                                            </ct:Sum>
+                                            <math:Binop op="times">
+                                                <ct:SymbRef symbIdRef="theta_base"/>
+                                                <math:Binop op="minus">
+                                                    <ct:MatrixSelector>
+                                                        <ct:SymbRef symbIdRef="PS"/>
+                                                        <ct:Cell>
+                                                            <ct:RowIndex>
+                                                                <ct:SymbRef symbIdRef="i"/>
+                                                            </ct:RowIndex>
+                                                            <ct:ColumnIndex>
+                                                                <ct:Int>0</ct:Int>
+                                                            </ct:ColumnIndex>
+                                                        </ct:Cell>
+                                                    </ct:MatrixSelector>
+                                                    <ct:Real>4.2</ct:Real>
+                                                </math:Binop>
+                                            </math:Binop>
+                                        </math:Binop>
+                                        <math:FunctionCall>
+                                            <ct:SymbRef symbIdRef="fp"/>
+                                            <math:FunctionArgument symbId="p_max">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Pmax"/>
+                                            </math:FunctionArgument>
+                                            <math:FunctionArgument symbId="k_plc">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Kplc"/>
+                                            </math:FunctionArgument>
+                                            <math:FunctionArgument symbId="time">
+                                                <ct:SymbRef symbIdRef="t"/>
+                                            </math:FunctionArgument>
+                                        </math:FunctionCall>
+                                    </math:Binop>
+                                    <math:Binop op="divide">
+                                        <math:Binop op="times">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Emax"/>
+                                            <ct:SymbRef blkIdRef="sm1" symbIdRef="C_M"/>
+                                        </math:Binop>
+                                        <math:Binop op="plus">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="EC50"/>
+                                            <ct:SymbRef blkIdRef="sm1" symbIdRef="C_M"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
                     </ProbabilityAssignment>
                 </CategoricalData>
             </Discrete>
