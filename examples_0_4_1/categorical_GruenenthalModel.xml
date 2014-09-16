@@ -156,17 +156,12 @@
                                                 <math:Binop op="times">
                                                     <ct:SymbRef symbIdRef="theta_base"/>
                                                     <math:Binop op="minus">
-                                                        <ct:MatrixSelector>
+                                                        <ct:VectorSelector>
                                                             <ct:SymbRef symbIdRef="PS"/>
                                                             <ct:Cell>
-                                                                <ct:RowIndex>
-                                                                    <ct:SymbRef symbIdRef="i"/>
-                                                                </ct:RowIndex>
-                                                                <ct:ColumnIndex>
-                                                                    <ct:Int>0</ct:Int>
-                                                                </ct:ColumnIndex>
+                                                                <ct:Int>0</ct:Int>
                                                             </ct:Cell>
-                                                        </ct:MatrixSelector>
+                                                        </ct:VectorSelector>
                                                         <ct:Real>4.2</ct:Real>
                                                     </math:Binop>
                                                 </math:Binop>

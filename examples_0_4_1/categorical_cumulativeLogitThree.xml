@@ -22,6 +22,10 @@
            <SimpleParameter symbId="theta1"/>
            <SimpleParameter symbId="theta2"/>           
        </ParameterModel>
+        
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="C"/>
+        </StructuralModel>
        
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
@@ -212,7 +216,7 @@
                         <ct:Real>10</ct:Real>
                     </mstep:InitialEstimate>
                 </mstep:ParameterEstimation>
-            </mstep:ParametersToEstimate>
+            </mstep:ParametersToEstimate>   
             <!-- omitted other parameters theta_2  ... theta_m -->
             
             <mstep:Operation order="1" opType="estPop"/>
