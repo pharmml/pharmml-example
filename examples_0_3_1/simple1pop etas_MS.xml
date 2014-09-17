@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PharmML xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    writtenVersion="0.3.1" id="i1">
+    
+    <ct:Name>simple1noprior</ct:Name>
+    
+    <ct:Description>Example 3.2.1 from BayesianModels-V1.0.pdf - single subject scenario, all parameters independent, NO PRIOR DISTRIBUTIONS</ct:Description>
+    
+    <!-- independent variable -->
+    <IndependentVariable symbId="t"/>
+    
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <VariabilityModel blkId="resErrorModel" type="residualError"> 
+            <Level symbId="residual"/>
+        </VariabilityModel>
+        <VariabilityModel blkId="model" type="parameterVariability">
+            <Level symbId="indiv"/>
+        </VariabilityModel>
+        
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="D">
+                <Continuous>
+                    <Transformation>
+                        <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                            <ct:SymbRef symbIdRef="D"/>
+                        </Equation>
+                    </Transformation>
+                </Continuous>
+            </Covariate>
+        </CovariateModel>
+        
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="pop_V"/>
+            <SimpleParameter symbId="pop_k"/>
+            <SimpleParameter symbId="omega_V"/>
+            <SimpleParameter symbId="omega_k"/>
+            
+            <RandomVariable symbId="eta_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="indiv" blkIdRef="model"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="omega_V"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            
+            <RandomVariable symbId="eta_k">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="indiv" blkIdRef="model"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="omega_k"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            
+            <IndividualParameter symbId="V">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="times">
+                            <ct:SymbRef symbIdRef="pop_V"/>
+                            <Uniop op="exp">
+                                <ct:SymbRef symbIdRef="eta_V"/>
+                            </Uniop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </IndividualParameter>
+            
+            <!-- alternative V -->
+            <RandomVariable symbId="V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean>
+                        <var varId="popV"/>
+                    </mean>
+                    <variance>
+                        <var varId="omegaV"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            
+        </ParameterModel>
+        
+        <StructuralModel blkId="sm1">
+            
+            <ct:Variable symbId="C" symbolType="real">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="times">
+                            <Binop op="divide">
+                                <ct:SymbRef symbIdRef="D" blkIdRef="cm1"/>
+                                <ct:SymbRef symbIdRef="V" blkIdRef="pm1"/>
+                            </Binop>
+                            <Uniop op="exp">
+                                <Uniop op="minus">
+                                    <Binop op="times">
+                                        <ct:SymbRef symbIdRef="k" blkIdRef="pm1"/>
+                                        <ct:SymbRef symbIdRef="t"/>
+                                    </Binop>
+                                </Uniop>
+                            </Uniop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+        </StructuralModel>
+        
+<!--        
+        y = C + sigma2_res_W
+        with
+        sigma2_res_W ~ N(0,sigma2_res)
+        
+        And sigma2_res log-normal distributed with IIV
+        log(sigma2_res) = log(pop_sigma2) + eta_sigma2_res
+        with
+        eta_sigma2_res ~N(0,omega_sigma2_res) [indiv level]?-->
+        
+        <ObservationModel blkId="om1">
+            
+            <SimpleParameter symbId="pop_sigma2"/>
+            <SimpleParameter symbId="omega_sigma2_res"/>
+            
+            <!-- sigma2_res -->
+            <RandomVariable symbId="sigma2_res">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean>
+                        <var varId="pop_sigma2"/>
+                    </mean>
+                    <variance>
+                        <var varId="eta_sigma2_res"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            
+            
+            <!-- sigma2_res_W ~ N(0,sigma2_res) -->
+            <RandomVariable symbId="sigma_res_W">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="residual"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="sigma2_res"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            
+            <!-- y = C + sigma2_res_W -->
+            <General symbId="y">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="plus">
+                            <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                            <ct:SymbRef symbIdRef="sigma2_res_W"/>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </General>
+            
+        </ObservationModel>
+
+<!--        <ObservationModel blkId="om1">
+            <SimpleParameter symbId="pop_sigma2_res"/>
+            <SimpleParameter symbId="omega_sigma2_res"/>
+            
+            <RandomVariable symbId="eta_sigma2_res">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="indiv" blkIdRef="model"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="omega_sigma2_res"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="sigma2_res">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="times">
+                            <ct:SymbRef symbIdRef="pop_sigma2_res"/>
+                            <Uniop op="exp">
+                                <ct:SymbRef symbIdRef="eta_sigma2_res"/>
+                            </Uniop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </IndividualParameter>
+            
+            <RandomVariable symbId="sigma_res_W">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="resErrorModel" symbIdRef="residual"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="sigma2_res"/>
+                    </variance>                    
+                </NormalDistribution>
+            </RandomVariable>
+            
+            <General symbId="y">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <Binop op="plus">
+                            <ct:SymbRef symbIdRef="C" blkIdRef="sm1"/>
+                            <ct:SymbRef symbIdRef="sigma_res_W"/>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </General>
+        </ObservationModel>-->
+    </ModelDefinition>
+    
+    
+    <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
+        
+        <NONMEMdataSet oid="NMoid">
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
+                <ct:SymbRef symbIdRef="y" blkIdRef="om1"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="AMT"/>
+                <ct:SymbRef symbIdRef="D" blkIdRef="cm1"/>
+            </ColumnMapping>
+            
+            <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
+                <Definition>
+                    <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                    <Column columnId="AMT" columnType="covariate" valueType="real" columnNum="4"/>
+                </Definition>
+                <ImportData oid="id1">
+                    <path>simple1_data.csv</path>
+                    <format>CSV</format>
+                    <delimiter>COMMA</delimiter>
+                </ImportData>
+            </DataSet>
+        </NONMEMdataSet>
+        
+        
+        <EstimationStep oid="est1">
+            
+            <NONMEMdataSetReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </NONMEMdataSetReference>
+            
+            <ParametersToEstimate>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="V" blkIdRef="pm1"/>
+                    <InitialEstimate fixed="false">
+                        <ct:Real>0.1</ct:Real>
+                    </InitialEstimate>
+                    <LowerBound><ct:Real>0</ct:Real></LowerBound>
+                </ParameterEstimation>
+                <ParameterEstimation>   
+                    <ct:SymbRef symbIdRef="k" blkIdRef="pm1"/>
+                    <InitialEstimate fixed="false">
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                    <LowerBound><ct:Real>0</ct:Real></LowerBound>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="sigma2_res" blkIdRef="om1"/>
+                    <InitialEstimate fixed="false">
+                        <ct:Real>0.1</ct:Real>
+                    </InitialEstimate>
+                    <LowerBound><ct:Real>0</ct:Real></LowerBound>
+                </ParameterEstimation>
+            </ParametersToEstimate>
+            
+            <Operation order="1" opType="estIndiv"/>
+        </EstimationStep>
+        
+        <StepDependencies>
+            <Step>
+                <ct:OidRef oidRef="est1"/>
+            </Step>
+        </StepDependencies>
+        
+    </ModellingSteps>
+    
+</PharmML>
