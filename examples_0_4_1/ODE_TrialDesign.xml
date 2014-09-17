@@ -264,7 +264,6 @@
             
             <ParametersToEstimate>
                 
-                <!-- DELTAQP -->
                 <ParameterEstimation>
                     <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
                     <InitialEstimate>

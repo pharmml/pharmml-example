@@ -358,7 +358,6 @@
             
             <ParametersToEstimate>
                 
-                <!-- RESIDUAL ERROR PARAMETER -->
                 <!-- a -->
                 <ParameterEstimation>
                     <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
