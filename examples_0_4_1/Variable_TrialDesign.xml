@@ -34,7 +34,7 @@
         
         <!-- PARAMETER MODEL -->
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="KDE"/>
+            <SimpleParameter symbId="Ib"/>
         </ParameterModel>
             
         <!-- STRUCTURAL MODEL - ODEs -->
@@ -51,13 +51,13 @@
                 </ct:Assign>
             </ct:Variable>
             
-<!--            dX(t)/dt= I(t) – Ib-->
+            <!-- dX(t)/dt= I(t) – Ib-->
             <ct:DerivativeVariable symbolType="real" symbId="X">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="minus">
                             <ct:SymbRef symbIdRef="I"/>
-                            <ct:SymbRef symbIdRef="Ib"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Ib"/>
                         </Binop>
                     </Equation>
                 </ct:Assign>
@@ -68,7 +68,7 @@
 
         </StructuralModel>
 
-        <!-- OBSERVATION MODEL - C_obs -->
+        <!-- OBSERVATION MODEL - X_obs -->
         <ObservationModel blkId="om1">
             <ContinuousData>
                 <SimpleParameter symbId="a"/>
@@ -85,9 +85,9 @@
                         </stddev>
                     </NormalDistribution>
                 </RandomVariable>
-                <Standard symbId="C_obs">
+                <Standard symbId="X_obs">
                     <Output>
-                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="X"/>
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
@@ -107,7 +107,7 @@
                 </Standard>
             </ContinuousData>
         </ObservationModel>
-
+        
     </ModelDefinition>
     
     
@@ -244,7 +244,7 @@
             <ParametersToEstimate>
                 
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Ib"/>
                     <InitialEstimate>
                         <ct:Real>10</ct:Real>
                     </InitialEstimate>

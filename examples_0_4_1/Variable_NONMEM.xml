@@ -34,44 +34,41 @@
         
         <!-- PARAMETER MODEL -->
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="KDE"/>
+            <SimpleParameter symbId="Ib"/>
         </ParameterModel>
 
         <!-- STRUCTURAL MODEL - ODEs -->
         <StructuralModel blkId="sm1">
             
-            <!-- dC/dt -->
-            <ct:DerivativeVariable symbolType="real" symbId="I">
+            <ct:Variable symbolType="real" symbId="I">
+                <ct:Assign>
+                    <ct:Interpolation>
+                        <ct:Algorithm>linear</ct:Algorithm>
+                        <ct:InterpIndepVar>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </ct:InterpIndepVar>
+                    </ct:Interpolation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <!-- dX(t)/dt= I(t) – Ib-->
+            <ct:DerivativeVariable symbolType="real" symbId="X">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                        <Binop op="times">
-                            <Uniop op="minus">
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
-                            </Uniop>
-                            <ct:SymbRef symbIdRef="C"/>
+                        <Binop op="minus">
+                            <ct:SymbRef symbIdRef="I"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Ib"/>
                         </Binop>
                     </Equation>
                 </ct:Assign>
                 <ct:IndependentVariable>
-                    <ct:SymbRef symbIdRef="t"/>
+                    <ct:SymbRef symbIdRef="time"/>
                 </ct:IndependentVariable>
-                <ct:InitialCondition>
-                    <ct:InitialValue>
-                        <ct:Assign>
-                            <ct:Real>0</ct:Real>
-                        </ct:Assign>
-                    </ct:InitialValue>
-                    <ct:InitialTime>
-                        <ct:Assign>
-                            <ct:Real>0</ct:Real>
-                        </ct:Assign>
-                    </ct:InitialTime>
-                </ct:InitialCondition>
             </ct:DerivativeVariable>
-  
+            
         </StructuralModel>
-
-        <!-- OBSERVATION MODEL - C_obs -->
+        
+        <!-- OBSERVATION MODEL - X_obs -->
         <ObservationModel blkId="om1">
             <ContinuousData>
                 <SimpleParameter symbId="a"/>
@@ -88,9 +85,9 @@
                         </stddev>
                     </NormalDistribution>
                 </RandomVariable>
-                <Standard symbId="C_obs">
+                <Standard symbId="X_obs">
                     <Output>
-                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="X"/>
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
@@ -124,14 +121,12 @@
             
             <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="C_obs"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="X_obs"/>
             </ColumnMapping>
             
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="CMT"/>
-                <TargetMapping xmlns="http://www.pharmml.org/2013/08/Dataset">
-                    <Map dataSymbol="1" modelSymbol="C"/>
-                </TargetMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="INS"/>
+                <ct:SymbRef blkIdRef="sm1" symbIdRef="I"/>
             </ColumnMapping>
             
             <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
@@ -139,10 +134,7 @@
                     <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
                     <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
                     <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                    <Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
-                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="5"/>
-                    <Column columnId="EVID" columnType="evid" valueType="int" columnNum="6"/>
-                    <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>
+                    <Column columnId="INS" columnType="dose" valueType="real" columnNum="4"/>
                 </Definition>
                 <ImportData oid="importNONMEM">
                     <path>example.csv</path>
@@ -161,7 +153,7 @@
             <ParametersToEstimate>
                 
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Ib"/>
                     <InitialEstimate>
                         <ct:Real>10</ct:Real>
                     </InitialEstimate>
