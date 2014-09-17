@@ -35,6 +35,7 @@
         <VariabilityModel blkId="randEffect" type="parameterVariability">
             <Level symbId="indiv"/>
         </VariabilityModel>
+        
         <VariabilityModel blkId="resErr" type="residualError">
             <Level symbId="residual"/>
         </VariabilityModel>
@@ -291,10 +292,9 @@
                 <ct:SymbRef symbIdRef="t"/>
             </ColumnMapping>
             
-            <!-- for simplicity only one DV mapped - for full support us <MultipleDVMapping> -->
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="E_obs"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="C_obs"/>
             </ColumnMapping>
             
             <ColumnMapping>
@@ -341,9 +341,9 @@
                     </InitialEstimate>
                 </ParameterEstimation>
                 
-                <!-- ka -->
+                <!-- Ka -->
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
                     <InitialEstimate>
                         <ct:Real>1</ct:Real>
                     </InitialEstimate>

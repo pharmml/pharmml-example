@@ -280,6 +280,7 @@
         </ObservationModel>
     </ModelDefinition>
     
+    
     <!-- trial design -->
     <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign">
         
@@ -351,24 +352,41 @@
     <!-- modelling steps -->
     <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
         
-        <EstimationStep oid="estStep1">
-
+        <!-- ESTIMATION STEP -->
+        <EstimationStep oid="estTask1">
+            
             <ParametersToEstimate>
+                
+                <!-- RESIDUAL ERROR PARAMETER -->
+                <!-- a -->
                 <ParameterEstimation>
-                    <ct:SymbRef symbIdRef="V"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
                     <InitialEstimate>
-                        <ct:Real>10</ct:Real>
+                        <ct:Real>1</ct:Real>
                     </InitialEstimate>
                 </ParameterEstimation>
+                
+                <!-- Ka -->
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- omitted other parematers -->
+                
             </ParametersToEstimate>
             <Operation order="1" opType="estPop"/>
+            <Operation order="2" opType="estIndiv"/>
         </EstimationStep>
         
-        <!-- step dependencies -->
+        <!-- STEP DEPENDENCIES -->
         <StepDependencies>
             <Step>
-                <ct:OidRef oidRef="estStep1"/>
+                <ct:OidRef oidRef="estTask1"/>
             </Step>
         </StepDependencies>
     </ModellingSteps>
+    
 </PharmML>
