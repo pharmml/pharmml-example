@@ -306,9 +306,17 @@
 
         <!-- STRUCTURAL MODEL - ODEs -->
         <StructuralModel blkId="sm1">
-                
+            <ct:DerivativeVariable symbolType="real" symbId="Ac" compartmentNo="1">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                        <!-- LHS -->
+                    </Equation>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+            
+            
             <!-- dC1/dt -->
-            <ct:DerivativeVariable symbolType="real" symbId="C1" compartmentNo="1">
+            <ct:DerivativeVariable symbolType="real" symbId="C1">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="times">
@@ -606,7 +614,7 @@
                 </ResidualError>
             </Standard>
         </ObservationModel>
-
+        
     </ModelDefinition>
     
 
@@ -811,3 +819,5 @@
         </StepDependencies>
     </ModellingSteps>
 </PharmML>
+
+

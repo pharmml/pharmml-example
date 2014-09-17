@@ -63,6 +63,60 @@
         <CovariateModel blkId="c1">
             <SimpleParameter symbId="pop_W"/>
             <SimpleParameter symbId="omega_W"/>
+            
+            <SimpleParameter symbId="W">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Product>
+                            <math:Equation>
+                                <ct:VectorSelector>
+                                    <ct:SymbRef symbIdRef="D"/>
+                                    <ct:Cell>
+                                        <ct:SymbRef symbIdRef="i"/>
+                                    </ct:Cell>
+                                </ct:VectorSelector>
+                            </math:Equation>
+                            <ct:ProductIndex>
+                                <ct:SymbRef symbIdRef="i"/>
+                            </ct:ProductIndex>
+                            <ct:LowLimit>
+                                <ct:Int>1</ct:Int>
+                            </ct:LowLimit>
+                            <ct:UpLimit>
+                                <ct:Int>10</ct:Int>
+                            </ct:UpLimit>
+                        </ct:Product>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="M">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Sum>
+                            <math:Equation>
+                                <ct:VectorSelector>
+                                    <ct:SymbRef symbIdRef="V"/>
+                                    <ct:Cell>
+                                        <ct:SymbRef symbIdRef="i"/>
+                                    </ct:Cell>
+                                </ct:VectorSelector>
+                            </math:Equation>
+                            <ct:SumIndex>
+                                <ct:SymbRef symbIdRef="i"/>
+                            </ct:SumIndex>
+                            <ct:LowLimit>
+                                <ct:Int>1</ct:Int>
+                            </ct:LowLimit>
+                            <ct:UpLimit>
+                                <ct:SymbRef symbIdRef="N"/>
+                            </ct:UpLimit>
+                        </ct:Sum>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            
             <Covariate symbId="W">
                 <Continuous>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
@@ -75,12 +129,53 @@
                     </NormalDistribution>
                     <Transformation>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                            <Uniop op="log">
+                            <ct:Product>
+                                <Equation>
+                                    <ct:VectorSelector>
+                                        <ct:SymbRef symbIdRef="D"/>
+                                        <ct:Cell>
+                                            <ct:SymbRef symbIdRef="i"/>
+                                        </ct:Cell>
+                                    </ct:VectorSelector>
+                                </Equation>
+                                <ct:ProductIndex>
+                                    <ct:SymbRef symbIdRef="i"></ct:SymbRef>
+                                </ct:ProductIndex>
+                                <ct:LowLimit>
+                                    <ct:Int>1</ct:Int>
+                                </ct:LowLimit>
+                                <ct:UpLimit>
+                                    <ct:Int>10</ct:Int>
+                                </ct:UpLimit>
+                            </ct:Product>
+<!--                            <ct:Sum>
+                                <Equation>
+                                    <Binop op="plus">
+                                        <ct:SymbRef symbIdRef="s"></ct:SymbRef>
+                                        <ct:SymbRef symbIdRef="s"></ct:SymbRef>
+                                    </Binop>
+                                </Equation>
+                                <ct:SumIndex>
+                                    <ct:SymbRef symbIdRef="i"/>
+                                </ct:SumIndex>
+                                <ct:LowLimit>
+                                    <ct:SymbRef symbIdRef="N"></ct:SymbRef>
+                                </ct:LowLimit>
+                                <ct:UpLimit>
+                                    <Equation>
+                                        <Binop op="plus">
+                                            <ct:SymbRef symbIdRef="s"></ct:SymbRef>
+                                            <ct:SymbRef symbIdRef="s"></ct:SymbRef>
+                                        </Binop>
+                                    </Equation>
+                                </ct:UpLimit>
+                            </ct:Sum>-->
+<!--                            <Uniop op="log">
                                 <Binop op="divide">
                                     <ct:SymbRef symbIdRef="W"/>
                                     <ct:Real>70.0</ct:Real>
                                 </Binop>
-                            </Uniop>
+                            </Uniop>-->
                         </Equation>
                     </Transformation>
                 </Continuous>

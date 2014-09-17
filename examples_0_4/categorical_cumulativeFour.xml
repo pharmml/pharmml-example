@@ -314,6 +314,21 @@
             <mstep:Operation order="1" opType="estPop"/>
         </mstep:EstimationStep>
         
+        <mstep:SimulationStep oid="simStep1">
+            <mstep:Observations>
+                <mstep:Timepoints>
+                    <ct:Sequence>
+                        <ct:Begin><ct:Real>1</ct:Real></ct:Begin>
+                        <ct:StepSize><ct:Real>1</ct:Real></ct:StepSize>
+                        <ct:End><ct:Real>10</ct:Real></ct:End>
+                    </ct:Sequence>
+                </mstep:Timepoints>
+                <mstep:Discrete>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
+                </mstep:Discrete>
+            </mstep:Observations>
+        </mstep:SimulationStep>
+        
     </mstep:ModellingSteps>
     
 </PharmML>
