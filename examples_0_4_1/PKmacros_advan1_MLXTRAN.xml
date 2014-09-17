@@ -154,6 +154,7 @@
                 </Standard>
             </ContinuousData>
         </ObservationModel>
+        
     </ModelDefinition>
 
 
@@ -222,9 +223,9 @@
                 <!-- omitted other parameters -->
             </ParametersToEstimate>
             
-            
             <Operation order="1" opType="estPop"/>
             <Operation order="2" opType="estIndiv"/>
+            <Operation order="3" opType="And now for something completely different"/>
         </EstimationStep>
         
         <!-- STEP DEPENDENCIES -->

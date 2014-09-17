@@ -40,6 +40,27 @@
             <SimpleParameter symbId="omega_V"/>
             <SimpleParameter symbId="omega_k"/>
             
+            <!-- omitted other paremeters -->
+            <IndividualParameter symbId="VVV">
+                <GaussianModel>
+                    <Transformation>identity</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign><ct:SymbRef symbIdRef="Vpop"/></ct:Assign>
+                        </PopulationParameter>
+                        <Covariate>
+                            <ct:SymbRef symbIdRef="W"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_V"/>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_V"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
             <RandomVariable symbId="eta_V">
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="indiv" blkIdRef="model"/>
