@@ -40,6 +40,7 @@
         <!-- STRUCTURAL MODEL - ODEs -->
         <StructuralModel blkId="sm1">
             
+<!--            dX(t)/dt= I(t) – Ib-->
             <!-- dC/dt -->
             <ct:DerivativeVariable symbolType="real" symbId="C">
                 <ct:Assign>
@@ -134,15 +135,33 @@
                 <SegmentRef oidRef="TA"/>
             </Cell>
             <Segment oid="TA">
-                <ActivityRef oidRef="bolusIV"/>
+                <ActivityRef oidRef="targetingInsulin"/>
             </Segment>
-            <Activity oid="bolusIV"> 
-                <Bolus> 
-                    <DoseAmount inputTarget="variable">
-                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
-                    </DoseAmount>
-                </Bolus>
-            </Activity>            
+            
+            <!-- lookup table for I(t) -->
+            <Activity oid="targetingInsulin">
+                <LookupTable>
+                    <Target inputTarget="variable">
+                        <ColumnMapping>
+                            <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="INS"/>
+                            <ct:SymbRef blkIdRef="sm1" symbIdRef="I"/>
+                        </ColumnMapping>
+                    </Target>
+                    <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset" >
+                        <!-- Definition of ID, TIME, INS columns -->
+                        <Definition>
+                            <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                            <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                            <Column columnId="INS" columnType="dv" valueType="real" columnNum="3"/>
+                        </Definition>
+                        <ImportData oid="i1">
+                            <path>sdsd</path>
+                            <format>CSV</format>
+                            <delimiter>COMMA</delimiter>
+                        </ImportData>
+                    </DataSet>
+                </LookupTable>
+            </Activity>
         </Structure> 
         
         <!-- POPULATION -->
@@ -163,42 +182,6 @@
             </DataSet>
         </Population>
 
-        <!-- INDIVUIDUAL DOSING -->
-        <IndividualDosing>
-            <ActivityRef oidRef="bolusIV"/>
-            <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
-                <ct:SymbRef symbIdRef="time"/>
-            </ColumnMapping>
-            <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
-                <Definition>
-                    <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
-                    <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
-                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="3"/>
-                </Definition>
-                <Table>
-                    <!-- subject 1 -->
-                    <Row><ct:Id>i1</ct:Id><ct:Real>54.57</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <Row><ct:Id>i1</ct:Id><ct:Real>59.77</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <!-- subject 2 -->
-                    <Row><ct:Id>i2</ct:Id><ct:Real>12</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <Row><ct:Id>i2</ct:Id><ct:Real>14.09</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <Row><ct:Id>i2</ct:Id><ct:Real>16.17</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <Row><ct:Id>i2</ct:Id><ct:Real>18.26</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <Row><ct:Id>i2</ct:Id><ct:Real>20.35</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <Row><ct:Id>i2</ct:Id><ct:Real>22.43</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <!-- omitted subjects 3-20 -->
-                    <!-- subject 21 -->
-                    <Row><ct:Id>i21</ct:Id><ct:Real>1.5</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <Row><ct:Id>i21</ct:Id><ct:Real>3.17</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <Row><ct:Id>i21</ct:Id><ct:Real>4.85</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <Row><ct:Id>i21</ct:Id><ct:Real>6.52</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <Row><ct:Id>i21</ct:Id><ct:Real>8.19</ct:Real><ct:Real>1</ct:Real></Row> 
-                    <Row><ct:Id>i21</ct:Id><ct:Real>9.87</ct:Real><ct:Real>1</ct:Real></Row> 
-                </Table>
-            </DataSet>
-        </IndividualDosing>
-    
     </TrialDesign>
     
     
