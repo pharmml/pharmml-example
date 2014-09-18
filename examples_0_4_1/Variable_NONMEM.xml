@@ -3,6 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
     implementedBy="MJS" writtenVersion="0.4.1" id="i1">
     
     <!-- MODEL NAME -->
@@ -125,23 +126,23 @@
             </ColumnMapping>
             
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="INS"/>
+                <ds:ColumnRef columnIdRef="INS"/>
                 <ct:SymbRef blkIdRef="sm1" symbIdRef="I"/>
             </ColumnMapping>
             
-            <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
-                <Definition>
-                    <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
-                    <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
-                    <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                    <Column columnId="INS" columnType="dose" valueType="real" columnNum="4"/>
-                </Definition>
-                <ImportData oid="importNONMEM">
-                    <path>example.csv</path>
-                    <format>CSV</format>
-                    <delimiter>COMMA</delimiter>
-                </ImportData>
-            </DataSet>
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                    <ds:Column columnId="INS" columnType="dose" valueType="real" columnNum="4"/>
+                </ds:Definition>
+                <ds:ImportData oid="importNONMEM">
+                    <ds:path>example.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
         </NONMEMdataSet>
         
         <!-- ESTIMATION STEP -->

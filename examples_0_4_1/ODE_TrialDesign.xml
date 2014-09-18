@@ -3,6 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
     implementedBy="MJS" writtenVersion="0.4.1" id="i1">
     
     <!-- MODEL NAME -->
@@ -40,25 +41,25 @@
         <!-- STRUCTURAL MODEL - ODEs -->
         <StructuralModel blkId="sm1">
             
-            <!-- dC/dt -->
-            <ct:DerivativeVariable symbolType="real" symbId="C">
+            <!-- dAc/dt -->
+            <ct:DerivativeVariable symbolType="real" symbId="Ac">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                        <Binop op="times">
-                            <Uniop op="minus">
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
-                            </Uniop>
-                            <ct:SymbRef symbIdRef="C"/>
-                        </Binop>
-                    </Equation>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Uniop op="minus">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                            </math:Uniop>
+                            <ct:SymbRef symbIdRef="Ac"/>
+                        </math:Binop>
+                    </math:Equation>
                 </ct:Assign>
                 <ct:IndependentVariable>
-                    <ct:SymbRef symbIdRef="time"/>
+                    <ct:SymbRef symbIdRef="t"/>
                 </ct:IndependentVariable>
                 <ct:InitialCondition>
                     <ct:InitialValue>
                         <ct:Assign>
-                            <ct:Real>0</ct:Real>                            
+                            <ct:Real>0</ct:Real>
                         </ct:Assign>
                     </ct:InitialValue>
                     <ct:InitialTime>
@@ -68,6 +69,18 @@
                     </ct:InitialTime>
                 </ct:InitialCondition>
             </ct:DerivativeVariable>
+            
+            <!-- C = Ac/V -->
+            <ct:Variable symbolType="real" symbId="C">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Ac"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
 
         </StructuralModel>
 
@@ -139,8 +152,14 @@
             <Activity oid="bolusIV"> 
                 <Bolus> 
                     <DoseAmount inputTarget="variable">
-                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Ac"/>
+                        <ct:Assign>
+                            <ct:Real>10</ct:Real>
+                        </ct:Assign>
                     </DoseAmount>
+                    <DosingTimes>
+                        <!-- omitted details -->
+                    </DosingTimes>
                 </Bolus>
             </Activity>            
         </Structure> 
