@@ -156,7 +156,12 @@
                     <DoseAmount inputTarget="variable">
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="Ac"/>
                         <ct:Assign>
-                            <ct:Real>10</ct:Real>
+                            <math:Equation>
+                                <math:Binop op="times">
+                                    <ct:Real>10</ct:Real>
+                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
+                                </math:Binop>
+                            </math:Equation>
                         </ct:Assign>
                     </DoseAmount>
                     <DosingTimes>
