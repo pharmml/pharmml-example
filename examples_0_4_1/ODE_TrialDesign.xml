@@ -155,24 +155,16 @@
                 <Bolus> 
                     <DoseAmount inputTarget="variable">
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="Ac"/>
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="times">
-                                    <ct:Real>10</ct:Real>
-                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
                     </DoseAmount>
-                    <DosingTimes>
-                        <!-- omitted details -->
-                    </DosingTimes>
+<!--                    <DosingTimes>
+                        <!-\- omitted details -\->
+                    </DosingTimes>-->
                 </Bolus>
             </Activity>            
         </Structure> 
         
         <!-- POPULATION -->
-        <Population> 
+        <Population>
             <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
                 <Definition>
                     <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/> 
@@ -291,7 +283,7 @@
             <ParametersToEstimate>
                 
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                     <InitialEstimate>
                         <ct:Real>10</ct:Real>
                     </InitialEstimate>

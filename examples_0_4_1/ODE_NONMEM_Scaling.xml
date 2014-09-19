@@ -173,7 +173,7 @@
                     <ds:Column columnId="REGI" columnType="covariate" valueType="int" columnNum="6"/>
                     <ds:Column columnId="DOSE" columnType="dose" valueType="real" columnNum="7">
                         <ds:Transformation>
-                            <math:Equation>
+<!--                            <math:Equation>
                                 <math:Binop op="times">
                                     <ds:ColumnRef columnIdRef="DOSE"/>
                                     <math:Binop op="times">
@@ -193,16 +193,15 @@
                                         </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
+                            </math:Equation>-->
+                            <math:Equation>
+                                <math:Binop op="times">
+                                    <ds:ColumnRef columnIdRef="DOSE"/>
+                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="wgt"/>
+                                </math:Binop>
                             </math:Equation>
                         </ds:Transformation>
                     </ds:Column>
-                    <!-- SIMPLE VERSION -->
-<!--                    <math:Equation>
-                        <math:Binop op="times">
-                            <ds:ColumnRef columnIdRef="DOSE"/>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="wgt"/>
-                        </math:Binop>
-                    </math:Equation>-->
                     <ds:Column columnId="EVID" columnType="evid" valueType="int" columnNum="8"/>
                     <ds:Column columnId="CMT" columnType="cmt" valueType="int" columnNum="9"/>
                 </ds:Definition>
@@ -223,7 +222,7 @@
             <ParametersToEstimate>
                 
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                     <InitialEstimate>
                         <ct:Real>10</ct:Real>
                     </InitialEstimate>
