@@ -37,8 +37,8 @@
         <CovariateModel blkId="cm1">
             <Covariate symbId="W">
                 <Continuous>
-                    <TransformedCovariate symbId="W70"/>
                     <Transformation>
+                        <TransformedCovariate symbId="W70"/>
                         <math:Equation>
                             <math:Binop op="divide">
                                 <ct:SymbRef symbIdRef="W"/>
@@ -54,6 +54,47 @@
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="k"/>
             <SimpleParameter symbId="V"/>
+            <IndividualParameter symbId="CL">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="CL_pop"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                        <Covariate>
+                            <ct:SymbRef symbIdRef="W70"/>
+                            <FixedEffect>
+                                <ct:Real>0.75</ct:Real>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_CL"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+            <IndividualParameter symbId="V">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="V_pop"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                        <Covariate>
+                            <ct:SymbRef symbIdRef="W"/>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_V"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
         </ParameterModel>
 
         <!-- STRUCTURAL MODEL - ODEs -->
