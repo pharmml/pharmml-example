@@ -34,6 +34,18 @@
             <Level symbId="residual"/>
         </VariabilityModel>
         
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="W">
+                <Continuous>
+                    <Transformation>
+                        <math:Equation>
+                            <ct:SymbRef symbIdRef="W"/>
+                        </math:Equation>
+                    </Transformation>
+                </Continuous>
+            </Covariate>
+        </CovariateModel>
+        
         <!-- PARAMETER MODEL -->
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="k"/>
@@ -157,18 +169,42 @@
                     <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
                     <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
                     <ds:Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
-                    <ds:Column columnId="DOSE" columnType="dose" valueType="real" columnNum="5">
-                        <Transformation>
+                    <ds:Column columnId="CLCR" columnType="covariate" valueType="real" columnNum="5"/>
+                    <ds:Column columnId="REGI" columnType="covariate" valueType="int" columnNum="6"/>
+                    <ds:Column columnId="DOSE" columnType="dose" valueType="real" columnNum="7">
+                        <ds:Transformation>
                             <math:Equation>
                                 <math:Binop op="times">
                                     <ds:ColumnRef columnIdRef="DOSE"/>
-                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="wgt"/>
+                                    <math:Binop op="times">
+                                        <math:Binop op="power">
+                                            <math:Binop op="divide">
+                                                <ct:SymbRef blkIdRef="cm1" symbIdRef="CLCR"/>
+                                                <ct:Real>80</ct:Real>
+                                            </math:Binop>
+                                            <ct:SymbRef symbIdRef="theta_clcr"/>
+                                        </math:Binop>
+                                        <math:Binop op="power">
+                                            <math:Binop op="plus">
+                                                <ct:Real>1</ct:Real>
+                                                <ct:SymbRef symbIdRef="theta_regi"/>
+                                            </math:Binop>
+                                            <ct:SymbRef blkIdRef="cm1" symbIdRef="REGI"/>
+                                        </math:Binop>
+                                    </math:Binop>
                                 </math:Binop>
                             </math:Equation>
-                        </Transformation>
+                        </ds:Transformation>
                     </ds:Column>
-                    <ds:Column columnId="EVID" columnType="evid" valueType="int" columnNum="6"/>
-                    <ds:Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>
+                    <!-- SIMPLE VERSION -->
+<!--                    <math:Equation>
+                        <math:Binop op="times">
+                            <ds:ColumnRef columnIdRef="DOSE"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="wgt"/>
+                        </math:Binop>
+                    </math:Equation>-->
+                    <ds:Column columnId="EVID" columnType="evid" valueType="int" columnNum="8"/>
+                    <ds:Column columnId="CMT" columnType="cmt" valueType="int" columnNum="9"/>
                 </ds:Definition>
                 <ds:ImportData oid="importNONMEM">
                     <ds:path>example.csv</ds:path>
