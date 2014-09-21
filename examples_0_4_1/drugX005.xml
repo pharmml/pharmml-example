@@ -8,7 +8,7 @@
     xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
-    writtenVersion="0.3.1">
+    writtenVersion="0.4.1">
     
     <ct:Name>DrugX_firstOrderAbsorption_twoRep</ct:Name>
     
@@ -70,6 +70,7 @@
                         </stddev>
                     </NormalDistribution>
                     <Transformation>
+                        <TransformedCovariate symbId="tWT"/>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                             <Uniop op="log">
                                 <Binop op="divide">
@@ -133,7 +134,7 @@
                             </ct:Assign>
                         </PopulationParameter>
                         <Covariate>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="WT"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="tWT"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_Vc"/>
                             </FixedEffect>
@@ -245,7 +246,7 @@
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="times">
                             <Uniop op="minus">
-                                <ct:SymbRef blkIdRef="p1" symbIdRef="ka"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
                             </Uniop>
                             <ct:SymbRef symbIdRef="Ad"/>
                         </Binop>
@@ -269,7 +270,7 @@
                         <math:Binop op="minus">
 	                        <math:Binop op="minus">
 	                        	<Binop op="times">
-		                            <ct:SymbRef blkIdRef="p1" symbIdRef="ka"/>
+		                            <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
 		                            <ct:SymbRef symbIdRef="Ad"/>
 		                        </Binop>
 		                        <Binop op="times">
@@ -395,7 +396,7 @@
                     <ResidualError>
                         <ct:SymbRef symbIdRef="epsilon_Cc"/>
                     </ResidualError>
-                    <ErrorModel>
+<!--                    <ErrorModel>
                         <ct:Assign>
                             <Equation xmlns="http://www.pharmml.org/2013/03/Maths">                        	
                                 <FunctionCall>
@@ -410,11 +411,11 @@
                             </Equation>
                         </ct:Assign>
                     </ErrorModel>
-                    <!-- This residualError needs to be associated to the previous ErrorModel -->
+                    <!-\- This residualError needs to be associated to the previous ErrorModel -\->
                     <ResidualError>
                         <ct:SymbRef symbIdRef="epsilon_rep_Cc"/>
                     </ResidualError>
-                </Standard>
+-->                </Standard>
             </ContinuousData>
         </ObservationModel>
     </ModelDefinition>
