@@ -40,10 +40,12 @@
                     <Transformation>
                         <TransformedCovariate symbId="W70"/>
                         <math:Equation>
-                            <math:Binop op="divide">
-                                <ct:SymbRef symbIdRef="W"/>
-                                <ct:Real>70</ct:Real>
-                            </math:Binop>
+                            <math:Uniop op="log">
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="W"/>
+                                    <ct:Real>70</ct:Real>
+                                </math:Binop>
+                            </math:Uniop>
                         </math:Equation>
                     </Transformation>
                 </Continuous>
@@ -78,7 +80,6 @@
             
             <IndividualParameter symbId="V">
                 <GaussianModel>
-                    <Transformation>log</Transformation>
                     <LinearCovariate>
                         <PopulationParameter>
                             <ct:Assign>
