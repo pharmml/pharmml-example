@@ -218,7 +218,7 @@
                     <ds:Column columnId="REGI" columnType="covariate" valueType="int" columnNum="6"/>
                     <ds:Column columnId="DOSE" columnType="dose" valueType="real" columnNum="7">
                         <ds:Transformation>
-<!--                            <math:Equation>
+                            <math:Equation>
                                 <math:Binop op="times">
                                     <ds:ColumnRef columnIdRef="DOSE"/>
                                     <math:Binop op="times">
@@ -238,13 +238,13 @@
                                         </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
-                            </math:Equation>-->
-                            <math:Equation>
+                            </math:Equation>
+<!--                            <math:Equation>
                                 <math:Binop op="times">
                                     <ds:ColumnRef columnIdRef="DOSE"/>
                                     <ct:SymbRef blkIdRef="cm1" symbIdRef="wgt"/>
                                 </math:Binop>
-                            </math:Equation>
+                            </math:Equation>-->
                         </ds:Transformation>
                     </ds:Column>
                     <ds:Column columnId="EVID" columnType="evid" valueType="int" columnNum="8"/>
@@ -257,6 +257,7 @@
                 </ds:ImportData>
             </ds:DataSet>
         </NONMEMdataSet>
+        
         
         <!-- ESTIMATION STEP -->
         <EstimationStep oid="estTask1">

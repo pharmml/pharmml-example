@@ -38,8 +38,12 @@
             <Covariate symbId="W">
                 <Continuous>
                     <Transformation>
+                        <TransformedCovariate symbId="tW"/>
                         <math:Equation>
-                            <ct:SymbRef symbIdRef="W"/>
+                            <math:Binop op="divide">
+                                <ct:SymbRef symbIdRef="W"/>
+                                <ct:Real>70</ct:Real>
+                            </math:Binop>
                         </math:Equation>
                     </Transformation>
                 </Continuous>

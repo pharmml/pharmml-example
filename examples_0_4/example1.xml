@@ -60,7 +60,7 @@
         </VariabilityModel>
         
         <!-- covariate model -->
-        <CovariateModel blkId="c1">
+        <CovariateModel blkId="cm1">
             <SimpleParameter symbId="pop_W"/>
             <SimpleParameter symbId="omega_W"/>
             <Covariate symbId="W">
@@ -74,6 +74,7 @@
                         </variance>
                     </NormalDistribution>
                     <Transformation>
+                        <TransformedCovariate symbId="logW70"/>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                             <Uniop op="log">
                                 <Binop op="divide">
@@ -112,7 +113,7 @@
                             </ct:Assign>
                         </PopulationParameter>
                         <Covariate>
-                            <ct:SymbRef blkIdRef="c1" symbIdRef="W"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="logW70"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_V"/>
                             </FixedEffect>
@@ -200,7 +201,7 @@
                             <ct:Assign><ct:SymbRef symbIdRef="pop_Cl"/></ct:Assign>
                         </PopulationParameter>
                         <Covariate>
-                            <ct:SymbRef blkIdRef="c1" symbIdRef="W"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="logW70"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_Cl"/>
                             </FixedEffect>
@@ -572,7 +573,7 @@
                             <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                                 <Binop op="times">
                                     <ct:Real>0.25</ct:Real>
-                                    <ct:SymbRef blkIdRef="c1" symbIdRef="W"/>
+                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
                                 </Binop>
                             </Equation>
                         </ct:Assign>
@@ -596,7 +597,7 @@
                             <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                                 <Binop op="times">
                                     <ct:Real>0.5</ct:Real>
-                                    <ct:SymbRef blkIdRef="c1" symbIdRef="W"/>
+                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
                                 </Binop>
                             </Equation>
                         </ct:Assign>
@@ -620,7 +621,7 @@
                             <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                                 <Binop op="times">
                                     <ct:Real>0.5</ct:Real>
-                                    <ct:SymbRef blkIdRef="c1" symbIdRef="W"/>
+                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
                                 </Binop>
                             </Equation>
                         </ct:Assign>
@@ -644,7 +645,7 @@
                             <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                                 <Binop op="times">
                                     <ct:Real>1</ct:Real>
-                                    <ct:SymbRef blkIdRef="c1" symbIdRef="W"/>
+                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
                                 </Binop>
                             </Equation>
                         </ct:Assign>
@@ -701,14 +702,14 @@
         <SimulationStep oid="s1">
 
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="c1" symbIdRef="pop_W"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="pop_W"/>
                 <ct:Assign>
                     <ct:Real>70.07</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:Description>This is the: c1.omega_W = 1409/100</ct:Description>
-                <ct:SymbRef blkIdRef="c1" symbIdRef="omega_W"/>
+                <ct:Description>This is the: cm1.omega_W = 1409/100</ct:Description>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="omega_W"/>
                 <ct:Assign>
                     <math:Equation>
                         <!-- 1409/100 = 14.09 -->
@@ -720,7 +721,7 @@
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="c1" symbIdRef="omega_W"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="omega_W"/>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
