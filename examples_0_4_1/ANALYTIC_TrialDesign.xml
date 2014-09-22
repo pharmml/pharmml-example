@@ -55,6 +55,7 @@
             <Covariate symbId="Weight">
                 <Continuous>
                     <Transformation>
+                        <TransformedCovariate symbId="tWeight"/>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                             <Binop op="power">
                                 <Binop op="divide">
@@ -84,7 +85,7 @@
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="times">
                             <ct:SymbRef symbIdRef="theta1"/>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="Weight"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="tWeight"/>
                         </Binop>
                     </Equation>
                 </ct:Assign>

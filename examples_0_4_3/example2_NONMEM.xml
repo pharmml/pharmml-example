@@ -4,13 +4,9 @@
     xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
-    implementedBy="MJS" writtenVersion="0.4.1" id="i1"> 
+    implementedBy="MJS" writtenVersion="0.4.3" id="i1"> 
     
-    <!-- MODEL NAME -->
-    <ct:Name>Analytic solution based model with NONMEM dataset</ct:Name>
-    
-    <ct:Description>Analytic Solution based model with NONMEM dataset - for mapping purposes</ct:Description>
+    <ct:Name>Example 2 - simulation continuous PK (Bonate 2012)</ct:Name>
     
     <IndependentVariable symbId="t"/>
     
@@ -35,11 +31,10 @@
         <VariabilityModel blkId="randEffect" type="parameterVariability">
             <Level symbId="indiv"/>
         </VariabilityModel>
-        
         <VariabilityModel blkId="resErr" type="residualError">
             <Level symbId="residual"/>
         </VariabilityModel>
-    
+        
         <!-- covariate model -->
         <CovariateModel blkId="cm1">
             <SimpleParameter symbId="pop_Weight">
@@ -54,8 +49,16 @@
             </SimpleParameter>
             <Covariate symbId="Weight">
                 <Continuous>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean>
+                            <var varId="pop_Weight"/>
+                        </mean>
+                        <stddev>
+                            <var varId="omega_Weight"/>
+                        </stddev>
+                    </NormalDistribution>
                     <Transformation>
-                        <TransformedCovariate symbId="tWeight"/>
+                        <TransformedCovariate symbId="tW"/>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                             <Binop op="power">
                                 <Binop op="divide">
@@ -85,7 +88,7 @@
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                         <Binop op="times">
                             <ct:SymbRef symbIdRef="theta1"/>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="tWeight"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="tW"/>
                         </Binop>
                     </Equation>
                 </ct:Assign>
@@ -281,87 +284,98 @@
             </ContinuousData>
         </ObservationModel>
     </ModelDefinition>
-  
     
-    <!-- modeling steps -->
+    
+    <!-- modelling steps -->
     <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
         
         <NONMEMdataSet oid="NMoid">
             
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="TIME"/>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="t"/>
             </ColumnMapping>
             
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="C_obs"/>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="Css_obs"/>
             </ColumnMapping>
-            
-            <ColumnMapping>
-                <ds:ColumnRef columnIdRef="CMT"/>
-                <ds:TargetMapping blkIdRef="sm1">
-                    <ds:Map dataSymbol="1" modelSymbol="D"/>
-                </ds:TargetMapping>
-            </ColumnMapping>
-            
             
             <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
                 <Definition>
                     <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
-                    <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
                     <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                    <Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
-                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="5"/>
-                    <Column columnId="EVID" columnType="evid" valueType="int" columnNum="6"/>
-                    <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>
                 </Definition>
-                <ImportData oid="importNONMEM">
-                    <path>example.csv</path>
+                <ImportData oid="importData">
+                    <path>observationData.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
             </DataSet>
         </NONMEMdataSet>
         
-        <!-- ESTIMATION STEP -->
-        <EstimationStep oid="estTask1">
+        <!-- simulation steps -->
+        <SimulationStep  oid="s1">
             
-            <TargetToolReference>
+            <NONMEMdataSetReference>
                 <ct:OidRef oidRef="NMoid"/>
-            </TargetToolReference>
+            </NONMEMdataSetReference>
             
-            <ParametersToEstimate>
-                
-                <!-- a -->
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
-                    <InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                
-                <!-- Ka -->
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
-                    <InitialEstimate>
-                        <ct:Real>1</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                
-                <!-- omitted other parematers -->
-                
-            </ParametersToEstimate>
-            <Operation order="1" opType="estPop"/>
-            <Operation order="2" opType="estIndiv"/>
-        </EstimationStep>
+            <!-- b -->
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="b"/>
+                <ct:Assign>
+                    <ct:Real>0.1</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <!-- theta2 -->
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="theta2"/>
+                <ct:Assign>
+                    <ct:Real>0.75</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <!-- Ka -->
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
+                <ct:Assign>
+                    <ct:Real>0.5</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <!-- theta1 -->
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_theta1"/>
+                <ct:Assign>
+                    <ct:Real>25</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_theta1"/>
+                <ct:Assign>
+                    <ct:Real>5</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <!-- V -->
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_V"/>
+                <ct:Assign>
+                    <ct:Real>250</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_V"/>
+                <ct:Assign>
+                    <ct:Real>100</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+        </SimulationStep>
         
-        <!-- STEP DEPENDENCIES -->
+        <!-- step dependencies -->
         <StepDependencies>
             <Step>
-                <ct:OidRef oidRef="estTask1"/>
+                <ct:OidRef oidRef="s1"/>
             </Step>
         </StepDependencies>
     </ModellingSteps>
-    
 </PharmML>
