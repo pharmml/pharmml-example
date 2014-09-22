@@ -38,12 +38,22 @@
             <Covariate symbId="W">
                 <Continuous>
                     <Transformation>
-                        <TransformedCovariate symbId="tW"/>
+                        <TransformedCovariate symbId="logW70"/>
                         <math:Equation>
-                            <math:Binop op="divide">
+                            <math:Uniop op="log">
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="W"/>
+                                    <ct:Real>70</ct:Real>
+                                </math:Binop>
+                            </math:Uniop>
+                        </math:Equation>
+                    </Transformation>
+                    <Transformation>
+                        <TransformedCovariate symbId="logW"/>
+                        <math:Equation>
+                            <math:Uniop op="log">
                                 <ct:SymbRef symbIdRef="W"/>
-                                <ct:Real>70</ct:Real>
-                            </math:Binop>
+                            </math:Uniop>
                         </math:Equation>
                     </Transformation>
                 </Continuous>
