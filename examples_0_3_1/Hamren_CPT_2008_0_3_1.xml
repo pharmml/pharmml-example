@@ -142,24 +142,6 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
         </GaussianModel>
       </IndividualParameter>-->
       
-      <SimpleParameter symbId="fdf">                <!-- VECTOR IDEAS -->
-        <ct:Assign>
-          <ct:Vector>
-            <index>1</index>
-            <ct:Real>1</ct:Real>
-            <index>1</index>
-            <ct:Real>2</ct:Real>
-          </ct:Vector>
-        </ct:Assign>
-      </SimpleParameter>
-      
-      <SimpleParameter symbId="dff">
-        <ct:Assign>
-          <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-            <Constant op="notanumber"/>           <!-- IS THIS WHAT OWE WANT???? -->
-          </Equation>
-        </ct:Assign>
-      </SimpleParameter>
       
       <SimpleParameter symbId="pop_FPG_washout_N">
         <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
@@ -601,7 +583,7 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
     
     <StructuralModel blkId="sm1">
       
-      <ct:DerivativeVariable symbId="Ac" symbolType="real" compartmentNo="1">
+      <ct:DerivativeVariable symbId="Ac" symbolType="real">
         <ct:Assign>
           <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
             <ct:SymbRef symbIdRef="kinout"/>
@@ -609,7 +591,7 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
         </ct:Assign>
       </ct:DerivativeVariable>
       
-      <ct:DerivativeVariable symbId="sd" symbolType="real" compartmentNo="2">
+      <ct:DerivativeVariable symbId="sd" symbolType="real">
         <ct:Assign>
           <ct:Real>2</ct:Real>
         </ct:Assign>
@@ -1068,141 +1050,145 @@ Keywords: Diabetes, red blood cell lifespan, fasting plasma glucose</ct:Descript
     </StructuralModel>
 
     <ObservationModel blkId="obs_FPG">
-      <SimpleParameter symbId="pop_res_FPG"/>
-      <SimpleParameter symbId="omega_res_FPG"/>
-      
-      <RandomVariable symbId="eta_res_FPG">
-        <ct:VariabilityReference xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
-          <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
-        </ct:VariabilityReference>
-        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-          <mean>
-            <rVal>0</rVal>
-          </mean>
-          <variance>
-            <var varId="omega_res_FPG"/>
-          </variance>
-        </NormalDistribution>
-      </RandomVariable>
-      
-      <IndividualParameter symbId="res_FPG">
-        <GaussianModel>
+      <ContinuousData>
+        <SimpleParameter symbId="pop_res_FPG"/>
+        <SimpleParameter symbId="omega_res_FPG"/>
+        
+        <RandomVariable symbId="eta_res_FPG">
+          <ct:VariabilityReference xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
+            <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+          </ct:VariabilityReference>
+          <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+            <mean>
+              <rVal>0</rVal>
+            </mean>
+            <variance>
+              <var varId="omega_res_FPG"/>
+            </variance>
+          </NormalDistribution>
+        </RandomVariable>
+        
+        <IndividualParameter symbId="res_FPG">
+          <GaussianModel>
+            <Transformation>log</Transformation>
+            <LinearCovariate>
+              <PopulationParameter>
+                <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
+                  <ct:SymbRef symbIdRef="pop_res_FPG"/>
+                </ct:Assign>
+              </PopulationParameter>
+            </LinearCovariate>
+            <RandomEffects>
+              <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbIdRef="eta_res_FPG"/>
+            </RandomEffects>
+          </GaussianModel>
+        </IndividualParameter>
+        
+        <RandomVariable symbId="eps_FPG">
+          <ct:VariabilityReference xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
+            <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+          </ct:VariabilityReference>
+          <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+            <mean>
+              <rVal>0</rVal>
+            </mean>
+            <variance>
+              <prVal>1</prVal>
+            </variance>
+          </NormalDistribution>
+        </RandomVariable>
+        
+        <Standard symbId="FPG_obs">
           <Transformation>log</Transformation>
-          <LinearCovariate>
-            <PopulationParameter>
-              <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
-                <ct:SymbRef symbIdRef="pop_res_FPG"/>
-              </ct:Assign>
-            </PopulationParameter>
-          </LinearCovariate>
-          <RandomEffects>
-            <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbIdRef="eta_res_FPG"/>
-          </RandomEffects>
-        </GaussianModel>
-      </IndividualParameter>
-      
-      <RandomVariable symbId="eps_FPG">
-        <ct:VariabilityReference xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
-          <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
-        </ct:VariabilityReference>
-        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-          <mean>
-            <rVal>0</rVal>
-          </mean>
-          <variance>
-            <prVal>1</prVal>
-          </variance>
-        </NormalDistribution>
-      </RandomVariable>
-      
-      <Standard symbId="FPG_obs">
-        <Transformation>log</Transformation>
-        <Output>
-          <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" blkIdRef="sm1" symbIdRef="FPG"/>
-        </Output>
-        <ErrorModel>
-          <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
-            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-              <FunctionCall>
-                <ct:SymbRef symbIdRef="constantErrorModel"/>
-                <FunctionArgument symbId="a">
-                  <ct:SymbRef symbIdRef="res_FPG"/>
-                </FunctionArgument>
-              </FunctionCall>
-            </Equation>
-          </ct:Assign>
-        </ErrorModel>
-        <ResidualError>
-          <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbIdRef="eps_FPG"/>
-        </ResidualError>
-      </Standard>
+          <Output>
+            <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" blkIdRef="sm1" symbIdRef="FPG"/>
+          </Output>
+          <ErrorModel>
+            <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
+              <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                <FunctionCall>
+                  <ct:SymbRef symbIdRef="constantErrorModel"/>
+                  <FunctionArgument symbId="a">
+                    <ct:SymbRef symbIdRef="res_FPG"/>
+                  </FunctionArgument>
+                </FunctionCall>
+              </Equation>
+            </ct:Assign>
+          </ErrorModel>
+          <ResidualError>
+            <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbIdRef="eps_FPG"/>
+          </ResidualError>
+        </Standard>
+      </ContinuousData>
     </ObservationModel>
     
     <ObservationModel blkId="obs_HBA1C">
-      <SimpleParameter symbId="pop_res_HBA1C"/>
-      <SimpleParameter symbId="omega_res_HBA1C"/>
-      <RandomVariable symbId="eta_res_HBA1C">
-        <ct:VariabilityReference xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
-          <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
-        </ct:VariabilityReference>
-        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-          <mean>
-            <rVal>0</rVal>
-          </mean>
-          <variance>
-            <var varId="omega_res_HBA1C"/>
-          </variance>
-        </NormalDistribution>
-      </RandomVariable>
-      <IndividualParameter symbId="res_HBA1C">
-        <GaussianModel>
+      <ContinuousData>
+        <SimpleParameter symbId="pop_res_HBA1C"/>
+        <SimpleParameter symbId="omega_res_HBA1C"/>
+        <RandomVariable symbId="eta_res_HBA1C">
+          <ct:VariabilityReference xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
+            <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+          </ct:VariabilityReference>
+          <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+            <mean>
+              <rVal>0</rVal>
+            </mean>
+            <variance>
+              <var varId="omega_res_HBA1C"/>
+            </variance>
+          </NormalDistribution>
+        </RandomVariable>
+        <IndividualParameter symbId="res_HBA1C">
+          <GaussianModel>
+            <Transformation>log</Transformation>
+            <LinearCovariate>
+              <PopulationParameter>
+                <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
+                  <ct:SymbRef symbIdRef="pop_res_HBA1C"/>
+                </ct:Assign>
+              </PopulationParameter>
+            </LinearCovariate>
+            <RandomEffects>
+              <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbIdRef="eta_res_HBA1C"/>
+            </RandomEffects>
+          </GaussianModel>
+        </IndividualParameter>
+        <RandomVariable symbId="eps_HBA1C">
+          <ct:VariabilityReference xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
+            <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+          </ct:VariabilityReference>
+          <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+            <mean>
+              <rVal>0</rVal>
+            </mean>
+            <variance>
+              <prVal>1</prVal>
+            </variance>
+          </NormalDistribution>
+        </RandomVariable>
+        <Standard symbId="HBA1C_obs">
           <Transformation>log</Transformation>
-          <LinearCovariate>
-            <PopulationParameter>
-              <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
-                <ct:SymbRef symbIdRef="pop_res_HBA1C"/>
-              </ct:Assign>
-            </PopulationParameter>
-          </LinearCovariate>
-          <RandomEffects>
-            <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbIdRef="eta_res_HBA1C"/>
-          </RandomEffects>
-        </GaussianModel>
-      </IndividualParameter>
-      <RandomVariable symbId="eps_HBA1C">
-        <ct:VariabilityReference xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
-          <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
-        </ct:VariabilityReference>
-        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-          <mean>
-            <rVal>0</rVal>
-          </mean>
-          <variance>
-            <prVal>1</prVal>
-          </variance>
-        </NormalDistribution>
-      </RandomVariable>
-      <Standard symbId="HBA1C_obs">
-        <Transformation>log</Transformation>
-        <Output>
-          <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" blkIdRef="sm1" symbIdRef="HBA1C"/>
-        </Output>
-        <ErrorModel>
-          <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
-            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-              <FunctionCall>
-                <ct:SymbRef symbIdRef="constantErrorModel"/>
-                <FunctionArgument symbId="a">
-                  <ct:SymbRef symbIdRef="res_HBA1C"/>
-                </FunctionArgument>
-              </FunctionCall>
-            </Equation>
-          </ct:Assign>
-        </ErrorModel>
-        <ResidualError>
-          <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbIdRef="eps_HBA1C"/>
-        </ResidualError>
-      </Standard>
+          <Output>
+            <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" blkIdRef="sm1" symbIdRef="HBA1C"/>
+          </Output>
+          <ErrorModel>
+            <ct:Assign xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes">
+              <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                <FunctionCall>
+                  <ct:SymbRef symbIdRef="constantErrorModel"/>
+                  <FunctionArgument symbId="a">
+                    <ct:SymbRef symbIdRef="res_HBA1C"/>
+                  </FunctionArgument>
+                </FunctionCall>
+              </Equation>
+            </ct:Assign>
+          </ErrorModel>
+          <ResidualError>
+            <ct:SymbRef xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes" symbIdRef="eps_HBA1C"/>
+          </ResidualError>
+        </Standard>        
+      </ContinuousData>
     </ObservationModel>
     <ObservationModel blkId="obs_HB">
       <SimpleParameter symbId="pop_res_HB"/>
