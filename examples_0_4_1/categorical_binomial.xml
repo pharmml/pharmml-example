@@ -138,21 +138,5 @@
             <mstep:Operation order="1" opType="estPop"/>
         </mstep:EstimationStep>
         
-        <mstep:SimulationStep oid="sim1">
-            <mstep:Observations>
-                <mstep:Timepoints>
-                    <ct:Vector>
-                        <ct:VectorElements>
-                            <ct:Int>1</ct:Int>
-                        </ct:VectorElements>
-                    </ct:Vector>
-                </mstep:Timepoints>
-                <mstep:Discrete>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
-                </mstep:Discrete>
-            </mstep:Observations>
-        </mstep:SimulationStep>
-        
     </mstep:ModellingSteps>
-    
 </PharmML>

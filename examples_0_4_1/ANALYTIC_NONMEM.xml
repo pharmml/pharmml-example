@@ -299,10 +299,8 @@
             </ColumnMapping>
             
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="CMT"/>
-                <ds:TargetMapping blkIdRef="sm1">
-                    <ds:Map dataSymbol="1" modelSymbol="D"/>
-                </ds:TargetMapping>
+                <ds:ColumnRef columnIdRef="DOSE"/>
+                <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
             </ColumnMapping>
             
             
@@ -314,7 +312,6 @@
                     <Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
                     <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="5"/>
                     <Column columnId="EVID" columnType="evid" valueType="int" columnNum="6"/>
-                    <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>
                 </Definition>
                 <ImportData oid="importNONMEM">
                     <path>example.csv</path>

@@ -348,6 +348,10 @@
                 <ds:ColumnRef columnIdRef="wt"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
             </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="amt"/>
+                <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
+            </ColumnMapping>
             
             <ds:DataSet>
                 <ds:Definition>

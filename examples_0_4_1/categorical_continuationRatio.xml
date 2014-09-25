@@ -37,28 +37,6 @@
                         </ct:Assign>
                     </IndividualParameter>
                     
-<!--                    <!-\- the summd for beta*x -\->
-                    <ct:Variable symbolType="real" symbId="beta_x_summand">
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="times">
-                                    <ct:VectorSelector>
-                                        <ct:SymbRef symbIdRef="beta"/>
-                                        <ct:Cell>
-                                            <ct:SymbRef symbIdRef="j"/>
-                                        </ct:Cell>
-                                    </ct:VectorSelector>
-                                    <ct:VectorSelector>
-                                        <ct:SymbRef symbIdRef="x"/>
-                                        <ct:Cell>
-                                            <ct:SymbRef symbIdRef="j"/>
-                                        </ct:Cell>
-                                    </ct:VectorSelector>
-                                </math:Binop>
-                            </math:Equation>
-                        </ct:Assign>
-                    </ct:Variable>-->
-                    
                     <ListOfCategories> 
                         <Category symbId="cat0"/>
                         <!-- omitted other categories -->

@@ -365,6 +365,11 @@
             </mstep:ColumnMapping>
             
             <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="WEIGHT"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
+            </mstep:ColumnMapping>
+            
+            <mstep:ColumnMapping>
                 <ds:ColumnRef columnIdRef="DV"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
                 <ds:CategoryMapping>
@@ -377,7 +382,8 @@
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
                     <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
-                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                    <ds:Column columnId="W" columnType="covariate" valueType="real" columnNum="3"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="4"/>
                 </ds:Definition>
                 <ds:ImportData oid="importData">
                     <ds:path>myFile.csv</ds:path>
