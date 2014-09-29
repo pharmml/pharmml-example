@@ -344,7 +344,7 @@
                     <ct:SymbRef symbIdRef="t"/>
                 </ct:IndependentVariable>
                 <ct:InitialCondition>
-                    <ct:InitialValue>           <!-- 0.2.2 -->
+                    <ct:InitialValue>
                         <ct:Assign>
                             <ct:Real>0</ct:Real>
                         </ct:Assign>
@@ -841,7 +841,7 @@
                     <ct:SymbRef blkIdRef="om1" symbIdRef="E_obs"/>
                 </Continuous>
             </Observations>
-            
+
             <Observations>
                 <Timepoints>
                     <ct:Vector>

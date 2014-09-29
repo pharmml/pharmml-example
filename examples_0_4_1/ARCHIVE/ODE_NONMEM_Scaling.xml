@@ -5,7 +5,8 @@
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset" 
-    implementedBy="MJS" writtenVersion="0.4.1" id="i1">
+    implementedBy="MJS" writtenVersion="0.4.1" id="i1"
+    metadataFile="example5.rdf">
     
     <!-- MODEL NAME -->
     <ct:Name>ODE based model with NONMEM dataset</ct:Name>
@@ -171,11 +172,44 @@
             <!-- omitted details -->
 
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="CMT"/>
+                <ds:ColumnRef columnIdRef="CMT" transformIdRef="T1"/>
                 <ds:TargetMapping blkIdRef="sm1">
                     <ds:Map dataSymbol="1" modelSymbol="Ac"/>
                 </ds:TargetMapping>
             </ColumnMapping>
+            
+            <ColumnTransformation transformId="T1">
+                <math:Equation>
+                    <math:Binop op="times">
+                        <ds:ColumnRef columnIdRef="AMT"/>
+                        <math:Binop op="times">
+                            <math:Binop op="power">
+                                <math:Binop op="divide">
+                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="CLCR"/>
+                                    <ct:Real>80</ct:Real>
+                                </math:Binop>
+                                <ct:SymbRef symbIdRef="theta_clcr"/>
+                            </math:Binop>
+                            <math:Binop op="power">
+                                <math:Binop op="plus">
+                                    <ct:Real>1</ct:Real>
+                                    <ct:SymbRef symbIdRef="theta_regi"/>
+                                </math:Binop>
+                                <ct:SymbRef blkIdRef="cm1" symbIdRef="REGI"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
+                </math:Equation>
+            </ColumnTransformation>
+            
+            <ColumnTransformation transformId="T2">
+                <math:Equation>
+                    <math:Binop op="times">
+                        <ds:ColumnRef columnIdRef="AMT"/>
+                        <ct:SymbRef blkIdRef="cm1" symbIdRef="wgt"/>
+                    </math:Binop>
+                </math:Equation>
+            </ColumnTransformation>
             
             <ds:DataSet>
                 <ds:Definition>
@@ -185,40 +219,12 @@
                     <ds:Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
                     <ds:Column columnId="CLCR" columnType="covariate" valueType="real" columnNum="5"/>
                     <ds:Column columnId="REGI" columnType="covariate" valueType="int" columnNum="6"/>
-                    <ds:Column columnId="DOSE" columnType="dose" valueType="real" columnNum="7">
-                        <ds:Transformation>
-<!--                            <math:Equation>
-                                <math:Binop op="times">
-                                    <ds:ColumnRef columnIdRef="DOSE"/>
-                                    <math:Binop op="times">
-                                        <math:Binop op="power">
-                                            <math:Binop op="divide">
-                                                <ct:SymbRef blkIdRef="cm1" symbIdRef="CLCR"/>
-                                                <ct:Real>80</ct:Real>
-                                            </math:Binop>
-                                            <ct:SymbRef symbIdRef="theta_clcr"/>
-                                        </math:Binop>
-                                        <math:Binop op="power">
-                                            <math:Binop op="plus">
-                                                <ct:Real>1</ct:Real>
-                                                <ct:SymbRef symbIdRef="theta_regi"/>
-                                            </math:Binop>
-                                            <ct:SymbRef blkIdRef="cm1" symbIdRef="REGI"/>
-                                        </math:Binop>
-                                    </math:Binop>
-                                </math:Binop>
-                            </math:Equation>-->
-                            <math:Equation>
-                                <math:Binop op="times">
-                                    <ds:ColumnRef columnIdRef="DOSE"/>
-                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="wgt"/>
-                                </math:Binop>
-                            </math:Equation>
-                        </ds:Transformation>
-                    </ds:Column>
+                    <ds:Column columnId="AMT" columnType="dose" valueType="real" columnNum="7"/>
                     <ds:Column columnId="EVID" columnType="evid" valueType="int" columnNum="8"/>
+                    <!-- omitted details -->
                     <ds:Column columnId="CMT" columnType="cmt" valueType="int" columnNum="9"/>
                 </ds:Definition>
+                <!-- omitted details -->
                 <ds:ImportData oid="importNONMEM">
                     <ds:path>example.csv</ds:path>
                     <ds:format>CSV</ds:format>

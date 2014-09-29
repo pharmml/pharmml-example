@@ -8,9 +8,9 @@
     implementedBy="MJS" writtenVersion="0.4.1" id="i1">
     
     <!-- MODEL NAME -->
-    <ct:Name>Example C6</ct:Name>
+    <ct:Name>Example C1</ct:Name>
     
-    <ct:Description>Example C6 - model with PK macros</ct:Description>
+    <ct:Description>Example C1 - model with PK macros</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>
@@ -44,49 +44,22 @@
         </CovariateModel>
         
         <ParameterModel blkId="pm1">
-
-            <!-- V -->
-            <SimpleParameter symbId="V_pop"/>
-            <SimpleParameter symbId="omega_V"/>
-            <RandomVariable symbId="eta_V">
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
-                </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omaga_V"/></stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="V">
-                <GaussianModel>
-                    <Transformation>log</Transformation>
-                    <LinearCovariate>
-                        <PopulationParameter>
-                            <ct:Assign>
-                                <ct:SymbRef symbIdRef="V_pop"/>
-                            </ct:Assign>
-                        </PopulationParameter>
-                    </LinearCovariate>
-                    <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_V"/>
-                    </RandomEffects>
-                </GaussianModel>
-            </IndividualParameter>
-            
+            <SimpleParameter symbId="V"/>
         </ParameterModel>
         
-        <!-- Example C6 -->
+        <!-- Example C1 -->
         
         <!--            [LONGITUDINAL]
-            input = {F1, F2, ka, Tk0, kl, V, k, Vm, Km} PK:
-            compartment(cmt=1, amount=Al) 
-            compartment(cmt=2, amount=Ac) 
-            oral(adm=1, cmt=1, ka, p=F1) 
-            oral(adm=2, cmt=2, Tk0, p=F2) 
-            iv(adm=3, cmt=2)
-            transfer(from=1, to=2, kt=kl) 
-            peripheral(k23, k32, amount=Ap) 
-            elimination(cmt=1, k) 
+            input = {F1, F2, ka, Tk0, kl, k23, k32, V, k, Vm, Km}
+            PK:
+            compartment(cmt=1, amount=Al)                                                   
+            compartment(cmt=2, amount=Ac)
+            peripheral(k23,k32)
+            oral(type=1, cmt=1, ka, p=F1)
+            oral(type=2, cmt=2, Tk0, p=F2)
+            iv(type=3, cmt=2)
+            transfer(from=1, to=2, kt=kl)
+            elimination(cmt=1, k)
             elimination(cmt=2, Km, Vm)
             Cc = Ac/V-->
         
@@ -125,9 +98,19 @@
                     </Value>
                 </Compartment>
                 
-                <!-- oral(adm=1, cmt=1, ka, p=F1) -->
+                <!-- peripheral(k23,k32) -->
+                <Peripheral>
+                    <Value>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
+                    </Value>
+                    <Value>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>
+                    </Value>
+                </Peripheral>
+                
+                <!-- oral(type=1, cmt=1, ka, p=F1) -->
                 <Oral>
-                    <Value argument="adm">
+                    <Value argument="type">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value argument="cmt">
@@ -141,12 +124,12 @@
                     </Value>
                 </Oral>
                 
-                <!-- oral(adm=2, cmt=2, Tk0, p=F2) -->
+                <!-- oral(type=2, cmt=2, Tk0, p=F2) -->
                 <Oral>
-                    <Value argument="adm">
+                    <Value argument="cmt">
                         <ct:Int>2</ct:Int>
                     </Value>
-                    <Value argument="cmt">
+                    <Value argument="type">
                         <ct:Int>2</ct:Int>
                     </Value>
                     <Value>
@@ -159,11 +142,11 @@
                 
                 <!-- iv(type=3, cmt=2) -->
                 <IV>
-                    <Value argument="type">
-                        <ct:Int>3</ct:Int>
-                    </Value>
                     <Value argument="cmt">
                         <ct:Int>2</ct:Int>
+                    </Value>
+                    <Value argument="type">
+                        <ct:Int>3</ct:Int>
                     </Value>
                 </IV>
                 
@@ -179,19 +162,6 @@
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="kl"/>
                     </Value>
                 </Transfer>
-                
-                <!-- peripheral(k23, k32, amount=Ap) -->
-                <Peripheral>
-                    <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k23"/>
-                    </Value>
-                    <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k32"/>
-                    </Value>
-                    <Value argument="amount">
-                        <ct:SymbRef symbIdRef="Ap"/>
-                    </Value>
-                </Peripheral>
                 
                 <!-- elimination(cmt=1, k) -->
                 <Elimination>
@@ -265,52 +235,53 @@
                 <ct:SymbRef blkIdRef="om1" symbIdRef="Cc_obs"/>
             </ColumnMapping>
             
+            <!-- NONMEM -->
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="CMT"/>
+                <ds:TargetMapping blkIdRef="sm3">
+                    <ds:Map dataSymbol="2" modelSymbol="Ac"/>
+                </ds:TargetMapping>
+            </ColumnMapping>
+            <!-- OR -->
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="CMT"/>
+                <ds:TargetMapping blkIdRef="sm3">
+                    <ds:Map dataSymbol="2" modelSymbol="Ac"/>
+                    <ds:Map dataSymbol="3" modelSymbol="Depot1"/>
+                    <ds:Map dataSymbol="4" modelSymbol="Depot2"/>
+                </ds:TargetMapping>
+            </ColumnMapping>
+            
+            <!-- MONOLIX -->
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="ADM"/>
+                <ds:TargetMapping blkIdRef="sm3">
+                    <ds:Map dataSymbol="1" admNumber="1"/>
+                    <ds:Map dataSymbol="2" admNumber="2"/>
+                    <ds:Map dataSymbol="3" admNumber="3"/>
+                </ds:TargetMapping>
+            </ColumnMapping>
+            
+            
+            
             <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
                 <Definition>
                     <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
                     <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
                     <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                    <Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
-                    <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="5"/> 
-                    <Column columnId="ADM" columnType="cmt" valueType="int" columnNum="6"/> 
+                    <Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
+                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="5"/>
+                    <Column columnId="EVID" columnType="evid" valueType="int" columnNum="6"/>
+                    <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>     <!-- mapping to sm1 'compartmentNo="1"' -->
+                    <Column columnId="ADM" columnType="adm" valueType="int" columnNum="8"/>
                 </Definition>
                 <ImportData oid="importNONMEM">
-                    <path>example6.csv</path>
+                    <path>RIBBA2012_PCV.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
                 </ImportData>
             </DataSet>
         </NONMEMdataSet>
-        
-        <!-- ALTERNATIVE -->
-        <TargetTool oid="MLXoid">
-            <TargetToolName>MONOLIX</TargetToolName>
-            <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
-                <ct:SymbRef symbIdRef="t"/>
-            </ColumnMapping>
-            
-            <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="Cc_obs"/>
-            </ColumnMapping>
-            
-            <ds:TargetToolData>
-                <ds:Definition>
-                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
-                    <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
-                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                    <ds:Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
-                    <ds:Column columnId="CMT" columnType="cmt" valueType="int" columnNum="5"/> 
-                    <ds:Column columnId="ADM" columnType="cmt" valueType="int" columnNum="6"/> 
-                </ds:Definition>
-                <ds:ImportTargetData oid="importMLX">
-                    <ds:path>example6.csv</ds:path>
-                    <ds:format>CSV</ds:format>
-                    <ds:delimiter>COMMA</ds:delimiter>
-                </ds:ImportTargetData>
-            </ds:TargetToolData>
-        </TargetTool>
         
         
         <!-- ESTIMATION STEP -->
