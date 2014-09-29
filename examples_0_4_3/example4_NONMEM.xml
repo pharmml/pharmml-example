@@ -381,7 +381,30 @@
                 <ds:ColumnRef columnIdRef="OCCASION"/>
                 <ct:SymbRef blkIdRef="modelVar" symbIdRef="iov1"/>
             </ColumnMapping>
-            
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="AMT"/>
+                <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
+            </ColumnMapping>
+                        
+            <!-- map 'tD' and 'TIME' if 'AMT' != 0 -->
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Piecewise>
+                            <math:Piece>
+                                <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
+                                <math:Condition>
+                                    <math:LogicBinop op="neq">
+                                        <ds:ColumnRef columnIdRef="AMT"/>
+                                        <ct:Real>0</ct:Real>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                        </math:Piecewise>
+                    </math:Equation>
+                </ct:Assign>
+            </ColumnMapping>
             <ds:DataSet>
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
@@ -392,6 +415,7 @@
                     <ds:Column columnId="TREATSEQ" columnType="covariate" valueType="id" columnNum="6"/>
                     <ds:Column columnId="OCCASION" columnType="covariate" valueType="id" columnNum="7"/>
                     <ds:Column columnId="Y" columnType="dv" valueType="real" columnNum="8"/>
+                    <ds:Column columnId="AMT" columnType="dose" valueType="real" columnNum="9"/>
                 </ds:Definition>
                 <ds:ImportData oid="importNONMEM">
                     <ds:path>datasetFileName.csv</ds:path>

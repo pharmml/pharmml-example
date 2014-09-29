@@ -526,6 +526,13 @@
                 <ct:SymbRef blkIdRef="om1" symbIdRef="PSTAR_obs"/>
             </ColumnMapping>
             
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="CMT"/>
+                <TargetMapping xmlns="http://www.pharmml.org/2013/08/Dataset">
+                    <Map dataSymbol="1" modelSymbol="C"/>
+                </TargetMapping>
+            </ColumnMapping>
+            
             <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
                 <Definition>
                     <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
@@ -534,6 +541,7 @@
                     <Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
                     <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="5"/>
                     <Column columnId="EVID" columnType="evid" valueType="int" columnNum="6"/>
+                    <Column columnId="CMT" columnType="cmt" valueType="int" columnNum="7"/>
                 </Definition>
                 <ImportData oid="importNONMEM">
                     <path>RIBBA2012_PCV.csv</path>
