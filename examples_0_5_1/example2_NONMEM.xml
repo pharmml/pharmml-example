@@ -313,7 +313,7 @@
                 <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
                 <Piecewise xmlns="http://www.pharmml.org/2013/08/Dataset">
                     <math:Piece>
-                        <ct:SymbRef symbIdRef="tD"/>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
                         <math:Condition>
                             <math:LogicBinop op="neq">
                                 <ct:SymbRef symbIdRef="DOSE"/>

@@ -444,7 +444,7 @@
                     </ct:VariabilityReference>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                         <mean><rVal>0</rVal></mean>
-                        <stddev><var varId="sigma_E"/></stddev>
+                        <variance><prVal>1</prVal></variance>
                     </NormalDistribution>
                 </RandomVariable>
                 <General symbId="E_obs">
@@ -479,7 +479,7 @@
                     </ct:VariabilityReference>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                         <mean><rVal>0</rVal></mean>
-                        <stddev><var varId="sigma_Cc"/></stddev>
+                        <variance><prVal>1</prVal></variance>
                     </NormalDistribution>
                 </RandomVariable>
                 <Standard symbId="Cc_obs">
