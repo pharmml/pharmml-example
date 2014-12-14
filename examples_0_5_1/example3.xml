@@ -159,7 +159,7 @@
                             </ct:Assign>
                         </PopulationParameter>
                         <Covariate>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="logWT70"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_V"/>
                             </FixedEffect>
@@ -313,10 +313,10 @@
                     </NormalDistribution>
                 </RandomVariable>
                 <Standard symbId="C_obs">
-                    <Output> <!-- f -->
+                    <Output>
                         <ct:SymbRef symbIdRef="C"/>
                     </Output>
-                    <ErrorModel>    <!-- g -->
+                    <ErrorModel>
                         <ct:Assign>
                             <math:Equation>
                                 <math:FunctionCall>
@@ -334,7 +334,7 @@
                             </math:Equation>
                         </ct:Assign>
                     </ErrorModel>
-                    <ResidualError> <!-- eps -->
+                    <ResidualError>
                         <ct:SymbRef symbIdRef="epsilon_C"/>
                     </ResidualError>
                 </Standard>
@@ -386,15 +386,15 @@
             </ct:VariabilityReference>
             
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="WEIGHT"/>
+                <ds:ColumnRef columnIdRef="wt"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
             </ColumnMapping>
             
             <ds:DataSet>
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
-                    <ds:Column columnId="ARM" columnType="arm" valueType="id" columnNum="2"/>
-                    <ds:Column columnId="WEIGHT" columnType="covariate" valueType="real" columnNum="3"/>
+                    <ds:Column columnId="arm" columnType="arm" valueType="id" columnNum="2"/>
+                    <ds:Column columnId="wt" columnType="covariate" valueType="real" columnNum="3"/>
                 </ds:Definition>
                 <ds:Table>
                     <ds:Row><ct:String>1</ct:String><ct:Id>arm1</ct:Id><ct:Real>70.1</ct:Real></ds:Row>

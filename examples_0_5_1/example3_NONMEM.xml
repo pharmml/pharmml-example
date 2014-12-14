@@ -348,6 +348,11 @@
         <NONMEMdataSet oid="NMoid">
             
             <ColumnMapping>
+                <ds:ColumnRef columnIdRef="ID"/>
+                <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+            </ColumnMapping>
+            
+            <ColumnMapping>
                 <ds:ColumnRef columnIdRef="time"/>
                 <ct:SymbRef symbIdRef="t"/>
             </ColumnMapping>
@@ -385,7 +390,7 @@
             
             <ds:DataSet>
                 <ds:Definition>
-                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
                     <ds:Column columnId="time" columnType="time" valueType="real" columnNum="2"/>
                     <ds:Column columnId="wt" columnType="covariate" valueType="real" columnNum="3"/>
                     <ds:Column columnId="age" columnType="covariate" valueType="real" columnNum="4"/>
@@ -489,7 +494,7 @@
                     <mstep:InitialEstimate fixed="false">
                         <ct:Real>1</ct:Real>
                     </mstep:InitialEstimate>
-                </ParameterEstimation>               
+                </ParameterEstimation>
                 
             </ParametersToEstimate>
             
@@ -516,7 +521,7 @@
         <!-- STEP DEPENDENCIES -->
         <mstep:StepDependencies>
             <mstep:Step>
-                <ct:OidRef oidRef="estimStep1"></ct:OidRef>
+                <ct:OidRef oidRef="estimStep1"/>
             </mstep:Step>
         </mstep:StepDependencies>
     </ModellingSteps>

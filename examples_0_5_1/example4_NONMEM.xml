@@ -8,6 +8,8 @@
     xmlns:design="http://www.pharmml.org/2013/03/TrialDesign"
     implementedBy="MJS" writtenVersion="0.5.1" id="i1">
     
+    <!-- ?????? CHECK TRAETSEQ as COVARIATE?????? -->
+    
     <!-- MODEL NAME -->
     <ct:Name>Example 4 - estimation with IOV1 and with covariates with NONMEM dataset</ct:Name>
 
@@ -37,7 +39,7 @@
     
         <!-- VARIABILITY MODEL -->
         <VariabilityModel blkId="modelVar" type="parameterVariability">
-            <Level symbId="indiv"/>
+            <Level referenceLevel="true" symbId="indiv"/>
             <Level symbId="iov1">
                 <ParentLevel>
                     <ct:SymbRef symbIdRef="indiv"/>
@@ -354,7 +356,11 @@
         <!-- OBJECTIVE DATA -->
         <NONMEMdataSet oid="NMoid">
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="TIME"/>
+                <ds:ColumnRef columnIdRef="ID"/>
+                <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="Time"/>
                 <ct:SymbRef symbIdRef="t"/>
             </ColumnMapping>
             <ColumnMapping>
@@ -370,19 +376,19 @@
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Treat"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="TREATSEQ"/>
+                <ds:ColumnRef columnIdRef="TREATSEQ"/>                  <!-- ???????????? -->
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="OCCASION"/>
+                <ds:ColumnRef columnIdRef="OCC"/>      <!-- COVARIATE -->
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="OCCASION"/>
+                <ds:ColumnRef columnIdRef="OCC"/>      <!-- VARIABILITY LEVEL -->
                 <ct:SymbRef blkIdRef="modelVar" symbIdRef="iov1"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="AMT"/>
+                <ds:ColumnRef columnIdRef="DOSE"/>
                 <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
             </ColumnMapping>
                         
@@ -403,13 +409,13 @@
             </ColumnMapping>
             <ds:DataSet>
                 <ds:Definition>
-                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
                     <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
                     <ds:Column columnId="ARM" columnType="arm" valueType="id" columnNum="3"/>
-                    <ds:Column columnId="SEX" columnType="covariate" valueType="id" columnNum="4"/>
-                    <ds:Column columnId="TREAT" columnType="covariate" valueType="id" columnNum="5"/>
-                    <ds:Column columnId="TREATSEQ" columnType="covariate" valueType="id" columnNum="6"/>
-                    <ds:Column columnId="OCCASION" columnType="covariate" valueType="id" columnNum="7"/>
+                    <ds:Column columnId="SEX" columnType="covariate" valueType="string" columnNum="4"/>
+                    <ds:Column columnId="TREAT" columnType="covariate" valueType="string" columnNum="5"/>
+                    <!--                    <ds:Column columnId="TREATSEQ" columnType="covariate" valueType="id" columnNum="6"/>--> <!-- ???????????? -->
+                    <ds:Column columnId="OCC" columnType="covariate" valueType="id" columnNum="7"/>
                     <ds:Column columnId="Y" columnType="dv" valueType="real" columnNum="8"/>
                     <ds:Column columnId="AMT" columnType="dose" valueType="real" columnNum="9"/>
                 </ds:Definition>
