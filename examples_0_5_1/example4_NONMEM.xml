@@ -39,8 +39,13 @@
     
         <!-- VARIABILITY MODEL -->
         <VariabilityModel blkId="modelVar" type="parameterVariability">
-            <Level referenceLevel="true" symbId="indiv"/>
-            <Level symbId="iov1">
+            <Level symbId="study"/>                         <!-- -1 -->
+            <Level referenceLevel="true" symbId="indiv">    <!-- 0 -->
+                <ParentLevel>
+                    <ct:SymbRef symbIdRef="study"/>
+                </ParentLevel>
+            </Level>
+            <Level symbId="iov1">                               <!-- +1 -->
                 <ParentLevel>
                     <ct:SymbRef symbIdRef="indiv"/>
                 </ParentLevel>
@@ -357,7 +362,7 @@
         <NONMEMdataSet oid="NMoid">
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="ID"/>
-                <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/> <!-- 0 level -->
             </ColumnMapping>
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="Time"/>
@@ -368,12 +373,20 @@
                 <ct:SymbRef blkIdRef="om1" symbIdRef="Cc_obs"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="SEX"/>
+                <ds:ColumnRef columnIdRef="SEX"/>       <!-- 0 or 1 -->
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="0" modelSymbol="M"/>
+                    <ds:Map dataSymbol="1" modelSymbol="F"/>
+                </ds:CategoryMapping>
             </ColumnMapping>
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TREAT"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Treat"/>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="1" modelSymbol="A"/>
+                    <ds:Map dataSymbol="2" modelSymbol="B"/>
+                </ds:CategoryMapping>
             </ColumnMapping>
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TREATSEQ"/>                  <!-- ???????????? -->
@@ -382,6 +395,10 @@
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="OCC"/>      <!-- COVARIATE -->
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
+                <ds:CategoryMapping>
+                    <ds:Map modelSymbol="occ1" dataSymbol="1"/>
+                    <ds:Map modelSymbol="occ2" dataSymbol="2"/>
+                </ds:CategoryMapping>
             </ColumnMapping>
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="OCC"/>      <!-- VARIABILITY LEVEL -->
