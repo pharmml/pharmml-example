@@ -531,7 +531,7 @@
                 <ct:SymbRef blkIdRef="om1" symbIdRef="PSTAR_obs"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DOSE"/>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="AMT"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="C"/>
             </ColumnMapping>
             
@@ -542,7 +542,7 @@
                     <Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
                     <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
                     <Column columnId="MDV" columnType="mdv" valueType="int" columnNum="4"/>
-                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="5"/>
+                    <Column columnId="AMT" columnType="dose" valueType="real" columnNum="5"/>
                     <Column columnId="EVID" columnType="evid" valueType="int" columnNum="6"/>
                 </Definition>
                 <ImportData oid="dataOid">

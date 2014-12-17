@@ -26,33 +26,15 @@
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <VariabilityModel blkId="modelVar" type="parameterVariability">
-            <Level symbId="indiv"></Level>
+            <Level symbId="indiv"/>
         </VariabilityModel>
         <VariabilityModel blkId="obsVar" type="residualError">
             <Level symbId="resErr"/>
         </VariabilityModel>
         
         <CovariateModel blkId="cm1">
-            <SimpleParameter symbId="pop_Weight">
-                <ct:Assign>
-                    <ct:Real>80</ct:Real>
-                </ct:Assign>
-            </SimpleParameter>
-            <SimpleParameter symbId="omega_Weight">
-                <ct:Assign>
-                    <ct:Real>0.12</ct:Real>
-                </ct:Assign>
-            </SimpleParameter>
             <Covariate symbId="Weight">
                 <Continuous>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <var varId="pop_Weight"/>
-                        </mean>
-                        <stddev>
-                            <var varId="omega_Weight"/>
-                        </stddev>
-                    </NormalDistribution>
                     <Transformation>
                         <TransformedCovariate symbId="theta2Weight"/>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
@@ -289,15 +271,13 @@
         <NONMEMdataSet oid="NMoid">
             
             <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="ID"/>
+                <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+            </ColumnMapping>
+            <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="t"/>
             </ColumnMapping>
-            
-            <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="Css_obs"/>
-            </ColumnMapping>
-            
             <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="WT"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Weight"/>
@@ -308,7 +288,6 @@
                 <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
             </ColumnMapping>
             
-            <!-- solution when tD explicitely used -->
             <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
                 <Piecewise xmlns="http://www.pharmml.org/2013/08/Dataset">
@@ -324,13 +303,19 @@
                 </Piecewise>
             </ColumnMapping>
             
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="Css_obs"/>
+            </ColumnMapping>
+            
             <DataSet xmlns="http://www.pharmml.org/2013/08/Dataset">
                 <Definition>
                     <Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
-                    <Column columnId="WT" columnType="covariate" valueType="real" columnNum="2"/>
-                    <Column columnId="TIME" columnType="idv" valueType="real" columnNum="3"/>
-                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="4"/>
-                    <Column columnId="DV" columnType="dv" valueType="real" columnNum="5"/>
+                    <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <Column columnId="WT" columnType="covariate" valueType="real" columnNum="3"/>
+                    <Column columnId="DV" columnType="dv" valueType="real" columnNum="4"/>
+                    <Column columnId="EVID" columnType="evid" valueType="int" columnNum="5"/>
+                    <Column columnId="MDV" columnType="mdv" valueType="int" columnNum="6"/>
                 </Definition>
                 <ImportData oid="dataOid">
                     <path>example2.csv</path>

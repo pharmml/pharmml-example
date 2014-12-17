@@ -48,15 +48,11 @@
         
         <!-- variability model -->
         <VariabilityModel blkId="modelVar" type="parameterVariability">
-            <Level symbId="indiv">
-                <ct:Name>Individual Variability</ct:Name>
-            </Level>
+            <Level symbId="indiv"/>
         </VariabilityModel>
         
         <VariabilityModel blkId="obsErr" type="residualError">
-            <Level symbId="residual">
-                <ct:Name>Residual Error</ct:Name>
-            </Level>
+            <Level symbId="residual"/>
         </VariabilityModel>
         
         <!-- covariate model -->
@@ -65,13 +61,9 @@
             <SimpleParameter symbId="omega_W"/>
             <Covariate symbId="W">
                 <Continuous>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <var varId="pop_W"/>
-                        </mean>
-                        <variance>
-                            <var varId="omega_W"/>
-                        </variance>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                        <mean><var varId="pop_W"/></mean>
+                        <variance><var varId="omega_W"/></variance>
                     </NormalDistribution>
                     <Transformation>
                         <TransformedCovariate symbId="logW70"/>
@@ -454,7 +446,7 @@
                     </ct:VariabilityReference>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                         <mean><rVal>0</rVal></mean>
-                        <stddev><var varId="sigma_E"/></stddev>
+                        <variance><prVal>1</prVal></variance>
                     </NormalDistribution>
                 </RandomVariable>
                 <General symbId="E_obs">
@@ -707,22 +699,15 @@
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:Description>This is the: cm1.omega_W = 1409/100</ct:Description>
+                <ct:Description>omega_W = 1409/100 assignment</ct:Description>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="omega_W"/>
                 <ct:Assign>
                     <math:Equation>
-                        <!-- 1409/100 = 14.09 -->
                         <math:Binop op="divide">
                             <ct:Real>1409</ct:Real>
                             <ct:Real>100</ct:Real>
                         </math:Binop>
                     </math:Equation>
-                </ct:Assign>
-            </ct:VariableAssignment>
-            <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="cm1" symbIdRef="omega_W"/>
-                <ct:Assign>
-                    <ct:Real>1.0</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>

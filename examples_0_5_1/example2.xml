@@ -26,7 +26,7 @@
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <VariabilityModel blkId="modelVar" type="parameterVariability">
-            <Level symbId="indiv"></Level>
+            <Level symbId="indiv"/>
         </VariabilityModel>
         <VariabilityModel blkId="obsVar" type="residualError">
             <Level symbId="resErr"/>
@@ -403,11 +403,22 @@
             </ct:VariableAssignment>
             <Observations>
                 <Timepoints>
-                    <ct:Sequence>
-                        <ct:Begin><ct:Int>0</ct:Int></ct:Begin>
-                        <ct:StepSize><ct:Int>1</ct:Int></ct:StepSize>
-                        <ct:End><ct:Int>12</ct:Int></ct:End>
-                    </ct:Sequence>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            <ct:Real>0.5</ct:Real>
+                            <ct:Real>1</ct:Real>
+                            <ct:Real>2</ct:Real>
+                            <ct:Real>3</ct:Real>
+                            <ct:Real>6</ct:Real>
+                            <ct:Real>9</ct:Real>
+                            <ct:Real>24</ct:Real>
+                            <ct:Real>36</ct:Real>
+                            <ct:Real>48</ct:Real>
+                            <ct:Real>72</ct:Real>
+                            <ct:Real>96</ct:Real>
+                            <ct:Real>120</ct:Real>
+                        </ct:VectorElements>
+                    </ct:Vector>
                 </Timepoints>
                 <Continuous>
                     <ct:SymbRef blkIdRef="om1" symbIdRef="Css_obs"/>

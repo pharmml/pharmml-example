@@ -48,21 +48,23 @@
         
         <!-- variability model -->
         <VariabilityModel blkId="modelVar" type="parameterVariability">
-            <Level symbId="indiv">
-                <ct:Name>Individual Variability</ct:Name>
-            </Level>
+            <Level referenceLevel="true" symbId="indiv"/>
         </VariabilityModel>
         
         <VariabilityModel blkId="obsErr" type="residualError">
-            <Level symbId="residual">
-                <ct:Name>Residual Error</ct:Name>
-            </Level>
+            <Level symbId="residual"/>
         </VariabilityModel>
         
         <!-- covariate model -->
         <CovariateModel blkId="cm1">
+            <SimpleParameter symbId="pop_W"/>
+            <SimpleParameter symbId="omega_W"/>
             <Covariate symbId="W">
                 <Continuous>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                        <mean><var varId="pop_W"/></mean>
+                        <variance><var varId="omega_W"/></variance>
+                    </NormalDistribution>
                     <Transformation>
                         <TransformedCovariate symbId="logW70"/>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
@@ -527,21 +529,19 @@
             
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="WT"/>
-                <ct:SymbRef blkIdRef="cm1" symbIdRef="WT"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
             </ColumnMapping>
             
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="CMT" transformIdRef="T1"/>
-                <ds:TargetMapping blkIdRef="sm1">
-                    <ds:Map dataSymbol="1" modelSymbol="Ad"/>
-                </ds:TargetMapping>
+                <ds:ColumnRef columnIdRef="AMT" transformIdRef="T1"/>
+                <ct:SymbRef blkIdRef="sm1" symbIdRef="Ad"/>
             </ColumnMapping>
             
             <ColumnTransformation transformId="T1">
                 <math:Equation>
                     <math:Binop op="times">
                         <ds:ColumnRef columnIdRef="AMT"/>
-                        <ct:SymbRef blkIdRef="cm1" symbIdRef="WT"/>
+                        <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
                     </math:Binop>
                 </math:Equation>
             </ColumnTransformation>
@@ -576,12 +576,13 @@
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
                     <ds:Column columnId="WT" columnType="covariate" valueType="real" columnNum="2"/>
-                    <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="3"/>
-                    <ds:Column columnId="ARM" columnType="arm" valueType="id" columnNum="4"/>
-                    <ds:Column columnId="AMT" columnType="dose" valueType="real" columnNum="5"/>
-                    <ds:Column columnId="CMT" columnType="cmt" valueType="int" columnNum="6"/>
-                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="7"/>
-                    <ds:Column columnId="ORIG" columnType="dvid" valueType="real" columnNum="8"/>
+                    <ds:Column columnId="ARM" columnType="arm" valueType="id" columnNum="3"/>
+                    <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="4"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="5"/>
+                    <ds:Column columnId="ORIG" columnType="undefined" valueType="real" columnNum="6"/>
+                    <ds:Column columnId="AMT" columnType="dose" valueType="int" columnNum="7"/>
+                    <ds:Column columnId="MDV" columnType="mdv" valueType="real" columnNum="8"/>
+                    <ds:Column columnId="EVID" columnType="evid" valueType="real" columnNum="9"/>
                 </ds:Definition>
                 <ds:ImportData oid="dataOid">
                     <ds:path>example1.csv</ds:path>
@@ -601,9 +602,15 @@
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
+                <ct:Description>omega_W = 1409/100 assignment</ct:Description>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="omega_W"/>
                 <ct:Assign>
-                    <ct:Real>1.0</ct:Real>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:Real>1409</ct:Real>
+                            <ct:Real>100</ct:Real>
+                        </math:Binop>
+                    </math:Equation>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
@@ -718,3 +725,19 @@
         </StepDependencies>
     </ModellingSteps>
 </PharmML>
+
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+<!-- DELETE -->
+
