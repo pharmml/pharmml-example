@@ -8,10 +8,13 @@
     xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
-    implementedBy="MJS" writtenVersion="0.5.1">
+    implementedBy="MJS" writtenVersion="0.5.1"
+    metadataFile="example3.rdf" id="i1">
     
     <!-- MODEL NAME -->
-    <ct:Name>Example 3 - basic Warfarin PK estimation with covariate W</ct:Name>
+    <ct:Name>Example 3 - Warfarin PK estimation</ct:Name>
+    
+    <ct:Description>Example 3 - basic Warfarin PK estimation with covariate W</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>
@@ -39,10 +42,10 @@
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <!-- VARIABILITY MODEL -->
-        <VariabilityModel blkId="modelVar" type="parameterVariability">
+        <VariabilityModel blkId="vm1" type="parameterVariability">
             <Level symbId="indiv"/>
         </VariabilityModel>
-        <VariabilityModel blkId="obsErr" type="residualError">
+        <VariabilityModel blkId="vm2" type="residualError">
             <Level symbId="residual"/>
         </VariabilityModel>
         
@@ -82,7 +85,7 @@
             <!-- Tlag -->
             <RandomVariable symbId="eta_Tlag">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                     <mean>
@@ -110,7 +113,7 @@
             <!-- ka -->
             <RandomVariable symbId="eta_ka">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                     <mean>
@@ -138,7 +141,7 @@
             <!-- V -->
             <RandomVariable symbId="eta_V">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                     <mean>
@@ -172,7 +175,7 @@
             <!-- CL -->
             <RandomVariable symbId="eta_CL">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                     <mean>
@@ -192,7 +195,7 @@
                             </ct:Assign>
                         </PopulationParameter>
                         <Covariate>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="logWT70"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_CL"/>
                             </FixedEffect>
@@ -233,7 +236,7 @@
                                             <ct:SymbRef symbIdRef="t"/>
                                             <ct:SymbRef symbIdRef="tD"/>
                                         </math:Binop>
-                                        <ct:SymbRef symbIdRef="Tlag"></ct:SymbRef>
+                                        <ct:SymbRef symbIdRef="Tlag"/>
                                     </math:LogicBinop>
                                 </math:Condition>
                             </math:Piece>
@@ -242,7 +245,7 @@
                                     <math:Binop op="divide">
                                         <math:Binop op="times">
                                             <ct:SymbRef symbIdRef="D"/>
-                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"></ct:SymbRef>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
                                         </math:Binop>
                                         <math:Binop op="times">
                                             <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
@@ -300,7 +303,7 @@
                 <SimpleParameter symbId="b"/>
                 <RandomVariable symbId="epsilon_C">
                     <ct:VariabilityReference>
-                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
                     </ct:VariabilityReference>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                         <mean>
@@ -381,7 +384,7 @@
         <!-- POPULATION -->
         <Population>
             <ct:VariabilityReference>
-                <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
             </ct:VariabilityReference>
             
             <ColumnMapping>
@@ -522,8 +525,7 @@
                     <mstep:InitialEstimate fixed="false">
                         <ct:Real>1</ct:Real>
                     </mstep:InitialEstimate>
-                </ParameterEstimation>
-                
+                </ParameterEstimation>                
             </ParametersToEstimate>
             
             <!-- OPERATION -->
@@ -540,6 +542,9 @@
                     </ct:Assign>
                 </Property>
                 <Algorithm definition="FOCEI">
+                    <Property name="tolerance">
+                        <ct:Assign><ct:Int>1</ct:Int></ct:Assign>
+                    </Property>
                 </Algorithm>
             </Operation>
             <Operation order="2" opType="estFIM"/>
