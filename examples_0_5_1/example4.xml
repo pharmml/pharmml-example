@@ -532,10 +532,10 @@
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
                     <ds:Column columnId="ARM" columnType="arm" valueType="id" columnNum="2"/>
-                    <ds:Column columnId="SEX" columnType="covariate" valueType="int" columnNum="3"/>
-                    <ds:Column columnId="EPOCH" columnType="epoch" valueType="int" columnNum="4"/>
-                    <ds:Column columnId="TREAT" columnType="covariate" valueType="int" columnNum="5"/>
-                    <ds:Column columnId="TREATSEQ" columnType="covariate" valueType="int" columnNum="6"/>
+                    <ds:Column columnId="SEX" columnType="covariate" valueType="string" columnNum="3"/>
+                    <ds:Column columnId="EPOCH" columnType="epoch" valueType="id" columnNum="4"/>
+                    <ds:Column columnId="TREAT" columnType="covariate" valueType="string" columnNum="5"/>
+                    <ds:Column columnId="TREATSEQ" columnType="covariate" valueType="string" columnNum="6"/>
                 </ds:Definition>
                 <ds:Table>
                     <!-- arm1 -->

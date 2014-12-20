@@ -210,8 +210,6 @@
         
         <!-- STRUCTURAL MODEL -->
         <StructuralModel blkId="sm1">
-            <SimpleParameter symbId="D"/>
-            <SimpleParameter symbId="tD"/>
             <!-- k -->
             <SimpleParameter symbId="k">
                 <ct:Assign>
@@ -223,6 +221,9 @@
                     </math:Equation>
                 </ct:Assign>
             </SimpleParameter>
+            <!-- dosing variables -->
+            <ct:Variable symbolType="real" symbId="D"/>
+            <ct:Variable symbolType="real" symbId="tD"/>
             <!-- C - algebraic formula -->
             <ct:Variable symbolType="real" symbId="C">
                 <ct:Assign>

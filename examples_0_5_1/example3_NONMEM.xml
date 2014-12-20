@@ -210,8 +210,6 @@
         
         <!-- STRUCTURAL MODEL -->
         <StructuralModel blkId="sm1">
-            <SimpleParameter symbId="D"/>
-            <SimpleParameter symbId="tD"/>
             <!-- k -->
             <SimpleParameter symbId="k">
                 <ct:Assign>
@@ -223,6 +221,9 @@
                     </math:Equation>
                 </ct:Assign>
             </SimpleParameter>
+            <!-- dosing variables -->
+            <ct:Variable symbolType="real" symbId="D"/>
+            <ct:Variable symbolType="real" symbId="tD"/>
             <!-- C - algebraic formula -->
             <ct:Variable symbolType="real" symbId="C">
                 <ct:Assign>
@@ -354,29 +355,29 @@
                 <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="time"/>
+                <ds:ColumnRef columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="t"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="wt"/>
+                <ds:ColumnRef columnIdRef="WT"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="dv"/>
+                <ds:ColumnRef columnIdRef="DV"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="C_obs"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="amt"/>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="AMT"/>
                 <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="time"/>
+                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
                 <Piecewise xmlns="http://www.pharmml.org/2013/08/Dataset">
                     <math:Piece>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
                         <math:Condition>
                             <math:LogicBinop op="neq">
-                                <ColumnRef columnIdRef="amt"/>
+                                <ColumnRef columnIdRef="AMT"/>
                                 <ct:Real>0</ct:Real>
                             </math:LogicBinop>
                         </math:Condition>
@@ -387,14 +388,12 @@
             <ds:DataSet>
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
-                    <ds:Column columnId="time" columnType="time" valueType="real" columnNum="2"/>
-                    <ds:Column columnId="wt" columnType="covariate" valueType="real" columnNum="3"/>
-                    <ds:Column columnId="age" columnType="covariate" valueType="real" columnNum="4"/>
-                    <ds:Column columnId="sex" columnType="covariate" valueType="int" columnNum="5"/>
-                    <ds:Column columnId="amt" columnType="dose" valueType="real" columnNum="6"/>
-                    <ds:Column columnId="dvid" columnType="dvid" valueType="real" columnNum="7"/>
-                    <ds:Column columnId="dv" columnType="dv" valueType="real" columnNum="8"/>
-                    <ds:Column columnId="mdv" columnType="mdv" valueType="real" columnNum="9"/>
+                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="WT" columnType="covariate" valueType="real" columnNum="3"/>
+                    <ds:Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
+                    <ds:Column columnId="DVID" columnType="dvid" valueType="real" columnNum="5"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="6"/>
+                    <ds:Column columnId="MDV" columnType="mdv" valueType="real" columnNum="7"/>
                 </ds:Definition>
                 <ds:ImportData oid="dataOid">
                     <ds:path>example3.csv</ds:path>

@@ -368,10 +368,6 @@
                 <ct:SymbRef blkIdRef="om1" symbIdRef="Cc_obs"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ds:ColumnRef columnIdRef="AMT"/>
-                <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
-            </ColumnMapping>
-            <ColumnMapping>
                 <ds:ColumnRef columnIdRef="OCC"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
                 <ds:CategoryMapping>
@@ -407,7 +403,11 @@
                     <ds:Map dataSymbol="1" modelSymbol="F"/>
                 </ds:CategoryMapping>
             </ColumnMapping>
-            
+            <!-- dosing mapping -->
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="AMT"/>
+                <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
+            </ColumnMapping>
             <!-- map 'tD' and 'TIME' if 'AMT' != 0 -->
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>
