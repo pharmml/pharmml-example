@@ -285,26 +285,6 @@
             </ColumnMapping>
             
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DOSE"/>
-                <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
-            </ColumnMapping>
-            
-            <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
-                <Piecewise xmlns="http://www.pharmml.org/2013/08/Dataset">
-                    <math:Piece>
-                        <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
-                        <math:Condition>
-                            <math:LogicBinop op="neq">
-                                <ct:SymbRef symbIdRef="DOSE"/>
-                                <ct:Real>0</ct:Real>
-                            </math:LogicBinop>
-                        </math:Condition>
-                    </math:Piece>
-                </Piecewise>
-            </ColumnMapping>
-            
-            <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DV"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="Css_obs"/>
             </ColumnMapping>
@@ -331,7 +311,28 @@
             <NONMEMdataSetReference>
                 <ct:OidRef oidRef="NMoid"/>
             </NONMEMdataSetReference>
-            
+
+            <!-- tau -->
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                <ct:Assign>
+                    <ct:Real>12</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <!-- D -->
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
+                <ct:Assign>
+                    <ct:Real>100</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <!-- tD -->
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
+                <ct:Assign>
+                    <ct:Real>0</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
             <!-- b -->
             <ct:VariableAssignment>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="b"/>

@@ -508,12 +508,26 @@
                 <ds:ColumnRef columnIdRef="SEX"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
             </ColumnMapping>
-
+            
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TREAT"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="Treat"/>
             </ColumnMapping>
-
+            
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="TREATSEQ"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
+            </ColumnMapping>
+            
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="EPOCH"/>
+                <ct:SymbRef symbIdRef="Occasion"/>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="ep1" modelSymbol="occ1"/>
+                    <ds:Map dataSymbol="ep3" modelSymbol="occ2"/>
+                </ds:CategoryMapping>
+            </ColumnMapping>
+            
             <ds:DataSet>
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
@@ -521,28 +535,31 @@
                     <ds:Column columnId="SEX" columnType="covariate" valueType="int" columnNum="3"/>
                     <ds:Column columnId="EPOCH" columnType="epoch" valueType="int" columnNum="4"/>
                     <ds:Column columnId="TREAT" columnType="covariate" valueType="int" columnNum="5"/>
+                    <ds:Column columnId="TREATSEQ" columnType="covariate" valueType="int" columnNum="6"/>
                 </ds:Definition>
                 <ds:Table>
-                    <ds:Row><ct:String>1</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id></ds:Row>
-                    <ds:Row><ct:String>1</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id></ds:Row>
-                    <ds:Row><ct:String>2</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id></ds:Row>
-                    <ds:Row><ct:String>2</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id></ds:Row>
-                    <ds:Row><ct:String>3</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id></ds:Row>
-                    <ds:Row><ct:String>3</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id></ds:Row>
-                    <ds:Row><ct:String>4</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id></ds:Row>
-                    <ds:Row><ct:String>4</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id></ds:Row>
-                    <ds:Row><ct:String>5</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id></ds:Row>
-                    <ds:Row><ct:String>5</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id></ds:Row>
-                    <ds:Row><ct:String>6</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id></ds:Row>
-                    <ds:Row><ct:String>6</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id></ds:Row>
-                    <ds:Row><ct:String>7</ct:String><ct:Id>a2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id></ds:Row>
-                    <ds:Row><ct:String>7</ct:String><ct:Id>a2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id></ds:Row>
-                    <ds:Row><ct:String>8</ct:String><ct:Id>a2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id></ds:Row>
-                    <ds:Row><ct:String>8</ct:String><ct:Id>a2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id></ds:Row>
-                    <ds:Row><ct:String>9</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id></ds:Row>
-                    <ds:Row><ct:String>9</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id></ds:Row>
-                    <ds:Row><ct:String>10</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id></ds:Row>
-                    <ds:Row><ct:String>10</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id></ds:Row>
+                    <!-- arm1 -->
+                    <ds:Row><ct:String>1</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                    <ds:Row><ct:String>1</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                    <ds:Row><ct:String>2</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                    <ds:Row><ct:String>2</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                    <ds:Row><ct:String>3</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                    <ds:Row><ct:String>3</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                    <ds:Row><ct:String>4</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                    <ds:Row><ct:String>4</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                    <ds:Row><ct:String>5</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                    <ds:Row><ct:String>5</ct:String><ct:Id>a1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                    <!-- arm2 -->
+                    <ds:Row><ct:String>6</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id><ct:Id>BA</ct:Id></ds:Row>
+                    <ds:Row><ct:String>6</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id><ct:Id>BA</ct:Id></ds:Row>
+                    <ds:Row><ct:String>7</ct:String><ct:Id>a2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id><ct:Id>BA</ct:Id></ds:Row>
+                    <ds:Row><ct:String>7</ct:String><ct:Id>a2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id><ct:Id>BA</ct:Id></ds:Row>
+                    <ds:Row><ct:String>8</ct:String><ct:Id>a2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id><ct:Id>BA</ct:Id></ds:Row>
+                    <ds:Row><ct:String>8</ct:String><ct:Id>a2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id><ct:Id>BA</ct:Id></ds:Row>
+                    <ds:Row><ct:String>9</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id><ct:Id>BA</ct:Id></ds:Row>
+                    <ds:Row><ct:String>9</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id><ct:Id>BA</ct:Id></ds:Row>
+                    <ds:Row><ct:String>10</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id><ct:Id>BA</ct:Id></ds:Row>
+                    <ds:Row><ct:String>10</ct:String><ct:Id>a2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id><ct:Id>BA</ct:Id></ds:Row>
                 </ds:Table>
             </ds:DataSet>
         </Population>

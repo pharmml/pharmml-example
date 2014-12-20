@@ -675,15 +675,15 @@
             </ct:VariabilityReference>
             <ds:DataSet>
                 <ds:Definition>
-                    <ds:Column columnId="id" columnType="id" valueType="string" columnNum="1"/>
+                    <ds:Column columnId="id" columnType="id" valueType="id" columnNum="1"/>
                     <ds:Column columnId="arm" columnType="arm" valueType="id" columnNum="2"/>
                     <ds:Column columnId="reps" columnType="replicate" valueType="int" columnNum="3"/>
                 </ds:Definition>
                 <ds:Table>
-                    <ds:Row><ct:String>1</ct:String><ct:Id>a1</ct:Id><ct:Int>20</ct:Int></ds:Row>
-                    <ds:Row><ct:String>2</ct:String><ct:Id>a2</ct:Id><ct:Int>20</ct:Int></ds:Row>
-                    <ds:Row><ct:String>3</ct:String><ct:Id>a3</ct:Id><ct:Int>40</ct:Int></ds:Row>
-                    <ds:Row><ct:String>4</ct:String><ct:Id>a4</ct:Id><ct:Int>40</ct:Int></ds:Row>
+                    <ds:Row><ct:Id>i1</ct:Id><ct:Id>a1</ct:Id><ct:Int>20</ct:Int></ds:Row>
+                    <ds:Row><ct:Id>i2</ct:Id><ct:Id>a2</ct:Id><ct:Int>20</ct:Int></ds:Row>
+                    <ds:Row><ct:Id>i3</ct:Id><ct:Id>a3</ct:Id><ct:Int>40</ct:Int></ds:Row>
+                    <ds:Row><ct:Id>i4</ct:Id><ct:Id>a4</ct:Id><ct:Int>40</ct:Int></ds:Row>
                 </ds:Table>
             </ds:DataSet>
         </Population>
