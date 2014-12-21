@@ -161,6 +161,17 @@
             <Discrete>
                 <CategoricalData ordered="no">
                     
+                    <ct:Variable symbolType="real" symbId="Cc">
+                        <ct:Assign>
+                            <ct:Interpolation>
+                                <ct:Algorithm>spline</ct:Algorithm>
+                                <ct:InterpIndepVar>
+                                    <ct:SymbRef symbIdRef="t"/>
+                                </ct:InterpIndepVar>
+                            </ct:Interpolation>
+                        </ct:Assign>
+                    </ct:Variable>
+                    
                     <SimpleParameter symbId="P1">
                         <ct:Assign>
                             <math:Equation>

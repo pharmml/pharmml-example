@@ -8,14 +8,15 @@
     xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
-    implementedBy="MJS" writtenVersion="0.5" id="i1">
+    implementedBy="MJS" writtenVersion="0.5" metadataFile="example3_NONMEM.rdf"
+    id="i1">
     
     <ct:Name>Example 3 - basic Warfarin PK estimation with covariate W - with NONMEM dataset</ct:Name>
     
     <IndependentVariable symbId="t"/>
     
-    <!-- FUNCTION DEFINITION -->
-    <ct:FunctionDefinition  xmlns="http://www.pharmml.org/2013/03/CommonTypes" 
+    <!-- FUNCTION DEFINITION -->        <!-- a + b x f -->
+    <ct:FunctionDefinition  xmlns="http://www.pharmml.org/2013/03/CommonTypes"  
         symbId="combinedErrorModel" symbolType="real">
         <FunctionArgument symbolType="real" symbId="a"/>
         <FunctionArgument symbolType="real" symbId="b"/>
@@ -355,25 +356,20 @@
                 <ds:ColumnRef columnIdRef="amt"/>
                 <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
             </ColumnMapping>
-            
             <!-- map 'tD' and 'time' if 'amt' != 0 -->
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="time"/>
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Piecewise>
-                            <math:Piece>
-                                <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
-                                <math:Condition>
-                                    <math:LogicBinop op="neq">
-                                        <ds:ColumnRef columnIdRef="amt"/>
-                                        <ct:Real>0</ct:Real>
-                                    </math:LogicBinop>
-                                </math:Condition>
-                            </math:Piece>
-                        </math:Piecewise>
-                    </math:Equation>
-                </ct:Assign>
+                <ds:Piecewise>
+                    <math:Piece>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
+                        <math:Condition>
+                            <math:LogicBinop op="neq">
+                                <ds:ColumnRef columnIdRef="amt"/>
+                                <ct:Real>0</ct:Real>
+                            </math:LogicBinop>
+                        </math:Condition>
+                    </math:Piece>
+                </ds:Piecewise>
             </ColumnMapping>
                         
             <ds:DataSet>

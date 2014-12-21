@@ -315,21 +315,17 @@
             <!-- map 'tD' and 'TIME' if 'DOSE' != 0 -->
             <ColumnMapping>
                 <ColumnRef  xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="TIME"/>
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Piecewise>
-                            <math:Piece>
-                                <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
-                                <math:Condition>
-                                    <math:LogicBinop op="neq">
-                                        <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DOSE"/>
-                                        <ct:Real>0</ct:Real>
-                                    </math:LogicBinop>
-                                </math:Condition>
-                            </math:Piece>
-                        </math:Piecewise>
-                    </math:Equation>
-                </ct:Assign>
+                <Piecewise xmlns="http://www.pharmml.org/2013/08/Dataset">
+                    <math:Piece>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
+                        <math:Condition>
+                            <math:LogicBinop op="neq">
+                                <ColumnRef xmlns="http://www.pharmml.org/2013/08/Dataset" columnIdRef="DOSE"/>
+                                <ct:Real>0</ct:Real>
+                            </math:LogicBinop>
+                        </math:Condition>
+                    </math:Piece>
+                </Piecewise>
             </ColumnMapping>
             
             

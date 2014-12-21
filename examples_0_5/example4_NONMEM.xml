@@ -389,21 +389,17 @@
             <!-- map 'tD' and 'TIME' if 'AMT' != 0 -->
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Piecewise>
-                            <math:Piece>
-                                <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
-                                <math:Condition>
-                                    <math:LogicBinop op="neq">
-                                        <ds:ColumnRef columnIdRef="AMT"/>
-                                        <ct:Real>0</ct:Real>
-                                    </math:LogicBinop>
-                                </math:Condition>
-                            </math:Piece>
-                        </math:Piecewise>
-                    </math:Equation>
-                </ct:Assign>
+                <ds:Piecewise>
+                    <math:Piece>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
+                        <math:Condition>
+                            <math:LogicBinop op="neq">
+                                <ds:ColumnRef columnIdRef="AMT"/>
+                                <ct:Real>0</ct:Real>
+                            </math:LogicBinop>
+                        </math:Condition>
+                    </math:Piece>
+                </ds:Piecewise>
             </ColumnMapping>
             <ds:DataSet>
                 <ds:Definition>

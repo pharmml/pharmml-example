@@ -5,7 +5,7 @@
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:math="http://www.pharmml.org/2013/03/Maths" 
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
-    implementedBy="MJS" writtenVersion="0.5" id="i1">
+    implementedBy="MJS" writtenVersion="0.5.1" id="i1">
 
     <!-- MODEL NAME -->
     <ct:Name>Example C3</ct:Name>
