@@ -9,22 +9,28 @@
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.5.1" id="i1">
     
-    <ct:Name id="i2">Cumulative Logit Markov (3 categories)</ct:Name>
+    <ct:Name id="i2">Cumulative logit model (3 categories)</ct:Name>
     
-    <ct:Description>Categorical model - cumulative logut model with Markov dependency</ct:Description>
+    <ct:Description>Categorical model - cumulative logit with three categories</ct:Description>
     
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
     <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+       
+       <ParameterModel blkId="pm1">
+           <SimpleParameter symbId="theta1"/>
+           <SimpleParameter symbId="theta2"/>           
+       </ParameterModel>
         
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="C"/>
+        </StructuralModel>
+       
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
                 <CategoricalData ordered="yes">
-                    <SimpleParameter symbId="a11"/>
-                    <!-- omitted a12...a32 -->
-                    <SimpleParameter symbId="a33"/>
                     
                     <ListOfCategories> 
                         <Category symbId="cat1"/>
@@ -33,64 +39,37 @@
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="y"/>
-                    <PreviousStateVariable symbId="yp"/>
                     
-                    <Dependance type="discreteMarkov"/>
-                    
-                    <!--   logit(P (y <= 1|yp = 1)) = a11 -->
+                    <!-- logit(P(y <= 1)) = theta1 -->
                     <ProbabilityAssignment>
                         <Probability linkFunction="logit">
-                            <CurrentState>
-                                <math:LogicBinop op="leq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
-                            </CurrentState>
-                            <PreviousState>
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="yp"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
-                            </PreviousState>
+                            <math:LogicBinop op="leq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
                         </Probability>
                         <ct:Assign>
-                            <ct:SymbRef symbIdRef="a11"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="theta1"/>
                         </ct:Assign>
                     </ProbabilityAssignment>
                     
-                    <!--  logit(P (y <= 2|yp = 1)) = a11 + a12 -->
+                    <!-- logit(P(y <= 2)) = theta1 + theta2 -->
                     <ProbabilityAssignment>
                         <Probability linkFunction="logit">
-                            <CurrentState>
-                                <math:LogicBinop op="leq">
-                                    <ct:SymbRef symbIdRef="y"/>
-                                    <ct:SymbRef symbIdRef="cat2"/>
-                                </math:LogicBinop>
-                            </CurrentState>
-                            <PreviousState>
-                                <math:LogicBinop op="eq">
-                                    <ct:SymbRef symbIdRef="yp"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
-                                </math:LogicBinop>
-                            </PreviousState>
+                            <math:LogicBinop op="leq">
+                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="cat2"/>
+                            </math:LogicBinop>
                         </Probability>
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="plus">
-                                    <ct:SymbRef symbIdRef="a11"/>
-                                    <ct:SymbRef symbIdRef="a12"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="theta1"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="theta2"/>
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
                     </ProbabilityAssignment>
-                    <!--  logit(P (y <= 1|yp = 2)) = a21 -->
-                    <!-- omitted here -->
-                    <!--  logit(P (y <= 2|yp = 2)) = a21 + a22 -->
-                    <!-- omitted here -->
-                    <!--  logit(P (y <= 1|yp = 3)) = a31 -->
-                    <!-- omitted here -->
-                    <!--  logit(P (y <= 2|yp = 3)) = a31 + a32 -->
-                    <!-- omitted here -->
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
@@ -98,7 +77,7 @@
     
     <mstep:ModellingSteps>
         
-        <mstep:NONMEMdataSet oid="NMoid">
+        <mstep:MONOLIXdataSet oid="MLXoid">
             
             <mstep:ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>
@@ -109,9 +88,9 @@
                 <ds:ColumnRef columnIdRef="DV"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
                 <ds:CategoryMapping>
+                    <ds:Map dataSymbol="0" modelSymbol="cat0"/>
                     <ds:Map dataSymbol="1" modelSymbol="cat1"/>
-                    <ds:Map dataSymbol="2" modelSymbol="cat2"/>
-                    <ds:Map dataSymbol="3" modelSymbol="cat3"/>
+                    <!-- OMITTED OTHER MAPPINGS -->
                 </ds:CategoryMapping>
             </mstep:ColumnMapping>
             
@@ -122,29 +101,67 @@
                     <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
                 </ds:Definition>
                 <ds:ImportData oid="importData">
-                    <ds:path>datasets/categorical_binomial.dat</ds:path>
+                    <ds:path>myFile.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ImportData>
             </ds:DataSet>
-        </mstep:NONMEMdataSet>
+        </mstep:MONOLIXdataSet>
         
         <mstep:EstimationStep oid="estStep1">
-            
-            <mstep:TargetToolReference>
-                <ct:OidRef oidRef="NMoid"/>
-            </mstep:TargetToolReference>
-            
+
+            <mstep:MONOLIXdataSetReference>
+                <ct:OidRef oidRef="MLXoid"/>
+            </mstep:MONOLIXdataSetReference>
+
             <mstep:ParametersToEstimate>
                 <mstep:ParameterEstimation>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="a11"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="theta1"/>
                     <mstep:InitialEstimate>
-                        <ct:Real>1</ct:Real>
+                        <ct:Real>10</ct:Real>
                     </mstep:InitialEstimate>
                 </mstep:ParameterEstimation>
-            </mstep:ParametersToEstimate>
+            </mstep:ParametersToEstimate>   
+            <!-- omitted other parameters theta_2  ... theta_m -->
             
             <mstep:Operation order="1" opType="estPop"/>
+            <mstep:Operation order="2" opType="And now for something completely different"/>
         </mstep:EstimationStep>
+        
+        <mstep:SimulationStep oid="simStep1">
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="theta"/>
+                <ct:Assign>
+                    <ct:Real>1</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            
+            <mstep:Observations>
+                <mstep:Timepoints>
+                    <ct:Sequence>
+                        <ct:Begin><ct:Real>1</ct:Real></ct:Begin>
+                        <ct:StepSize><ct:Real>1</ct:Real></ct:StepSize>
+                        <ct:End><ct:Real>1</ct:Real></ct:End>
+                    </ct:Sequence>
+                </mstep:Timepoints>
+                <mstep:Discrete>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+                </mstep:Discrete>
+            </mstep:Observations>
+            
+            <mstep:Operation order="1" opType="simulatePK"/>
+        </mstep:SimulationStep>
+        
+        <mstep:StepDependencies>
+            <mstep:Step>
+                <ct:OidRef oidRef="estStep1"/>
+                <mstep:Dependents>
+                    <ct:OidRef oidRef="simStep1"/>
+                </mstep:Dependents>
+            </mstep:Step>
+        </mstep:StepDependencies>
         
     </mstep:ModellingSteps>
     
 </PharmML>
+

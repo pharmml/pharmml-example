@@ -9,39 +9,51 @@
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.5.1" id="i1">
     
-    <ct:Name id="i2">Cumulative Logit Markov (3 categories)</ct:Name>
+    <ct:Name id="i2">Contnuous Markov and Initial Prob</ct:Name>
     
-    <ct:Description>Categorical model - cumulative logut model with Markov dependency</ct:Description>
+    <ct:Description>Contnuous Markov with initial probabilities</ct:Description>
     
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
     <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
-        
+
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
-                <CategoricalData ordered="yes">
-                    <SimpleParameter symbId="a11"/>
-                    <!-- omitted a12...a32 -->
-                    <SimpleParameter symbId="a33"/>
+                <CategoricalData ordered="no">
+                    <SimpleParameter symbId="p1"/>
+                    <SimpleParameter symbId="q12"/>
+                    <SimpleParameter symbId="q21"/>
                     
-                    <ListOfCategories> 
+                    <ListOfCategories>
                         <Category symbId="cat1"/>
                         <Category symbId="cat2"/>
-                        <Category symbId="cat3"/>
                     </ListOfCategories>
                     
                     <CategoryVariable symbId="y"/>
-                    <PreviousStateVariable symbId="yp"/>
+                    <InitialStateVariable symbId="yinit"/>
                     
-                    <Dependance type="discreteMarkov"/>
+                    <Dependance type="continuousMarkov"/>
                     
-                    <!--   logit(P (y <= 1|yp = 1)) = a11 -->
+                    <!-- P(y = 1) = p1 -->
                     <ProbabilityAssignment>
-                        <Probability linkFunction="logit">
-                            <CurrentState>
-                                <math:LogicBinop op="leq">
+                        <Probability>
+                            <math:LogicBinop op="eq">
+                                <ct:SymbRef symbIdRef="yinit"/>
+                                <ct:SymbRef symbIdRef="cat1"/>
+                            </math:LogicBinop>
+                        </Probability>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="p1"/>
+                        </ct:Assign>
+                    </ProbabilityAssignment>
+                    
+                    <!-- transitionRate(1, 2) = q12 -->
+                    <ProbabilityAssignment>
+                        <TransitionRate>
+                            <CurrentState> 
+                                <math:LogicBinop op="eq">
                                     <ct:SymbRef symbIdRef="y"/>
                                     <ct:SymbRef symbIdRef="cat1"/>
                                 </math:LogicBinop>
@@ -49,20 +61,20 @@
                             <PreviousState>
                                 <math:LogicBinop op="eq">
                                     <ct:SymbRef symbIdRef="yp"/>
-                                    <ct:SymbRef symbIdRef="cat1"/>
+                                    <ct:SymbRef symbIdRef="cat2"/>
                                 </math:LogicBinop>
                             </PreviousState>
-                        </Probability>
+                        </TransitionRate>
                         <ct:Assign>
-                            <ct:SymbRef symbIdRef="a11"/>
+                            <ct:SymbRef symbIdRef="q12"/>
                         </ct:Assign>
                     </ProbabilityAssignment>
                     
-                    <!--  logit(P (y <= 2|yp = 1)) = a11 + a12 -->
+                    <!--   transitionRate(2, 1) = q21 -->
                     <ProbabilityAssignment>
-                        <Probability linkFunction="logit">
-                            <CurrentState>
-                                <math:LogicBinop op="leq">
+                        <TransitionRate>
+                            <CurrentState> 
+                                <math:LogicBinop op="eq">
                                     <ct:SymbRef symbIdRef="y"/>
                                     <ct:SymbRef symbIdRef="cat2"/>
                                 </math:LogicBinop>
@@ -73,29 +85,16 @@
                                     <ct:SymbRef symbIdRef="cat1"/>
                                 </math:LogicBinop>
                             </PreviousState>
-                        </Probability>
+                        </TransitionRate>
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="plus">
-                                    <ct:SymbRef symbIdRef="a11"/>
-                                    <ct:SymbRef symbIdRef="a12"/>
-                                </math:Binop>
-                            </math:Equation>
+                            <ct:SymbRef symbIdRef="q21"/>
                         </ct:Assign>
                     </ProbabilityAssignment>
-                    <!--  logit(P (y <= 1|yp = 2)) = a21 -->
-                    <!-- omitted here -->
-                    <!--  logit(P (y <= 2|yp = 2)) = a21 + a22 -->
-                    <!-- omitted here -->
-                    <!--  logit(P (y <= 1|yp = 3)) = a31 -->
-                    <!-- omitted here -->
-                    <!--  logit(P (y <= 2|yp = 3)) = a31 + a32 -->
-                    <!-- omitted here -->
                 </CategoricalData>
             </Discrete>
         </ObservationModel>
     </ModelDefinition>
-    
+
     <mstep:ModellingSteps>
         
         <mstep:NONMEMdataSet oid="NMoid">
@@ -109,20 +108,21 @@
                 <ds:ColumnRef columnIdRef="DV"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
                 <ds:CategoryMapping>
-                    <ds:Map dataSymbol="1" modelSymbol="cat1"/>
                     <ds:Map dataSymbol="2" modelSymbol="cat2"/>
-                    <ds:Map dataSymbol="3" modelSymbol="cat3"/>
+                    <ds:Map dataSymbol="1" modelSymbol="cat1"/>
                 </ds:CategoryMapping>
             </mstep:ColumnMapping>
             
             <ds:DataSet>
                 <ds:Definition>
-                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
                     <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
                     <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
                 </ds:Definition>
                 <ds:ImportData oid="importData">
-                    <ds:path>datasets/categorical_binomial.dat</ds:path>
+                    <ds:path>myFile.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ImportData>
             </ds:DataSet>
         </mstep:NONMEMdataSet>
@@ -135,7 +135,21 @@
             
             <mstep:ParametersToEstimate>
                 <mstep:ParameterEstimation>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="a11"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="p"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="q12"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="q21"/>
                     <mstep:InitialEstimate>
                         <ct:Real>1</ct:Real>
                     </mstep:InitialEstimate>
@@ -146,5 +160,5 @@
         </mstep:EstimationStep>
         
     </mstep:ModellingSteps>
-    
 </PharmML>
+
