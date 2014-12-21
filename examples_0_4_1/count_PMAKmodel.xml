@@ -29,6 +29,7 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
+                    <SimpleParameter symbId="k"/>
                     <CountVariable symbId="y"/>
                     <PreviousCountVariable symbId="yp"/>
                     

@@ -4,53 +4,45 @@
     xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
     xmlns:math="http://www.pharmml.org/2013/03/Maths"
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
-    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:un="http://www.uncertml.org/3.0"
-    implementedBy="MJS" writtenVersion="0.4.1" id="i1">
+    implementedBy="MJS" writtenVersion="0.5.1" id="i1">
     
-    <ct:Name>TTE - concentration dependent hazard</ct:Name>
+    <ct:Name>TTE - constant hazard</ct:Name>
     
-    <ct:Description>Time-to-event model with concetration dependent hazard function</ct:Description>
+    <ct:Description>Time-to-event model with constant hazard function</ct:Description>
     
-    <IndependentVariable symbId="t"/>
-    
-    <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="beta"/>
+            <SimpleParameter symbId="lambda"/>
         </ParameterModel>
         
-        <StructuralModel blkId="sm1">
-            <ct:Variable symbolType="real" symbId="Cc"/>
-        </StructuralModel>
-        
-        <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
                 <TimeToEventData>
-                    <EventVariable symbId="hemorrhaging"/>
+                    <EventVariable symbId="y"/>
                     
-                    <!-- h(t) = beta*Cc -->
-                    <HazardFunction symbId="h">
+                    <!-- h(t) = 1/lambda -->
+                    <HazardFunction symbId="H">
                         <ct:Assign>
                             <math:Equation>
-                                <math:Binop op="times">
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
-                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                <math:Binop op="divide">
+                                    <ct:Real>1</ct:Real>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                                 </math:Binop>
                             </math:Equation>
-                        </ct:Assign>   
+                        </ct:Assign>
                     </HazardFunction>
                 </TimeToEventData>
-            </Discrete>
+            </Discrete>            
         </ObservationModel>
     </ModelDefinition>
     
     <ModellingSteps xmlns="http://www.pharmml.org/2013/03/ModellingSteps">
-
-
+        
         <NONMEMdataSet oid="NMoid">
             
             <ColumnMapping>
@@ -60,7 +52,7 @@
             
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="Y"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="hemorrhaging"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
             </ColumnMapping>
             
             <ds:DataSet>
@@ -93,7 +85,7 @@
                     </ct:Sequence>
                 </Timepoints>
                 <Discrete>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="hemorrhaging"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
                 </Discrete>
             </Observations>
         </SimulationStep>
