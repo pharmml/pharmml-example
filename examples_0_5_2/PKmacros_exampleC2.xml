@@ -261,25 +261,25 @@
             
             <ParametersToEstimate>
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>    <!-- fixed -->
                     <InitialEstimate fixed="true">
                         <ct:Real>0.6</ct:Real>
                     </InitialEstimate>
                 </ParameterEstimation>
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>    <!-- fixed -->
                     <InitialEstimate fixed="true">
                         <ct:Real>0.8</ct:Real>
                     </InitialEstimate>
                 </ParameterEstimation>
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>    <!-- fixed -->
                     <InitialEstimate fixed="true">
                         <ct:Real>0.1</ct:Real>
                     </InitialEstimate>
                 </ParameterEstimation>
                 <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>    <!-- fixed -->
                     <InitialEstimate fixed="true">
                         <ct:Real>0.1</ct:Real>
                     </InitialEstimate>
