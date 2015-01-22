@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    implementedBy="MJS" writtenVersion="0.5.1" id="i1">
+    
+    <ct:Name>Generalized Poisson model</ct:Name>
+    
+    <ct:Description>Generalized Poisson model - based on code from Elodie Plan</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="lambda"/>
+            <!-- individual def with IIV omitted -->
+            <SimpleParameter symbId="delta"/>
+            <!-- individual def with IIV omitted -->
+        </ParameterModel>
+        
+        <!-- OBSERVATIONS -->
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <CountData>
+                    <SimpleParameter symbId="k"/>
+                    <CountVariable symbId="y"/>
+                    
+                    <IntensityParameter symbId="Lambda">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                        </ct:Assign>
+                    </IntensityParameter>
+                    
+                    <OverDispersionParameter symbId="Delta">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="delta"/>
+                        </ct:Assign>
+                    </OverDispersionParameter>
+                    
+                    <!-- aux = lambda+k∗Delta
+                    Log(P(Y=k)) = log(lambda) + (k−1)∗log(aux) − aux − factln(k)} -->
+                    <PMF linkFunction="log">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="k"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <math:Uniop op="log">
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </math:Uniop>
+                                    <math:Binop op="minus">
+                                        <math:Binop op="times">
+                                            <math:Binop op="minus">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                                <ct:Real>1</ct:Real>
+                                            </math:Binop>
+                                            <math:Uniop op="log">
+                                                <math:Binop op="plus">
+                                                    <ct:SymbRef symbIdRef="Lambda"/>
+                                                    <math:Binop op="times">
+                                                        <ct:SymbRef symbIdRef="k"/>
+                                                        <ct:SymbRef symbIdRef="Delta"/>
+                                                    </math:Binop>
+                                                </math:Binop>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                        <math:Binop op="minus">
+                                            <math:Binop op="plus">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                                <math:Binop op="times">
+                                                    <ct:SymbRef symbIdRef="k"/>
+                                                    <ct:SymbRef symbIdRef="Delta"/>
+                                                </math:Binop>
+                                            </math:Binop>
+                                            <math:Uniop op="factln">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+    </ModelDefinition>
+    
+    <mstep:ModellingSteps>
+        
+        <mstep:NONMEMdataSet oid="NMoid">
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </mstep:ColumnMapping>
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="Y"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
+            </mstep:ColumnMapping>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="Y" columnType="dv" valueType="int" columnNum="3"/>
+                </ds:Definition>
+                <ds:ImportData oid="dataOid">
+                    <ds:path>example.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
+        </mstep:NONMEMdataSet>
+    </mstep:ModellingSteps>
+    
+</PharmML>

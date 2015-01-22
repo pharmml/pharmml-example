@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    implementedBy="MJS" writtenVersion="0.5.1" id="i1">
+    
+    <ct:Name>Poisson model</ct:Name>
+    
+    <ct:Description>Basic Poisson model - based on code from Elodie Plan</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="lambda"/>
+            <!-- individual def with IIV omitted -->
+        </ParameterModel>
+        
+        <!-- VERSION 1 -->
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <CountData>
+                    <SimpleParameter symbId="k"/>
+                    <CountVariable symbId="Y"/>
+                    
+                    <IntensityParameter symbId="Lambda">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                        </ct:Assign>
+                    </IntensityParameter>
+                    
+                    <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
+                    <PMF linkFunction="log">
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                            <rate>
+                                <var varId="Lambda"/>
+                            </rate>
+                        </PoissonDistribution>
+                    </PMF>
+                    
+                    <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
+                    <PMF linkFunction="log">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="Y"/>
+                            <ct:SymbRef symbIdRef="k"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                                <Binop op="minus">
+                                    <Binop op="plus">
+                                        <Uniop op="minus">
+                                            <ct:SymbRef symbIdRef="Lambda"/>
+                                        </Uniop>
+                                        <Binop op="times">
+                                            <ct:SymbRef symbIdRef="k"/>
+                                            <Uniop op="log">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                            </Uniop>
+                                        </Binop>
+                                    </Binop>
+                                    <Uniop op="factln">
+                                        <ct:SymbRef symbIdRef="k"/>
+                                    </Uniop>
+                                </Binop>
+                            </Equation>
+                        </ct:Assign>
+                    </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+
+        <!-- VERSION 2 -->
+        <ObservationModel blkId="om2">
+            <Discrete>
+                <CountData>
+                    <SimpleParameter symbId="k"/>
+                    <CountVariable symbId="Y"/>
+                    
+                    <IntensityParameter symbId="Lambda">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                        </ct:Assign>
+                    </IntensityParameter>
+                    
+                    <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
+                    <PMF linkFunction="log">
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                            <rate>
+                                <var varId="Lambda"/>
+                            </rate>
+                        </PoissonDistribution>
+                    </PMF>
+                    
+                    <!-- P(Y=k) = (Lambda^k * exp(-Lambda) / k! -->
+                    <PMF linkFunction="identity">
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                            <rate>
+                                <var varId="Lambda"/>
+                            </rate>
+                        </PoissonDistribution>
+                    </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+    </ModelDefinition>
+    
+    <mstep:ModellingSteps>
+        
+        <mstep:NONMEMdataSet oid="NMoid">
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </mstep:ColumnMapping>
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="Y"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>  <!-- or 'om2' -->
+            </mstep:ColumnMapping>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="Y" columnType="dv" valueType="int" columnNum="3"/>
+                </ds:Definition>
+                <ds:ImportData oid="dataOid">
+                    <ds:path>example.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
+        </mstep:NONMEMdataSet>
+        
+        <mstep:SimulationStep oid="simStep1">
+            <mstep:Observations>
+                <mstep:Timepoints>
+                    <ct:Sequence>
+                        <ct:Begin>
+                            <ct:Int>1</ct:Int>
+                        </ct:Begin>
+                        <ct:StepSize>
+                            <ct:Int>1</ct:Int>
+                        </ct:StepSize>
+                        <ct:End>
+                            <ct:Int>10</ct:Int>
+                        </ct:End>
+                    </ct:Sequence>
+                </mstep:Timepoints>
+                <mstep:Discrete>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+                    <ct:SymbRef blkIdRef="om2" symbIdRef="Y"/>
+                </mstep:Discrete>
+            </mstep:Observations>
+        </mstep:SimulationStep>
+    </mstep:ModellingSteps>
+
+</PharmML>
