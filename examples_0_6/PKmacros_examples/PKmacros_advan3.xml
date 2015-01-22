@@ -29,7 +29,10 @@
         
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
-            <!-- omitted other parameters -->
+            <SimpleParameter symbId="k12"/>
+            <SimpleParameter symbId="k21"/>
+            <SimpleParameter symbId="k"/>
+            <SimpleParameter symbId="a"/>
         </ParameterModel>
         
         <!--
@@ -63,16 +66,16 @@
                         <ct:SymbRef symbIdRef="Ac"/>
                     </Value>
                     <Value argument="volume">
-                        <ct:SymbRef symbIdRef="V"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                     </Value>
                 </Compartment>
                 
                 <Peripheral>
                     <Value>
-                        <ct:SymbRef symbIdRef="k12"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="k21"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
                     </Value>
                     <Value argument="amount">
                         <ct:SymbRef symbIdRef="Ap"/>
@@ -93,7 +96,7 @@
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="k"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                     </Value>
                 </Elimination>
             </PKmacros>

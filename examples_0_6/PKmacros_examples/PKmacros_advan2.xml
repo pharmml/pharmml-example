@@ -29,7 +29,9 @@
                 
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
-            <!-- omitted other parameters -->
+            <SimpleParameter symbId="ka"/>
+            <SimpleParameter symbId="k"/>
+            <SimpleParameter symbId="a"/>
         </ParameterModel>
         
         <!--

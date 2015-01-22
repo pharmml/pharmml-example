@@ -40,7 +40,7 @@
                     </math:Equation>
                 </ct:Assign>
             </SimpleParameter>
-            <!-- omitted other paremeters -->
+            <SimpleParameter symbId="a"/>
         </ParameterModel>
         
         <!--

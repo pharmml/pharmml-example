@@ -29,7 +29,9 @@
                 
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
-            <!-- omitted other paremeters -->
+            <SimpleParameter symbId="Vm"/>
+            <SimpleParameter symbId="Km"/>
+            <SimpleParameter symbId="a"/>
         </ParameterModel>
         
         <!--
@@ -151,8 +153,7 @@
                 </Definition>
                 <ExternalFile oid="importMLX">
                     <path>example10.csv</path>
-                    <format>CSV</format>
-                    <delimiter>COMMA</delimiter>
+                    <!-- format and delimiter are optional -->
                 </ExternalFile>
             </DataSet>
         </ExternalDataSet>
