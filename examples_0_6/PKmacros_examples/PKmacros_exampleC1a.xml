@@ -6,7 +6,7 @@
     xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" 
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     implementedBy="MJS" writtenVersion="0.6" id="i1">
-    
+
     <!-- MODEL NAME -->
     <ct:Name>Example C1a</ct:Name>
     
@@ -161,7 +161,7 @@
                     <Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
                     <Column columnId="ADM" columnType="adm" valueType="int" columnNum="5"/> 
                 </Definition>
-                <ExternalFile oid="importNONMEM">
+                <ExternalFile oid="importMLX">
                     <path>exampleC1a.csv</path>
                     <!-- format and delimiter are optional -->
                 </ExternalFile>

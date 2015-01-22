@@ -6,7 +6,7 @@
     xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" 
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     implementedBy="MJS" writtenVersion="0.6" id="i1">
-    
+
     <!-- MODEL NAME -->
     <ct:Name>Example C1b</ct:Name>
     
@@ -29,7 +29,10 @@
         
         <ParameterModel blkId="pm1">
             <SimpleParameter symbId="V"/>
-            <!-- omitted other paremeters -->
+            <SimpleParameter symbId="ka"/>
+            <SimpleParameter symbId="F"/>
+            <SimpleParameter symbId="k"/>
+            <SimpleParameter symbId="a"/>
         </ParameterModel>
 
         <!--
@@ -131,7 +134,6 @@
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
         
         <ExternalDataSet toolName="Monolix" oid="MLXoid">
-            <!-- omitted details -->
             
             <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="TIME"/>
@@ -159,7 +161,7 @@
                     <Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
                     <Column columnId="ADM" columnType="adm" valueType="int" columnNum="5"/> 
                 </Definition>
-                <ExternalFile oid="importNONMEM">
+                <ExternalFile oid="importMLX">
                     <path>exampleC1b.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>

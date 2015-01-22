@@ -6,7 +6,7 @@
     xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" 
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     implementedBy="MJS" writtenVersion="0.6" id="i1">
-    
+
     <!-- MODEL NAME -->
     <ct:Name>Advan4</ct:Name>
     
@@ -32,6 +32,7 @@
             <SimpleParameter symbId="k12"/>
             <SimpleParameter symbId="k21"/>
             <SimpleParameter symbId="k"/>
+            <SimpleParameter symbId="ka"/>
             <SimpleParameter symbId="a"/>
         </ParameterModel>
         
