@@ -15,14 +15,6 @@
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>
 
-    <!-- SYMBOL DEFINITION - RESUIDUAL ERROR MODEL -->
-    <ct:FunctionDefinition symbId="constantErrorModel" symbolType="real">
-        <ct:FunctionArgument symbId="a" symbolType="real"/>
-        <ct:Definition>
-            <ct:SymbRef symbIdRef="a"/>
-        </ct:Definition>
-    </ct:FunctionDefinition>
-
     <!-- BLOCK I: MODEL DEFINITION -->
     <ModelDefinition  xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         
@@ -126,7 +118,7 @@
             <ContinuousData>
                 <RandomVariable symbId="eta">
                     <ct:VariabilityReference>
-                        <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
                         <mean><rVal>0</rVal></mean>
