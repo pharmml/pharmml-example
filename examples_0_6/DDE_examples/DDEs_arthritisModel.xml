@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
+    xmlns:design="http://www.pharmml.org/pharmml/0.6/TrialDesign"
+    writtenVersion="0.5.1" implementedBy="MJS" id="i1">
+    
+    <!-- MODEL NAME -->
+    <ct:Name>DDE arthritis Model</ct:Name>
+    
+    <ct:Description>DDE Example - arthritis model</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- FUNCTION DEFINITION -->
+    <ct:FunctionDefinition symbolType="real" symbId="combinedErrorModel">
+        <ct:FunctionArgument symbolType="real" symbId="a"/>
+        <ct:FunctionArgument symbolType="real" symbId="b"/>
+        <ct:FunctionArgument symbolType="real" symbId="f"/>
+        <ct:Definition>
+            <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths" >
+                <Binop op="plus">
+                    <ct:VectorSelector>
+                        <ct:SymbRef symbIdRef="V"/>
+                    </ct:VectorSelector>
+                    <Binop op="times">
+                        <ct:SymbRef symbIdRef="b"/>
+                        <ct:SymbRef symbIdRef="f"/>
+                    </Binop>
+                </Binop>
+            </Equation>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    
+    <!-- MODEL DEFINITION -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+        
+        <VariabilityModel blkId="obsErr" type="residualError">
+            <Level symbId="resErr"/>
+        </VariabilityModel>
+
+        <!-- STRUCTURAL MODEL -->
+        <StructuralModel blkId="sm1">
+            
+            <!-- ddt_G = k3 - (sigma1*exp(- sigma2*C) + sigma3)*C*G - k1*(1- exp(- k2*t))*G/k2 -->
+            <ct:DerivativeVariable symbolType="real" symbId="G">
+                <ct:Assign>
+                    <ct:SymbRef symbIdRef="k3"/>
+                    <!-- skipped the rest of the assignment -->
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:History>
+                    <!-- G_0 = a*exp(b*t) -->
+                    <ct:HistoryValue>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                    <math:Uniop op="exp">
+                                        <math:Binop op="times">
+                                            <ct:SymbRef symbIdRef="b"/>
+                                            <ct:SymbRef symbIdRef="t"/>
+                                        </math:Binop>
+                                    </math:Uniop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:HistoryValue>
+                    <ct:HistoryTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryTime>
+                </ct:History>
+            </ct:DerivativeVariable>
+            
+            <!-- ddt_I = k4*G - k4*delay(G,tau) -->
+            <!-- I_0 = 2.52-->
+            <ct:DerivativeVariable symbolType="real" symbId="I">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="k4"/>
+                                <ct:SymbRef symbIdRef="G"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="k4"/>
+                                <ct:Delay>
+                                    <ct:SymbRef symbIdRef="G"/>
+                                    <ct:DelayVariable>
+                                        <ct:SymbRef symbIdRef="tau"/>
+                                    </ct:DelayVariable>
+                                </ct:Delay>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:History>
+                    <ct:HistoryValue>
+                        <ct:Assign>
+                            <ct:Real>2.52</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryValue>
+                    <ct:HistoryTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryTime>
+                </ct:History>
+            </ct:DerivativeVariable>
+
+            <!-- ddt_D = - k5*D + k4*delay(G,tau) -->
+            <!-- D_0 = 0 -->
+            <ct:DerivativeVariable symbolType="real" symbId="D">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <math:Binop op="times">
+                                <math:Uniop op="minus">
+                                    <ct:SymbRef symbIdRef="k5"/>
+                                </math:Uniop>
+                                <ct:SymbRef symbIdRef="D"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="k4"/>
+                                <ct:Delay>
+                                    <ct:SymbRef symbIdRef="G"/>
+                                    <ct:DelayVariable>
+                                        <ct:SymbRef symbIdRef="tau"/>
+                                    </ct:DelayVariable>
+                                </ct:Delay>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:History>
+                    <ct:HistoryValue>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryValue>
+                    <ct:HistoryTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryTime>
+                </ct:History>
+            </ct:DerivativeVariable>
+
+        </StructuralModel>
+        
+        <!-- OBSERVATION MODEL -->
+        <ObservationModel blkId="om1">
+            <ContinuousData>
+                <SimpleParameter symbId="a"/>
+                <SimpleParameter symbId="b"/>
+                <RandomVariable symbId="epsilon_Cc">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="resErr"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean><rVal>0</rVal></mean>
+                        <stddev><prVal>1</prVal></stddev>
+                    </NormalDistribution>
+                </RandomVariable>
+                <Standard symbId="Cc_obs"> 
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:Equation >
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                    <math:FunctionArgument symbId="a">
+                                        <ct:SymbRef symbIdRef="a"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="b"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="f">
+                                        <math:Equation >
+                                            <ct:SymbRef symbIdRef="Cc"/>
+                                        </math:Equation>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="epsilon_Cc"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+    </ModelDefinition>
+
+</PharmML>
