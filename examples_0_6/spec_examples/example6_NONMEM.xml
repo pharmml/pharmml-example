@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
+    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    
+    <ct:Name>PK with Poisson - combined model</ct:Name>
+    
+    <ct:Description>PK model combined with a basic Poisson model - based on 'Discrete Data Models with Examples' document</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="ka"/>
+            <SimpleParameter symbId="V"/>
+            <SimpleParameter symbId="CL"/>
+            <SimpleParameter symbId="lambda0"/>
+            <SimpleParameter symbId="IC50"/>
+            <!-- individual def with IIV omitted -->
+        </ParameterModel>
+
+        <!-- STRUCTURE -->
+        <StructuralModel blkId="sm1">
+
+            <!-- k -->
+            <ct:Variable symbolType="real" symbId="k">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <!-- dAd/dt -->
+            <ct:DerivativeVariable symbId="Ad" symbolType="real">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Uniop op="minus">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                            </math:Uniop>
+                            <ct:SymbRef symbIdRef="Ad"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+            
+            <!-- dAc/dt -->
+            <ct:DerivativeVariable symbId="Ac" symbolType="real">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                                <ct:SymbRef symbIdRef="Ad"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="k"/>
+                                <ct:SymbRef symbIdRef="Ac"/>
+                            </math:Binop>
+                        </math:Binop>                        
+                    </math:Equation>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+            
+            <!-- Cc -->
+            <ct:Variable symbolType="real" symbId="Cc">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Ac"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+        </StructuralModel>
+        
+        <!-- Count data - observation model -->
+        <ObservationModel blkId="om1">
+            <Discrete>
+                <CountData>
+                    <ct:Variable symbolType="int" symbId="k"/> <!-- optional, required for version B -->
+                    <CountVariable symbId="Y"/>
+                    
+                    <!-- Poisson intensity - function of drug concentration, Cc -->                    
+                    <IntensityParameter symbId="Lambda">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda0"/>
+                                    <math:Binop op="minus">
+                                        <ct:Real>1</ct:Real>
+                                        <math:Binop op="divide">
+                                            <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                            <math:Binop op="plus">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="IC50"/>
+                                                <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                            </math:Binop>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </IntensityParameter>
+                    
+                    <!-- version A -->
+                    <!-- P(Y=k) = exp(-lambda) * lambda^k / k! using UncertML -->
+                    <PMF linkFunction="log">
+                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" 
+                            definition="http://www.uncertml.org/3.0">
+                            <rate>
+                                <var varId="Lambda"/>
+                            </rate>
+                        </PoissonDistribution>
+                    </PMF>
+                    
+                    <!-- version B -->
+                    <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
+                    <PMF linkFunction="log">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="Y"/>
+                            <ct:SymbRef symbIdRef="k"/>
+                        </math:LogicBinop>
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                                <Binop op="minus">
+                                    <Binop op="plus">
+                                        <Uniop op="minus">
+                                            <ct:SymbRef symbIdRef="Lambda"/>
+                                        </Uniop>
+                                        <Binop op="times">
+                                            <ct:SymbRef symbIdRef="k"/>
+                                            <Uniop op="log">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                            </Uniop>
+                                        </Binop>
+                                    </Binop>
+                                    <Uniop op="factln">
+                                        <ct:SymbRef symbIdRef="k"/>
+                                    </Uniop>
+                                </Binop>
+                            </Equation>
+                        </ct:Assign>
+                    </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+        
+        <!-- C_obs -->
+        <ObservationModel blkId="om2">
+            <ContinuousData>
+                <SimpleParameter symbId="a"/>
+                <SimpleParameter symbId="b"/>
+                <General symbId="C_obs">
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="a"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>
+                </General>
+            </ContinuousData>
+        </ObservationModel>
+    </ModelDefinition>
+    
+    <mstep:ModellingSteps>
+        
+        <mstep:ExternalDataSet toolName="NONMEM" oid="NMoid">
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </mstep:ColumnMapping>
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="AMT"/>
+                <ct:SymbRef blkIdRef="sm1" symbIdRef="Ad"/>
+            </mstep:ColumnMapping>
+            <mstep:MultipleDVMapping>
+                <ds:ColumnRef columnIdRef="DV"/>
+                <mstep:Piecewise>
+                    <math:Piece>
+                        <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+                        <math:Condition>
+                            <math:LogicBinop op="eq">
+                                <ds:ColumnRef columnIdRef="EVID"/>
+                                <ct:Real>1</ct:Real>
+                            </math:LogicBinop>
+                        </math:Condition>
+                    </math:Piece>
+                    <math:Piece>
+                        <ct:SymbRef blkIdRef="om2" symbIdRef="C_obs"/>
+                        <math:Condition>
+                            <math:LogicBinop op="eq">
+                                <ds:ColumnRef columnIdRef="EVID"/>
+                                <ct:Real>2</ct:Real>
+                            </math:LogicBinop>
+                        </math:Condition>
+                    </math:Piece>
+                </mstep:Piecewise>
+            </mstep:MultipleDVMapping>
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="AMT" columnType="dose" valueType="real" columnNum="3"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="4"/>
+                    <ds:Column columnId="DVID" columnType="dvid" valueType="real" columnNum="5"/>
+                </ds:Definition>
+                <ds:ExternalFile oid="dataOid">
+                    <ds:path>datasets/example_poisson.csv</ds:path>
+                </ds:ExternalFile>
+            </ds:DataSet>
+        </mstep:ExternalDataSet>
+        
+        <mstep:EstimationStep oid="estStep1">
+            
+            <mstep:TargetToolReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </mstep:TargetToolReference>
+            
+            <mstep:ParametersToEstimate>
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+                <!-- omitted other parameters -->
+            </mstep:ParametersToEstimate>
+            
+            <mstep:Operation order="1" opType="estPop"/>
+        </mstep:EstimationStep>
+        
+    </mstep:ModellingSteps>
+
+</PharmML>
