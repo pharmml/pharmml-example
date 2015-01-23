@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://www.pharmml.org/2013/03/PharmML"
-    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
-    xmlns:math="http://www.pharmml.org/2013/03/Maths"
-    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
-    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.5.1" id="i1">
+    xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
+    implementedBy="MJS" writtenVersion="0.6" id="i1">
     
     <ct:Name>Zero-Inflated Poisson model</ct:Name>
     
     <ct:Description>Zero-Inflated Poisson model - based on code from Elodie Plan</ct:Description>
     
     <!-- MODEL -->
-    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
 
         <!-- PARAMETERS -->
         <ParameterModel blkId="pm1">
@@ -119,7 +119,7 @@
 
     <mstep:ModellingSteps>
         
-        <mstep:NONMEMdataSet oid="NMoid">
+        <mstep:ExternalDataSet toolName="NONMEM" oid="NMoid">
             
             <mstep:ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>
@@ -137,34 +137,25 @@
                     <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
                     <ds:Column columnId="Y" columnType="dv" valueType="int" columnNum="3"/>
                 </ds:Definition>
-                <ds:ImportData oid="dataOid">
+                <ds:ExternalFile oid="dataOid">
                     <ds:path>example.csv</ds:path>
                     <ds:format>CSV</ds:format>
                     <ds:delimiter>COMMA</ds:delimiter>
-                </ds:ImportData>
+                </ds:ExternalFile>
             </ds:DataSet>
-        </mstep:NONMEMdataSet>
+        </mstep:ExternalDataSet>
         
         <mstep:SimulationStep oid="simStep1">
-            <mstep:Observations>
-                <mstep:Timepoints>
-                    <ct:Sequence>
-                        <ct:Begin>
-                            <ct:Int>1</ct:Int>
-                        </ct:Begin>
-                        <ct:StepSize>
-                            <ct:Int>1</ct:Int>
-                        </ct:StepSize>
-                        <ct:End>
-                            <ct:Int>10</ct:Int>
-                        </ct:End>
-                    </ct:Sequence>
-                </mstep:Timepoints>
-                <mstep:Discrete>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
-                </mstep:Discrete>
-            </mstep:Observations>
+            <mstep:ExternalDataSetReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </mstep:ExternalDataSetReference>
         </mstep:SimulationStep>
+        
+        <mstep:StepDependencies>
+            <mstep:Step>
+                <ct:OidRef oidRef="simStep1"/>
+            </mstep:Step>
+        </mstep:StepDependencies>
     </mstep:ModellingSteps>
     
 </PharmML>

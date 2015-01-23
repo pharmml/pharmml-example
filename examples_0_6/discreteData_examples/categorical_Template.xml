@@ -7,7 +7,7 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
     xmlns:un="http://www.uncertml.org/3.0"
-    implementedBy="MJS" writtenVersion="0.5.1" id="i1">
+    implementedBy="MJS" writtenVersion="0.6" id="i1">
     
     <ct:Name>Categorical template</ct:Name>
     

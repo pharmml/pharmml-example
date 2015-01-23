@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://www.pharmml.org/2013/03/PharmML"
-    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
-    xmlns:math="http://www.pharmml.org/2013/03/Maths"
-    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
-    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
-    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
-    implementedBy="MJS" metadataFile="Ttemplate.rdf" writtenVersion="0.5.1" id="i1">
+    xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition"
+    xmlns:mml="http://www.pharmml.org/pharmml/0.6/PharmML"
+    implementedBy="MJS" metadataFile="Ttemplate.rdf" writtenVersion="0.6" id="i1">
     
     <ct:Name>TTE template</ct:Name>
     
@@ -14,7 +14,7 @@
     
     <IndependentVariable symbId="t"/>
     
-    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
                 
         <ObservationModel blkId="om1">
             <Discrete>
