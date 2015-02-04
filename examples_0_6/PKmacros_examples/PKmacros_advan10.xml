@@ -123,7 +123,7 @@
     <!-- BLOCK III: MODELLING STEPS -->
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
         
-        <ExternalDataSet oid="MLXoid">
+        <ExternalDataSet toolName="Monolix" oid="MLXoid">
             
             <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="TIME"/>

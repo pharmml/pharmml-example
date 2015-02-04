@@ -2,12 +2,12 @@
 <PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
-
+    
     xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:design="http://www.pharmml.org/pharmml/0.6/TrialDesign"
-    writtenVersion="0.5.1" implementedBy="MJS" id="i1">
+    writtenVersion="0.6" implementedBy="MJS" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>DDE arthritis Model</ct:Name>

@@ -25,7 +25,7 @@
         
         <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Cc"/>
-            <ct:Variable symbolType="real" symbId="Ch"/>
+            <ct:Variable symbolType="real" symbId="Ch"/>    <!-- Optional -->
         </StructuralModel>
         
         <!-- OBSERVATIONS -->
@@ -34,7 +34,7 @@
                 <TimeToEventData>
                     <EventVariable symbId="Hemorrhaging"/>
                     
-                    <!-- h(t) = 1/lambda -->
+                    <!-- h(t) = beta*C(t) -->
                     <HazardFunction symbId="h">
                         <ct:Assign>
                             <math:Equation>
@@ -46,7 +46,7 @@
                         </ct:Assign>   
                     </HazardFunction>
                     
-                    <!-- S = exp(-Ch) -->
+                    <!-- OPTIONAL: S = exp(-Ch) -->
                     <SurvivalFunction symbId="S">
                         <ct:Assign>
                             <math:Equation>
@@ -88,7 +88,7 @@
             
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="Y"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="hemorrhaging"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="Hemorrhaging"/>
             </ColumnMapping>
             
             <ds:DataSet>

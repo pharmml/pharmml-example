@@ -8,9 +8,9 @@
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
     implementedBy="MJS" writtenVersion="0.6" id="i1">
     
-    <ct:Name id="i2">Contnuous Markov and Initial Prob</ct:Name>
+    <ct:Name id="i2">Continuous Markov and Initial Prob</ct:Name>
     
-    <ct:Description>Contnuous Markov with initial probabilities</ct:Description>
+    <ct:Description>Continuous Markov with initial probabilities</ct:Description>
     
     <IndependentVariable symbId="t"/>
     

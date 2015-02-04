@@ -112,7 +112,7 @@
 
     <mstep:ModellingSteps>
         
-        <mstep:ExternalDataSet oid="NMoid">
+        <mstep:ExternalDataSet toolName="NONMEM" oid="NMoid">
             
             <mstep:ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>

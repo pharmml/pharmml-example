@@ -390,6 +390,11 @@
                     </math:Piece>
                     <math:Piece>
                         <ct:SymbRef blkIdRef="om3" symbIdRef="Level"/>
+                        <math:CategoryMapping>
+                            <ds:Map dataSymbol="1" modelSymbol="cat1"/>
+                            <ds:Map dataSymbol="2" modelSymbol="cat2"/>
+                            <ds:Map dataSymbol="3" modelSymbol="cat3"/>
+                        </math:CategoryMapping>
                         <math:Condition>
                             <math:LogicBinop op="eq">
                                 <ds:ColumnRef columnIdRef="ORIG"/>
@@ -408,16 +413,15 @@
                     <ds:Column columnId="ORIG" columnType="undefined" valueType="real" columnNum="4"/>
                 </ds:Definition>
                 <ds:ExternalFile oid="dataOid">
-                    <ds:path>datasets/example_poisson.csv</ds:path>
+                    <ds:path>example.csv</ds:path>
                     <ds:format>CSV</ds:format>
                     <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ExternalFile>
             </ds:DataSet>
         </mstep:ExternalDataSet>
         
-        
         <mstep:EstimationStep oid="estStep1">
-            
+
             <mstep:ExternalDataSetReference>
                 <ct:OidRef oidRef="NMoid"/>
             </mstep:ExternalDataSetReference>

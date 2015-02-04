@@ -112,7 +112,7 @@
                     <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
                 </ds:Definition>
                 <ds:ExternalFile oid="importData">
-                    <ds:path>datasets/categorical_binomial.dat</ds:path>
+                    <ds:path>myFile.dat</ds:path>
                 </ds:ExternalFile>
             </ds:DataSet>
         </mstep:ExternalDataSet>
