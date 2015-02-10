@@ -15,7 +15,7 @@
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>
 
-    <!-- BLOCK I: MODEL DEFINITION -->
+    <!-- SECTION I -->
     <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
         
         <!-- VARIABILITY MODEL -->
@@ -125,27 +125,24 @@
         </ObservationModel>
     </ModelDefinition>
 
+    <!-- SECTION II -->
     <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
         
         <ExternalDataSet toolName="Monolix" oid="MLXoid">
-            
             <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="t"/>
             </ColumnMapping>
-            
             <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="DV"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="Cc_obs"/>
             </ColumnMapping>
-            
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="ADM"/>
                 <ds:TargetMapping blkIdRef="sm1">
                     <ds:Map dataSymbol="1" admNumber="1"/>
                 </ds:TargetMapping>
-            </ColumnMapping>             
-            
+            </ColumnMapping>
             <DataSet xmlns="http://www.pharmml.org/pharmml/0.6/Dataset">
                 <Definition>
                     <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
@@ -161,34 +158,29 @@
                 </ExternalFile>
             </DataSet>
         </ExternalDataSet>
-        
     </TrialDesign>
 
+    <!-- SECTION III -->
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
         
         <!-- ESTIMATION STEP -->
         <EstimationStep oid="estTask1">
-            
             <ExternalDataSetReference>
                 <ct:OidRef oidRef="MLXoid"/>
             </ExternalDataSetReference>
-            
             <ParametersToEstimate>
-                
                 <ParameterEstimation>
                     <ct:SymbRef blkIdRef="pm1" symbIdRef="a"/>
                     <InitialEstimate>
                         <ct:Real>1</ct:Real>
                     </InitialEstimate>
                 </ParameterEstimation>
-                
                 <ParameterEstimation>
                     <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                     <InitialEstimate>
                         <ct:Real>10</ct:Real>
                     </InitialEstimate>
                 </ParameterEstimation>
-                
                 <!-- omitted other parameters -->
             </ParametersToEstimate>
             
@@ -202,6 +194,5 @@
                 <ct:OidRef oidRef="estTask1"/>
             </Step>
         </StepDependencies>
-        
     </ModellingSteps>
 </PharmML>
