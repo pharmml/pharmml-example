@@ -414,6 +414,13 @@
     <!-- MODELLING STEPS -->
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
         
+<!--        <ExternalDataSet toolName="NONMEM" oid="">
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="" columnType="" valueType="" columnNum=""></ds:Column>
+                </ds:Definition>
+            </ds:DataSet>
+        </ExternalDataSet>-->
         <!-- ESTIMATION -->
         <EstimationStep oid="estimStep1">
             <!-- OBJECTIVE DATA -->
