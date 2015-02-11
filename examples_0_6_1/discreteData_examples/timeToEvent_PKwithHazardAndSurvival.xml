@@ -77,20 +77,18 @@
         </ObservationModel>
     </ModelDefinition>
     
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
+    
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
         
         <ExternalDataSet toolName="NONMEM" oid="NMoid">
-            
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="t"/>
             </ColumnMapping>
-            
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="Y"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="Hemorrhaging"/>
             </ColumnMapping>
-            
             <ds:DataSet>
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
@@ -104,11 +102,21 @@
                 </ds:ExternalFile>
             </ds:DataSet>
         </ExternalDataSet>
-        
+    </TrialDesign>
+
+
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
+                
         <mstep:SimulationStep oid="simStep1">
             <mstep:ExternalDataSetReference>
                 <ct:OidRef oidRef="NMoid"/>
             </mstep:ExternalDataSetReference>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
+                <ct:Assign>
+                    <ct:Real>5</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
         </mstep:SimulationStep>
         
         <mstep:StepDependencies>
@@ -117,5 +125,4 @@
             </mstep:Step>
         </mstep:StepDependencies>
     </ModellingSteps>
-    
 </PharmML>

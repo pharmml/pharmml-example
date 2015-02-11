@@ -117,20 +117,19 @@
         </ObservationModel>
     </ModelDefinition>
 
-    <mstep:ModellingSteps>
+
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
         
-        <mstep:ExternalDataSet toolName="NONMEM" oid="NMoid">
+        <ExternalDataSet toolName="NONMEM" oid="NMoid">
             
-            <mstep:ColumnMapping>
+            <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="t"/>
-            </mstep:ColumnMapping>
-            
-            <mstep:ColumnMapping>
+            </ColumnMapping>
+            <ColumnMapping>
                 <ds:ColumnRef columnIdRef="Y"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
-            </mstep:ColumnMapping>
-            
+            </ColumnMapping>
             <ds:DataSet>
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
@@ -143,12 +142,28 @@
                     <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ExternalFile>
             </ds:DataSet>
-        </mstep:ExternalDataSet>
+        </ExternalDataSet>
+    </TrialDesign>
+    
+    
+    <mstep:ModellingSteps>
         
         <mstep:SimulationStep oid="simStep1">
             <mstep:ExternalDataSetReference>
                 <ct:OidRef oidRef="NMoid"/>
             </mstep:ExternalDataSetReference>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                <ct:Assign>
+                    <ct:Real>2</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="p0"/>
+                <ct:Assign>
+                    <ct:Real>.2</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
         </mstep:SimulationStep>
         
         <mstep:StepDependencies>
@@ -157,5 +172,4 @@
             </mstep:Step>
         </mstep:StepDependencies>
     </mstep:ModellingSteps>
-    
 </PharmML>

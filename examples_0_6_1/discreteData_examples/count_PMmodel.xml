@@ -35,6 +35,7 @@
                         </ct:Assign>
                     </IntensityParameter>
                     
+                    <!-- using UncertML -->
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
                     <PMF linkFunction="log">
                         <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
@@ -44,6 +45,7 @@
                         </PoissonDistribution>
                     </PMF>
                     
+                    <!-- explicit PMF -->
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
                     <PMF linkFunction="log">
                         <math:LogicBinop op="eq">
@@ -109,21 +111,19 @@
             </Discrete>
         </ObservationModel>
     </ModelDefinition>
-    
-    <mstep:ModellingSteps>
+
+
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
         
-        <mstep:ExternalDataSet toolName="NONMEM" oid="NMoid">
-            
-            <mstep:ColumnMapping>
+        <ExternalDataSet toolName="NONMEM" oid="NMoid">
+            <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="t"/>
-            </mstep:ColumnMapping>
-            
-            <mstep:ColumnMapping>
+            </ColumnMapping>
+            <ColumnMapping>
                 <ds:ColumnRef columnIdRef="Y"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>  <!-- or 'om2' -->
-            </mstep:ColumnMapping>
-            
+                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>  <!-- 'om1' -->
+            </ColumnMapping>
             <ds:DataSet>
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
@@ -136,11 +136,12 @@
                     <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ExternalFile>
             </ds:DataSet>
-        </mstep:ExternalDataSet>
+        </ExternalDataSet>
         
-        <mstep:SimulationStep oid="simStep1">
-            <mstep:Observations>
-                <mstep:Timepoints>
+        <!-- also Y but defined explicitely -->
+        <Observations oid="OBSoid">
+            <ExplicitObservations>
+                <Timepoints>
                     <ct:Sequence>
                         <ct:Begin>
                             <ct:Int>1</ct:Int>
@@ -152,13 +153,49 @@
                             <ct:Int>10</ct:Int>
                         </ct:End>
                     </ct:Sequence>
-                </mstep:Timepoints>
-                <mstep:Discrete>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
-                    <ct:SymbRef blkIdRef="om2" symbIdRef="Y"/>
-                </mstep:Discrete>
-            </mstep:Observations>
+                </Timepoints>
+                <Discrete>
+                    <ct:SymbRef blkIdRef="om2" symbIdRef="Y"/>  <!-- 'om2' -->
+                </Discrete>
+            </ExplicitObservations>
+        </Observations>
+        
+    </TrialDesign>
+    
+    
+    <mstep:ModellingSteps>
+        
+        <mstep:SimulationStep oid="simStep1">
+            <mstep:ExternalDataSetReference>
+                <ct:OidRef oidRef="NMoid"/>        <!-- reference to <ExternalDataSet toolName="NONMEM" oid="NMoid"> -->
+            </mstep:ExternalDataSetReference>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                <ct:Assign>
+                    <ct:Real>1</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
         </mstep:SimulationStep>
+        
+        <mstep:SimulationStep oid="simStep2">
+            <mstep:ObservationsReference>
+                <ct:OidRef oidRef="OBSoid"/>        <!-- reference to <Observations oid="OBSoid"> -->
+            </mstep:ObservationsReference>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                <ct:Assign>
+                    <ct:Real>2</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+        </mstep:SimulationStep>
+        
+        <mstep:StepDependencies>
+            <mstep:Step>
+                <ct:OidRef oidRef="simStep1"/>
+            </mstep:Step>
+            <mstep:Step>
+                <ct:OidRef oidRef="simStep2"/>
+            </mstep:Step>
+        </mstep:StepDependencies>
     </mstep:ModellingSteps>
-
 </PharmML>

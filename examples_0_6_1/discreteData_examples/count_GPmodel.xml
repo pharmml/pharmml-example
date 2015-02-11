@@ -14,7 +14,7 @@
     
     <IndependentVariable symbId="t"/>
     
-    <!-- MODEL -->
+    <!-- SECTION I -->
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
         
         <ParameterModel blkId="pm1">
@@ -94,20 +94,19 @@
         </ObservationModel>
     </ModelDefinition>
     
-    <mstep:ModellingSteps>
+    
+    <!-- SECTION II -->
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
         
-        <mstep:ExternalDataSet toolName="NONMEM" oid="NMoid">
-            
-            <mstep:ColumnMapping>
+        <ExternalDataSet toolName="NONMEM" oid="NMoid">
+            <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="t"/>
-            </mstep:ColumnMapping>
-            
-            <mstep:ColumnMapping>
+            </ColumnMapping>
+            <ColumnMapping>
                 <ds:ColumnRef columnIdRef="Y"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
-            </mstep:ColumnMapping>
-            
+            </ColumnMapping>
             <ds:DataSet>
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
@@ -120,7 +119,34 @@
                     <ds:delimiter>COMMA</ds:delimiter>
                 </ds:ExternalFile>
             </ds:DataSet>
-        </mstep:ExternalDataSet>
+        </ExternalDataSet>
+    </TrialDesign>    
+
+
+    <!-- SECTION III -->
+    <mstep:ModellingSteps>
+        
+        <mstep:EstimationStep oid="estStep1">
+            <mstep:ExternalDataSetReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </mstep:ExternalDataSetReference>
+            <mstep:ParametersToEstimate>
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="delta"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>.1</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>5</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+            </mstep:ParametersToEstimate>
+            
+            <mstep:Operation order="1" opType="estIndiv"/>
+            <mstep:Operation order="2" opType="estIndiv"/>
+        </mstep:EstimationStep>
     </mstep:ModellingSteps>
-    
 </PharmML>
