@@ -3,6 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
     implementedBy="MJS" writtenVersion="0.6"
     metadataFile="example5_NONMEM.rdf" id="i1">
     
@@ -304,14 +305,12 @@
             <!-- dC/dt -->
             <ct:DerivativeVariable symbolType="real" symbId="C">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="times">
-                            <Uniop op="minus">
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
-                            </Uniop>
-                            <ct:SymbRef symbIdRef="C"/>
-                        </Binop>
-                    </Equation>
+                    <Binop xmlns="http://www.pharmml.org/pharmml/0.6/Maths" op="times">
+                        <Uniop op="minus">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                        </Uniop>
+                        <ct:SymbRef symbIdRef="C"/>
+                    </Binop>
                 </ct:Assign>
                 <ct:IndependentVariable>
                     <ct:SymbRef symbIdRef="time"/>
@@ -328,45 +327,43 @@
             <!-- dPT/dt -->
             <ct:DerivativeVariable symbolType="real" symbId="PT">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="plus">
-                            <Binop op="times">
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="LAMBDAP"/>
-                                <Binop op="times">
+                    <math:Binop op="plus">
+                        <math:Binop op="times">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="LAMBDAP"/>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="PT"/>
+                                <math:Binop op="minus">
+                                    <ct:Real>1</ct:Real>
+                                    <math:Binop op="divide">
+                                        <ct:SymbRef symbIdRef="PSTAR"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="K"/>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="KQPP"/>
+                                <ct:SymbRef symbIdRef="QP"/>
+                            </math:Binop>
+                            <math:Binop op="plus">
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KPQ"/>
                                     <ct:SymbRef symbIdRef="PT"/>
-                                    <Binop op="minus">
-                                        <ct:Real>1</ct:Real>
-                                        <Binop op="divide">
-                                            <ct:SymbRef symbIdRef="PSTAR"/>
-                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="K"/>
-                                        </Binop>
-                                    </Binop>
-                                </Binop>
-                            </Binop>
-                            <Binop op="minus">
-                                <Binop op="times">
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KQPP"/>
-                                    <ct:SymbRef symbIdRef="QP"/>
-                                </Binop>
-                                <Binop op="plus">
-                                    <Binop op="times">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="KPQ"/>
-                                        <ct:SymbRef symbIdRef="PT"/>
-                                    </Binop>
-                                    <Binop op="times">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="GAMMA"/>
-                                        <Binop op="times">
-                                            <ct:SymbRef symbIdRef="C"/>
-                                            <Binop op="times">
-                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
-                                                <ct:SymbRef symbIdRef="PT"/>
-                                            </Binop>
-                                        </Binop>
-                                    </Binop>
-                                </Binop>
-                            </Binop>
-                        </Binop>
-                    </Equation>
+                                </math:Binop>
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="GAMMA"/>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="C"/>
+                                        <math:Binop op="times">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                                            <ct:SymbRef symbIdRef="PT"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
                 </ct:Assign>
                 <ct:IndependentVariable>
                     <ct:SymbRef symbIdRef="time"/>
@@ -383,24 +380,22 @@
             <!-- dQ/dt --> 
             <ct:DerivativeVariable symbolType="real" symbId="Q">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="minus">
-                            <Binop op="times">
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="KPQ"/>
-                                <ct:SymbRef symbIdRef="PT"/>
-                            </Binop>
-                            <Binop op="times">
-                                <ct:SymbRef  blkIdRef="pm1" symbIdRef="GAMMA"/>
-                                <Binop op="times">
-                                    <ct:SymbRef symbIdRef="C"/>
-                                    <Binop op="times">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
-                                        <ct:SymbRef symbIdRef="Q"/>
-                                    </Binop>
-                                </Binop>
-                            </Binop>
-                        </Binop>
-                    </Equation>
+                    <math:Binop op="minus">
+                        <math:Binop op="times">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="KPQ"/>
+                            <ct:SymbRef symbIdRef="PT"/>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <ct:SymbRef  blkIdRef="pm1" symbIdRef="GAMMA"/>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="C"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                                    <ct:SymbRef symbIdRef="Q"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
                 </ct:Assign>
                 <ct:IndependentVariable>
                     <ct:SymbRef symbIdRef="time"/>
@@ -417,30 +412,28 @@
             <!-- dQP/dt -->
             <ct:DerivativeVariable symbolType="real" symbId="QP">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="minus">
-                            <Binop op="minus">
-                                <Binop op="times">
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="GAMMA"/>
-                                    <Binop op="times">
-                                        <ct:SymbRef symbIdRef="C"/>
-                                        <Binop op="times">
-                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
-                                            <ct:SymbRef symbIdRef="Q"/>
-                                        </Binop>
-                                    </Binop>
-                                </Binop>
-                                <Binop op="times">
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KQPP"/>
-                                    <ct:SymbRef symbIdRef="QP"/>
-                                </Binop>
-                            </Binop>
-                            <Binop op="times">
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="DELTAQP"/>
+                    <math:Binop op="minus">
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="GAMMA"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="C"/>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                                        <ct:SymbRef symbIdRef="Q"/>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="KQPP"/>
                                 <ct:SymbRef symbIdRef="QP"/>
-                            </Binop>                        
-                        </Binop>
-                    </Equation>
+                            </math:Binop>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="DELTAQP"/>
+                            <ct:SymbRef symbIdRef="QP"/>
+                        </math:Binop>                        
+                    </math:Binop>
                 </ct:Assign>
                 <ct:IndependentVariable>
                     <ct:SymbRef symbIdRef="time"/>
@@ -457,15 +450,13 @@
             <!-- PSTAR -->
             <ct:Variable symbolType="real" symbId="PSTAR" >
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="plus">
-                            <ct:SymbRef symbIdRef="PT"/>
-                            <Binop op="plus">
-                                <ct:SymbRef symbIdRef="Q"/>
-                                <ct:SymbRef symbIdRef="QP"/>
-                            </Binop>
-                        </Binop>                    
-                    </Equation>
+                    <math:Binop op="plus">
+                        <ct:SymbRef symbIdRef="PT"/>
+                        <math:Binop op="plus">
+                            <ct:SymbRef symbIdRef="Q"/>
+                            <ct:SymbRef symbIdRef="QP"/>
+                        </math:Binop>
+                    </math:Binop>                    
                 </ct:Assign>
             </ct:Variable>
         </StructuralModel>
@@ -493,14 +484,12 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                                <FunctionCall>
-                                    <ct:SymbRef symbIdRef="constantErrorModel"/>
-                                    <FunctionArgument symbId="a">
-                                        <ct:SymbRef symbIdRef="a"/>
-                                    </FunctionArgument>
-                                </FunctionCall>
-                            </Equation>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="constantErrorModel"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>

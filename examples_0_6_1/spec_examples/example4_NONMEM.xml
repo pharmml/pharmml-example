@@ -22,15 +22,13 @@
         <ct:FunctionArgument symbId="b" symbolType="real"/>
         <ct:FunctionArgument symbId="f" symbolType="real"/>
         <ct:Definition>
-            <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths" >
-                <Binop op="plus">
-                    <ct:SymbRef symbIdRef="a"/>
-                    <Binop op="times">
-                        <ct:SymbRef symbIdRef="b"/>
-                        <ct:SymbRef symbIdRef="f"/>
-                    </Binop>
-                </Binop>
-            </Equation>
+            <math:Binop op="plus">
+                <ct:SymbRef symbIdRef="a"/>
+                <math:Binop op="times">
+                    <ct:SymbRef symbIdRef="b"/>
+                    <ct:SymbRef symbIdRef="f"/>
+                </math:Binop>
+            </math:Binop>
         </ct:Definition>
     </ct:FunctionDefinition>
     
@@ -257,47 +255,45 @@
             <ct:Variable symbolType="real" symbId="tD"/>
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="times">
-                            <Binop op="divide">
-                                <ct:SymbRef symbIdRef="D"/>
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                            </Binop>
-                            <Binop op="times">
-                                <Binop op="divide">
+                    <math:Binop op="times">
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="D"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                                <math:Binop op="minus">
                                     <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                                    <Binop op="minus">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                                    </Binop>
-                                </Binop>
-                                <Binop op="minus">
-                                    <Uniop op="exp">
-                                        <Binop op="times">
-                                            <Uniop op="minus">
-                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                                            </Uniop>
-                                            <Binop op="minus">
-                                                <ct:SymbRef symbIdRef="t"/>
-                                                <ct:SymbRef symbIdRef="t_D"/>
-                                            </Binop>
-                                        </Binop>
-                                    </Uniop>
-                                    <Uniop op="exp">
-                                        <Binop op="times">
-                                            <Uniop op="minus">
-                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                                            </Uniop>
-                                            <Binop op="minus">
-                                                <ct:SymbRef symbIdRef="t"/>
-                                                <ct:SymbRef symbIdRef="t_D"/>
-                                            </Binop>
-                                        </Binop>
-                                    </Uniop>
-                                </Binop>
-                            </Binop>
-                        </Binop>
-                    </Equation>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="minus">
+                                <math:Uniop op="exp">
+                                    <math:Binop op="times">
+                                        <math:Uniop op="minus">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                                        </math:Uniop>
+                                        <math:Binop op="minus">
+                                            <ct:SymbRef symbIdRef="t"/>
+                                            <ct:SymbRef symbIdRef="t_D"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Uniop>
+                                <math:Uniop op="exp">
+                                    <math:Binop op="times">
+                                        <math:Uniop op="minus">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                                        </math:Uniop>
+                                        <math:Binop op="minus">
+                                            <ct:SymbRef symbIdRef="t"/>
+                                            <ct:SymbRef symbIdRef="t_D"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Uniop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
         </StructuralModel>
@@ -322,22 +318,20 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <math:Equation >
-                                <math:FunctionCall>
-                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
-                                    <math:FunctionArgument symbId="a">
-                                        <ct:SymbRef symbIdRef="a"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="b">
-                                        <ct:SymbRef symbIdRef="b"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="f">
-                                        <math:Equation >
-                                            <ct:SymbRef symbIdRef="Cc"/>
-                                        </math:Equation>
-                                    </math:FunctionArgument>
-                                </math:FunctionCall>
-                            </math:Equation>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <math:Equation >
+                                        <ct:SymbRef symbIdRef="Cc"/>
+                                    </math:Equation>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>

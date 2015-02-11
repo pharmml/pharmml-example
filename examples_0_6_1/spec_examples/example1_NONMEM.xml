@@ -22,9 +22,7 @@
     <FunctionDefinition xmlns="http://www.pharmml.org/pharmml/0.6/CommonTypes" symbId="constantErrorModel" symbolType="real">
         <FunctionArgument symbId="a" symbolType="real"/>
         <Definition>
-            <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                <ct:SymbRef symbIdRef="a"/>
-            </Equation>
+            <ct:SymbRef symbIdRef="a"/>
         </Definition>
     </FunctionDefinition>
     
@@ -33,15 +31,13 @@
         <FunctionArgument symbId="b" symbolType="real"/>
         <FunctionArgument symbId="f" symbolType="real"/>
         <Definition>
-            <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                <Binop op="plus">
+                <math:Binop op="plus">
                     <ct:SymbRef symbIdRef="a"/>
-                    <Binop op="times">
+                    <math:Binop op="times">
                         <ct:SymbRef symbIdRef="b"/>
                         <ct:SymbRef symbIdRef="f"/>
-                    </Binop>
-                </Binop>
-            </Equation>
+                    </math:Binop>
+                </math:Binop>
         </Definition>
     </FunctionDefinition>
     
@@ -69,14 +65,14 @@
                     </NormalDistribution>
                     <Transformation>
                         <TransformedCovariate symbId="logW70"/>
-                        <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                            <Uniop op="log">
-                                <Binop op="divide">
+                        <ct:Assign>
+                            <math:Uniop op="log">
+                                <math:Binop op="divide">
                                     <ct:SymbRef symbIdRef="W"/>
                                     <ct:Real>70.0</ct:Real>
-                                </Binop>
-                            </Uniop>
-                        </Equation>
+                                </math:Binop>
+                            </math:Uniop>
+                        </ct:Assign>
                     </Transformation>
                 </Continuous>
             </Covariate>
@@ -221,14 +217,12 @@
             </RandomVariable>
             <IndividualParameter symbId="Rin">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="times">
+                        <math:Binop op="times">
                             <ct:SymbRef symbIdRef="pop_Rin"/>
-                            <Uniop op="exp">
+                            <math:Uniop op="exp">
                                 <ct:SymbRef symbIdRef="eta_Rin"/>
-                            </Uniop>
-                        </Binop>
-                    </Equation>
+                            </math:Uniop>
+                        </math:Binop>
                 </ct:Assign>
             </IndividualParameter>
             
@@ -249,14 +243,12 @@
                     <Transformation>log</Transformation>
                     <GeneralCovariate>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                                <Binop op="plus">
-                                    <Uniop op="log">
+                                <math:Binop op="plus">
+                                    <math:Uniop op="log">
                                         <ct:SymbRef symbIdRef="pop_kout"/>
-                                    </Uniop>
+                                    </math:Uniop>
                                     <ct:SymbRef symbIdRef="eta_kout"/>
-                                </Binop>
-                            </Equation>
+                                </math:Binop>
                         </ct:Assign>
                     </GeneralCovariate>
                     <RandomEffects>
@@ -315,24 +307,20 @@
         <StructuralModel blkId="sm1">
             <SimpleParameter symbId="k">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="divide">
+                        <math:Binop op="divide">
                             <ct:SymbRef blkIdRef="p1" symbIdRef="Cl"/>
                             <ct:SymbRef blkIdRef="p1" symbIdRef="V"/>
-                        </Binop>
-                    </Equation>
+                        </math:Binop>
                 </ct:Assign>
             </SimpleParameter>
             <ct:DerivativeVariable symbId="Ad" symbolType="real">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="times">
-                            <Uniop op="minus">
+                        <math:Binop op="times">
+                            <math:Uniop op="minus">
                                 <ct:SymbRef blkIdRef="p1" symbIdRef="ka"/>
-                            </Uniop>
+                            </math:Uniop>
                             <ct:SymbRef symbIdRef="Ad"/>
-                        </Binop>
-                    </Equation>
+                        </math:Binop>
                 </ct:Assign>
                 <ct:IndependentVariable>
                     <ct:SymbRef symbIdRef="t"/>
@@ -347,18 +335,16 @@
             </ct:DerivativeVariable>
             <ct:DerivativeVariable symbId="Ac" symbolType="real">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="minus">
-                            <Binop op="times">
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
                                 <ct:SymbRef blkIdRef="p1" symbIdRef="ka"/>
                                 <ct:SymbRef symbIdRef="Ad"/>
-                            </Binop>
-                            <Binop op="times">
+                            </math:Binop>
+                            <math:Binop op="times">
                                 <ct:SymbRef symbIdRef="k"/>
                                 <ct:SymbRef symbIdRef="Ac"/>
-                            </Binop>
-                        </Binop>
-                    </Equation>
+                            </math:Binop>
+                        </math:Binop>
                 </ct:Assign>
                 <ct:IndependentVariable>
                     <ct:SymbRef symbIdRef="t"/>
@@ -379,30 +365,28 @@
             <ct:DerivativeVariable symbId="E" symbolType="real">
                 <ct:Description>PCA</ct:Description>
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="minus">
-                            <Binop op="times">
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
                                 <ct:SymbRef blkIdRef="p1" symbIdRef="Rin"/>
-                                <Binop op="minus">
+                                <math:Binop op="minus">
                                     <ct:Real>1</ct:Real>
-                                    <Binop op="divide">
-                                        <Binop op="times">
+                                    <math:Binop op="divide">
+                                        <math:Binop op="times">
                                             <ct:SymbRef blkIdRef="p1" symbIdRef="Imax"/>
                                             <ct:SymbRef symbIdRef="Cc"/>
-                                        </Binop>
-                                        <Binop op="plus">
+                                        </math:Binop>
+                                        <math:Binop op="plus">
                                             <ct:SymbRef symbIdRef="Cc"/>
                                             <ct:SymbRef blkIdRef="p1" symbIdRef="IC50"/>
-                                        </Binop>
-                                    </Binop>
-                                </Binop>
-                            </Binop>
-                            <Binop op="times">
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
                                 <ct:SymbRef blkIdRef="p1" symbIdRef="kout"/>
                                 <ct:SymbRef symbIdRef="E"/>
-                            </Binop>
-                        </Binop>
-                    </Equation>
+                            </math:Binop>
+                        </math:Binop>
                 </ct:Assign>
                 <ct:IndependentVariable>
                     <ct:SymbRef symbIdRef="t"/>
@@ -410,12 +394,10 @@
                 <ct:InitialCondition>
                     <ct:InitialValue>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                                <Binop op="divide">
+                                <math:Binop op="divide">
                                     <ct:SymbRef symbIdRef="Rin"/>
                                     <ct:SymbRef symbIdRef="kout"/>
-                                </Binop>
-                            </Equation>
+                                </math:Binop>
                         </ct:Assign>
                     </ct:InitialValue>
                     <ct:InitialTime>
@@ -428,12 +410,10 @@
             <ct:Variable symbId="Cc" symbolType="real">
                 <ct:Description>Concentration</ct:Description>
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
-                        <Binop op="divide">
+                        <math:Binop op="divide">
                             <ct:SymbRef symbIdRef="Ac"/>
                             <ct:SymbRef symbIdRef="V"/>
-                        </Binop>
-                    </Equation>
+                        </math:Binop>
                 </ct:Assign>
             </ct:Variable>
         </StructuralModel>
@@ -453,7 +433,6 @@
                 </RandomVariable>
                 <General symbId="E_obs">
                     <ct:Assign>
-                        <math:Equation>
                             <math:Binop op="plus">
                                 <ct:SymbRef blkIdRef="sm1" symbIdRef="E"/>
                                 <math:Binop op="times">
@@ -466,7 +445,6 @@
                                     <ct:SymbRef symbIdRef="epsilon_E"/>
                                 </math:Binop>
                             </math:Binop>
-                        </math:Equation>
                     </ct:Assign>
                 </General>
             </ContinuousData>
@@ -492,7 +470,6 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <math:Equation>
                                 <math:FunctionCall>
                                     <ct:SymbRef symbIdRef="combinedErrorModel"/>
                                     <math:FunctionArgument symbId="a">
@@ -507,7 +484,6 @@
                                         </math:Equation>
                                     </math:FunctionArgument>
                                 </math:FunctionCall>
-                            </math:Equation>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>
@@ -610,12 +586,10 @@
                 <ct:Description>omega_W = 1409/100 assignment</ct:Description>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="omega_W"/>
                 <ct:Assign>
-                    <math:Equation>
                         <math:Binop op="divide">
                             <ct:Real>1409</ct:Real>
                             <ct:Real>100</ct:Real>
                         </math:Binop>
-                    </math:Equation>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
