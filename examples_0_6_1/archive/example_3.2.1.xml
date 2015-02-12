@@ -23,18 +23,16 @@
         <FunctionArgument symbolType="real" symbId="b"/>
         <FunctionArgument symbolType="real" symbId="f"/>
         <Definition>
-            <math:Equation>
-                <math:Binop op="plus">
-                    <ct:SymbRef symbIdRef="a"/>
-                    <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="b"/>
-                        <ct:SymbRef symbIdRef="f"/>
-                    </math:Binop>
+            <math:Binop op="plus">
+                <ct:SymbRef symbIdRef="a"/>
+                <math:Binop op="times">
+                    <ct:SymbRef symbIdRef="b"/>
+                    <ct:SymbRef symbIdRef="f"/>
                 </math:Binop>
-            </math:Equation>
+            </math:Binop>
         </Definition>
     </ct:FunctionDefinition>
-
+ 
     <!-- MODEL DEFINITION -->
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
         
@@ -182,7 +180,7 @@
             <!-- C - algebraic formula -->
             <ct:Variable symbolType="real" symbId="C">
                 <ct:Assign>
-                        <math:Piecewise>
+                        <ct:Piecewise>
                             <math:Piece>
                                 <ct:Real>0</ct:Real>
                                 <math:Condition>
@@ -245,7 +243,7 @@
                                     <math:Otherwise/>
                                 </math:Condition>
                             </math:Piece>
-                        </math:Piecewise>
+                        </ct:Piecewise>
                 </ct:Assign>
             </ct:Variable>
         </StructuralModel>
@@ -274,20 +272,18 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <math:Equation>
-                                <math:FunctionCall>
-                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
-                                    <math:FunctionArgument symbId="a">
-                                        <ct:SymbRef symbIdRef="a"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="b">
-                                        <ct:SymbRef symbIdRef="b"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="f">
-                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
-                                    </math:FunctionArgument>
-                                </math:FunctionCall>
-                            </math:Equation>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>
