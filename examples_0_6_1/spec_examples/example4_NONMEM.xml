@@ -327,9 +327,7 @@
                                     <ct:SymbRef symbIdRef="b"/>
                                 </math:FunctionArgument>
                                 <math:FunctionArgument symbId="f">
-                                    <math:Equation >
-                                        <ct:SymbRef symbIdRef="Cc"/>
-                                    </math:Equation>
+                                    <ct:SymbRef symbIdRef="Cc"/>
                                 </math:FunctionArgument>
                             </math:FunctionCall>
                         </ct:Assign>
