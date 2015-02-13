@@ -506,27 +506,58 @@
         
         <!-- STRUCTURE -->
         <Structure>
-            <Epoch oid="epoch1">
+            <InterventionEpoch oid="intervEpoch1">
                 <Start><ct:Real>0</ct:Real></Start>
                 <End><ct:Real>200</ct:Real></End>
                 <Order>1</Order>
-            </Epoch>
-            <Arm oid="arm1"/>
-            <Cell oid="cell1">
+            </InterventionEpoch>
+            <SamplingEpoch oid="samplEpoch1">
+                <Start><ct:Real>0</ct:Real></Start>
+                <End><ct:Real>200</ct:Real></End>
+                <Order>2</Order>
+            </SamplingEpoch>
+            <Arm oid="arm1">
+                <ArmSize>20</ArmSize>
+            </Arm>
+            <Arm oid="arm2">
+                <CopyArm oifRef="arm1">
+                <ArmSize>20</ArmSize>
+            </Arm>
+<!--            <Cell oid="cell1">
                 <EpochRef oidRef="epoch1"/>
                 <ArmRef oidRef="arm1"/>
                 <SegmentRef oidRef="TA"/>
             </Cell>
+            <Cell oid="cell2">
+                <EpochRef oidRef="epoch3"/>
+                <ArmRef oidRef="arm2"/>
+                <SegmentRef oidRef="TA"/>
+            </Cell>-->
             <Segment oid="TA">
+                <ArmRef oidRef="arm1"/>
+                <EpochRef oidRef="epoch1"/>
                 <ActivityRef oidRef="bolusIV"/>
+                <ActivityRef oidRef="oral"/>
             </Segment>
             <Activity oid="bolusIV">
                 <Bolus>
                     <DoseAmount inputTarget="derivativeVariable">
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
                     </DoseAmount>
+                    <DosingTimes>
+                        <ct:Assign>
+                            <ct:Sequence>
+                                <ct:Begin><ct:Int>1</ct:Int></ct:Begin>
+                                <ct:StepSize><ct:Int>1</ct:Int></ct:StepSize>
+                                <ct:End><ct:Int>10</ct:Int></ct:End>
+                            </ct:Sequence>
+                        </ct:Assign>
+                    </DosingTimes>
                 </Bolus>
             </Activity>
+            <Observations oid="bolusIV_arm1"> <!-- to be defined -->
+                ...
+            </Observations>
         </Structure> 
         
         <!-- POPULATION -->

@@ -51,6 +51,20 @@
         <CovariateModel blkId="cm1">
             <Covariate symbId="W">
                 <Continuous>
+                    <Piecewise>
+                        <Piece>
+                            <Condition1>arm=1</Condition1>
+                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                                <mean></mean>
+                            </NormalDistribution>
+                        </Piece>
+                        <Piece>
+                            <Condition2>arm=2</Condition2>
+                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                                <mean></mean>
+                            </NormalDistribution>
+                        </Piece>
+                    </Piecewise>
                     <Transformation>
                         <TransformedCovariate symbId="logWT70"/>
                         <ct:Assign>
