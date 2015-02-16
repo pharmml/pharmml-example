@@ -51,6 +51,12 @@
         <CovariateModel blkId="cm1">
             <Covariate symbId="W">
                 <Continuous>
+                    
+                    <!-- FINISH -->
+                    <!-- FINISH -->
+                    <!-- FINISH -->
+                    <!-- FINISH -->
+                    
                     <Piecewise>
                         <Piece>
                             <Condition1>arm=1</Condition1>

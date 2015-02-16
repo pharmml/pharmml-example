@@ -32,12 +32,10 @@
             <SimpleParameter symbId="CL"/>
             <SimpleParameter symbId="k">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef symbIdRef="CL"/>
-                            <ct:SymbRef symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="divide">
+                        <ct:SymbRef symbIdRef="CL"/>
+                        <ct:SymbRef symbIdRef="V"/>
+                    </math:Binop>
                 </ct:Assign>
             </SimpleParameter>
             <SimpleParameter symbId="a"/>
@@ -54,12 +52,10 @@
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="divide">
+                        <ct:SymbRef symbIdRef="Ac"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
             
@@ -80,6 +76,10 @@
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
                     </Value>
+                    <!-- alternative with a string from 'adm' column -->
+                    <!-- <Value argument="adm">      
+                        <ct:String>bolusIV</ct:String>
+                    </Value>-->
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
