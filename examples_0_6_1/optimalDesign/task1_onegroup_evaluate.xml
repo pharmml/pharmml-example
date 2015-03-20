@@ -101,7 +101,7 @@
                     <armSize>30</armSize>
                     <InterventionSegment oid="ts1">
                         <InterventionList>
-                            <ActivityRef oidRef="admin1"/>
+                            <InterventionRef oidRef="admin1"/>
                         </InterventionList>
                         <Start>
                             <ct:Real>0</ct:Real>
