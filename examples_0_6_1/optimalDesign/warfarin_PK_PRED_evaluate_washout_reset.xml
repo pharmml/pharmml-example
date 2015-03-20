@@ -135,14 +135,14 @@
             <Arms>
                 <Arm oid="arm1">
                     <armSize>33</armSize>
-                    <TreatmentSegment oid="ts1">
-                        <TreatmentList>
+                    <InterventionSegment oid="ts1">
+                        <InterventionList>
                             <ActivityRef oidRef="admin1"/>
-                        </TreatmentList>
+                        </InterventionList>
                         <Start>
                             <ct:Real>0</ct:Real>
                         </Start>
-                    </TreatmentSegment>
+                    </InterventionSegment>
                     <ObservationSegment oid="os1">
                         <ObservationList>
                             <ObservationRef oidRef="window1"/>
