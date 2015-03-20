@@ -3,6 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     implementedBy="MJS" writtenVersion="0.6"
     metadataFile="warfarin_PK_PRED_evaluate.rdf" id="i1">
     
@@ -57,27 +58,24 @@
 
         <Structure>
              <Interventions>                        <!-- need parent for Admins and Actions -->
-                  <Administration></Administration>
-                  <Action></Action>
-            </Interventions> 
-            <Administration oid="admin1">
-                <Bolus>
-                    <DoseAmount inputTarget="admType">      <!-- CHECK THAT -->
-                        <TargetMapping blkIdRef="sm1">
-                            <Map xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" admNumber="1"/> <!-- AND THAT -->
-                        </TargetMapping>
-                        <ct:Assign>
-                            <ct:Int>100</ct:Int>              
-                        </ct:Assign>
-                    </DoseAmount>
-                    <DosingTimes>
-                        <ct:Assign>
-                            <ct:Real>0</ct:Real>
-                        </ct:Assign>
-                    </DosingTimes>
-                </Bolus>
-            </Administration>
-            
+                 <Administration oid="admin1">
+                     <Bolus>
+                         <DoseAmount inputTarget="admType">      <!-- CHECK THAT -->
+                             <TargetMapping blkIdRef="sm1">
+                                 <ds:Map admNumber="1"/> <!-- AND THAT -->
+                             </TargetMapping>
+                             <ct:Assign>
+                                 <ct:Int>100</ct:Int>              
+                             </ct:Assign>
+                         </DoseAmount>
+                         <DosingTimes>
+                             <ct:Assign>
+                                 <ct:Real>0</ct:Real>
+                             </ct:Assign>
+                         </DosingTimes>
+                     </Bolus>
+                 </Administration>
+             </Interventions> 
            
             <Observations> <!-- vs Sampling -->
                 <ObservationsExplicit oid="window1">
@@ -110,43 +108,61 @@
                     </Continuous>
                 </ObservationsExplicit>
                 
-<!--                <ObservationsCombination oid="combWindow">
-                    <ObservationRef oidRef="window1"/> <!-\- 1,2,5 -\->
-                    <ObservationRef oidRef="window2"/> <!-\- 0,2,3 -\-> 1,2,5,7,8
-                    <Relative TRUE/>
+                <ObservationsCombination oid="combWindow">
+                    <Observation>
+                        <ObservationRef oidRef="window1"/> <!-- 1,2,5 -->
+                    </Observation>
+                    <Observation>
+                        <ObservationRef oidRef="window2"/> <!-- 0,2,3 --> <!-- 1,2,5,7,8 -->
+                    </Observation>
+                    <Relative>TRUE</Relative>
                 </ObservationsCombination>
                 
                 <ObservationsCombination oid="combWindow">
-                    <ObservationRef oidRef="window1"/> <!-\- 1,2,5 -\->
-                    <ObservationRef oidRef="window2"/> <!-\- 0,2,3 -\-> 0,1,2,3,5
+                    <Observation>
+                        <ObservationRef oidRef="window1"/> <!-- 1,2,5 -->
+                    </Observation>
+                    <Observation>
+                        <ObservationRef oidRef="window2"/> <!-- 0,2,3 --> <!-- 0,1,2,3,5 -->
+                    </Observation>
                 </ObservationsCombination>
                 
                 <ObservationsCombination oid="combWindow">
-                    <ObservationRef oidRef="window1"> <!-\- 1,2,5 -\->
-                        <Start>0</Start>
-                    </ObservationRef>
-                    <ObservationRef oidRef="window2"> <!-\- 0,2,3 -\-> 1,2,5,10,12,13
-                        <Start>10</Start>
-                    </ObservationRef>
-                </ObservationsCombination>-->
-                
-            </Observations>
-            
-            <Arms>                      <!-- need parent for arms -->
-                apply to all arms:
-                <armSize>10</armSize> (applies to all arm by default, but could be superseeded by arm specific defs)
-                covariates distrib
-                total number of samples
-                <Arm oid="arm1">
-                    <armSize>33</armSize>
-                    <TreatmentSegment oid="ts1">
-                        <TreatmentList>
-                            <ActivityRef oidRef="admin1"/>
-                        </TreatmentList>
+                    <Observation>
+                        <ObservationRef oidRef="window1"/> <!-- 1,2,5 -->
                         <Start>
                             <ct:Real>0</ct:Real>
                         </Start>
-                    </TreatmentSegment>
+                    </Observation>
+                    <Observation>
+                        <ObservationRef oidRef="window2"/> <!-- 0,2,3 --> <!-- 1,2,5,10,12,13 -->
+                        <Start>
+                            <ct:Real>10</ct:Real>
+                        </Start>
+                    </Observation>
+                </ObservationsCombination>
+                
+            </Observations>
+            
+            <Arms>                                                      <!-- need parent for arms -->
+                <!-- applies to all arms: -->
+                <armSize>10</armSize> <!--applies to all arm by default, but could be superseeded by arm specific defs-->
+                
+                <!-- MISSING -->
+                <!--covariates distrib-->
+                <!-- /MISSING -->
+                
+                <totalNumberSamples>10</totalNumberSamples>
+                <Arm oid="arm1">
+                    <armSize>33</armSize>
+                    <InterventionSegment oid="ts1">
+                        <InterventionList>
+                            <ActivityRef oidRef="admin1"/>
+                        </InterventionList>
+                        <Start>
+                            <ct:Real>0</ct:Real>
+                        </Start>
+                    </InterventionSegment>
                     <ObservationSegment oid="os1">
                         <ObservationList>
                             <ObservationRef oidRef="window1"/>

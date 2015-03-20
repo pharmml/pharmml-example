@@ -57,67 +57,59 @@
         
         <!-- STRUCTURE -->
         <Structure>
-            <Administration oid="admin1">             <!-- CAN BE TREATMENT OR WASHOUT -->
-                <Bolus>
-                    <DoseAmount inputTarget="admType">      <!-- CHECK THAT -->
-                        <TargetMapping blkIdRef="sm1">
-                            <Map xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" admNumber="1"/> <!-- AND THAT -->
-                        </TargetMapping>
-                        <ct:Assign>
-                            <ct:Int>100</ct:Int>              
-                        </ct:Assign>
-                    </DoseAmount>
-                    <DosingTimes>
-                        <ct:Assign>
-                            <ct:Real>0</ct:Real>
-                        </ct:Assign>
-                    </DosingTimes>
-                </Bolus>
-            </Administration>
-            
-            <Action oid="reset1">      <!-- ALL -->
-                <Washout>
-                    <VariableToReset>
-                        <FullReset/>
-                        <ResetTime>120</ResetTime>
-                    </VariableToReset>
-                </Washout>
-            </Action>
-
-            <Action oid="reset2">      <!-- SELECTED VARIABLES -->
-                <Washout>
-                    <VariableToReset>
-                        <ct:SymbRef blkIdRef="om1" symbIdRef="Ac"/>
-                        <ResetValue>0</ResetValue>
-                        <ResetTime>120</ResetTime>
-                    </VariableToReset>
-                    <VariableToReset>
-                        <ct:SymbRef blkIdRef="om1" symbIdRef="Ad"/>
-                        <ResetValue>0</ResetValue>
-                        <ResetTime>120</ResetTime>
-                    </VariableToReset>
-                    <VariableToReset>
-                        <ct:SymbRef symbIdRef="sdf"></ct:SymbRef>
-                        <ResetTime>12</ResetTime>
-                    </VariableToReset>
-                </Washout>
-            </Action>
-            
-<!--            <Activity oid="washout">    <!-\- WASHOUT -\->
+            <Interventions>
+                <Administration oid="admin1">             <!-- CAN BE TREATMENT OR WASHOUT -->
+                    <Bolus>
+                        <DoseAmount inputTarget="admType">      <!-- CHECK THAT -->
+                            <TargetMapping blkIdRef="sm1">
+                                <Map xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" admNumber="1"/> <!-- AND THAT -->
+                            </TargetMapping>
+                            <ct:Assign>
+                                <ct:Int>100</ct:Int>              
+                            </ct:Assign>
+                        </DoseAmount>
+                        <DosingTimes>
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </DosingTimes>
+                    </Bolus>
+                </Administration>
+                
+                <Action oid="reset1">      <!-- ALL -->
+                    <Washout>
+                        <VariableToReset>
+                            <FullReset/>
+                            <ResetTime>120</ResetTime>
+                        </VariableToReset>
+                    </Washout>
+                </Action>
+                
+                <Action oid="reset2">      <!-- SELECTED VARIABLES -->
+                    <Washout>
+                        <VariableToReset>
+                            <ct:SymbRef blkIdRef="om1" symbIdRef="Ac"/>
+                            <ResetValue>0</ResetValue>
+                            <ResetTime>120</ResetTime>
+                        </VariableToReset>
+                        <VariableToReset>
+                            <ct:SymbRef blkIdRef="om1" symbIdRef="Ad"/>
+                            <ResetValue>0</ResetValue>
+                            <ResetTime>120</ResetTime>
+                        </VariableToReset>
+                        <VariableToReset>
+                            <ct:SymbRef symbIdRef="sdf"></ct:SymbRef>
+                            <ResetTime>12</ResetTime>
+                        </VariableToReset>
+                    </Washout>
+                </Action>
+                
+                <!--            <Activity oid="washout">    <!-\- WASHOUT -\->
                 <Washout>
                     <ResetTime><ct:Real>0</ct:Real></ResetTime>
                 </Washout>
             </Activity>-->
-            
-            <!--    Elements of an ACTION list can include:
-            •	start, end (type: real, optional): starting time and end time of the period see above
-            ◦	defaults to start=0, end=0 (=washout) or end=max(resetTime)
-            •	reset (type: list of named variables): a list used to retrieve or change the value of elements
-            ◦	can refer to compartments in the system, to variables, to parameters
-            ◦	special value all indicates all compartments in the model
-            •	resetTime (real, optional): time the 'event' takes place defaults to 0
-            •	value (type: numeric, optional): value; if reset is a vector, value should be a value of the same length
-            ◦	defaults to 0 (washout)-->
+            </Interventions>            
             
             <Observations>
                 <ObservationsExplicit oid="window1">
@@ -140,25 +132,27 @@
                 </ObservationsExplicit>
             </Observations>
             
-            <Arm oid="arm1">
-                <armSize>33</armSize>
-                <TreatmentSegment oid="ts1">
-                    <TreatmentList>
-                        <ActivityRef oidRef="admin1"/>
-                    </TreatmentList>
-                    <Start>
-                        <ct:Real>0</ct:Real>
-                    </Start>
-                </TreatmentSegment>
-                <ObservationSegment oid="os1">
-                    <ObservationList>
-                        <ObservationRef oidRef="window1"/>
-                    </ObservationList>
-                    <Start>
-                        <ct:Real>0</ct:Real>
-                    </Start>
-                </ObservationSegment>
-            </Arm>
+            <Arms>
+                <Arm oid="arm1">
+                    <armSize>33</armSize>
+                    <TreatmentSegment oid="ts1">
+                        <TreatmentList>
+                            <ActivityRef oidRef="admin1"/>
+                        </TreatmentList>
+                        <Start>
+                            <ct:Real>0</ct:Real>
+                        </Start>
+                    </TreatmentSegment>
+                    <ObservationSegment oid="os1">
+                        <ObservationList>
+                            <ObservationRef oidRef="window1"/>
+                        </ObservationList>
+                        <Start>
+                            <ct:Real>0</ct:Real>
+                        </Start>
+                    </ObservationSegment>
+                </Arm>
+            </Arms>
         </Structure> 
 
 
