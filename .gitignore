@@ -10,3 +10,57 @@ examples_0_3_2/Untitled1.xml
 examples_0_3_2/example4_DELETE_TESTING.xml
 
 examples_0_3_2/LeftRight.layout
+
+examples_0_6/MDL_to_PKmacros/PKmacros_warfarin_PK_CONC.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_warfarin_PK_CONC_ADVAN2_TRANS1.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_warfarin_PK_CONC_TRANS1.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_exampleC4.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_exampleC3.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_exampleC2.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_exampleC1b.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_exampleC1a.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_advan4.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_advan3.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_advan2.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_advan12.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_advan11.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_advan10.xml
+
+examples_0_6/MDL_to_PKmacros/PKmacros_advan1.xml
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226 copy/ndist-1_depot-false_par-v_k_BOLUS/ndist-1_depot-false_par-v_k_BOLUS.ctl
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226 copy/ndist-1_depot-false_par-v_k_BOLUS/ndist-1_depot-false_par-v_k_BOLUS.mdl
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226 copy/ndist-1_depot-true_par-v_k_KA_IVBOLUS/ndist-1_depot-true_par-v_k_KA_IVBOLUS.ctl
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226 copy/ndist-1_depot-true_par-v_k_KA_IVBOLUS/ndist-1_depot-true_par-v_k_KA_IVBOLUS.mdl
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226 copy/ndist-1_depot-true_par-v_k_KA_URINE/ndist-1_depot-true_par-v_k_KA_URINE.ctl
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226 copy/ndist-1_depot-true_par-v_k_KA_URINE/ndist-1_depot-true_par-v_k_KA_URINE.mdl
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226/Data/warfarin_conc_pca.csv
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226/Data/warfarin_ivoral.csv
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226/Data/warfarin_urine.csv
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226 copy/Data/warfarin_urine.csv
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226 copy/Data/warfarin_ivoral.csv
+
+examples_0_6/MDL_to_PKmacros/PKLibrary_PharmML_nh226 copy/Data/warfarin_conc_pca.csv
