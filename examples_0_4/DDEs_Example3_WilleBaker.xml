@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:design="http://www.pharmml.org/2013/03/TrialDesign"
+    writtenVersion="0.4" implementedBy="MJS" id="i1">
+    
+    <!-- MODEL NAME -->
+    <ct:Name>DDE - Example 3 from Wille and Baker</ct:Name>
+    
+    <ct:Description>DDE - L.F. Shampine et al. 'Solving Delay Dierential Equations with dde23'</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- FUNCTION DEFINITION -->
+    <ct:FunctionDefinition symbolType="real" symbId="combinedErrorModel">
+        <ct:FunctionArgument symbolType="real" symbId="a"/>
+        <ct:FunctionArgument symbolType="real" symbId="b"/>
+        <ct:FunctionArgument symbolType="real" symbId="f"/>
+        <ct:Definition>
+            <Equation xmlns="http://www.pharmml.org/2013/03/Maths" >
+                <Binop op="plus">
+                    <ct:SymbRef symbIdRef="a"/>
+                    <Binop op="times">
+                        <ct:SymbRef symbIdRef="b"/>
+                        <ct:SymbRef symbIdRef="f"/>
+                    </Binop>
+                </Binop>
+            </Equation>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    
+    <!-- MODEL DEFINITION -->
+    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+            
+        <VariabilityModel blkId="obsErr" type="residualError">
+            <Level symbId="resErr"/>
+        </VariabilityModel>
+        
+        <!-- STRUCTURAL MODEL -->
+        <StructuralModel blkId="sm1">
+           
+            <!-- dy1/dt = y1(t - 1) &  y1(t) = 1 for t <=0 -->
+            <ct:DerivativeVariable symbolType="real" symbId="y1">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Delay>
+                            <ct:SymbRef symbIdRef="y1"/>
+                            <ct:DelayVariable>
+                                <ct:Real>1</ct:Real>
+                            </ct:DelayVariable>
+                        </ct:Delay>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:History>
+                    <ct:HistoryValue>
+                        <ct:Assign>
+                            <ct:Real>1</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryValue>
+                    <ct:HistoryTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryTime>
+                </ct:History>
+            </ct:DerivativeVariable>
+            
+            <!-- dy2/dt = y1(t - 1) + y2(t - 0.2) & y2(t) = 1 for t <=0 -->
+            <ct:DerivativeVariable symbolType="real" symbId="y2">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <ct:Delay>
+                                <ct:SymbRef symbIdRef="y1"/>
+                                <ct:DelayVariable>
+                                    <ct:Real>1</ct:Real>
+                                </ct:DelayVariable>
+                            </ct:Delay>
+                            <ct:Delay>
+                                <ct:SymbRef symbIdRef="y2"/>
+                                <ct:DelayVariable>
+                                    <ct:Real>0.2</ct:Real>
+                                </ct:DelayVariable>
+                            </ct:Delay>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:History>
+                    <ct:HistoryValue>
+                        <ct:Assign>
+                            <ct:Real>1</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryValue>
+                    <ct:HistoryTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryTime>
+                </ct:History>
+            </ct:DerivativeVariable>
+            
+            <!-- dy3/dt = y2(t) & y3(t) = 1 for t <=0 -->
+            <ct:DerivativeVariable symbolType="real" symbId="y3">
+                <ct:Assign>
+                    <ct:SymbRef symbIdRef="y2"/>
+                </ct:Assign>
+                <ct:History>
+                    <ct:HistoryValue>
+                        <ct:Assign><ct:Real>1</ct:Real></ct:Assign>
+                    </ct:HistoryValue>
+                    <ct:HistoryTime>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:HistoryTime>
+                </ct:History>
+            </ct:DerivativeVariable>
+            
+        </StructuralModel>
+    </ModelDefinition>
+
+</PharmML>

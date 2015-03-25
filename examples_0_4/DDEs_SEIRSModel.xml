@@ -12,7 +12,7 @@
     <!-- MODEL NAME -->
     <ct:Name>SEIRS model - DDE</ct:Name>
     
-    <ct:Description>EDDE example - SEIRS Model</ct:Description>
+    <ct:Description>DDE example - SEIRS Model</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>

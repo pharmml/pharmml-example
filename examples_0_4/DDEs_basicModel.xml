@@ -10,9 +10,9 @@
     writtenVersion="0.4" implementedBy="MJS" id="i1">
     
     <!-- MODEL NAME -->
-    <ct:Name>Example 4 - Estimation with IOV</ct:Name>
+    <ct:Name>DDE - basic model</ct:Name>
     
-    <ct:Description>Estimation example with IOV1 and with categorical covariates</ct:Description>
+    <ct:Description>DDE - basic model - see 0.4 release document for description</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>

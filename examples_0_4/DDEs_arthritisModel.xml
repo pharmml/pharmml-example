@@ -10,9 +10,9 @@
     writtenVersion="0.4" implementedBy="MJS" id="i1">
     
     <!-- MODEL NAME -->
-    <ct:Name>Example 4 - Estimation with IOV</ct:Name>
+    <ct:Name>DDE - arthritis model</ct:Name>
     
-    <ct:Description>Estimation example with IOV1 and with categorical covariates</ct:Description>
+    <ct:Description>DDE for a PKPD model of unperturbed and perturbed arthritis development</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>
