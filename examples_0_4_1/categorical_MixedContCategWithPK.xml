@@ -11,7 +11,7 @@
     
     <ct:Name>PK with Continuous/Categorical - combined model</ct:Name>
     
-    <ct:Description>PK model combined with a continuous and categorical model - based on 'Four Models' document by Marc.</ct:Description>
+    <ct:Description>PK model combined with a continuous and categorical model - based on 'Four Models' document by M.Lavielle.</ct:Description>
     
     <IndependentVariable symbId="t"/>
     
@@ -270,7 +270,7 @@
                         </stddev>
                     </NormalDistribution>
                 </RandomVariable>
-                <Standard symbId="C">
+                <Standard symbId="C_obs">
                     <Output>
                         <ct:SymbRef symbIdRef="C"/>
                     </Output>
@@ -302,7 +302,7 @@
                         </stddev>
                     </NormalDistribution>
                 </RandomVariable>
-                <General symbId="Effect">
+                <General symbId="E_obs">
                     <ct:Assign>
                         <math:Equation>
                             <math:Binop op="plus">
@@ -357,5 +357,84 @@
         </ObservationModel>
 
     </ModelDefinition>
+    
+    
+    <mstep:ModellingSteps>
+        
+        <mstep:NONMEMdataSet oid="NMoid">
+            
+            <mstep:ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </mstep:ColumnMapping>
+            
+            <mstep:MultipleDVMapping>
+                <ds:ColumnRef columnIdRef="DV"/>
+                <mstep:Piecewise>
+                    <math:Piece>
+                        <ct:SymbRef blkIdRef="om1" symbIdRef="C_obs"/>
+                        <math:Condition>
+                            <math:LogicBinop op="eq">
+                                <ds:ColumnRef columnIdRef="ORIG"/>
+                                <ct:Real>1</ct:Real>
+                            </math:LogicBinop>
+                        </math:Condition>
+                    </math:Piece>
+                    <math:Piece>
+                        <ct:SymbRef blkIdRef="om2" symbIdRef="E_obs"/>
+                        <math:Condition>
+                            <math:LogicBinop op="eq">
+                                <ds:ColumnRef columnIdRef="ORIG"/>
+                                <ct:Real>2</ct:Real>
+                            </math:LogicBinop>
+                        </math:Condition>
+                    </math:Piece>
+                    <math:Piece>
+                        <ct:SymbRef blkIdRef="om3" symbIdRef="Level"/>
+                        <math:Condition>
+                            <math:LogicBinop op="eq">
+                                <ds:ColumnRef columnIdRef="ORIG"/>
+                                <ct:Real>3</ct:Real>
+                            </math:LogicBinop>
+                        </math:Condition>
+                    </math:Piece>
+                </mstep:Piecewise>
+            </mstep:MultipleDVMapping>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                    <ds:Column columnId="ORIG" columnType="undefined" valueType="real" columnNum="4"/>
+                </ds:Definition>
+                <ds:ImportData oid="dataOid">
+                    <ds:path>datasets/example_poisson.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ImportData>
+            </ds:DataSet>
+        </mstep:NONMEMdataSet>
+        
+        
+        <mstep:EstimationStep oid="estStep1">
+            
+            <mstep:TargetToolReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </mstep:TargetToolReference>
+            
+            <mstep:ParametersToEstimate>
+                <mstep:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_ka"/>
+                    <mstep:InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </mstep:InitialEstimate>
+                </mstep:ParameterEstimation>
+                <!-- omitted other parameters -->
+            </mstep:ParametersToEstimate>
+            
+            <mstep:Operation order="1" opType="estPop"/>
+        </mstep:EstimationStep>
+    </mstep:ModellingSteps>
     
 </PharmML>

@@ -79,6 +79,7 @@
                         </variance>
                     </NormalDistribution>
                     <Transformation>
+                        <TransformedCovariate symbId="tW"/>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                             <Uniop op="log">
                                 <Binop op="divide">
@@ -119,7 +120,7 @@
                             </ct:Assign>
                         </PopulationParameter>
                         <Covariate>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="W"></ct:SymbRef>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="tW"></ct:SymbRef>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_V"></ct:SymbRef>
                             </FixedEffect>
@@ -206,7 +207,7 @@
                             <ct:Assign><ct:SymbRef symbIdRef="pop_Cl"></ct:SymbRef></ct:Assign>
                         </PopulationParameter>
                         <Covariate>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="W"></ct:SymbRef>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="tW"></ct:SymbRef>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_Cl"/>
                             </FixedEffect>

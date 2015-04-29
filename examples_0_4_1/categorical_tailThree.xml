@@ -13,8 +13,6 @@
     
     <ct:Description>Categorical model - tail probabilities with three categories - based on code provided by Mats Karlsson</ct:Description>
     
-    <IndependentVariable symbId="t"/>
-    
     <!-- MODEL -->
     <ModelDefinition id="i3" xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
         

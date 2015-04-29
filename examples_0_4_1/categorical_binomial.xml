@@ -6,7 +6,6 @@
     xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
     xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
-    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
     implementedBy="MJS" writtenVersion="0.4.1" id="i1">
     
     <ct:Name>Binomial model</ct:Name>
@@ -108,7 +107,7 @@
             
             <ds:DataSet>
                 <ds:Definition>
-                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
                     <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
                     <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
                 </ds:Definition>

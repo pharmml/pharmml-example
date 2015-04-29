@@ -1,0 +1,201 @@
+   HEADER{
+      ID=list(type=categorical)
+      TIME=list(type=continuous,units="h")
+      #GL#WT=list(type=continuous,units="kg")
+      #GL#AGE=list(type=continuous,units="y")
+     #GL# SEX=list(type=categorical,define=list(female=0,male=    	#1,MISSING=-99),recode=list("F","M","UNK"))
+      AMT=list(type=continuous,units="mg")
+      DVID=list(type=categorical)
+      DV=list(type=continuous)
+      MDV=list(type=categorical)
+   }# end HEADER
+
+   FILE{
+      data=list(
+           source="warfarin_conc_pca.csv",
+           ignore="#",
+           inputformat="NONMEM")
+   }
+}
+
+warfarin_PK_ODE_par = parobj{
+
+   STRUCTURAL{
+      #THETA
+      POP_CL=list(value=0.1,lo=0.001)
+      POP_V=list(value=8,lo=0.001)
+      POP_KA=list(value=0.362,lo=0.001)
+     #GL# POP_TLAG=list(value=1,lo=0.001)
+   }# end STRUCTURAL
+
+   VARIABILITY{
+      #OMEGA
+      matrix(name="struc1",type="VAR") {
+         PPV_CL=0.1,
+         .01, PPV_V=0.1 #GL# 0.1 is the COV of CL and V?
+      } # end matrix struc1
+      PPV_KA=list(value=0.1 ,type="VAR")
+     #GL# PPV_TLAG=list(value=0.1 ,type="VAR")
+      #SIGMA
+      RUV_PROP=list(value=0.1 ,type="VAR")
+      RUV_ADD=list(value=0.1 ,type="VAR")
+
+   }
+
+}
+
+warfarin_PK_ODE_mdl = mdlobj{
+
+   INPUT_VARIABLES{
+      ID=list(use=id,level=2)
+      TIME=list(use=idv,units="h")
+    #GL#  WT=list(type=continuous,use=covariate,units="kg")
+    #GL#  AGE=list(type=continuous,use=covariate,units="y")
+      #GL#SEX=list(type=categorical   
+      #(female,male),use=covariate)
+      AMT=list(use=amt,units="mg")
+      DVID=list(type=categorical,use=dvid)
+      DV=list(type=continuous,use=dv,level=1)
+      MDV=list(use=mdv)
+   }
+
+   STRUCTURAL_PARAMETERS{
+
+      #THETA
+      POP_CL
+      POP_V
+      POP_KA
+   #GL# POP_TLAG
+   }
+
+   VARIABILITY_PARAMETERS{
+      #OMEGA
+      PPV_CL
+      PPV_V
+      PPV_KA
+     #GL# PPV_TLAG
+      #SIGMA
+      RUV_PROP
+      RUV_ADD
+   }
+
+   GROUP_VARIABLES{ #GL#  NO all this part 
+   
+      # Covariate model
+      GRPCL=POP_CL*(WT/70)^ 0.75
+      GRPV=POP_V*WT/70
+      GRPKA=POP_KA
+      GRPLG=POP_TLAG
+   }
+#GL# 
+ 
+   RANDOM_VARIABLE_DEFINITION{
+      eta_PPV_CL ~ (type=Normal, mean=0, variance=PPV_CL,level=ID)
+      eta_PPV_V ~ (type=Normal, mean=0, variance=PPV_V,level=ID)
+      eta_PPV_KA ~ (type=Normal, mean=0, variance=PPV_KA,level=ID)
+ #GL#      eta_PPV_TLAG ~ (type=Normal, mean=0,
+ #GL#  variance=PPV_TLAG,level=ID)
+      eps_RUV_PROP ~ (type=Normal, mean=0, variance=RUV_PROP,level=DV)
+      eps_RUV_ADD ~ (type=Normal, mean=0, variance=RUV_ADD,level=DV)
+   }
+
+   INDIVIDUAL_VARIABLES{
+#GL#:"GRPCL","GRPV" and "GRPKA" to be removed
+      CL=GRPCL*exp(eta_PPV_CL)
+      V=GRPV*exp(eta_PPV_V)
+      KA=GRPKA*exp(eta_PPV_KA)
+    #GL#    ALAG1=GRPLG*exp(eta_PPV_TLAG)
+      # NM-TRAN scale for central compartment
+      S2=V
+   }
+
+   MODEL_PREDICTION{
+
+   ODE{
+      RATEIN=KA*GUT
+      DCP=CENTRAL/V
+      GUT=ode(deriv=-RATEIN)
+      CENTRAL=ode(deriv= RATEIN - CL*DCP)
+   }
+
+   LIBRARY{
+      ##  ADVAN6 TOL=3
+      amount=nmadvan(model=6,param=list(S2,ALAG1,F,A,GUT,CENTRAL))
+   }
+   
+   }
+
+   OBSERVATION{
+      Y = F*(1+eps_RUV_PROP)+eps_RUV_ADD
+   }
+
+
+   OUTPUT_VARIABLES{
+      ID
+      TIME
+      WT
+      SEX
+      AGE
+      CL
+      V
+      KA
+      ALAG1
+      DVID
+      Y
+   }# end OUTPUT_VARIABLES
+
+} # end of model object
+
+warfarin_PK_ODE_task = taskobj{
+
+IMPORT{nmadvan = list(target = NMTRAN_CODE, name="ADVAN", param=list(model=6,trans=0, ncmt=2))}
+TARGET_CODE(target=NMTRAN_CODE,location="$PROBLEM",first=true){***
+$PROB WARFARIN PK
+***}
+
+# End TARGET specific code
+
+   DATA{
+      IGNORE=if(DVID==2)
+   }# end DATA
+   MODEL{
+      tolrel=3
+   }# end MODEL
+
+   ## TABLE
+   #NOPRINT ONEHEADER NOAPPEND FILE=warf.fit 
+
+   myEST=function(t,m,p,d) { 
+      EXECUTE{
+         command="call nmgo warfarin_PK_ODE"
+      }# end EXECUTE
+
+      # estimate (more options will typically be needed)
+      ESTIMATE {
+         target=t
+         model=m
+         parameter=p
+         data=d
+
+
+TARGET_CODE(target=NMTRAN_CODE,location="$ESTIMATION"){***
+$EST METHOD=COND INTER
+MAX=9990 SIG=3 NOABORT ;PRINT=1
+$COV
+***} # end TARGET_CODE
+            algo=list("FOCE  INTER")
+            max=9990
+            sig=3
+            cov="y"
+      }# end ESTIMATE
+   }# end of myEST
+
+}# end of task object
+
+warfarin_PK_ODE_tel = telobj{
+
+warfarin_PK_ODE_fit=warfarin_PK_ODE_task$myEST(t="NONMEM", m=warfarin_PK_ODE_mdl, p=warfarin_PK_ODE_par, d=warfarin_PK_ODE_dat)
+
+warfarin_PK_ODE_par=update(warfarin_PK_ODE_fit,warfarin_PK_ODE_par)
+
+} 

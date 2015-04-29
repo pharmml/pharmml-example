@@ -336,6 +336,7 @@
         
         <!-- NONMEM OBJECTIVE DATA -->
         <NONMEMdataSet oid="NMoid">
+            
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="time"/>
                 <ct:SymbRef symbIdRef="t"/>
@@ -348,11 +349,33 @@
                 <ds:ColumnRef columnIdRef="wt"/>
                 <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
             </ColumnMapping>
+
+            <!-- map 'amt' column and 'D' -->
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="amt"/>
                 <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
             </ColumnMapping>
             
+            <!-- map 'tD' and 'time' if 'amt' != 0 -->
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="time"/>
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Piecewise>
+                            <math:Piece>
+                                <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
+                                <math:Condition>
+                                    <math:LogicBinop op="neq">
+                                        <ds:ColumnRef columnIdRef="amt"/>
+                                        <ct:Real>0</ct:Real>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                        </math:Piecewise>
+                    </math:Equation>
+                </ct:Assign>
+            </ColumnMapping>
+                        
             <ds:DataSet>
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
@@ -465,6 +488,9 @@
                     </ct:Assign>
                 </Property>
                 <Algorithm definition="FOCEI">
+                    <Property name="tolerance">
+                        <ct:Assign><ct:Int>1</ct:Int></ct:Assign>
+                    </Property>
                 </Algorithm>
             </Operation>
             <Operation order="2" opType="estFIM"/>

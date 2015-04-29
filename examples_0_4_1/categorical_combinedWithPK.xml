@@ -222,6 +222,43 @@
                 </Pairwise>
             </Correlation>
             
+            <!-- full matrix 1-->
+            <Correlation deviationMatrixType="CorrMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any">
+                    <ct:ColumnNames>
+                        <ct:SymbRef symbIdRef="eta_V"/><ct:SymbRef symbIdRef="eta_CL"/>
+                    </ct:ColumnNames>
+                    <ct:MatrixRow>
+                        <ct:Real>1</ct:Real><ct:SymbRef symbIdRef="rho_V_Cl"/>
+                        <ct:SymbRef symbIdRef="rho_V_Cl"/><ct:Real>1</ct:Real>
+                    </ct:MatrixRow>
+                </Matrix>
+            </Correlation>
+            
+            <!-- matrix with cells -->
+            <Correlation deviationMatrixType="CorrMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any" diagDefault="1">
+                    <ct:ColumnNames>
+                        <ct:SymbRef symbIdRef="eta_V"/><ct:SymbRef symbIdRef="eta_CL"/>
+                    </ct:ColumnNames>
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>2</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>1</ct:Int></ct:CellColumn>
+                        <ct:SymbRef symbIdRef="rho_V_CL"></ct:SymbRef>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow><ct:Int>1</ct:Int></ct:CellRow>
+                        <ct:CellColumn><ct:Int>2</ct:Int></ct:CellColumn>
+                        <ct:SymbRef symbIdRef="rho_V_CL"></ct:SymbRef>
+                    </ct:MatrixCell>
+                </Matrix>
+            </Correlation>
             
         </ParameterModel>
         
