@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mml:PharmML xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset" 
+    xmlns:td="http://www.pharmml.org/pharmml/0.6/TrialDesign" 
+    xmlns:uncert="http://www.uncertml.org/3.0" 
+    xmlns:msteps="http://www.pharmml.org/pharmml/0.6/ModellingSteps" 
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" 
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes" 
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition" 
+    xmlns:mml="http://www.pharmml.org/pharmml/0.6/PharmML" 
+    writtenVersion="0.6" implementedBy="Cyprotex Model Writer" id="_case00026">
+    <ct:Name>case00026</ct:Name>
+    <ct:Description>case00026
+        Dated: Thu Mar 19 18:17:48 GMT 2015</ct:Description>
+    <mml:IndependentVariable symbId="t"/>
+    <mdef:ModelDefinition>
+        <mdef:ParameterModel blkId="pm">
+            <mdef:SimpleParameter symbId="compartment">
+                <ct:Description>Compartment: compartment</ct:Description>
+                <ct:Assign>
+                    <ct:Real>1.0</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="k1">
+                <ct:Assign>
+                    <ct:Real>1.0</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+        </mdef:ParameterModel>
+        <mdef:StructuralModel blkId="sm">
+            <ct:Variable symbolType="real" symbId="reaction1">
+                <ct:Description>Reaction: reaction1</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm" symbIdRef="compartment"/>
+                                <ct:SymbRef blkIdRef="pm" symbIdRef="k1"/>
+                            </math:Binop>
+                            <ct:SymbRef blkIdRef="sm" symbIdRef="S1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            <ct:DerivativeVariable symbolType="real" symbId="S1">
+                <ct:Description>Species: S1</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Piecewise>
+                            <math:Piece>
+                                <ct:Int>1</ct:Int>
+                                <math:Condition>
+                                    <math:LogicBinop op="lt">
+                                        <ct:SymbRef blkIdRef="sm" symbIdRef="S1"/>
+                                        <ct:Real>0.1</ct:Real>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                            <math:Piece>
+                                <math:Binop op="times">
+                                    <math:Binop op="divide">
+                                        <ct:Real>1.0</ct:Real>
+                                        <ct:SymbRef blkIdRef="pm" symbIdRef="compartment"/>
+                                    </math:Binop>
+                                    <math:Binop op="times">
+                                        <math:Uniop op="minus">
+                                            <ct:Real>1.0</ct:Real>
+                                        </math:Uniop>
+                                        <ct:SymbRef blkIdRef="sm" symbIdRef="reaction1"/>
+                                    </math:Binop>
+                                </math:Binop>
+                                <math:Condition>
+                                    <math:Otherwise/>
+                                </math:Condition>
+                            </math:Piece>
+                        </math:Piecewise>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:Real>1.0</ct:Real>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbolType="real" symbId="S2">
+                <ct:Description>Species: S2</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+                                <ct:Real>1.0</ct:Real>
+                                <ct:SymbRef blkIdRef="pm" symbIdRef="compartment"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:Real>1.0</ct:Real>
+                                <ct:SymbRef blkIdRef="sm" symbIdRef="reaction1"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:Real>0.0</ct:Real>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+        </mdef:StructuralModel>
+    </mdef:ModelDefinition>
+</mml:PharmML>

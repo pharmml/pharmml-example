@@ -8,10 +8,12 @@
     xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
     implementedBy="MJS" writtenVersion="0.6"
-    metadataFile="example_3.2.1.rdf" id="i1">
+    metadataFile="example3_NONMEM.rdf" id="i1">
     
-    <ct:Name>Example 3.2.1</ct:Name>
-
+    <!-- MODEL NAME -->
+    <ct:Name>Example 3 - Warfarin PK estimation (NONMMEM)</ct:Name>
+    
+    <ct:Description>Example 3 - basic Warfarin PK estimation with covariate W using NONMMEM dataset</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>
@@ -23,16 +25,18 @@
         <FunctionArgument symbolType="real" symbId="b"/>
         <FunctionArgument symbolType="real" symbId="f"/>
         <Definition>
-            <math:Binop op="plus">
-                <ct:SymbRef symbIdRef="a"/>
-                <math:Binop op="times">
-                    <ct:SymbRef symbIdRef="b"/>
-                    <ct:SymbRef symbIdRef="f"/>
+            <math:Equation>
+                <math:Binop op="plus">
+                    <ct:SymbRef symbIdRef="a"/>
+                    <math:Binop op="times">
+                        <ct:SymbRef symbIdRef="b"/>
+                        <ct:SymbRef symbIdRef="f"/>
+                    </math:Binop>
                 </math:Binop>
-            </math:Binop>
+            </math:Equation>
         </Definition>
     </ct:FunctionDefinition>
- 
+
     <!-- MODEL DEFINITION -->
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
         
@@ -43,6 +47,26 @@
         <VariabilityModel blkId="vm2" type="residualError">
             <Level symbId="residual"/>
         </VariabilityModel>
+        
+        
+        <!-- COVARIATE MODEL -->
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="W">
+                <Continuous>
+                    <Transformation>
+                        <TransformedCovariate symbId="logWT70"/>
+                        <math:Equation>
+                            <math:Uniop op="log">
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="W"/>
+                                    <ct:Real>70</ct:Real>
+                                </math:Binop>
+                            </math:Uniop>
+                        </math:Equation>
+                    </Transformation>
+                </Continuous>
+            </Covariate>
+        </CovariateModel>
         
         
         <!-- PARAMETER MODEL -->
@@ -135,6 +159,12 @@
                                 <ct:SymbRef symbIdRef="pop_V"/>
                             </ct:Assign>
                         </PopulationParameter>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="logWT70"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_V"/>
+                            </FixedEffect>
+                        </Covariate>
                     </LinearCovariate>
                     <RandomEffects>
                         <ct:SymbRef symbIdRef="eta_V"/>
@@ -163,7 +193,13 @@
                                 <ct:SymbRef symbIdRef="pop_CL"/>
                             </ct:Assign>
                         </PopulationParameter>
-                   </LinearCovariate>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="logWT70"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_CL"/>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
                     <RandomEffects>
                         <ct:SymbRef symbIdRef="eta_CL"/>
                     </RandomEffects>
@@ -174,13 +210,24 @@
         <!-- STRUCTURAL MODEL -->
         <StructuralModel blkId="sm1">
             <!-- k -->
-            <SimpleParameter symbId="k"/>
+            <SimpleParameter symbId="k">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
             <!-- dosing variables -->
             <ct:Variable symbolType="real" symbId="D"/>
+            <ct:Variable symbolType="real" symbId="tD"/>
             <!-- C - algebraic formula -->
             <ct:Variable symbolType="real" symbId="C">
                 <ct:Assign>
-                        <ct:Piecewise>
+                    <math:Equation>
+                        <math:Piecewise>
                             <math:Piece>
                                 <ct:Real>0</ct:Real>
                                 <math:Condition>
@@ -243,7 +290,8 @@
                                     <math:Otherwise/>
                                 </math:Condition>
                             </math:Piece>
-                        </ct:Piecewise>
+                        </math:Piecewise>
+                    </math:Equation>
                 </ct:Assign>
             </ct:Variable>
         </StructuralModel>
@@ -272,18 +320,20 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <math:FunctionCall>
-                                <ct:SymbRef symbIdRef="combinedErrorModel"/>
-                                <math:FunctionArgument symbId="a">
-                                    <ct:SymbRef symbIdRef="a"/>
-                                </math:FunctionArgument>
-                                <math:FunctionArgument symbId="b">
-                                    <ct:SymbRef symbIdRef="b"/>
-                                </math:FunctionArgument>
-                                <math:FunctionArgument symbId="f">
-                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
-                                </math:FunctionArgument>
-                            </math:FunctionCall>
+                            <math:Equation>
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                    <math:FunctionArgument symbId="a">
+                                        <ct:SymbRef symbIdRef="a"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="b"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="f">
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                            </math:Equation>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>
@@ -304,6 +354,10 @@
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="t"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="WT"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
             </ColumnMapping>
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="DV"/>
@@ -331,7 +385,7 @@
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
                     <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
-<!--                    <ds:Column columnId="WT" columnType="covariate" valueType="real" columnNum="3"/>-->
+                    <ds:Column columnId="WT" columnType="covariate" valueType="real" columnNum="3"/>
                     <ds:Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
                     <ds:Column columnId="DVID" columnType="dvid" valueType="real" columnNum="5"/>
                     <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="6"/>
@@ -344,26 +398,6 @@
                 </ds:ExternalFile>
             </ds:DataSet>
         </ExternalDataSet>
-        
-        <Observations oid="dsdd">
-            <ExplicitObservations>
-                <Timepoints>
-                    <ct:Vector>
-                        <ct:VectorElements>
-                            <ct:Sequence>
-                                <ct:Begin><ct:Real>1</ct:Real></ct:Begin>
-                                <ct:StepSize><ct:Real>1</ct:Real></ct:StepSize>
-                                <ct:End><ct:Real>120</ct:Real></ct:End>
-                            </ct:Sequence>
-                        </ct:VectorElements>
-                    </ct:Vector>
-                </Timepoints>
-                <Continuous>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="Cc_obs"/>
-                </Continuous>
-            </ExplicitObservations>    
-        </Observations>
-        
         
     </TrialDesign>
     

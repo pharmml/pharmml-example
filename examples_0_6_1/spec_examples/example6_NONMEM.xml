@@ -40,48 +40,56 @@
             <!-- k -->
             <ct:Variable symbolType="real" symbId="k">
                 <ct:Assign>
-                    <math:Binop op="divide">
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                    </math:Binop>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
+                    </math:Equation>
                 </ct:Assign>
             </ct:Variable>
             
             <!-- dAd/dt -->
             <ct:DerivativeVariable symbId="Ad" symbolType="real">
                 <ct:Assign>
-                    <math:Binop op="times">
-                        <math:Uniop op="minus">
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                        </math:Uniop>
-                        <ct:SymbRef symbIdRef="Ad"/>
-                    </math:Binop>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Uniop op="minus">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                            </math:Uniop>
+                            <ct:SymbRef symbIdRef="Ad"/>
+                        </math:Binop>
+                    </math:Equation>
                 </ct:Assign>
             </ct:DerivativeVariable>
             
             <!-- dAc/dt -->
             <ct:DerivativeVariable symbId="Ac" symbolType="real">
                 <ct:Assign>
-                    <math:Binop op="minus">
-                        <math:Binop op="times">
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                            <ct:SymbRef symbIdRef="Ad"/>
-                        </math:Binop>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="k"/>
-                            <ct:SymbRef symbIdRef="Ac"/>
-                        </math:Binop>
-                    </math:Binop>                        
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                                <ct:SymbRef symbIdRef="Ad"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="k"/>
+                                <ct:SymbRef symbIdRef="Ac"/>
+                            </math:Binop>
+                        </math:Binop>                        
+                    </math:Equation>
                 </ct:Assign>
             </ct:DerivativeVariable>
             
             <!-- Cc -->
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
-                    <math:Binop op="divide">
-                        <ct:SymbRef symbIdRef="Ac"/>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                    </math:Binop>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Ac"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
+                    </math:Equation>
                 </ct:Assign>
             </ct:Variable>
             
@@ -97,19 +105,21 @@
                     <!-- Poisson intensity - function of drug concentration, Cc -->                    
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
-                            <math:Binop op="times">
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda0"/>
-                                <math:Binop op="minus">
-                                    <ct:Real>1</ct:Real>
-                                    <math:Binop op="divide">
-                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                                        <math:Binop op="plus">
-                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="IC50"/>
+                            <math:Equation>
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda0"/>
+                                    <math:Binop op="minus">
+                                        <ct:Real>1</ct:Real>
+                                        <math:Binop op="divide">
                                             <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                            <math:Binop op="plus">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="IC50"/>
+                                                <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                            </math:Binop>
                                         </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
-                            </math:Binop>
+                            </math:Equation>
                         </ct:Assign>
                     </IntensityParameter>
                     
@@ -130,22 +140,24 @@
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
                         <ct:Assign>
-                            <math:Binop op="minus">
-                                <math:Binop op="plus">
-                                    <math:Uniop op="minus">
-                                        <ct:SymbRef symbIdRef="Lambda"/>
-                                    </math:Uniop>
-                                    <math:Binop op="times">
-                                        <ct:SymbRef symbIdRef="k"/>
-                                        <math:Uniop op="log">
+                            <math:Equation>
+                                <math:Binop op="minus">
+                                    <math:Binop op="plus">
+                                        <math:Uniop op="minus">
                                             <ct:SymbRef symbIdRef="Lambda"/>
                                         </math:Uniop>
+                                        <math:Binop op="times">
+                                            <ct:SymbRef symbIdRef="k"/>
+                                            <math:Uniop op="log">
+                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                            </math:Uniop>
+                                        </math:Binop>
                                     </math:Binop>
+                                    <math:Uniop op="factln">
+                                        <ct:SymbRef symbIdRef="k"/>
+                                    </math:Uniop>
                                 </math:Binop>
-                                <math:Uniop op="factln">
-                                    <ct:SymbRef symbIdRef="k"/>
-                                </math:Uniop>
-                            </math:Binop>
+                            </math:Equation>
                         </ct:Assign>
                     </PMF>
                 </CountData>
@@ -172,13 +184,15 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <math:Binop op="plus">
-                                <ct:SymbRef symbIdRef="a"/>
-                                <math:Binop op="times">
-                                    <ct:SymbRef symbIdRef="b"/>
-                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="b"/>
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                    </math:Binop>
                                 </math:Binop>
-                            </math:Binop>
+                            </math:Equation>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>
@@ -193,7 +207,7 @@
     <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
         
         <!-- estimation data -->
-        <ExternalDataSet toolName="NONMEM" oid="NMoid">
+<!--        <ExternalDataSet toolName="NONMEM" oid="NMoid">
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="t"/>
@@ -238,8 +252,8 @@
                 </ds:ExternalFile>
             </ds:DataSet>
         </ExternalDataSet>
-        
-        <!-- simulation data -->
+        -->
+<!--        <!-\- simulation data -\->
         <Observations oid="OBSoid_Cc">
             <ExplicitObservations>  
                 <Timepoints>
@@ -269,9 +283,9 @@
                     <ct:SymbRef blkIdRef="om2" symbIdRef="Cc_obs"/>
                 </Continuous>
             </ExplicitObservations>
-        </Observations>
+        </Observations>-->
         
-        <!-- simulation data -->
+<!--        <!-\- simulation data -\->
         <Observations oid="OBSoid_lambda">
             <ExplicitObservations>
                 <Timepoints>
@@ -285,20 +299,27 @@
                     <ct:SymbRef blkIdRef="om1" symbIdRef="Lambda"/>
                 </Discrete>
             </ExplicitObservations>
-        </Observations>
+        </Observations>-->
     </TrialDesign>
     
     
     <!-- MODELLINGS STEPS -->
     <mstep:ModellingSteps>    
 
-        <!-- estStep1 -->
+<!--<mstep:ExternalDataSet toolName="NONMEM" oid="NMoid">
+    <ds:DataSet>
+        <ds:Definition>
+            <ds:Column columnId="" columnType="" valueType="" columnNum=""></ds:Column>
+        </ds:Definition>
+    </ds:DataSet>
+</mstep:ExternalDataSet>
+-->        <!-- estStep1 -->
         <mstep:EstimationStep oid="estStep1">
             
-            <mstep:TargetToolReference>
+<!--            <mstep:TargetToolReference>
                 <ct:OidRef oidRef="NMoid"/>
             </mstep:TargetToolReference>
-            
+-->            
             <mstep:ParametersToEstimate>
                 <mstep:ParameterEstimation>
                     <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
@@ -314,11 +335,11 @@
         <!-- SIMStep1 -->
         <mstep:SimulationStep oid="simStep1">
             
-            <mstep:ObservationsReference>
+<!--            <mstep:ObservationsReference>
                 <ct:OidRef oidRef="OBSoid_Cc"/>
                 <ct:OidRef oidRef="OBSoid_lambda"/>
             </mstep:ObservationsReference>
-            
+-->            
             <ct:VariableAssignment>
                 <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda0"/>
                 <ct:Assign>

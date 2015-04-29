@@ -302,12 +302,24 @@
                     <RandomVariable2>
                         <ct:SymbRef symbIdRef="eta_Cl"/>
                     </RandomVariable2>
-                    <CorrelationCoefficient>
-                        <ct:SymbRef symbIdRef="rho_V_Cl"/>
-                    </CorrelationCoefficient>
+                    <Covariance>
+                        <ct:SymbRef symbIdRef="COV_V_Cl"/>
+                    </Covariance>
                 </Pairwise>
             </Correlation>
+
+            <Correlation deviationMatrixType="CovMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any">
+                    <ct:ColumnNames><ct:SymbRef symbIdRef="eta_V"/><ct:SymbRef symbIdRef="eta_Cl"/></ct:ColumnNames>
+                    <ct:MatrixRow><ct:SymbRef symbIdRef="PPV_V"/><ct:SymbRef symbIdRef="COV_V_Cl"/></ct:MatrixRow>
+                    <ct:MatrixRow><ct:SymbRef symbIdRef="COV_V_Cl"/><ct:SymbRef symbIdRef="PPV_CL"/></ct:MatrixRow>
+                </Matrix>
+            </Correlation>
         </ParameterModel>
+        
         
         <!-- structural model -->
         <StructuralModel blkId="sm1">

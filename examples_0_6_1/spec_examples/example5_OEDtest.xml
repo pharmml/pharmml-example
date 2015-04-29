@@ -34,8 +34,94 @@
             <Level symbId="residual"/>
         </VariabilityModel>
         
+        <!-- cm1 -->
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="SEX">
+                <Categorical>
+                    <Category catId="F">
+                        <Probability>
+                            <ct:Real>0.7</ct:Real>
+                        </Probability>
+                    </Category>
+                    <Category catId="M">
+                        <Probability>
+                            <ct:Real>0.7</ct:Real>
+                        </Probability>
+                    </Category>
+                </Categorical>
+            </Covariate>
+            <Covariate symbId="WT">
+                <Continuous>
+                    <Distribution>  <!-- new Distribution element -->
+                        <Piecewise>  <!-- need piece-wise here -->
+                            <Piece>
+                                <Condition>SEX=M</Condition>
+                                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                                    <mean><rVal>80</rVal></mean>
+                                    <variance><prVal>10</prVal></variance>
+                                </NormalDistribution>
+                            </Piece>
+                            <Piece>
+                                <Condition>SEX=F</Condition>
+                                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                                    <mean><rVal>60</rVal></mean>
+                                    <variance><prVal>8</prVal></variance>
+                                </NormalDistribution>
+                            </Piece>
+                        </Piecewise>
+                    </Distribution>
+<!--                    <Transformation>
+                        <TransformedCovariate symbId="logWT"/>      <!-\- beta*logWT -\->
+                        <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                            <Uniop op="log">
+                                <ct:SymbRef symbIdRef="WT"/>
+                            </Uniop>
+                        </Equation>
+                    </Transformation>-->
+<!--                    <ct:Interpolation>
+                        <ct:Algorithm>linear</ct:Algorithm>
+                        <ct:InterpIndepVar>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </ct:InterpIndepVar>
+                    </ct:Interpolation>-->
+                </Continuous>
+            </Covariate>
+        </CovariateModel>
+        
+        <CovariateModel blkId="cm1_alternative">    <!-- scenario B -->
+            <Covariate symbId="SEX">
+                <Categorical>
+                    <Category catId="F"/>
+                    <Category catId="M"/>
+                </Categorical>
+            </Covariate>
+            <Covariate symbId="WT">
+                <Continuous>
+                    <Transformation>
+                        <TransformedCovariate symbId="logWT"/>
+                        <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                            <Uniop op="log">
+                                <ct:SymbRef symbIdRef="WT"/>
+                            </Uniop>
+                        </Equation>
+                    </Transformation>
+                </Continuous>          
+            </Covariate>
+        </CovariateModel>
+        
         <!-- PARAMETER MODEL -->
         <ParameterModel blkId="pm1">
+<!--            <SimpleParameter symbId="">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Piecewise>
+                            <Piece>
+                                <Condition></Condition>
+                            </Piece>
+                        </Piecewise>
+                    </Equation>
+                </ct:Assign>
+            </SimpleParameter>-->
             <!-- **************************************** -->
             <!-- PARAMETERS: initial conditions           -->
             <!-- **************************************** -->
@@ -464,7 +550,7 @@
                                 <ct:SymbRef symbIdRef="Q"/>
                                 <ct:SymbRef symbIdRef="QP"/>
                             </Binop>
-                        </Binop>
+                        </Binop>                    
                     </Equation>
                 </ct:Assign>
             </ct:Variable>
@@ -487,7 +573,7 @@
                         </stddev>
                     </NormalDistribution>
                 </RandomVariable>
-                <Standard symbId="PSTAR_obs">
+                <Standard symbId="PSTAR_obs">       <!-- PSTAR_obs (DV) = PSTAR +g*EPS -->
                     <Output>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="PSTAR"/>
                     </Output>
@@ -517,173 +603,43 @@
         
         <!-- STRUCTURE -->
         <Structure>
-            <!-- NEED ACTIVITIESSSSSS HERE -->
+            <OccasionsEpoch oid="epoch1_arm1">
+                <ArmRef oidRef="arm1"/>
+                <Start><ct:Real>0</ct:Real></Start>
+                <End><ct:Real>200</ct:Real></End>
+            </OccasionsEpoch>
+            <OccasionsEpoch oid="epoch2_arm1">
+                <ArmRef oidRef="arm1"/>
+                <Start><ct:Real>0</ct:Real></Start>
+                <End><ct:Real>200</ct:Real></End>
+            </OccasionsEpoch>
+            <Arm oid="arm1">
+                Covariate
+            </Arm>
+<!--            <Cell oid="cell1">
+                <EpochRef oidRef="epoch1"/>
+                <ArmRef oidRef="arm1"/>
+                <SegmentRef oidRef="TA"/>
+            </Cell>-->
+            <Segment oid="TA">
+                <EpochRef oidRef="epoch1"/>
+                <ActivityRef oidRef="bolusIV"/>
+                <ActivityRef oidRef="oral"/>
+            </Segment>
+            <AdministrationSegment oid="TA">
+                <ActivityRef oidRef="bolusIV"/>
+            </AdministrationSegment>
             <Activity oid="bolusIV">
                 <Bolus>
                     <DoseAmount inputTarget="derivativeVariable">
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
                     </DoseAmount>
-                    <DosingTimes>   <!-- REDUNDANT - IndivDosing below alread -->
-                        <ct:Assign>
-                            <ct:Sequence>
-                                <ct:Begin><ct:Int>1</ct:Int></ct:Begin>
-                                <ct:StepSize><ct:Int>1</ct:Int></ct:StepSize>
-                                <ct:End><ct:Int>10</ct:Int></ct:End>
-                            </ct:Sequence>
-                        </ct:Assign>
-                    </DosingTimes>
                 </Bolus>
             </Activity>
-            <Observations>
-                <ObservationsDataset oid="OBSoid">
-                    <ColumnMapping>
-                        <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="TIME"/> 
-                        <ct:SymbRef symbIdRef="time"/>
-                    </ColumnMapping>
-                    <ColumnMapping>
-                        <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="DV"/> 
-                        <ct:SymbRef blkIdRef="om1" symbIdRef="PSTAR_obs"/>
-                    </ColumnMapping>
-                    
-                    <DataSet xmlns="http://www.pharmml.org/pharmml/0.6/Dataset">
-                        <Definition>
-                            <Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
-                            <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
-                            <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                        </Definition>
-                        <Table>
-                            <!-- SUBJECT 1 -->
-                            <Row><ct:String>1</ct:String><ct:Real>3.43</ct:Real><ct:Real>45.7</ct:Real></Row>
-                            <Row><ct:String>1</ct:String><ct:Real>5.3</ct:Real><ct:Real>48.03</ct:Real></Row> 
-                            <Row><ct:String>1</ct:String><ct:Real>42.13</ct:Real><ct:Real>71.34</ct:Real></Row>
-                            <Row><ct:String>1</ct:String><ct:Real>52.63</ct:Real><ct:Real>79.3</ct:Real></Row>
-                            <Row><ct:String>1</ct:String><ct:Real>57.53</ct:Real><ct:Real>72.3</ct:Real></Row>
-                            <Row><ct:String>1</ct:String><ct:Real>63.3</ct:Real><ct:Real>72.07</ct:Real></Row>
-                            <Row><ct:String>1</ct:String><ct:Real>68.97</ct:Real><ct:Real>70.24</ct:Real></Row>
-                            <Row><ct:String>1</ct:String><ct:Real>76.53</ct:Real><ct:Real>66.81</ct:Real></Row>
-                            <Row><ct:String>1</ct:String><ct:Real>94.53</ct:Real><ct:Real>60.48</ct:Real></Row>
-                            <Row><ct:String>1</ct:String><ct:Real>106.1</ct:Real><ct:Real>62</ct:Real></Row>
-                            <Row><ct:String>1</ct:String><ct:Real>116.23</ct:Real><ct:Real>72.04</ct:Real></Row>
-                            <Row><ct:String>1</ct:String><ct:Real>121.87</ct:Real><ct:Real>90.16</ct:Real></Row>
-                            <!-- SUBJECT 2 -->
-                            <Row><ct:String>2</ct:String><ct:Real>0</ct:Real><ct:Real>50.17</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>11.07</ct:Real><ct:Real>61.68</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>14.17</ct:Real><ct:Real>52.82</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>16.6</ct:Real><ct:Real>53.36</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>19.33</ct:Real><ct:Real>53.28</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>25.13</ct:Real><ct:Real>48.3</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>29.27</ct:Real><ct:Real>40.66</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>33.4</ct:Real><ct:Real>42.4</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>37.43</ct:Real><ct:Real>38.2</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>42.67</ct:Real><ct:Real>42.99</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>48.83</ct:Real><ct:Real>42.76</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>56.4</ct:Real><ct:Real>48.6</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>62.23</ct:Real><ct:Real>55.85</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>65.9</ct:Real><ct:Real>54.71</ct:Real></Row>
-                            <Row><ct:String>2</ct:String><ct:Real>71.37</ct:Real><ct:Real>60.77</ct:Real></Row>
-                            <!-- SUBJECT 3 -->
-                            <!-- SNIP -->
-                            <!-- SUBJECT 21 -->
-                            <Row><ct:String>21</ct:String><ct:Real>9.77</ct:Real><ct:Real>72.35</ct:Real></Row>
-                            <Row><ct:String>21</ct:String><ct:Real>14.23</ct:Real><ct:Real>66.96</ct:Real></Row>
-                            <Row><ct:String>21</ct:String><ct:Real>18.13</ct:Real><ct:Real>56.79</ct:Real></Row>
-                            <Row><ct:String>21</ct:String><ct:Real>23.9</ct:Real><ct:Real>60.06</ct:Real></Row>
-                        </Table>
-                    </DataSet>
-                </ObservationsDataset>
-            </Observations>
-            <Occasions>
-                <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="mv1" symbIdRef="iov1"/>
-                </ct:VariabilityReference>
-                <Occasion oid="OCC1">
-                    <Period>
-                        <Start><ct:Real>0</ct:Real></Start>
-                        <End><ct:Real>10</ct:Real></End>
-                    </Period>
-                </Occasion>
-                <Occasion oid="OCC2">
-                    <Period>
-                        <Start><ct:Real>0</ct:Real></Start>
-                        <End><ct:Real>10</ct:Real></End>
-                    </Period>
-                </Occasion>
-            </Occasions>
-            <Epoch oid="epoch1">
-                <Start>
-                    <ct:Real>0</ct:Real>
-                </Start>
-                <End>
-                    <ct:Real>200</ct:Real>
-                </End>
-                <Order>1</Order>
-            </Epoch>
-            <Epoch oid="epoch2">
-                <Start><ct:Real>0</ct:Real></Start>
-                <End><ct:Real>200</ct:Real></End>
-                <Order>1</Order>
-            </Epoch>
-            <Segment oid="TA">
-                <EpochRef oidRef="epoch1"/>
-                <ActivityRef oidRef="bolusIV"/>
-            </Segment>
-            <Arm oid="arm1"/>
-            <Arm oid="arm2"/>
+            <SamplingSegment oid="OS">
+                <Sampling oid="samp1"/>
+            </SamplingSegment>
         </Structure> 
-
-<!--        <InterventionEpoch oid="intervEpoch1">
-            <Start><ct:Real>0</ct:Real></Start>
-            <End><ct:Real>200</ct:Real></End>
-            <Order>1</Order>
-        </InterventionEpoch>
-        <SamplingEpoch oid="samplEpoch1">
-            <Start><ct:Real>0</ct:Real></Start>
-            <End><ct:Real>200</ct:Real></End>
-            <Order>2</Order>
-        </SamplingEpoch>
-        <Arm oid="arm1">
-            <ArmSize>20</ArmSize>
-        </Arm>
-        <Arm oid="arm2">
-            <CopyArm oifRef="arm1">
-                <ArmSize>20</ArmSize>
-        </Arm>
-        <!-\-            <Cell oid="cell1">
-                <EpochRef oidRef="epoch1"/>
-                <ArmRef oidRef="arm1"/>
-                <SegmentRef oidRef="TA"/>
-            </Cell>
-            <Cell oid="cell2">
-                <EpochRef oidRef="epoch3"/>
-                <ArmRef oidRef="arm2"/>
-                <SegmentRef oidRef="TA"/>
-            </Cell>-\->
-        <Segment oid="TA">
-            <ArmRef oidRef="arm1"/>
-            <EpochRef oidRef="epoch1"/>
-            <ActivityRef oidRef="bolusIV"/>
-            <ActivityRef oidRef="oral"/>
-        </Segment>
-        <Activity oid="bolusIV">
-            <Bolus>
-                <DoseAmount inputTarget="derivativeVariable">
-                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
-                </DoseAmount>
-                <DosingTimes>
-                    <ct:Assign>
-                        <ct:Sequence>
-                            <ct:Begin><ct:Int>1</ct:Int></ct:Begin>
-                            <ct:StepSize><ct:Int>1</ct:Int></ct:StepSize>
-                            <ct:End><ct:Int>10</ct:Int></ct:End>
-                        </ct:Sequence>
-                    </ct:Assign>
-                </DosingTimes>
-            </Bolus>
-        </Activity>
-        <Observations oid="bolusIV_arm1"> <!-\- to be defined -\->
-            ...
-        </Observations>
-        -->
         
         <!-- POPULATION -->
         <Population> 
@@ -707,7 +663,78 @@
             </DataSet>
         </Population>
         
+        <CovariateModel blkId="td_cm1" overwrite="cm1">
+            <Covariate symbId="SEX">
+                <Categorical>
+                    <Category catId="F">
+                        <Probability>
+                            <ct:Real>0.7</ct:Real>
+                        </Probability>
+                    </Category>
+                    <Category catId="M">
+                        <Probability>
+                            <ct:Real>0.3</ct:Real>
+                        </Probability>
+                    </Category>
+                </Categorical>
+            </Covariate>
+        </CovariateModel> 
         
+        <CovariateModel blkId="td_cm2" overwrite="td_cm1">
+            <Covariate symbId="SEX">
+                <Categorical>
+                    <Category catId="F">
+                        <Probability>
+                            <ct:Real>0.5</ct:Real>
+                        </Probability>
+                    </Category>
+                    <Category catId="M">
+                        <Probability>
+                            <ct:Real>0.5</ct:Real>
+                        </Probability>
+                    </Category>
+                </Categorical>
+            </Covariate>
+        </CovariateModel> 
+        
+        
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="WT">
+                <Continuous>
+                    <Piecewise>
+                        <Piece>
+                            <Condition>SEX=M</Condition>
+                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                                <mean><rVal>80</rVal></mean>
+                                <variance><prVal>10</prVal></variance>
+                            </NormalDistribution>
+                        </Piece>
+                        <Piece>
+                            <Condition>SEX=F</Condition>
+                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                                <mean><rVal>60</rVal></mean>
+                                <variance><prVal>8</prVal></variance>
+                            </NormalDistribution>
+                        </Piece>
+                    </Piecewise>
+                    
+                    <!--                    <Transformation>
+                        <TransformedCovariate symbId="logWT"/>      <!-\- beta*logWT -\->
+                        <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                            <Uniop op="log">
+                                <ct:SymbRef symbIdRef="WT"/>
+                            </Uniop>
+                        </Equation>
+                    </Transformation>-->
+                    <!--                    <ct:Interpolation>
+                        <ct:Algorithm>linear</ct:Algorithm>
+                        <ct:InterpIndepVar>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </ct:InterpIndepVar>
+                    </ct:Interpolation>-->
+                </Continuous>
+            </Covariate>
+        </CovariateModel>
 
         <!-- INDIVUIDUAL DOSING -->
         <IndividualDosing>
@@ -749,12 +776,82 @@
     <!-- BLOCK III: MODELLING STEPS -->
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
         
+        <Settings oid="myID">
+            <TargetToolName>PFIM</TargetToolName>
+            <TargetToolData xmlns="http://www.pharmml.org/pharmml/0.6/Dataset">
+                <ImportTargetData oid="sdsd">
+                    <path>mySettignsFule.txt</path>
+                </ImportTargetData>
+            </TargetToolData>
+        </Settings>
+        'mySettignsFile.txt'
+        
+        <EvaluateTask>
+            <TargetToolReference>
+                <ct:OidRef oidRef="myID"/>
+            </TargetToolReference>
+            <!-- task/step deifnitin  -->
+        </EvaluateTask>
+        
         <!-- ESTIMATION STEP -->
         <EstimationStep oid="estTask1">
-            <ObservationsReference>
-                <ct:OidRef oidRef="OBSoid"/>
-            </ObservationsReference>
-            
+            <ObjectiveDataSet>
+
+                <ColumnMapping>
+                    <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="TIME"/> 
+                    <ct:SymbRef symbIdRef="time"/>
+                </ColumnMapping>
+                <ColumnMapping>
+                    <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="DV"/> 
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="PSTAR_obs"/>
+                </ColumnMapping>
+                
+                <DataSet xmlns="http://www.pharmml.org/pharmml/0.6/Dataset">
+                    <Definition>
+                        <Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
+                        <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                        <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                    </Definition>
+                    <Table>
+                        <!-- SUBJECT 1 -->
+                        <Row><ct:String>1</ct:String><ct:Real>3.43</ct:Real><ct:Real>45.7</ct:Real></Row>
+                        <Row><ct:String>1</ct:String><ct:Real>5.3</ct:Real><ct:Real>48.03</ct:Real></Row> 
+                        <Row><ct:String>1</ct:String><ct:Real>42.13</ct:Real><ct:Real>71.34</ct:Real></Row>
+                        <Row><ct:String>1</ct:String><ct:Real>52.63</ct:Real><ct:Real>79.3</ct:Real></Row>
+                        <Row><ct:String>1</ct:String><ct:Real>57.53</ct:Real><ct:Real>72.3</ct:Real></Row>
+                        <Row><ct:String>1</ct:String><ct:Real>63.3</ct:Real><ct:Real>72.07</ct:Real></Row>
+                        <Row><ct:String>1</ct:String><ct:Real>68.97</ct:Real><ct:Real>70.24</ct:Real></Row>
+                        <Row><ct:String>1</ct:String><ct:Real>76.53</ct:Real><ct:Real>66.81</ct:Real></Row>
+                        <Row><ct:String>1</ct:String><ct:Real>94.53</ct:Real><ct:Real>60.48</ct:Real></Row>
+                        <Row><ct:String>1</ct:String><ct:Real>106.1</ct:Real><ct:Real>62</ct:Real></Row>
+                        <Row><ct:String>1</ct:String><ct:Real>116.23</ct:Real><ct:Real>72.04</ct:Real></Row>
+                        <Row><ct:String>1</ct:String><ct:Real>121.87</ct:Real><ct:Real>90.16</ct:Real></Row>
+                        <!-- SUBJECT 2 -->
+                        <Row><ct:String>2</ct:String><ct:Real>0</ct:Real><ct:Real>50.17</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>11.07</ct:Real><ct:Real>61.68</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>14.17</ct:Real><ct:Real>52.82</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>16.6</ct:Real><ct:Real>53.36</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>19.33</ct:Real><ct:Real>53.28</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>25.13</ct:Real><ct:Real>48.3</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>29.27</ct:Real><ct:Real>40.66</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>33.4</ct:Real><ct:Real>42.4</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>37.43</ct:Real><ct:Real>38.2</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>42.67</ct:Real><ct:Real>42.99</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>48.83</ct:Real><ct:Real>42.76</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>56.4</ct:Real><ct:Real>48.6</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>62.23</ct:Real><ct:Real>55.85</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>65.9</ct:Real><ct:Real>54.71</ct:Real></Row>
+                        <Row><ct:String>2</ct:String><ct:Real>71.37</ct:Real><ct:Real>60.77</ct:Real></Row>
+                        <!-- SUBJECT 3 -->
+                        <!-- SNIP -->
+                        <!-- SUBJECT 21 -->
+                        <Row><ct:String>21</ct:String><ct:Real>9.77</ct:Real><ct:Real>72.35</ct:Real></Row>
+                        <Row><ct:String>21</ct:String><ct:Real>14.23</ct:Real><ct:Real>66.96</ct:Real></Row>
+                        <Row><ct:String>21</ct:String><ct:Real>18.13</ct:Real><ct:Real>56.79</ct:Real></Row>
+                        <Row><ct:String>21</ct:String><ct:Real>23.9</ct:Real><ct:Real>60.06</ct:Real></Row>
+                    </Table>
+                </DataSet>
+            </ObjectiveDataSet>
             <ParametersToEstimate>
                 <!-- INITIAL CONDITIONS -->
                 <!-- P0 -->
@@ -763,6 +860,9 @@
                     <InitialEstimate fixed="false">
                         <ct:Real>1</ct:Real>
                     </InitialEstimate>
+                    <LowerBound>
+                        <ct:Int>0</ct:Int>
+                    </LowerBound>
                 </ParameterEstimation>
                 <ParameterEstimation>
                     <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_P0"/>
@@ -896,7 +996,14 @@
                 </ParameterEstimation>
                 
             </ParametersToEstimate>
-            <Operation order="1" opType="estPop"/>
+            <Operation order="1" opType="estPop">
+                <ct:Description>i did with balbla</ct:Description>
+                <Property name="sffsfds">
+                    <ct:Assign>
+                        <ct:String>dasdda</ct:String>
+                    </ct:Assign>
+                </Property>
+            </Operation>
             <Operation order="2" opType="estIndiv"/>
         </EstimationStep>
 
@@ -908,3 +1015,4 @@
         </StepDependencies>
     </ModellingSteps>
 </PharmML>
+
