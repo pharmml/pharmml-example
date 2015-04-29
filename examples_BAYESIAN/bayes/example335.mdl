@@ -1,0 +1,131 @@
+example335_dat = dataobj {
+   DATA_INPUT_VARIABLES{
+      ID:{type=categorical}
+      TIME:{type=continuous, units="h"}
+      DOSE:{type=continuous, units="mg"}
+      DV:{type=continuous, units="mg/L"}
+   }# end DATA_INPUT_VARIABLES
+
+   SOURCE{
+      file="bo1.csv"
+      inputformat=nonmemFormat
+      ignore="#"
+   }# end SOURCE
+}
+
+example335_par = parobj{
+
+  PRIOR_PARAMETERS{
+		# prior on "THETA"
+	 	MU_POP_K:{value=0.1} # median
+		MU_POP_V:{value=8}
+		
+ # <<<< Matrix definition ?>>>
+        SIGMA_POP_P:{value=c(1,0.1,0.1,1),dim=c(2,2)} 
+ 		
+		 # prior on "OMEGA"
+		a_OMEGA_K:{value=0.1}
+		b_OMEGA_K:{value=0.1}
+		a_OMEGA_V:{value=0.1}
+		b_OMEGA_V:{value=0.1}
+        a_OMEGA_T:{value=0.3}
+		b_OMEGA_T:{value=0.3}
+          
+        # prior on "SIGMA"
+        a_POP_T:{value=0.1}
+		b_POP_T:{value=0.1}
+   } # end PRIOR
+
+# <<<< New PRIOR_VARIABLE_DEFINITION block: 														      >>>
+# <<<< it is used to define prior distributions and all the necessary parameters transformations. 	      >>>
+# <<<< This block substitutes the STRUCTURAL and VARIABILITY blocks	for those parameters that have priors >>>
+   PRIOR_VARIABLE_DEFINITION{
+
+		# prior on "THETA"
+	    lMU_POP_K = log(MU_POP_K)
+	    lMU_POP_V = log(MU_POP_V)
+
+# <<<< Creating a vector: v = c(el1,el2) ?>>>
+	    lMU_POP_P = c(lMU_POP_K, lMU_POP_V)   	       
+	 	lPOP_P ~ {type=multivariateNormal, mean=lMU_POP_P, cov=SIGMA_POP_P}
+	 	
+# <<<< Accessing vector elements: el1 = v[1] ?>>> 
+	    POP_K = exp(lPOP_P[1])
+	    POP_V = exp(lPOP_P[2]) 
+	    
+	 	# prior on "OMEGA"	
+        TAU_K ~ {type=gamma, shape=a_OMEGA_K, scale=b_OMEGA_K}
+        OMEGA_K=1/TAU_K
+        TAU_V ~ {type=gamma, shape=a_OMEGA_V, scale=b_OMEGA_V}
+        OMEGA_V=1/TAU_V 
+        TAU_T ~ {type=gamma, shape=a_OMEGA_T, scale=b_OMEGA_T}
+        OMEGA_T = 1/TAU_T             
+
+        # prior on "SIGMA"  
+        POP_T ~ {type=gamma, shape=a_POP_T, scale=b_POP_T} 
+	            
+    } # end PRIOR_VARIABLE_DEFINITION
+
+} # end of parameter object
+
+example335_mdl = mdlobj{
+
+   MODEL_INPUT_VARIABLES{
+      ID:{use=id,level=2}
+      TIME:{use=idv,units="h"}
+      DOSE:{type=continuous,use=covariate}
+      DV:{type=continuous,use=dv,level=1,prediction=Y}
+   }# end MODEL_INPUT_VARIABLES
+
+# <<<< Relevant model parameters are selected from the PRIOR_VARIABLE_DEFINITION block  
+# <<<< and listed in the STRUCTURAL_PARAMETERS and VARIABILITY_PARAMETERS blocks as usual >>>
+   STRUCTURAL_PARAMETERS{
+      POP_T
+      POP_K
+      POP_V
+   }# end STRUCTURAL_PARAMETERS
+
+   VARIABILITY_PARAMETERS{
+      OMEGA_T
+      OMEGA_K
+      OMEGA_V
+   }# end VARIABILITY_PARAMETERS
+
+
+   RANDOM_VARIABLE_DEFINITION{
+      eta_K ~ {type=normal, mean=0, var=OMEGA_K,level=ID}
+      eta_V ~ {type=normal, mean=0, var=OMEGA_V,level=ID} 
+      eta_T ~ {type=normal, mean=0, var=OMEGA_T, level=ID}
+      eps ~ {type=normal, mean=0, var=1,level=DV}
+   }# end RANDOM_VARIABLE_DEFINITION
+
+   INDIVIDUAL_VARIABLES{
+	  K : {type=linear, trans=log, pop = POP_K, ranEff=eta_K}
+      V : {type=linear, trans=log, pop = POP_V, ranEff=eta_V}
+      TAU : {type=linear, trans=log, pop = POP_T, ranEff=eta_T}
+      SD_ADD = sqrt(1/TAU)
+   }# end INDIVIDUAL_VARIABLES
+
+   MODEL_PREDICTION{   
+      C=DOSE/V*exp(-K*TIME)
+   }# end MODEL_PREDICTION   
+   
+   OBSERVATION{
+      Y : {type=continuous, error=additiveError(additive=SD_ADD), eps=eps, prediction= C}
+   }# end OBSERVATION  
+
+} # end of model object
+
+example335_task = taskobj{   
+    ESTIMATE { 
+    	target=BUGS_CODE  
+	} 
+} # end task
+	
+example335 = mog{
+	example335_dat
+	example335_mdl
+	example335_par
+	example335_task
+}
+

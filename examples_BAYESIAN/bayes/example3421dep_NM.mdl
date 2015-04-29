@@ -1,0 +1,163 @@
+example3421dep_NM_dat = dataobj {
+   DATA_INPUT_VARIABLES{
+      ID:{type=categorical}
+      TIME:{type=continuous, units="h"}
+      DOSE:{type=continuous, units="mg"}
+      DV:{type=continuous, units="mg/L"}
+   }# end DATA_INPUT_VARIABLES
+
+   SOURCE{
+       file="bo1.csv"
+       inputformat=nonmemFormat
+       ignore="#"
+   }# end SOURCE
+}
+
+# <<<< Added another data object for empirical/nonparametric prior definition>>>
+example3421dep_NM_prior_dat = dataobj {
+
+   DATA_INPUT_VARIABLES{
+      bins_POP_K
+      bins_POP_V
+      p_POP_K_V
+   }# end DATA_INPUT_VARIABLES
+
+   SOURCE{
+# <<<< INLINE data definition. In alternative one can source a data file as usual>>>
+        # file = "prior_bo1.txt"
+        inputformat=nonmemFormat 
+        ignore="#"
+		INLINE{
+# <<<< NONMEM format is used in this example >>>
+		      #bins_POP_K	bins_POP_V		p_POP_K_V
+			  2.006510 		5.050013 		0.033333
+			  2.045465 		5.050013 		0.100000
+			  2.084421 		5.050013 		0.100000
+			  2.123377 		5.050013 		0.200000
+			  2.162333 		5.064166 		0.100000
+			  2.201288 		5.064166 		0.066667
+			  2.240244 		5.064166 		0.166667
+			  2.279200 		5.064166 		0.100000
+			  2.318156 		5.078318 		0.066667
+			  2.357111 		5.078318 		0.066667
+		}# end INLINE
+   }# end SOURCE
+}
+
+example3421dep_NM_par = parobj{
+
+# <<<< new PRIOR_INPUT_VARIABLES block for empirical/nonparametric priors.   >>>
+# <<<< the source tag indicates the correct data object >>>
+  PRIOR_INPUT_VARIABLES(source=example3421dep_NM_prior_dat){
+     # prior on "THETA"
+      bins_POP_K
+      bins_POP_V
+      p_POP_K_V
+# <<<< Is it sufficient to list them or "use"/"type"/.. is required like in MODEL_INPUT_VARIABLES?   >>>
+  }# end DATA_INPUT_VARIABLES
+
+
+   PRIOR_PARAMETERS{
+        # prior on "OMEGA"
+		a_OMEGA_K:{value=0.1}
+		b_OMEGA_K:{value=0.1}
+		a_OMEGA_V:{value=0.1}
+		b_OMEGA_V:{value=0.1}
+        a_OMEGA_T:{value=0.3}
+		b_OMEGA_T:{value=0.3}
+		
+		# prior on "SIGMA"
+        a_POP_T:{value=0.1}
+		b_POP_T:{value=0.1}
+   
+   } # end PRIOR
+
+# <<<< New PRIOR_VARIABLE_DEFINITION block: 														      >>>
+# <<<< it is used to define prior distributions and all the necessary parameters transformations. 	      >>>
+# <<<< This block substitutes the STRUCTURAL and VARIABILITY blocks	for those parameters that have priors >>>
+   PRIOR_VARIABLE_DEFINITION{
+# <<<< Creating a matrix from 2 vectors: m = matrix(c(v1,v2),ncol=N) as in r ?>>>
+      bins_POP_K_V = matrix(c(bins_POP_K,bins_POP_V),ncol=2)
+
+      # prior on "THETA"    
+# <<<< the multivariateNonparametric distribution does not exist in the current version >>> 
+	  POP_K_V ~ {type=multivariateNonparametric, bin=bins_POP_K_V, probability=p_POP_K_V}
+# <<<< Accessing vector elements: el1 = v[1] ?>>> 
+      POP_K = POP_K_V[1]
+      POP_V = POP_K_V[2]
+
+	  # prior on "OMEGA"	          
+      TAU_K ~ {type=gamma, shape=a_OMEGA_K, scale=b_OMEGA_K}
+      OMEGA_K=1/TAU_K
+      TAU_V ~ {type=gamma, shape=a_OMEGA_V, scale=b_OMEGA_V}
+      OMEGA_V=1/TAU_V 
+      TAU_T ~ {type=gamma, shape=a_OMEGA_T, scale=b_OMEGA_T}
+      OMEGA_T = 1/TAU_T 
+      
+      # prior on "SIGMA"  
+      POP_T ~ {type=gamma, shape=a_POP_T, scale=b_POP_T}        
+   
+    } # end PRIOR_VARIABLE_DEFINITION
+} # end of parameter object
+
+example3421dep_NM_mdl = mdlobj{
+
+   MODEL_INPUT_VARIABLES{
+      ID:{use=id,level=2}
+      TIME:{use=idv,units="h"}
+      DOSE:{type=continuous,use=covariate}
+      DV:{type=continuous,prediction=Y,use=dv,level=1}
+   }# end MODEL_INPUT_VARIABLES
+
+# <<<< Relevant model parameters are selected from the PRIOR_VARIABLE_DEFINITION block  
+# <<<< and listed in the STRUCTURAL_PARAMETERS and VARIABILITY_PARAMETERS blocks as usual >>>
+   STRUCTURAL_PARAMETERS{
+      POP_K
+      POP_V
+      POP_T
+   }# end STRUCTURAL_PARAMETERS
+
+   VARIABILITY_PARAMETERS{
+      OMEGA_K
+      OMEGA_V
+      OMEGA_T
+   }# end VARIABILITY_PARAMETERS
+
+
+   RANDOM_VARIABLE_DEFINITION{
+      eta_K ~ {type=normal, mean=0, var=OMEGA_K,level=ID}
+      eta_V ~ {type=normal, mean=0, var=OMEGA_V,level=ID}
+      eta_T ~ {type=normal, mean=0, var=OMEGA_T, level=ID}
+      eps ~ {type=normal, mean=0, var=1,level=DV}
+   }# end RANDOM_VARIABLE_DEFINITION
+
+   INDIVIDUAL_VARIABLES{
+      K : {type=linear, trans=log, pop = POP_K, ranEff=eta_K}
+      V : {type=linear, trans=log, pop = POP_V, ranEff=eta_V}
+      TAU : {type=linear, trans=log, pop = POP_T, ranEff=eta_T}
+      SD_ADD = sqrt(1/TAU)
+   }# end INDIVIDUAL_VARIABLES
+
+   MODEL_PREDICTION{      
+      C=DOSE/V*exp(-K*TIME)     
+   }# end MODEL_PREDICTION
+   
+   OBSERVATION{
+      Y : {type=continuous, error=additiveError(additive=SD_ADD), eps=eps, prediction= C}
+   }# end OBSERVATION
+
+} # end of model object
+
+example3421dep_NM_task = taskobj{   
+    ESTIMATE { 
+    	target=BUGS_CODE  
+	} 
+} # end task
+	
+example3421dep_NM = mog{
+	example3421dep_NM_dat
+	example3421dep_NM_mdl
+	example3421dep_NM_par
+	example3421dep_NM_task
+}
+
