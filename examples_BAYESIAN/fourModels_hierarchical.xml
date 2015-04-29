@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
+    implementedBy="MJS" writtenVersion="0.6.1" id="i1">
+    
+    <!-- MODEL NAME -->
+    <ct:Name>Hierarchical model</ct:Name>
+    
+    <ct:Description>Hierarchical model from the 'Four models' proposal by Marc.</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- MODEL DEFINITION -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+    
+        <!-- VARIABILITY MODEL -->
+        <VariabilityModel blkId="vm1" type="parameterVariability">
+            <Level symbId="pop"/>
+            <Level symbId="indiv">
+                <ParentLevel>
+                    <ct:SymbRef symbIdRef="pop"/>
+                </ParentLevel>
+            </Level>
+        </VariabilityModel>
+        
+        <VariabilityModel blkId="vm2" type="residualError">
+            <Level symbId="resErr"/>
+        </VariabilityModel>
+        
+        <!-- COVARIATE MODEL -->
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="w">
+                <Continuous>
+                    <Distribution>
+                        <ProbOnto>
+                            <DistributionName>Normal1</DistributionName>
+                            <Parameter1>
+                                <ct:Assign>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="w_pop"/>
+                                </ct:Assign>
+                            </Parameter1>
+                            <Parameter2>
+                                <ct:Assign>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_w"/>
+                                </ct:Assign>
+                            </Parameter2>
+                        </ProbOnto>
+                    </Distribution>
+                </Continuous>
+            </Covariate>
+        </CovariateModel>
+        
+        <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm1">
+                            
+            <!-- **************************** INDIVIDUAL PARAMETERS **************************** -->
+            
+            <!-- V = {distribution=logNormal, prediction=V_pred, sd=omega_V} -->
+            <IndividualParameter symbId="V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <UncertML>
+                        <LogNormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                            <logScale>
+                                <var varId="V_pred"/>
+                            </logScale>
+                            <shape>
+                                <var varId="omega_V"/>
+                            </shape>
+                        </LogNormalDistribution>
+                    </UncertML>
+                </Distribution>
+            </IndividualParameter>
+            
+            <!-- **************************** POPULATION PARAMETERS **************************** -->
+            
+            <PopulationParameter symbId="k"/>
+            
+            <PopulationParameter symbId="omega_w"/>
+            <PopulationParameter symbId="omega_V"/>
+            <PopulationParameter symbId="ws"/>
+            <PopulationParameter symbId="gw"/>
+            <PopulationParameter symbId="Vs"/>
+            <PopulationParameter symbId="gV"/>
+            
+            <!-- V_pred = V_pop*(w/w_pop) -->
+            <PopulationParameter symbId="V_pred">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="V_pop"/>
+                            <math:Binop op="divide">
+                                <ct:SymbRef blkIdRef="cm1" symbIdRef="w"/>
+                                <ct:SymbRef symbIdRef="w_pop"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            <!-- w_pop = {distribution=normal, mean=ws, sd=gw}-->
+            <PopulationParameter symbId="w_pop">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="pop"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <UncertML>
+                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                            <mean>
+                                <var varId="ws"/>
+                            </mean>
+                            <stddev>
+                                <var varId="gw"/>
+                            </stddev>
+                        </NormalDistribution>
+                    </UncertML>
+                </Distribution>
+            </PopulationParameter>
+            
+            <!-- V_pop = {distribution=logNormal, mean=log(Vs), sd=gV}-->
+            <PopulationParameter symbId="V_pop">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="pop"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <ProbOnto>
+                        <DistributionName>LogNormal1</DistributionName>
+                        <Parameter1>
+                            <ct:Assign>
+                                <math:Equation>
+                                    <math:Uniop op="log">
+                                        <ct:SymbRef symbIdRef="Vs"/>
+                                    </math:Uniop>
+                                </math:Equation>
+                            </ct:Assign>
+                        </Parameter1>
+                        <Parameter2>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="gV"/>
+                            </ct:Assign>
+                        </Parameter2>
+                    </ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+            <!-- Residual error paraemter -->
+            <PopulationParameter symbId="b"/>
+                        
+        </ParameterModel>
+        
+        
+        <!-- STRUCTURAL MODEL -->
+        <!-- f = (D/V)*exp(-k*t) -->
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="D"/>
+            
+            <ct:Variable symbolType="real" symbId="f">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+                                <ct:SymbRef symbIdRef="D"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                            </math:Binop>
+                            <math:Uniop op="exp">
+                                <math:Binop op="times">
+                                    <math:Uniop op="minus">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                                    </math:Uniop>
+                                    <ct:SymbRef symbIdRef="t"/>
+                                </math:Binop>
+                            </math:Uniop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+        </StructuralModel>
+        
+        
+        <!-- OBSERVATION MODEL -->
+        <!-- y = {distribution=normal, prediction=f, sd=b*f} -->
+        <ObservationModel blkId="om1">
+            <ContinuousData>
+                
+                <General symbId="y">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="resErr"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <ProbOnto>
+                            <DistributionName>Normal1</DistributionName>
+                            <Parameter1>
+                                <ct:Assign>
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="f"/>
+                                </ct:Assign>
+                            </Parameter1>
+                            <Parameter2>
+                                <ct:Assign>
+                                    <math:Equation>
+                                        <math:Binop op="times">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="b"/>
+                                            <ct:SymbRef blkIdRef="sm1" symbIdRef="f"/>
+                                        </math:Binop>
+                                    </math:Equation>
+                                </ct:Assign>
+                            </Parameter2>
+                        </ProbOnto>
+                    </Distribution>
+                </General>
+                
+            </ContinuousData>
+        </ObservationModel>
+    </ModelDefinition>
+
+</PharmML>

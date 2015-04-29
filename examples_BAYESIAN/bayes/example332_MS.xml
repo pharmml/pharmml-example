@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    writtenVersion="0.6" id="i1">
+    
+    <ct:Name>example332</ct:Name>
+    
+    <ct:Description>Example 3.3.2B from BayesianModels-V1.1.pdf - population scenario, some parameters correlated (V and K at both prior and IIV levels)</ct:Description>
+    
+    <IndependentVariable symbId="T"/>
+    
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+        
+        <!-- EXTENDED -->
+        <VariabilityModel blkId="model" type="parameterVariability">
+            <Level symbId="pop"/>
+            <Level symbId="indiv">
+                <ParentLevel>
+                    <ct:SymbRef symbIdRef="pop"/>
+                </ParentLevel>
+            </Level>
+        </VariabilityModel>
+        <VariabilityModel blkId="resErrorModel" type="residualError"> 
+            <Level symbId="residual"/>
+        </VariabilityModel>
+        
+        <!-- ********** MS: as discussed, this is not necessary and should be replaced by column mapping 
+            as implemented in 'ExternalDataSet' columnType="dose" ********** -->
+        <!--        <CovariateModel blkId="cm1">
+            <Covariate symbId="DOSE">
+                <Continuous>
+                    <Transformation>
+                        <TransformedCovariate symbId="tDOSE"/>
+                        <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                            <ct:SymbRef symbIdRef="DOSE"/>
+                        </Equation>
+                    </Transformation>
+                </Continuous>
+            </Covariate>
+        </CovariateModel>-->
+        
+        <ParameterModel blkId="pm1">
+            
+            <!-- prior parameters on "THETA" -->
+            <PopulationParameter symbId="MU_POP_K"/>
+            
+            <PopulationParameter symbId="MU_POP_V"/>
+            
+            <PopulationParameter symbId="SIGMA_POP_P">
+                <ct:Assign>
+                    <!-- is it ok to define matrix in this way? -->                 <!-- ********** MS: YES ********** -->
+                    <ct:Matrix matrixType="Any">
+                        <ct:MatrixRow>
+                            <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
+                            <ct:Real>1</ct:Real>
+                            <ct:Real>0.1</ct:Real>
+                            </ct:MatrixRow>
+                        <ct:MatrixRow>
+                            <ct:RowIndex><ct:Int>2</ct:Int></ct:RowIndex>
+                            <ct:Real>0.1</ct:Real>
+                            <ct:Real>1</ct:Real>
+                        </ct:MatrixRow>
+                    </ct:Matrix>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            <!-- prior parameters on "OMEGA" -->
+            <PopulationParameter symbId="a_OMEGA_T"/>
+            
+            <PopulationParameter symbId="b_OMEGA_T"/>
+            
+            <PopulationParameter symbId="R">
+                <ct:Assign>
+                    <!-- is it ok to define matrix in this way? -->                 <!-- ********** MS: YES ********** -->
+                    <ct:Matrix matrixType="Any">
+                        <ct:MatrixRow>
+                            <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
+                            <ct:Real>1</ct:Real>
+                            <ct:Real>0.1</ct:Real>
+                        </ct:MatrixRow>
+                        <ct:MatrixRow>
+                            <ct:RowIndex><ct:Int>2</ct:Int></ct:RowIndex>
+                            <ct:Real>0.1</ct:Real>
+                            <ct:Real>1</ct:Real>
+                        </ct:MatrixRow>
+                    </ct:Matrix>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            <PopulationParameter symbId="rho"/>
+            
+            <PopulationParameter symbId="a_POP_T"/>
+            
+            <PopulationParameter symbId="b_POP_T"/>
+            
+            <!-- prior variables and transformations on "THETA" -->
+            <PopulationParameter symbId="lMU_POP_K">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Uniop op="log">
+                            <ct:SymbRef symbIdRef="MU_POP_K"/>
+                        </Uniop>
+                    </Equation>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            <PopulationParameter symbId="lMU_POP_V">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Uniop op="log">
+                            <ct:SymbRef symbIdRef="MU_POP_V"/>
+                        </Uniop>
+                    </Equation>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            <PopulationParameter symbId="lMU_POP_P">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            <ct:SymbRef symbIdRef="lMU_POP_K"/>
+                            <ct:SymbRef symbIdRef="lMU_POP_V"/>
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            <!-- We do not know how to use the MultivariateNormal tags: we would like to define a mean vector as MEAN and a matrix as COVARIANCE MATRIX -->
+
+            <!-- ********** MS: I encoded it using ProbOnto, it's straightforward ********** -->
+            <PopulationParameter symbId="lPOP_P">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="pop" blkIdRef="model"/>
+                </ct:VariabilityReference>
+                <Distribution>          <!-- ********** MS: missing tags/elements added ********** -->
+                    <ProbOnto>
+                        <DistributionName>MultivariateNormal1</DistributionName>
+                        <Parameter1>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="lMU_POP_P"/>
+                            </ct:Assign>
+                        </Parameter1>
+                        <Parameter2>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="SIGMA_POP_P"/>
+                            </ct:Assign>
+                        </Parameter2>
+                    </ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+
+            <!-- We extract and transform the lPOP_P elements: is it ok to use the random variable lPOP_P as a vector? 
+                it should be ok since it has dimension=2 -->
+            <!-- ********** MS: I changed to PopulationParameter, otherwise it's fine ********** -->
+            <PopulationParameter symbId="POP_K">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Uniop op="exp">
+                            <ct:VectorSelector>
+                                <ct:SymbRef symbIdRef="lPOP_P"/>
+                                <ct:Cell>
+                                    <ct:Int>1</ct:Int>
+                                </ct:Cell>
+                            </ct:VectorSelector>
+                        </Uniop>
+                    </Equation>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            <!-- We extract and transform the lPOP_P elements: is it ok to use the random variable lPOP_P as a vector? 
+            it should be ok since it has dimension=2 -->
+            <!-- ********** MS: I changed to PopulationParameter, otherwise it's fine ********** -->
+            <PopulationParameter symbId="POP_V">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Uniop op="exp">
+                            <ct:VectorSelector>
+                                <ct:SymbRef symbIdRef="lPOP_P"/>
+                                <ct:Cell>
+                                    <ct:Int>2</ct:Int>
+                                </ct:Cell>
+                            </ct:VectorSelector>
+                        </Uniop>
+                    </Equation>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            <!-- prior variables and transformations on "OMEGA" -->
+            <PopulationParameter symbId="invOMEGA_P">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="pop" blkIdRef="model"/>
+                </ct:VariabilityReference>
+                <Distribution>          <!-- ********** MS: missing tags/elements added ********** -->
+                    <ProbOnto>
+                        <DistributionName>Wishart</DistributionName>
+                        <Parameter1>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="rho"/>
+                            </ct:Assign>
+                        </Parameter1>
+                        <Parameter2>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="R"/>
+                            </ct:Assign>
+                        </Parameter2>
+                    </ProbOnto>
+                </Distribution>
+                <!-- ********** MS: THIS IS A missing feature/bug in UncertML - but it's possible in ProbOnto, see above **********  -->
+                <!-- <!-\- distribution not currently implemented (?) -\->
+                <WishartDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <scaleMatrix>
+                        <var varId="R"/>
+                    </scaleMatrix>
+                    <nu>
+                        <var varId="rho"/>
+                    </nu>
+                </WishartDistribution>-->
+            </PopulationParameter>
+            
+            <!-- the "inverseMatrix" operator does not exist in the current version -->
+            <!-- ********** MS: inverseMatrix available NOW! ********** -->
+            <PopulationParameter symbId="OMEGA_P">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <MatrixUniop op="inverse">
+                            <ct:SymbRef symbIdRef="invOMEGA_P"/>
+                        </MatrixUniop>
+                    </Equation>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            <PopulationParameter symbId="TAU_T">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="pop" blkIdRef="model"/>
+                </ct:VariabilityReference>
+                <Distribution>          <!-- ********** MS: missing tags/elements added ********** -->
+                    <UncertML>
+                        <GammaDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                            <shape>
+                                <var varId="a_OMEGA_T"/>
+                            </shape>
+                            <scale>
+                                <var varId="b_OMEGA_T"/>
+                            </scale>
+                        </GammaDistribution>
+                    </UncertML>
+                </Distribution>
+            </PopulationParameter>
+            
+            <PopulationParameter symbId="OMEGA_T">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Binop op="divide">
+                            <ct:Real>1</ct:Real>
+                            <ct:SymbRef symbIdRef="TAU_T"/>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            <!-- prior variables and transformations on "SIGMA" -->
+            <PopulationParameter symbId="POP_T">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="pop" blkIdRef="model"/>
+                </ct:VariabilityReference>
+                <Distribution>          <!-- ********** MS: missing tags/elements added ********** -->
+                    <UncertML>
+                        <GammaDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                            <shape>
+                                <var varId="a_POP_T"/>
+                            </shape>
+                            <scale>
+                                <var varId="b_POP_T"/>
+                            </scale>
+                        </GammaDistribution>
+                    </UncertML>
+                </Distribution>
+            </PopulationParameter>
+            
+            <!-- IIV -->
+            <PopulationParameter symbId="lP">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="indiv" blkIdRef="model"/>
+                </ct:VariabilityReference>
+                <!-- We do not know how to use the MultivariateNormal tags: we would like to define a mean vector as MEAN 
+                    and a matrix as COVARIANCE MATRIX -->
+                <Distribution>
+                    <ProbOnto>
+                        <DistributionName>MultivariateNormal1</DistributionName>
+                        <Parameter1>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="lPOP_P"/>
+                            </ct:Assign>
+                        </Parameter1>
+                        <Parameter2>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="OMEGA_P"/>
+                            </ct:Assign>
+                        </Parameter2>
+                    </ProbOnto> 
+                    <!-- ********** MS: doable, but easier with ProbOnto, see above ********** -->
+<!--                    <UncertML>
+                        <MultivariateNormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                            <meanVector>
+                                <var varId="lPOP_P"/>
+                            </meanVector>
+                            <covarianceMatrix dimension="3" definition="">
+                                <values>
+                                    <var varId="OMEGA_P"/>
+                                </values>
+                            </covarianceMatrix>
+                        </MultivariateNormalDistribution>
+                    </UncertML>-->
+                </Distribution>
+            </PopulationParameter>
+            
+            
+            <!-- MS: ********** eta_T NOT required - see below 'TAU' ********** -->
+<!--            <RandomVariable symbId="eta_T">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="indiv" blkIdRef="model"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <UncertML>
+                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                            <mean>
+                                <rVal>0</rVal>
+                            </mean>
+                            <variance>
+                                <var varId="OMEGA_T"/>
+                            </variance>
+                        </NormalDistribution>
+                    </UncertML>
+                </Distribution>
+            </RandomVariable>-->
+            
+            <RandomVariable symbId="eps">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="residual" blkIdRef="resErrorModel"/>
+                </ct:VariabilityReference>
+                <Distribution>          <!-- ********** MS: missing tags/elements added ********** -->
+                    <UncertML>
+                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                            <mean>
+                                <rVal>0</rVal>
+                            </mean>
+                            <variance>
+                                <prVal>1</prVal>
+                            </variance>
+                        </NormalDistribution>
+                    </UncertML>
+                </Distribution>
+            </RandomVariable>
+            
+            <!-- We extract and transform the lP elements: is it ok to use the random variable lP as a vector? it should be ok since it has dimension=2 -->
+            <!-- MS: ********** lP is deined as PopulationParameter ********** -->
+            <IndividualParameter symbId="K">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Uniop op="exp">
+                            <ct:VectorSelector>
+                                <ct:SymbRef symbIdRef="lP"/>
+                                <ct:Cell>
+                                    <ct:Int>1</ct:Int>
+                                </ct:Cell>
+                            </ct:VectorSelector>
+                        </Uniop>
+                    </Equation>
+                </ct:Assign>
+            </IndividualParameter>
+            
+            <!-- We extract and transform the lP elements: is it ok to use the random variable lP as a vector? it should be ok since it has dimension=2 -->
+            <!-- MS: ********** lP is deined as PopulationParameter ********** -->
+            <IndividualParameter symbId="V">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Uniop op="exp">
+                            <ct:VectorSelector>
+                                <ct:SymbRef symbIdRef="lP"/>
+                                <ct:Cell>
+                                    <ct:Int>2</ct:Int>
+                                </ct:Cell>
+                            </ct:VectorSelector>
+                        </Uniop>
+                    </Equation>
+                </ct:Assign>
+            </IndividualParameter>
+            
+            <!-- MS: ********** TAU re-written below ********** -->
+            <!--           <IndividualParameter symbId="TAU">
+                <StructuredModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="POP_T"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_T"/>
+                    </RandomEffects>
+                </StructuredModel>
+            </IndividualParameter>-->
+            <IndividualParameter symbId="TAU">  <!-- log(TAU) ~ Normal2(log(POP_T), OMEGA_T) -->
+                <LHSTransformation>log</LHSTransformation>
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <ProbOnto>
+                        <DistributionName>Normal2</DistributionName>    <!-- muL & varL -->
+                        <Parameter1>
+                            <ct:Assign>
+                                <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                                    <Uniop op="log">
+                                        <ct:SymbRef symbIdRef="POP_T"/>
+                                    </Uniop>
+                                </Equation>
+                            </ct:Assign>
+                        </Parameter1>
+                        <Parameter2>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="OMEGA_T"/>
+                            </ct:Assign>
+                        </Parameter2>
+                    </ProbOnto>
+                </Distribution>
+            </IndividualParameter>
+            
+            <!-- SD_ADD can also be defined as SimpleParameter -->
+            <PopulationParameter symbId="SD_ADD">                       <!-- ********** MS: renamed from IndividualParameter ********** -->
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Uniop op="sqrt">
+                            <Binop op="divide">
+                                <ct:Real>1</ct:Real>
+                                <ct:SymbRef symbIdRef="TAU"/>
+                            </Binop>
+                        </Uniop>
+                    </Equation>
+                </ct:Assign>
+            </PopulationParameter>
+
+        </ParameterModel>
+        
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="DOSE"/>
+            
+            <ct:Variable symbId="C" symbolType="real">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Binop op="times">
+                            <Binop op="divide">
+                                <ct:SymbRef symbIdRef="DOSE"/>
+                                <ct:SymbRef symbIdRef="V" blkIdRef="pm1"/>
+                            </Binop>
+                            <Uniop op="exp">
+                                <Uniop op="minus">
+                                    <Binop op="times">
+                                        <ct:SymbRef symbIdRef="K" blkIdRef="pm1"/>
+                                        <ct:SymbRef symbIdRef="T"/>
+                                    </Binop>
+                                </Uniop>
+                            </Uniop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+        </StructuralModel>
+        
+        <ObservationModel blkId="om1">
+            <ContinuousData>                
+                <Standard symbId="Y">
+                    <Output>
+                        <ct:SymbRef symbIdRef="C" blkIdRef="sm1"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="SD_ADD" blkIdRef="pm1"/>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps" blkIdRef="pm1"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+    </ModelDefinition>
+    
+    
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
+        
+        <ExternalDataSet toolName="NONMEM" oid="NMoid">     <!-- ********** MS: renamed from NONMEMdataSet to 'ExternalDataSet toolName="NONMEM"' ********** -->
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="T"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="DV"/>
+                <ct:SymbRef symbIdRef="Y" blkIdRef="om1"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="DOSE"/>
+                <ct:SymbRef symbIdRef="DOSE" blkIdRef="sm1"/>               <!-- ********** MS: mapping changed from cm1 to sm1 ********** -->
+            </ColumnMapping>
+            
+            <DataSet xmlns="http://www.pharmml.org/pharmml/0.6/Dataset">
+                <Definition>
+                    <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="4"/> <!-- ********** MS: new columnType ********** -->
+                </Definition>
+                <ExternalFile oid="id1">                        <!-- ********** MS: renamed from ImportData ********** -->
+                    <path>bo1.csv</path>
+                    <format>CSV</format>
+                    <delimiter>COMMA</delimiter>
+                </ExternalFile>
+            </DataSet>
+        </ExternalDataSet>
+        
+        
+        <EstimationStep oid="est1">
+            
+            <ExternalDataSetReference>                            <!-- ********** MS: renamed from NONMEMdataSetReference ********** -->
+                <ct:OidRef oidRef="NMoid"/>
+            </ExternalDataSetReference>
+            
+            <ParametersToEstimate>
+                
+                <!-- prior parameters on "THETA" -->
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="MU_POP_K" blkIdRef="pm1"/>
+                    <InitialEstimate>
+                        <ct:Real>0.1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="MU_POP_V" blkIdRef="pm1"/>
+                    <InitialEstimate>
+                        <ct:Real>8</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <!-- prior parameters on "OMEGA" -->
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="a_OMEGA_T" blkIdRef="pm1"/>
+                    <InitialEstimate>
+                        <ct:Real>.3</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="b_OMEGA_T" blkIdRef="pm1"/>
+                    <InitialEstimate>
+                        <ct:Real>.3</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="rho" blkIdRef="pm1"/>
+                    <InitialEstimate>
+                        <ct:Real>2</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="a_POP_T" blkIdRef="pm1"/>
+                    <InitialEstimate>
+                        <ct:Real>.1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="b_POP_T" blkIdRef="pm1"/>
+                    <InitialEstimate>
+                        <ct:Real>.1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+
+                <!-- MS: ********** the parameters listed below are derived parameters and cannot be estimation target ********** -->
+<!--                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="lPOP_P" blkIdRef="pm1"/>
+                </ParameterEstimation>
+                                <ParameterEstimation>       
+                    <ct:SymbRef symbIdRef="OMEGA_P" blkIdRef="pm1"/>
+                </ParameterEstimation>
+                <ParameterEstimation>   
+                    <ct:SymbRef symbIdRef="POP_T" blkIdRef="pm1"/>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="OMEGA_T" blkIdRef="pm1"/>
+                </ParameterEstimation>-->
+                
+            </ParametersToEstimate>
+            
+            <Operation order="1" opType="estPop"/>
+        </EstimationStep>
+        
+        <StepDependencies>
+            <Step>
+                <ct:OidRef oidRef="est1"/>
+            </Step>
+        </StepDependencies>
+        
+    </ModellingSteps>
+    
+</PharmML>
