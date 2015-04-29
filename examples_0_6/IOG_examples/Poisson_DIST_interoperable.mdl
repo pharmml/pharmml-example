@@ -1,0 +1,92 @@
+Poisson_DIST_dat = dataobj{
+   DECLARED_VARIABLES{ Y }
+	
+   DATA_INPUT_VARIABLES{
+      ID:{ use=id }
+	  TIME:{ use=idv } # NOT USED IN MODEL
+      CP:{ use=covariate, type=continuous }
+      DV:{ use=dv, prediction=Y }
+      MDV:{ use=mdv }
+   }# end DATA_INPUT_VARIABLES
+
+   	SOURCE {
+	    file = "count_sim.csv" 
+        inputformat = nonmemFormat 
+	    ignore = "#" 
+	} # end SOURCE
+} # end data object
+
+Poisson_DIST_par = parobj{
+   STRUCTURAL{
+      #THETA
+      POP_BASECOUNT : { value=10, lo=0 }
+      POP_BETA      : { value=.5, lo=0, hi=10 }
+   }# end STRUCTURAL
+
+   VARIABILITY{
+      PPV_EVENT:{value=0.04 ,type=VAR}
+   }# end VARIABILITY
+
+} # end of parameter object
+
+Poisson_DIST_mdl = mdlobj{
+   COVARIATES{
+	  CP
+   }
+   VARIABILITY_LEVELS{
+	ID : { level=2, type=model }
+	DV : { level=1, type=observation }
+   }
+
+   STRUCTURAL_PARAMETERS{
+      POP_BASECOUNT
+      POP_BETA
+   }# end STRUCTURAL_PARAMETERS
+
+   VARIABILITY_PARAMETERS{
+      PPV_EVENT
+   }# end VARIABILITY_PARAMETERS
+
+
+   RANDOM_VARIABLE_DEFINITION(level=ID){
+      eta_PPV_EVENT ~ Normal(mean=0, var=PPV_EVENT )
+   }# end RANDOM_VARIABLE_DEFINITION
+
+   INDIVIDUAL_VARIABLES{
+      LAMBDA: {type=linear, pop=POP_BASECOUNT, cov=CP, fixEff=POP_BETA, ranEff=eta_PPV_EVENT} 
+   }# end INDIVIDUAL_VARIABLES
+
+  RANDOM_VARIABLE_DEFINITION(level=DV){
+      COUNT ~ Poisson(lambda = LAMBDA)
+   }#  
+   
+   OBSERVATION{
+     Y = COUNT
+   }# end ESTIMATION
+
+} # end of model object
+
+Poisson_DIST_task = taskobj{
+ 	ESTIMATE {
+	    # We need the definition of algorithms and algorithm
+	    # properties before we can put anything meaningful here
+	    target = NMTRAN_CODE
+	    version = "7.2"
+	    algo = [ "FOCE" ]
+	} #end ESTIMATE  
+
+}# end of task object
+
+Poisson_DIST_mog = mogobj {
+        OBJECTS{
+		dObj = Poisson_DIST_dat
+		mObj = Poisson_DIST_mdl
+		pObj = Poisson_DIST_par
+		tObj = Poisson_DIST_task
+	}
+
+	MAPPING {
+ 		dObj.Y = mObj.Y
+		dObj.CP = mObj.CP
+	}
+}
