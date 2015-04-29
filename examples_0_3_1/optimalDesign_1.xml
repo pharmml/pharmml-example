@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    writtenVersion="0.3.1" id="i1"> 
+    
+
+    <!-- Trial Design model -->
+    <TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign">
+                
+        <!-- structure -->
+        <Structure>
+            <Epoch oid="e1">
+                <Start>
+                    <ct:Real>0</ct:Real>
+                </Start>
+                <End>
+                    <ct:Real>300</ct:Real>
+                </End>
+                <Order>1</Order>
+            </Epoch>
+            <Arm oid="a1"/>
+            <Arm oid="a2"/>
+            <Arm oid="a3"/>
+            <Arm oid="a4"/>
+            <Cell oid="c1">
+                <EpochRef oidRef="e1" />
+                <ArmRef oidRef="a1"/>
+                <SegmentRef oidRef="ta"/>
+            </Cell>
+            <Cell oid="c2">
+                <EpochRef oidRef="e1" />
+                <ArmRef oidRef="a2"/>
+                <SegmentRef oidRef="tb"/>
+            </Cell>
+            <Cell oid="c3">
+                <EpochRef oidRef="e1" />
+                <ArmRef oidRef="a3"/>
+                <SegmentRef oidRef="tc"/>
+            </Cell>
+            <Cell oid="c4">
+                <EpochRef oidRef="e1" />
+                <ArmRef oidRef="a4"/>
+                <SegmentRef oidRef="td"/>
+            </Cell>
+            <Segment oid="ta">
+                <ActivityRef oidRef="d1"/>
+            </Segment>
+            <Segment oid="tb">
+                <ActivityRef oidRef="d2"/>
+            </Segment>
+            <Segment oid="tc">
+                <ActivityRef oidRef="d3"/>
+            </Segment>
+            <Segment oid="td">
+                <ActivityRef oidRef="d4"/>
+            </Segment>
+            <Activity oid="d1">
+                <Bolus>
+                    <DoseAmount inputTarget="derivativeVariable"> 
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Ad"/>
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                                <Binop op="times">
+                                    <ct:Real>0.25</ct:Real>
+                                    <ct:SymbRef blkIdRef="c1" symbIdRef="W"/>
+                                </Binop>
+                            </Equation>
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <ct:Assign>
+                            <ct:Sequence>
+                                <ct:Begin><ct:Int>0</ct:Int></ct:Begin>
+                                <ct:StepSize><ct:Int>24</ct:Int></ct:StepSize>
+                                <ct:End><ct:Int>192</ct:Int></ct:End>
+                            </ct:Sequence>
+                        </ct:Assign>
+                    </DosingTimes>
+                </Bolus>
+            </Activity>
+            <Activity oid="d2">
+                <Bolus>
+                    <DoseAmount inputTarget="derivativeVariable"> 
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Ad"/>
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                                <Binop op="times">
+                                    <ct:Real>0.5</ct:Real>
+                                    <ct:SymbRef blkIdRef="c1" symbIdRef="W"/>
+                                </Binop>
+                            </Equation>
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <ct:Assign>
+                            <ct:Sequence>
+                                <ct:Begin><ct:Int>0</ct:Int></ct:Begin>
+                                <ct:StepSize><ct:Int>48</ct:Int></ct:StepSize>
+                                <ct:End><ct:Int>192</ct:Int></ct:End>
+                            </ct:Sequence>
+                        </ct:Assign>
+                    </DosingTimes>
+                </Bolus>
+            </Activity>
+            <Activity oid="d3">
+                <Bolus>
+                    <DoseAmount inputTarget="derivativeVariable"> 
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Ad"/>
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                                <Binop op="times">
+                                    <ct:Real>0.5</ct:Real>
+                                    <ct:SymbRef blkIdRef="c1" symbIdRef="W"/>
+                                </Binop>
+                            </Equation>
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <ct:Assign>
+                            <ct:Sequence>
+                                <ct:Begin><ct:Int>0</ct:Int></ct:Begin>
+                                <ct:StepSize><ct:Int>24</ct:Int></ct:StepSize>
+                                <ct:End><ct:Int>192</ct:Int></ct:End>
+                            </ct:Sequence>
+                        </ct:Assign>
+                    </DosingTimes>
+                </Bolus>
+            </Activity>
+            <Activity oid="d4">
+                <Bolus>
+                    <DoseAmount inputTarget="derivativeVariable"> 
+                        <ct:SymbRef symbIdRef="Ad"/>
+                        <ct:Assign>
+                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                                <Binop op="times">
+                                    <ct:Real>1</ct:Real>
+                                    <ct:SymbRef blkIdRef="c1" symbIdRef="W"/>
+                                </Binop>
+                            </Equation>
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <ct:Assign>
+                            <ct:Sequence>
+                                <ct:Begin><ct:Int>0</ct:Int></ct:Begin>
+                                <ct:StepSize><ct:Int>48</ct:Int></ct:StepSize>
+                                <ct:End><ct:Int>192</ct:Int></ct:End>
+                            </ct:Sequence>
+                        </ct:Assign>
+                    </DosingTimes>
+                </Bolus>
+            </Activity>
+            <!-- If no ObservationsEvent present then assume 1 occasion and all arms are part of that occasion -->
+        </Structure>
+        
+        <!-- population -->
+        <Population>
+
+            <ct:VariabilityReference>
+                <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+            </ct:VariabilityReference>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="id" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="arm" columnType="arm" valueType="id" columnNum="2"/>
+                    <ds:Column columnId="reps" columnType="replicate" valueType="int" columnNum="3"/>
+                </ds:Definition>
+                <ds:Table>
+                    <ds:Row>
+                        <ct:Id>i1</ct:Id><ct:Id>a1</ct:Id><ct:Int>20</ct:Int>
+                    </ds:Row>
+                    <ds:Row>
+                        <ct:Id>i2</ct:Id><ct:Id>a2</ct:Id><ct:Int>20</ct:Int>
+                    </ds:Row>
+                    <ds:Row>
+                        <ct:Id>i3</ct:Id><ct:Id>a3</ct:Id><ct:Int>40</ct:Int>
+                    </ds:Row>
+                    <ds:Row>
+                        <ct:Id>i4</ct:Id><ct:Id>a4</ct:Id><ct:Int>40</ct:Int>
+                    </ds:Row>
+                </ds:Table>
+            </ds:DataSet>
+        </Population>
+
+        <!-- individual dosing -->
+        <IndividualDosing>
+            <ActivityRef oidRef=""></ActivityRef>
+            <ColumnMapping></ColumnMapping>
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="" columnType="" valueType="" columnNum=""></ds:Column>
+                </ds:Definition>
+            </ds:DataSet>
+        </IndividualDosing>
+    </TrialDesign>
+
+</PharmML>

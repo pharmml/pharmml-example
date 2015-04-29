@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/2013/03/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
+    xmlns:math="http://www.pharmml.org/2013/03/Maths"
+    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/2013/08/Dataset"
+    xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
+    writtenVersion="0.3.1" id="i1"> 
+
+	<ct:Name>Minimal Model</ct:Name>
+
+	<ct:Description>Minimal Model implementation with trial design activities defined using lookup tables</ct:Description>
+
+	<IndependentVariable symbId="t" />
+	
+    <!-- function definition -->
+    <FunctionDefinition xmlns="http://www.pharmml.org/2013/03/CommonTypes" symbId="constantErrorModel" symbolType="real">
+        <FunctionArgument symbId="a" symbolType="real"/>
+        <Definition>
+            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+                <ct:SymbRef symbIdRef="a"/>
+            </Equation>
+        </Definition>
+    </FunctionDefinition>
+    
+    <!-- model definition -->
+	<ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+		
+        <VariabilityModel blkId="obsErr" type="residualError">
+            <Level symbId="residual">
+                <ct:Name>Residual Error</ct:Name>
+            </Level>
+        </VariabilityModel>
+        
+		<CovariateModel blkId="mmcvt1">
+			<!-- TEST -->
+			<Covariate symbId="wgt">
+				<Continuous>
+					<Transformation>
+						<math:Equation>
+							<math:Binop op="divide">
+								<ct:SymbRef symbIdRef="wgt" />
+								<ct:Real>70</ct:Real>
+							</math:Binop>
+						</math:Equation>
+					</Transformation>
+				</Continuous>
+				<!-- TEST -->
+			</Covariate>
+		</CovariateModel>
+		
+		<!-- TEST -->
+		<CovariateModel blkId="mmcvt2">
+			<Covariate symbId="wgt">
+				<Continuous>
+					<!-- COVARIATE for CL -->
+					<TransformedCovariate symbId="wgt_CL">
+						<Transformation>
+							<math:Equation>
+								<math:Binop op="divide">
+									<ct:SymbRef symbIdRef="wgt" />
+									<ct:Real>70</ct:Real>
+								</math:Binop>
+							</math:Equation>
+						</Transformation>
+					</TransformedCovariate>
+					<!-- COVARIATE for V -->
+					<TransformedCovariate symbId="wgt_V">
+						<Transformation>
+							<math:Equation>
+								<math:Binop op="divide">
+									<ct:SymbRef symbIdRef="wgt" />
+									<ct:Real>70</ct:Real>
+								</math:Binop>
+							</math:Equation>
+						</Transformation>
+					</TransformedCovariate>
+				</Continuous>
+				<!-- TEST -->
+			</Covariate>
+			<Covariate symbId="Gb">
+				<Continuous>
+					<Transformation>
+						<math:Equation>
+							<ct:SymbRef symbIdRef="Gb" />
+						</math:Equation>
+					</Transformation>
+				</Continuous>
+			</Covariate>
+			<Covariate symbId="Ib">
+				<Continuous>
+					<Transformation>
+						<math:Equation>
+							<ct:SymbRef symbIdRef="Ib" />
+						</math:Equation>
+					</Transformation>
+				</Continuous>
+			</Covariate>
+		</CovariateModel>
+		
+		<ParameterModel blkId="mmpar">
+			<SimpleParameter symbId="SI" />
+			<SimpleParameter symbId="SG" />
+			<SimpleParameter symbId="lambda" />
+			
+			<SimpleParameter symbId="pop_V" />
+			<SimpleParameter symbId="omega_V" />
+			<SimpleParameter symbId="beta_V"/>
+			<RandomVariable symbId="eta_V">
+				<ct:VariabilityReference>
+					<ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+				</ct:VariabilityReference>
+				<NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+					<mean><rVal>0</rVal></mean>
+					<stddev><prVal>1</prVal></stddev>
+				</NormalDistribution>
+			</RandomVariable>
+			<!-- omitted details -->
+			<IndividualParameter symbId="V">
+				<GaussianModel>
+					<Transformation>log</Transformation>
+					<LinearCovariate>
+						<PopulationParameter>
+							<ct:Assign><ct:SymbRef symbIdRef="pop_V"/></ct:Assign>
+						</PopulationParameter>
+						<Covariate>
+							<ct:SymbRef blkIdRef="mmcvt2" symbIdRef="wgt_V"/>
+							<FixedEffect>
+								<ct:SymbRef symbIdRef="beta_V"/>
+							</FixedEffect>
+						</Covariate>
+					</LinearCovariate>
+					<RandomEffects>
+						<ct:SymbRef symbIdRef="eta_V"/>
+					</RandomEffects>
+				</GaussianModel>
+			</IndividualParameter>
+		</ParameterModel>
+		
+		<mdef:StructuralModel blkId="mmstruct">
+			<ct:Description>Minimal Model core</ct:Description>
+			
+<!-- 			<mdef:SimpleParameter symbId="Dglu" /> -->
+			
+			<!--The following two connections allow to write the rest of the structural model without blkIdRef's: the modularity implementation of PharmML will improve this feature-->
+			
+			<!--Connection with covariates-->
+			<ct:Variable symbolType="real" symbId="wgt">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="mmcvt" symbIdRef="wgt" />
+				</ct:Assign>
+			</ct:Variable>
+			<ct:Variable symbolType="real" symbId="Gb">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="mmcvt" symbIdRef="Gb" />
+				</ct:Assign>
+			</ct:Variable>
+			<ct:Variable symbolType="real" symbId="Ib">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="mmcvt" symbIdRef="Ib" />
+				</ct:Assign>
+			</ct:Variable>
+			
+			<!--Connection with parameters-->
+			<ct:Variable symbolType="real" symbId="SI">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="mmpar" symbIdRef="SI" />
+				</ct:Assign>
+			</ct:Variable>
+			<ct:Variable symbolType="real" symbId="SG">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="mmpar" symbIdRef="SG" />
+				</ct:Assign>
+			</ct:Variable>
+			<ct:Variable symbolType="real" symbId="V">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="mmpar" symbIdRef="V" />
+				</ct:Assign>
+			</ct:Variable>
+			<ct:Variable symbolType="real" symbId="lambda">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="mmpar" symbIdRef="lambda" />
+				</ct:Assign>
+			</ct:Variable>
+
+
+			<ct:Variable symbId="Rglu" symbolType="real">
+				<ct:Assign>
+					<ct:Interpolation>
+						<ct:Algorithm>constant</ct:Algorithm>
+						<ct:InterpIndepVar>
+							<ct:SymbRef symbIdRef="t"/>
+						</ct:InterpIndepVar>
+					</ct:Interpolation>
+				</ct:Assign>
+			</ct:Variable>	
+			<ct:Variable symbId="I" symbolType="real">
+				<ct:Assign>
+					<ct:Interpolation>
+						<ct:Algorithm>linear</ct:Algorithm>
+						<ct:InterpIndepVar>
+							<ct:SymbRef symbIdRef="t"/>
+						</ct:InterpIndepVar>
+					</ct:Interpolation>
+				</ct:Assign>
+			</ct:Variable>			
+			
+			<ct:DerivativeVariable symbId="G" symbolType="real">
+				<ct:Assign>
+					<Equation xmlns="http://www.pharmml.org/2013/03/Maths">
+						<Binop op="plus">
+							<Binop op="times">
+								<Uniop op="minus">
+									<Binop op="plus">
+										<ct:SymbRef symbIdRef="SG" />
+										<Binop op="times">
+											<ct:SymbRef symbIdRef="SI" />
+											<ct:SymbRef symbIdRef="Z" />
+										</Binop>
+									</Binop>
+								</Uniop>
+								<ct:SymbRef symbIdRef="G" />
+							</Binop>
+							<Binop op="plus">
+								<Binop op="times">
+									<ct:SymbRef symbIdRef="SG" />
+									<ct:SymbRef symbIdRef="Gb" />
+								</Binop>
+								<Binop op="divide">
+									<ct:SymbRef symbIdRef="Rglu" />
+									<ct:SymbRef symbIdRef="V" />
+								</Binop>
+							</Binop>
+						</Binop>
+					</Equation>
+				</ct:Assign>
+				<ct:IndependentVariable>
+					<ct:SymbRef symbIdRef="t" />
+				</ct:IndependentVariable>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+<!-- 							<math:Equation> -->
+<!-- 								<math:Binop op="plus"> -->
+<!-- 									<ct:SymbRef symbIdRef="Gb" /> -->
+<!-- 									<math:Binop op="divide"> -->
+<!-- 										<ct:SymbRef symbIdRef="Dglu" /> -->
+<!-- 										<ct:SymbRef symbIdRef="V" />	 -->
+<!-- 									</math:Binop> -->
+<!-- 								</math:Binop> -->
+<!-- 							</math:Equation> -->
+							<ct:SymbRef symbIdRef="Gb" />
+						</ct:Assign>
+					</ct:InitialValue>
+					<ct:InitialTime>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</ct:InitialTime>
+				</ct:InitialCondition>
+				
+			</ct:DerivativeVariable>
+			<ct:DerivativeVariable symbId="Z" symbolType="real">
+				<ct:Assign>
+					<math:Equation>
+						<math:Binop op="plus">
+							<math:Binop op="times">
+								<math:Uniop op="minus">
+									<ct:SymbRef symbIdRef="lambda" />
+								</math:Uniop>
+								<ct:SymbRef symbIdRef="Z" />
+							</math:Binop>
+							<math:Binop op="times">
+								<ct:SymbRef symbIdRef="lambda">
+								</ct:SymbRef>
+								<math:Binop op="minus">
+									<ct:SymbRef symbIdRef="I" />
+									<ct:SymbRef symbIdRef="Ib" />
+								</math:Binop>
+							</math:Binop>
+						</math:Binop>
+					</math:Equation>
+				</ct:Assign>
+				<ct:IndependentVariable>
+					<ct:SymbRef symbIdRef="t" />
+				</ct:IndependentVariable>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</ct:InitialValue>
+					<ct:InitialTime>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</ct:InitialTime>
+				</ct:InitialCondition>
+			</ct:DerivativeVariable>
+		</mdef:StructuralModel>
+		
+		<ObservationModel blkId="mmobs">
+			<ContinuousData>
+				<mdef:SimpleParameter symbId="alpha" />
+				<mdef:RandomVariable symbId="epsilon">
+					<ct:VariabilityReference>
+						<ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+					</ct:VariabilityReference>
+					<NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+						<mean><rVal>0</rVal></mean>
+						<stddev><var varId="sigma"/></stddev>
+					</NormalDistribution>
+				</mdef:RandomVariable>
+				<Standard symbId="G_obs">
+					<Output>
+						<ct:SymbRef blkIdRef="mmstruct" symbIdRef="G"/>
+					</Output>
+					<ErrorModel>
+						<ct:Assign>
+							<math:Equation>
+								<math:FunctionCall>
+									<ct:SymbRef symbIdRef="additiveErrorModel"/>
+									<math:FunctionArgument symbId="a">
+										<ct:SymbRef symbIdRef="alpha"/>
+									</math:FunctionArgument>
+								</math:FunctionCall>
+							</math:Equation>
+						</ct:Assign>
+					</ErrorModel>
+					<ResidualError>
+						<ct:SymbRef symbIdRef="epsilon"/>
+					</ResidualError>
+				</Standard>
+			</ContinuousData>
+        </ObservationModel>
+		
+	</ModelDefinition>
+	
+	<TrialDesign xmlns="http://www.pharmml.org/2013/03/TrialDesign">
+		<Structure>
+			<Epoch oid="ep">
+				<Start>
+					<ct:Real>0</ct:Real>
+				</Start>
+				<End>
+					<ct:Real>180</ct:Real>
+				</End>
+				<Order>1</Order>
+			</Epoch>
+			<Arm oid="arm" />
+			<Cell oid="cell">
+				<EpochRef oidRef="ep" />
+ 				<ArmRef oidRef="arm" />
+				<SegmentRef oidRef="seg" />
+			</Cell>
+			<Segment oid="seg">
+				<ActivityRef oidRef="act1" />
+				<ActivityRef oidRef="act2" />
+				<ActivityRef oidRef="act3" />
+			</Segment>
+			<Activity oid="act1">
+				<Bolus>
+					<DoseAmount inputTarget="derivativeVariable">
+						<ct:SymbRef blkIdRef="mmstruct" symbIdRef="G" />
+						<ct:Assign>
+							<math:Equation>
+								<math:Binop op="divide">
+									<math:Binop op="times">
+										<ct:Real>300</ct:Real>
+										<ct:SymbRef blkIdRef="mmcvt" symbIdRef="wgt" />
+									</math:Binop>
+									<ct:SymbRef blkIdRef="mmpar" symbIdRef="V" />
+								</math:Binop>
+							</math:Equation>
+						</ct:Assign>
+					</DoseAmount>
+					<DosingTimes>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</DosingTimes>
+<!-- 					<DoseAmount inputTarget="parameter"> -->
+<!-- 						<ct:SymbRef blkIdRef="mmstruct" symbIdRef="Dglu" /> -->
+<!-- 						<ct:Assign> -->
+<!-- 							<math:Equation> -->
+<!-- 								<math:Binop op="times"> -->
+<!-- 									<ct:Real>300</ct:Real> -->
+<!-- 									<ct:SymbRef blkIdRef="mmcvt" symbIdRef="wgt" /> -->
+<!-- 								</math:Binop> -->
+<!-- 							</math:Equation> -->
+<!-- 						</ct:Assign> -->
+<!-- 					</DoseAmount> -->
+				</Bolus>
+			</Activity>
+			<Activity oid="act2">
+				<LookupTable>
+					<ColumnMapping>
+						<ds:ColumnRef columnIdRef="TIME"/>
+						<ct:SymbRef symbIdRef="t"/>
+					</ColumnMapping>
+					<Target inputTarget="variable">
+						<ColumnMapping>
+							<ds:ColumnRef columnIdRef="INS"/>
+							<ct:SymbRef blkIdRef="mmstruct" symbIdRef="I"/>
+						</ColumnMapping>
+					</Target>
+					<ds:DataSet>
+						<ds:Definition>
+							<ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+							<ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+							<ds:Column columnId="INS" columnType="dv" valueType="real" columnNum="3"/>
+						</ds:Definition>
+						<ds:ImportData oid="data2">
+							<ds:path>mm_ins.csv</ds:path>
+							<ds:format>CSV</ds:format>
+							<ds:delimiter>COMMA</ds:delimiter>
+						</ds:ImportData>
+					</ds:DataSet>
+				</LookupTable>
+			</Activity>
+			<Activity oid="act3">
+				<LookupTable>
+					<ColumnMapping>
+						<ds:ColumnRef columnIdRef="TIME"/>
+						<ct:SymbRef symbIdRef="t"/>
+					</ColumnMapping>
+					<Target inputTarget="variable">
+						<ColumnMapping>
+							<ct:Assign>
+								<math:Equation>
+									<math:Binop op="times">
+										<ds:ColumnRef columnIdRef="INF"/>
+										<ct:SymbRef blkIdRef="mmcvt" symbIdRef="wgt"/>
+									</math:Binop>
+								</math:Equation>
+							</ct:Assign>
+							<ct:SymbRef blkIdRef="mmstruct" symbIdRef="Rglu"/>
+						</ColumnMapping>
+					</Target>
+					<ds:DataSet>
+						<ds:Definition>
+							<ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+							<ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+							<ds:Column columnId="INF" columnType="dv" valueType="real" columnNum="3">
+<!--								<Transformation>
+									<math:Equation>
+										<math:Binop op="times">
+											<ds:ColumnRef columnIdRef="INF"/>
+											<ct:SymbRef blkIdRef="mmcvt" symbIdRef="wgt"/>
+										</math:Binop>
+									</math:Equation>
+								</Transformation>-->
+							</ds:Column>
+						</ds:Definition>
+						<ds:ImportData oid="data3">
+							<ds:path>mm_inf.csv</ds:path>
+							<ds:format>CSV</ds:format>
+							<ds:delimiter>COMMA</ds:delimiter>
+						</ds:ImportData>
+					</ds:DataSet>
+				</LookupTable>
+			</Activity>
+		</Structure>
+		
+		<Population>
+<!-- 			<ColumnMapping> -->
+<!-- 				<ds:ColumnRef columnIdRef="ARM" /> -->
+<!-- 				<ct:OidRef oidRef="arm" /> -->
+<!-- 			</ColumnMapping> -->
+			<ColumnMapping>
+				<ds:ColumnRef columnIdRef="WGT" />
+				<ct:SymbRef blkIdRef="mmcvt" symbIdRef="wgt" />
+			</ColumnMapping>
+			<ColumnMapping>
+				<ds:ColumnRef columnIdRef="GB" />
+				<ct:SymbRef blkIdRef="mmcvt" symbIdRef="Gb" />
+			</ColumnMapping>
+			<ColumnMapping>
+				<ds:ColumnRef columnIdRef="IB" />
+				<ct:SymbRef blkIdRef="mmcvt" symbIdRef="Ib" />
+			</ColumnMapping>	
+			<ds:DataSet>
+				<ds:Definition>
+					<ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1" />
+					<ds:Column columnId="ARM" columnType="arm" valueType="id" columnNum="2" />
+					<ds:Column columnId="GB" columnType="covariate" valueType="real" columnNum="3" />
+					<ds:Column columnId="IB" columnType="covariate" valueType="real" columnNum="4" />
+					<ds:Column columnId="WGT" columnType="covariate" valueType="real" columnNum="5" />
+				</ds:Definition>
+<!-- 				<ds:Table> -->
+<!-- 					<ds:Row><ct:Id>id1</ct:Id><ct:Int>1</ct:Int><ct:Real>67</ct:Real><ct:Real>5</ct:Real><ct:Real>39.1</ct:Real></ds:Row> -->
+<!-- 				</ds:Table> -->
+				<ds:ImportData oid="data1">
+					<ds:path>mm_cvt.csv</ds:path>
+					<ds:format>CSV</ds:format>
+					<ds:delimiter>COMMA</ds:delimiter>
+				</ds:ImportData>
+			</ds:DataSet>
+		</Population>
+	</TrialDesign>
+
+	<mstep:ModellingSteps>
+		
+ 		<mstep:EstimationStep oid="mmest"> 
+ 			<mstep:ObjectiveDataSet> 
+ 				<mstep:ColumnMapping> 
+ 					<ds:ColumnRef columnIdRef="TIME" /> 
+ 					<ct:SymbRef symbIdRef="t" /> 
+ 				</mstep:ColumnMapping> 
+ 				<mstep:ColumnMapping> 
+ 					<ds:ColumnRef columnIdRef="GLU" /> 
+ 					<ct:SymbRef blkIdRef="mmobs" symbIdRef="G_obs" /> 
+ 				</mstep:ColumnMapping> 
+ 				<ds:DataSet> 
+ 					<ds:Definition> 
+ 						<ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1" /> 
+ 						<ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2" /> 
+ 						<ds:Column columnId="GLU" columnType="dv" valueType="real" columnNum="3" /> 
+ 					</ds:Definition> 
+ 					<ds:ImportData oid="id1"> 
+ 						<ds:path>mm_glu.csv</ds:path> 
+ 						<ds:format>CSV</ds:format> 
+ 						<ds:delimiter>COMMA</ds:delimiter> 
+ 					</ds:ImportData> 
+<!--  					<ds:Table>  
+  				   		<ds:Row><ct:Id>id1</ct:Id><ct:Real>1.8634</ct:Real><ct:Real>264.7367</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>4.2158</ct:Real><ct:Real>216.0106</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>5.9858</ct:Real><ct:Real>196.7738</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>7.9548</ct:Real><ct:Real>182.6644</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>9.7259</ct:Real><ct:Real>166.6326</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>12.2870</ct:Real><ct:Real>152.5212</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>14.6516</ct:Real><ct:Real>140.9746</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>17.4095</ct:Real><ct:Real>124.9394</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>19.7742</ct:Real><ct:Real>113.3927</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>24.9000</ct:Real><ct:Real>96.0673</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>29.6322</ct:Real><ct:Real>81.9483</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>34.7602</ct:Real><ct:Real>71.0331</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>39.8901</ct:Real><ct:Real>65.8871</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>44.8226</ct:Real><ct:Real>60.7418</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>50.1509</ct:Real><ct:Real>58.8002</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>55.2827</ct:Real><ct:Real>59.4235</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>61.2937</ct:Real><ct:Real>61.7670</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>70.8362</ct:Real><ct:Real>64.3407</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>81.7446</ct:Real><ct:Real>64.9927</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>91.9711</ct:Real><ct:Real>65.6440</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>100.1529</ct:Real><ct:Real>65.6522</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>110.3809</ct:Real><ct:Real>65.0215</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>120.6068</ct:Real><ct:Real>66.3138</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>140.3831</ct:Real><ct:Real>63.1285</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>158.7886</ct:Real><ct:Real>66.3521</ct:Real></ds:Row>  
+  						<ds:Row><ct:Id>id1</ct:Id><ct:Real>179.9242</ct:Real><ct:Real>67.0144</ct:Real></ds:Row>  
+  					</ds:Table>  -->
+ 				</ds:DataSet> 
+ 			</mstep:ObjectiveDataSet> 
+ 			<mstep:ParametersToEstimate> 
+ 				<mstep:ParameterEstimation> 
+ 					<ct:SymbRef blkIdRef="mmpar" symbIdRef="SI" /> 
+ 					<mstep:InitialEstimate fixed="false"><ct:Real>5.4e-4</ct:Real></mstep:InitialEstimate> 
+ 				</mstep:ParameterEstimation> 
+ 				<mstep:ParameterEstimation> 
+ 					<ct:SymbRef blkIdRef="mmpar" symbIdRef="SG" /> 
+ 					<mstep:InitialEstimate fixed="false"><ct:Real>.047</ct:Real></mstep:InitialEstimate> 
+ 				</mstep:ParameterEstimation> 
+ 				<mstep:ParameterEstimation> 
+ 					<ct:SymbRef blkIdRef="mmpar" symbIdRef="lambda" /> 
+ 					<mstep:InitialEstimate fixed="false"><ct:Real>.062</ct:Real></mstep:InitialEstimate> 
+ 				</mstep:ParameterEstimation> 
+ 				<mstep:ParameterEstimation> 
+ 					<ct:SymbRef blkIdRef="mmpar" symbIdRef="V" /> 
+ 					<mstep:InitialEstimate fixed="false"><ct:Real>64</ct:Real></mstep:InitialEstimate> 
+ 				</mstep:ParameterEstimation> 
+ 				<mstep:ParameterEstimation> 
+ 					<ct:SymbRef blkIdRef="mmobs" symbIdRef="alpha" /> 
+ 					<mstep:InitialEstimate fixed="false"><ct:Real>4</ct:Real></mstep:InitialEstimate> 
+ 				</mstep:ParameterEstimation> 
+ 				<mstep:ParameterEstimation> 
+ 					<ct:SymbRef blkIdRef="mmobs" symbIdRef="sigma" /> 
+ 					<mstep:InitialEstimate fixed="true"><ct:Real>1</ct:Real></mstep:InitialEstimate> 
+ 				</mstep:ParameterEstimation> 
+ 			</mstep:ParametersToEstimate> 
+ 			<mstep:Operation order="1" opType="estIndiv"> 
+ 				<mstep:Property name="software-tool-name"> 
+                     <ct:Assign> 
+                         <ct:String>NONMEM</ct:String> 
+                     </ct:Assign> 
+                 </mstep:Property> 
+                 <mstep:Property name="software-tool-version"> 
+                     <ct:Assign> 
+                         <ct:Real>7.2</ct:Real> 
+                     </ct:Assign> 
+                 </mstep:Property> 
+                 <mstep:Algorithm definition="FO"> 
+                     <mstep:Property name="maxEval"> 
+                         <ct:Assign> 
+                             <ct:Int>9999</ct:Int> 
+                         </ct:Assign> 
+                     </mstep:Property> 
+                     <mstep:Property name="postHoc"> 
+                         <ct:Assign> 
+                             <ct:String>False</ct:String> 
+                         </ct:Assign> 
+                     </mstep:Property> 
+                     <mstep:Property name="NM"> 
+                         <ct:Assign> 
+                             <ct:String>NOABORT</ct:String> 
+                         </ct:Assign> 
+                     </mstep:Property> 
+                 </mstep:Algorithm> 
+ 			</mstep:Operation>				 
+ 		</mstep:EstimationStep> 
+		
+		
+		<mstep:SimulationStep oid="mmsim">
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="mmpar" symbIdRef="SI"/>
+                <ct:Assign>
+                    <ct:Real>5.4e-4</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="mmpar" symbIdRef="SG"/>
+                <ct:Assign>
+                    <ct:Real>.047</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="mmpar" symbIdRef="lambda"/>
+                <ct:Assign>
+                    <ct:Real>.062</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="mmpar" symbIdRef="V"/>
+                <ct:Assign>
+                    <ct:Real>64</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="mmobs" symbIdRef="alpha"/>
+                <ct:Assign>
+                    <ct:Real>4</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="mmobs" symbIdRef="sigma"/>
+                <ct:Assign>
+                    <ct:Real>1</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+			<mstep:Observations>
+				<mstep:Timepoints>
+                    <ct:Vector>
+                    	<ct:VectorElements>
+                    		<ct:Real>1.8634</ct:Real>
+                    		<ct:Real>4.2158</ct:Real>
+                    		<ct:Real>5.9858</ct:Real>
+                    		<ct:Real>7.9548</ct:Real>
+                    		<ct:Real>9.7259</ct:Real>
+                    		<ct:Real>12.2870</ct:Real>
+                    		<ct:Real>14.6516</ct:Real>
+                    		<ct:Real>17.4095</ct:Real>
+                    		<ct:Real>19.7742</ct:Real>
+                    		<ct:Real>24.9000</ct:Real>
+                    		<ct:Real>29.6322</ct:Real>
+                    		<ct:Real>34.7602</ct:Real>
+                    		<ct:Real>39.8901</ct:Real>
+                    		<ct:Real>44.8226</ct:Real>
+                    		<ct:Real>50.1509</ct:Real>
+                    		<ct:Real>55.2827</ct:Real>
+                    		<ct:Real>61.2937</ct:Real>
+                    		<ct:Real>70.8362</ct:Real>
+                    		<ct:Real>81.7446</ct:Real>
+                    		<ct:Real>91.9711</ct:Real>
+                    		<ct:Real>100.1529</ct:Real>
+                    		<ct:Real>110.3809</ct:Real>
+                    		<ct:Real>120.6068</ct:Real>
+                    		<ct:Real>140.3831</ct:Real>
+                    		<ct:Real>158.7886</ct:Real>
+                    		<ct:Real>179.9242</ct:Real>
+                    	</ct:VectorElements>
+                    </ct:Vector>
+                </mstep:Timepoints>
+				<mstep:Continuous>
+                    <ct:SymbRef blkIdRef="mmobs" symbIdRef="G_obs"/>
+                </mstep:Continuous>
+            </mstep:Observations>
+            <mstep:Operation order="2" opType="simulatePD">
+				<mstep:Property name="software-tool-name">
+                    <ct:Assign>
+                        <ct:String>NONMEM</ct:String>
+                    </ct:Assign>
+                </mstep:Property>
+                <mstep:Property name="software-tool-version">
+                    <ct:Assign>
+                        <ct:Real>7.2</ct:Real>
+                    </ct:Assign>
+                </mstep:Property>
+                <mstep:Algorithm definition="FOCE">
+                	<mstep:Property name="Seed">
+                        <ct:Assign>
+                            <ct:Int>123</ct:Int>
+                        </ct:Assign>
+                    </mstep:Property>
+                    <mstep:Property name="NM">
+                        <ct:Assign>
+                            <ct:String>ONLYSIM</ct:String>
+                        </ct:Assign>
+                    </mstep:Property>
+                </mstep:Algorithm>
+			</mstep:Operation>	
+        </mstep:SimulationStep>
+		<mstep:StepDependencies>
+			<mstep:Step>
+				<ct:OidRef oidRef="mmest" />
+			</mstep:Step>
+			<mstep:Step>
+				<ct:OidRef oidRef="mmsim" />
+			</mstep:Step>
+		</mstep:StepDependencies>
+	</mstep:ModellingSteps>
+</PharmML>

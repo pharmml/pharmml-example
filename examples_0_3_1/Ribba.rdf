@@ -1,0 +1,54 @@
+<rdf:RDF
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+xml:base="http://www.pharmml.org/database/metadata/example5_NONMEM_ANN.xml#"
+xmlns:example5_NONMEM_ANN.xml="http://www.pharmml.org/database/metadata/example5_NONMEM_ANN.xml#"
+xmlns:ps="http://www.pharmml.org/2013/10/PharmMLMetadata#">
+
+<!-- Structural assertions -->
+
+<!-- Bookkeepping assertions -->
+<rdf:Description rdf:about="#i1">
+<ps:has-pharmml-filename>example5_NONMEM_ANN.xml</ps:has-pharmml-filename>
+</rdf:Description>
+
+
+
+<!-- Modelling context assertions -->
+<rdf:Description rdf:about="#i1">
+<ps:has-therapeutic-area rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#ONCOLOGY-TAREA"/>
+</rdf:Description>
+<rdf:Description rdf:about="#i1">
+<ps:model-modelling-question rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#0001007"/>
+</rdf:Description>
+<rdf:Description rdf:about="#i1">
+<ps:model-has-indication>Tumor growth</ps:model-has-indication>
+</rdf:Description>
+<!-- Model assertions -->
+
+<rdf:Description rdf:about="#i1">
+<ps:model-has-rationale rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#0001002"/>
+</rdf:Description>
+<rdf:Description rdf:about="#i1">
+<ps:has-generic-type rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#PKMODEL"/>
+</rdf:Description>
+<rdf:Description rdf:about="#i1">
+<ps:has-modelling-limitations-textual>limited use</ps:has-modelling-limitations-textual>
+</rdf:Description>
+<!-- Data design assertions -->
+
+<rdf:Description rdf:about="#i1">
+<ps:model-type-of-data-source rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#OBSERVATION-TDSM"/>
+</rdf:Description>
+<rdf:Description rdf:about="#i1">
+<ps:model-design-type rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#LONGITUDINAL-CTSTUDY"/>
+</rdf:Description>
+
+
+<rdf:Description rdf:about="#i1">
+<ps:model-has-population-characteristic>old people </ps:model-has-population-characteristic>
+</rdf:Description>
+<rdf:Description rdf:about="#i1">
+<ps:model-related-to-drug rdf:resource="http://identifiers.org/chebi/CHEBI:28445"/>
+</rdf:Description>
+</rdf:RDF>
