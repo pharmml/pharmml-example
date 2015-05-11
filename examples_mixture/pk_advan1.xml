@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mml:PharmML xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset" 
+    xmlns:td="http://www.pharmml.org/pharmml/0.6/TrialDesign" 
+    xmlns:uncert="http://www.uncertml.org/3.0" 
+    xmlns:msteps="http://www.pharmml.org/pharmml/0.6/ModellingSteps" 
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" 
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes" 
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition" 
+    xmlns:mml="http://www.pharmml.org/pharmml/0.6/PharmML" 
+    writtenVersion="0.6" implementedBy="Cyprotex Model Writer" id="pk_advan1">
+    
+    <ct:Name>pk_advan1</ct:Name>
+    <ct:Description>Dated: Wed Apr 29 15:10:50 BST 2015</ct:Description>
+    <mml:IndependentVariable symbId="t"/>
+    <mdef:ModelDefinition>
+        <mdef:ParameterModel blkId="pm">
+            <mdef:SimpleParameter symbId="k">
+                <ct:Description>Elimination Rate Constant</ct:Description>
+                <ct:Assign>
+                    <ct:Real>0.1</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="V">
+                <ct:Description>Volume</ct:Description>
+                <ct:Assign>
+                    <ct:Real>1.0</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+        </mdef:ParameterModel>
+        <mdef:StructuralModel blkId="sm">
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <mdef:PKmacros>
+                <mdef:Compartment>
+                    <mdef:Value argument="cmt">
+                        <ct:Assign>
+                            <ct:Int>1</ct:Int>
+                        </ct:Assign>
+                    </mdef:Value>
+                    <mdef:Value argument="volume">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm" symbIdRef="V"/>
+                        </ct:Assign>
+                    </mdef:Value>
+                    <mdef:Value argument="amount">
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="Ac"/>
+                        </ct:Assign>
+                    </mdef:Value>
+                    <mdef:Value argument="concentration">
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="C"/>
+                        </ct:Assign>
+                    </mdef:Value>
+                </mdef:Compartment>
+                <mdef:IV>
+                    <mdef:Value argument="adm">
+                        <ct:Assign>
+                            <ct:Int>1</ct:Int>
+                        </ct:Assign>
+                    </mdef:Value>
+                    <mdef:Value argument="cmt">
+                        <ct:Assign>
+                            <ct:Int>1</ct:Int>
+                        </ct:Assign>
+                    </mdef:Value>
+                </mdef:IV>
+                <mdef:Elimination>
+                    <mdef:Value argument="cmt">
+                        <ct:Assign>
+                            <ct:Int>1</ct:Int>
+                        </ct:Assign>
+                    </mdef:Value>
+                    <mdef:Value argument="k">
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm" symbIdRef="k"/>
+                        </ct:Assign>
+                    </mdef:Value>
+                </mdef:Elimination>
+            </mdef:PKmacros>
+        </mdef:StructuralModel>
+    </mdef:ModelDefinition>
+    <msteps:ModellingSteps>
+        <msteps:SimulationStep oid="ss">
+            <msteps:Observations>
+                <msteps:Timepoints>
+                    <ct:Sequence>
+                        <ct:Begin>
+                            <ct:Real>0.0</ct:Real>
+                        </ct:Begin>
+                        <ct:StepSize>
+                            <ct:Real>0.1</ct:Real>
+                        </ct:StepSize>
+                        <ct:End>
+                            <ct:Real>5.0</ct:Real>
+                        </ct:End>
+                    </ct:Sequence>
+                </msteps:Timepoints>
+                <msteps:Continuous>
+                    <ct:SymbRef symbIdRef="C"></ct:SymbRef>
+                </msteps:Continuous>
+            </msteps:Observations>
+        </msteps:SimulationStep>
+        <msteps:StepDependencies>
+            <msteps:Step>
+                <ct:OidRef oidRef="ss"/>
+            </msteps:Step>
+        </msteps:StepDependencies>
+    </msteps:ModellingSteps>
+</mml:PharmML>

@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mml:PharmML xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset" 
+    xmlns:td="http://www.pharmml.org/pharmml/0.6/TrialDesign" 
+    xmlns:uncert="http://www.uncertml.org/3.0" 
+    xmlns:msteps="http://www.pharmml.org/pharmml/0.6/ModellingSteps" 
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" 
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes" 
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition" 
+    xmlns:mml="http://www.pharmml.org/pharmml/0.6/PharmML" 
+    writtenVersion="0.6" implementedBy="Cyprotex Model Writer" 
+    id="vo_2014_1">
+    <ct:Name>Ogungbenro Valproic Acid Model (2014)</ct:Name>
+    <mml:IndependentVariable symbId="t"/>
+    <mdef:ModelDefinition>
+        <mdef:ParameterModel blkId="pm">
+            <mdef:SimpleParameter symbId="Vkid">
+                <ct:Description>units = L
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.31</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Vliv">
+                <ct:Description>units = L
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>1.8</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Vgut">
+                <ct:Description>units = L
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>1.7</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Vent">
+                <ct:Description>units = L
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.12</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Vbr">
+                <ct:Description>units = L
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>1.45</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Vsp">
+                <ct:Description>units = L
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.15</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Vmu">
+                <ct:Description>units = L
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.15</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Qkid">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>79.5</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Qhe">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>25.28</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Qgut">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>54.6</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Qent">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>21.38</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Qbr">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>46.8</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Qsp">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>11.7</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Qmu">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>66.3</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Qre">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.0</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="KpKid">
+                <ct:Description>Structural Parameter</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.32</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="KpLiv">
+                <ct:Description>Structural Parameter</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.23</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="KpGut">
+                <ct:Description>Structural Parameter</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.36</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="KpBr">
+                <ct:Description>Structural Parameter</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.17</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="KpSp">
+                <ct:Description>Structural Parameter</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.25</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="KpMu">
+                <ct:Description>Structural Parameter</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.52</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="KpRe">
+                <ct:Description>Structural Parameter</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.4</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="MW">
+                <ct:Description>units = g
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>144.21</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="BP">
+                <ct:Description>Structural Parameter</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.55</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="fa">
+                <ct:Description>Structural Parameter</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>1.0</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="ka">
+                <ct:Description>units = /h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>2.0</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Vss">
+                <ct:Description>units = L
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Int>10</ct:Int>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="CL">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.53</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="ClintGlucInt">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.0091</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="ClintGlucRen">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>7.09</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="ClintGlucHep">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>1.25</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="ClintGlucBOxid">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>7.61</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Clint4eneVPA">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.043</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Clint40HVPA">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>1.1</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="Clint50HVPA">
+                <ct:Description>units = L/h
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.82</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="N1">
+                <ct:Description>Structural Parameter</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>1.54</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="K1">
+                <ct:Description>units = mM
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>11.9</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="N2">
+                <ct:Description>Structural Parameter</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.194</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="K2">
+                <ct:Description>units = mM
+</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.164</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+        </mdef:ParameterModel>
+        <mdef:StructuralModel blkId="sm">
+            <ct:Variable symbId="fub" symbolType="real">            <!-- missing: symbolType="real" -->
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Real>0.0</ct:Real>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            <ct:DerivativeVariable symbId="Alum" symbolType="real"> <!-- missing: symbolType="real" -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Uniop op="minus">
+<ct:SymbRef blkIdRef="pm" symbIdRef="ka"/>
+                            </math:Uniop>
+                            <ct:SymbRef blkIdRef="sm" symbIdRef="Alum"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Equation>
+<ct:Real>10.0</ct:Real>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbId="Cent" symbolType="real">     <!-- missing: symbolType="real" -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+<ct:Real>1.0</ct:Real>
+<ct:SymbRef blkIdRef="pm" symbIdRef="Vent"/>
+                            </math:Binop>
+                            <math:Binop op="minus">
+<math:Binop op="minus">
+    <math:Binop op="times">
+        <ct:SymbRef blkIdRef="pm" symbIdRef="ka"/>
+        <ct:SymbRef blkIdRef="sm" symbIdRef="Alum"/>
+    </math:Binop>
+    <math:Binop op="times">
+        <ct:SymbRef blkIdRef="pm" symbIdRef="Qent"/>
+        <ct:SymbRef blkIdRef="sm" symbIdRef="Cent"/>
+    </math:Binop>
+</math:Binop>
+<math:Binop op="times">
+    <ct:SymbRef blkIdRef="pm" symbIdRef="ClintGlucInt"/>
+    <ct:SymbRef blkIdRef="sm" symbIdRef="Cent"/>
+</math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Equation>
+<ct:Real>10.0</ct:Real>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbId="Cgut" symbolType="real">     <!-- missing: symbolType="real" -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+<ct:Real>1.0</ct:Real>
+<ct:SymbRef blkIdRef="pm" symbIdRef="Vgut"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+<math:Binop op="plus">
+    <ct:SymbRef blkIdRef="pm" symbIdRef="Qgut"/>
+    <ct:SymbRef blkIdRef="pm" symbIdRef="Qent"/>
+</math:Binop>
+<math:Binop op="minus">
+    <ct:SymbRef blkIdRef="sm" symbIdRef="Cp"/>
+    <math:Binop op="divide">
+        <ct:SymbRef blkIdRef="sm" symbIdRef="Cgut"/>
+        <ct:SymbRef blkIdRef="pm" symbIdRef="KpGut"/>
+    </math:Binop>
+</math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Equation>
+<ct:Real>10.0</ct:Real>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbId="Cp" symbolType="real">   <!-- missing: symbolType="real" -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+<ct:Real>1.0</ct:Real>
+<ct:SymbRef symbIdRef="Vp"/>
+                            </math:Binop>
+                            <math:Binop op="minus">
+<math:Binop op="plus">
+    <math:Binop op="plus">
+        <math:Binop op="plus">
+            <math:Binop op="plus">
+                <math:Binop op="divide">
+                    <math:Binop op="plus">
+                        <math:Binop op="plus">
+                            <math:Binop op="plus">
+<ct:SymbRef blkIdRef="pm" symbIdRef="Qhe"/>
+<ct:SymbRef blkIdRef="pm" symbIdRef="Qgut"/>
+                            </math:Binop>
+                            <ct:SymbRef blkIdRef="pm" symbIdRef="Qent"/>
+                        </math:Binop>
+                        <ct:SymbRef blkIdRef="pm" symbIdRef="Qsp"/>
+                    </math:Binop>
+                    <ct:SymbRef blkIdRef="pm" symbIdRef="KpLiv"/>
+                </math:Binop>
+                <math:Binop op="divide">
+                    <math:Binop op="times">
+                        <ct:SymbRef blkIdRef="pm" symbIdRef="Qkid"/>
+                        <ct:SymbRef blkIdRef="sm" symbIdRef="Ckid"/>
+                    </math:Binop>
+                    <ct:SymbRef blkIdRef="pm" symbIdRef="KpKid"/>
+                </math:Binop>
+            </math:Binop>
+            <math:Binop op="divide">
+                <math:Binop op="times">
+                    <ct:SymbRef blkIdRef="pm" symbIdRef="Qmu"/>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Cmu"/>
+                </math:Binop>
+                <ct:SymbRef blkIdRef="pm" symbIdRef="KpMu"/>
+            </math:Binop>
+        </math:Binop>
+        <math:Binop op="divide">
+            <math:Binop op="times">
+                <ct:SymbRef blkIdRef="pm" symbIdRef="Qbr"/>
+                <ct:SymbRef blkIdRef="sm" symbIdRef="Cbr"/>
+            </math:Binop>
+            <ct:SymbRef blkIdRef="pm" symbIdRef="KpBr"/>
+        </math:Binop>
+    </math:Binop>
+    <math:Binop op="divide">
+        <math:Binop op="times">
+            <ct:SymbRef blkIdRef="pm" symbIdRef="Qre"/>
+            <ct:SymbRef blkIdRef="sm" symbIdRef="Cre"/>
+        </math:Binop>
+        <ct:SymbRef blkIdRef="pm" symbIdRef="KpRe"/>
+    </math:Binop>
+</math:Binop>
+<math:Binop op="times">
+    <math:Binop op="plus">
+        <math:Binop op="plus">
+            <math:Binop op="plus">
+                <math:Binop op="plus">
+                    <math:Binop op="plus">
+                        <math:Binop op="plus">
+                            <math:Binop op="plus">
+<ct:SymbRef blkIdRef="pm" symbIdRef="Qhe"/>
+<ct:SymbRef blkIdRef="pm" symbIdRef="Qgut"/>
+                            </math:Binop>
+                            <ct:SymbRef blkIdRef="pm" symbIdRef="Qent"/>
+                        </math:Binop>
+                        <ct:SymbRef blkIdRef="pm" symbIdRef="Qkid"/>
+                    </math:Binop>
+                    <ct:SymbRef blkIdRef="pm" symbIdRef="Qmu"/>
+                </math:Binop>
+                <ct:SymbRef blkIdRef="pm" symbIdRef="Qbr"/>
+            </math:Binop>
+            <ct:SymbRef blkIdRef="pm" symbIdRef="Qsp"/>
+        </math:Binop>
+        <ct:SymbRef blkIdRef="pm" symbIdRef="Qre"/>
+    </math:Binop>
+    <ct:SymbRef blkIdRef="sm" symbIdRef="Cp"/>
+</math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Equation>
+<ct:Real>10.0</ct:Real>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbId="Ckid" symbolType="real">     <!-- missing: symbolType="real" -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+<ct:Real>1.0</ct:Real>
+<ct:SymbRef blkIdRef="pm" symbIdRef="Vkid"/>
+                            </math:Binop>
+                            <math:Binop op="minus">
+<math:Binop op="times">
+    <ct:SymbRef blkIdRef="pm" symbIdRef="Qkid"/>
+    <math:Binop op="minus">
+        <ct:SymbRef blkIdRef="sm" symbIdRef="Cp"/>
+        <math:Binop op="divide">
+            <ct:SymbRef blkIdRef="sm" symbIdRef="Ckid"/>
+            <ct:SymbRef blkIdRef="pm" symbIdRef="KpKid"/>
+        </math:Binop>
+    </math:Binop>
+</math:Binop>
+<math:Binop op="divide">
+    <math:Binop op="times">
+        <math:Binop op="times">
+            <ct:SymbRef blkIdRef="pm" symbIdRef="ClintGlucRen"/>
+            <ct:SymbRef blkIdRef="sm" symbIdRef="Ckid"/>
+        </math:Binop>
+        <ct:SymbRef blkIdRef="sm" symbIdRef="fub"/>
+    </math:Binop>
+    <ct:SymbRef blkIdRef="pm" symbIdRef="KpKid"/>
+</math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Equation>
+<ct:Real>10.0</ct:Real>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbId="Cliv" symbolType="real">     <!-- missing: symbolType="real" -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+<ct:Real>1.0</ct:Real>
+<ct:SymbRef blkIdRef="pm" symbIdRef="Vliv"/>
+                            </math:Binop>
+                            <math:Binop op="minus">
+<math:Binop op="plus">
+    <math:Binop op="minus">
+        <math:Binop op="plus">
+            <math:Binop op="minus">
+                <math:Binop op="plus">
+                    <math:Binop op="times">
+                        <ct:SymbRef blkIdRef="pm" symbIdRef="Qhe"/>
+                        <math:Binop op="minus">
+                            <ct:SymbRef blkIdRef="sm" symbIdRef="Cp"/>
+                            <math:Binop op="divide">
+<ct:SymbRef blkIdRef="sm" symbIdRef="Cliv"/>
+<ct:SymbRef blkIdRef="pm" symbIdRef="KpLiv"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
+                    <math:Binop op="divide">
+                        <math:Binop op="times">
+                            <math:Binop op="plus">
+<ct:SymbRef blkIdRef="pm" symbIdRef="Qgut"/>
+<ct:SymbRef blkIdRef="pm" symbIdRef="Qent"/>
+                            </math:Binop>
+                            <ct:SymbRef blkIdRef="sm" symbIdRef="Cgut"/>
+                        </math:Binop>
+                        <ct:SymbRef blkIdRef="pm" symbIdRef="KpGut"/>
+                    </math:Binop>
+                </math:Binop>
+                <math:Binop op="divide">
+                    <math:Binop op="times">
+                        <math:Binop op="plus">
+                            <ct:SymbRef blkIdRef="pm" symbIdRef="Qgut"/>
+                            <ct:SymbRef blkIdRef="pm" symbIdRef="Qent"/>
+                        </math:Binop>
+                        <ct:SymbRef blkIdRef="sm" symbIdRef="Cliv"/>
+                    </math:Binop>
+                    <ct:SymbRef blkIdRef="pm" symbIdRef="KpLiv"/>
+                </math:Binop>
+            </math:Binop>
+            <math:Binop op="divide">
+                <math:Binop op="times">
+                    <ct:SymbRef blkIdRef="pm" symbIdRef="Qsp"/>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Csp"/>
+                </math:Binop>
+                <ct:SymbRef blkIdRef="pm" symbIdRef="KpSp"/>
+            </math:Binop>
+        </math:Binop>
+        <math:Binop op="divide">
+            <math:Binop op="times">
+                <ct:SymbRef blkIdRef="pm" symbIdRef="Qsp"/>
+                <ct:SymbRef blkIdRef="sm" symbIdRef="Cliv"/>
+            </math:Binop>
+            <ct:SymbRef blkIdRef="pm" symbIdRef="KpLiv"/>
+        </math:Binop>
+    </math:Binop>
+    <math:Binop op="times">
+        <ct:SymbRef blkIdRef="pm" symbIdRef="Qent"/>
+        <ct:SymbRef blkIdRef="sm" symbIdRef="Cent"/>
+    </math:Binop>
+</math:Binop>
+<math:Binop op="divide">
+    <math:Binop op="times">
+        <math:Binop op="times">
+            <math:Binop op="plus">
+                <math:Binop op="plus">
+                    <math:Binop op="plus">
+                        <ct:SymbRef blkIdRef="pm" symbIdRef="ClintGlucHep"/>
+                        <ct:SymbRef blkIdRef="pm" symbIdRef="ClintGlucBOxid"/>
+                    </math:Binop>
+                    <ct:SymbRef blkIdRef="pm" symbIdRef="Clint4eneVPA"/>
+                </math:Binop>
+                <ct:SymbRef blkIdRef="pm" symbIdRef="Clint50HVPA"/>
+            </math:Binop>
+            <ct:SymbRef blkIdRef="sm" symbIdRef="Cliv"/>
+        </math:Binop>
+        <ct:SymbRef blkIdRef="sm" symbIdRef="fub"/>
+    </math:Binop>
+    <ct:SymbRef blkIdRef="pm" symbIdRef="KpLiv"/>
+</math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Equation>
+<ct:Real>10.0</ct:Real>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbId="Cbr" symbolType="real">  <!-- missing: symbolType="real" -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+<ct:Real>1.0</ct:Real>
+<ct:SymbRef blkIdRef="pm" symbIdRef="Vbr"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+<ct:SymbRef blkIdRef="pm" symbIdRef="Qbr"/>
+<math:Binop op="minus">
+    <ct:SymbRef blkIdRef="sm" symbIdRef="Cp"/>
+    <math:Binop op="divide">
+        <ct:SymbRef blkIdRef="sm" symbIdRef="Cbr"/>
+        <ct:SymbRef blkIdRef="pm" symbIdRef="KpBr"/>
+    </math:Binop>
+</math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Equation>
+<ct:Real>10.0</ct:Real>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbId="Csp" symbolType="real">      <!-- missing: symbolType="real" -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+<ct:Real>1.0</ct:Real>
+<ct:SymbRef blkIdRef="pm" symbIdRef="Vsp"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+<ct:SymbRef blkIdRef="pm" symbIdRef="Qsp"/>
+<math:Binop op="minus">
+    <ct:SymbRef blkIdRef="sm" symbIdRef="Cp"/>
+    <math:Binop op="divide">
+        <ct:SymbRef blkIdRef="sm" symbIdRef="Csp"/>
+        <ct:SymbRef blkIdRef="pm" symbIdRef="KpSp"/>
+    </math:Binop>
+</math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Equation>
+<ct:Real>10.0</ct:Real>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbId="Cmu" symbolType="real">      <!-- missing: symbolType="real" -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+<ct:Real>1.0</ct:Real>
+<ct:SymbRef blkIdRef="pm" symbIdRef="Vmu"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+<ct:SymbRef blkIdRef="pm" symbIdRef="Qmu"/>
+<math:Binop op="minus">
+    <ct:SymbRef blkIdRef="sm" symbIdRef="Cp"/>
+    <math:Binop op="divide">
+        <ct:SymbRef blkIdRef="sm" symbIdRef="Cmu"/>
+        <ct:SymbRef blkIdRef="pm" symbIdRef="KpMu"/>
+    </math:Binop>
+</math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Equation>
+<ct:Real>10.0</ct:Real>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbId="Cre" symbolType="real">      <!-- missing: symbolType="real" -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+<ct:Real>1.0</ct:Real>
+<ct:SymbRef symbIdRef="Vre"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+<ct:SymbRef blkIdRef="pm" symbIdRef="Qre"/>
+<math:Binop op="minus">
+    <ct:SymbRef blkIdRef="sm" symbIdRef="Cp"/>
+    <math:Binop op="divide">
+        <ct:SymbRef blkIdRef="sm" symbIdRef="Cre"/>
+        <ct:SymbRef blkIdRef="pm" symbIdRef="KpRe"/>
+    </math:Binop>
+</math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Equation>
+<ct:Real>10.0</ct:Real>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+        </mdef:StructuralModel>
+    </mdef:ModelDefinition>
+    <msteps:ModellingSteps>
+        <msteps:SimulationStep oid="step">
+            <msteps:Observations>
+                <msteps:Timepoints>
+                    <ct:Sequence>
+                        <ct:Begin>
+                            <math:Equation>
+<ct:Real>0.0</ct:Real>
+                            </math:Equation>
+                        </ct:Begin>
+                        <ct:StepSize>
+                            <math:Equation>
+<ct:Real>0.2</ct:Real>
+                            </math:Equation>
+                        </ct:StepSize>
+                        <ct:End>
+                            <math:Equation>
+<ct:Real>15.0</ct:Real>
+                            </math:Equation>
+                        </ct:End>
+                    </ct:Sequence>
+                </msteps:Timepoints>
+                <msteps:Continuous>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Alum"/>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Cent"/>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Cgut"/>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Cp"/>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Ckid"/>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Cliv"/>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Cbr"/>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Csp"/>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Cmu"/>
+                    <ct:SymbRef blkIdRef="sm" symbIdRef="Cre"/>
+                </msteps:Continuous>
+            </msteps:Observations>
+            <msteps:Operation order="1" opType="define what ever you wish here">        <!--missing:  order="1" opType="define what ever you wish here" -->
+                <msteps:Property name="target">
+                    <ct:Assign>
+                        <ct:String>Octave</ct:String>
+                    </ct:Assign>
+                </msteps:Property>
+            </msteps:Operation>
+        </msteps:SimulationStep>
+        <msteps:StepDependencies>
+            <msteps:Step>
+                <ct:OidRef oidRef="step"/>
+            </msteps:Step>
+        </msteps:StepDependencies>
+    </msteps:ModellingSteps>
+</mml:PharmML>
