@@ -8,7 +8,7 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
     xmlns:un="http://www.uncertml.org/3.0"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name>TTE - concentration dependent hazard</ct:Name>
     
@@ -20,7 +20,7 @@
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
         
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="beta"/>
+            <PopulationParameter symbId="beta"/>
         </ParameterModel>
         
         <StructuralModel blkId="sm1">

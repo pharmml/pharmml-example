@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name>Zero-Inflated Poisson model</ct:Name>
     
@@ -17,15 +17,15 @@
 
         <!-- PARAMETERS -->
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="lambda"/>
-            <SimpleParameter symbId="p0"/>
+            <PopulationParameter symbId="lambda"/>
+            <PopulationParameter symbId="p0"/>
         </ParameterModel>
 
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
-                    <SimpleParameter symbId="k"/>
+                    <PopulationParameter symbId="k"/>
                     <CountVariable symbId="y"/>
                     
                     <IntensityParameter symbId="Lambda">

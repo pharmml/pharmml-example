@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name>Negative Binomial model</ct:Name>
     
@@ -18,9 +18,9 @@
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
         
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="tau"/>
+            <PopulationParameter symbId="tau"/>
             <!-- individual def with IIV omitted -->
-            <SimpleParameter symbId="lambda"/>
+            <PopulationParameter symbId="lambda"/>
             <!-- individual def with IIV omitted -->
         </ParameterModel>
         
@@ -28,7 +28,7 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
-                    <SimpleParameter symbId="k"/>
+                    <PopulationParameter symbId="k"/>
                     <CountVariable symbId="y"/>
                     
                     <IntensityParameter symbId="Lambda">
@@ -120,6 +120,37 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
+                    </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+        
+        <!-- ALTERNATIVE VERSION -->
+        <ObservationModel blkId="om2">
+            <Discrete>
+                <CountData>
+                    <PopulationParameter symbId="k"/>
+                    <CountVariable symbId="y"/>
+                    
+                    <PMF linkFunction="log">
+                        <!-- P(log(y=k))  -->
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="k"/>
+                        </math:LogicBinop>
+                        <ProbOnto>
+                            <DistributionName>NegativeBinomial2</DistributionName>
+                            <Parameter order="1">
+                                <ct:Assign>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                                </ct:Assign>
+                            </Parameter>
+                            <Parameter order="2">
+                                <ct:Assign>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
+                                </ct:Assign>
+                            </Parameter>
+                        </ProbOnto>
                     </PMF>
                 </CountData>
             </Discrete>

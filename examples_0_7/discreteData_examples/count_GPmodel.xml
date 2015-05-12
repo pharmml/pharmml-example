@@ -18,9 +18,9 @@
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
         
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="lambda"/>
+            <PopulationParameter symbId="lambda"/>
             <!-- individual def with IIV omitted -->
-            <SimpleParameter symbId="delta"/>
+            <PopulationParameter symbId="delta"/>
             <!-- individual def with IIV omitted -->
         </ParameterModel>
         
@@ -28,7 +28,7 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
-                    <SimpleParameter symbId="k"/>
+                    <PopulationParameter symbId="k"/>
                     <CountVariable symbId="y"/>
                     
                     <IntensityParameter symbId="Lambda">
@@ -88,6 +88,38 @@
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
+                    </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+        
+        <!-- ALTERNATIVE with ProbOnto -->
+        <ObservationModel blkId="om2">
+            <Discrete>
+                <CountData>
+                    <PopulationParameter symbId="k"/>
+                    <CountVariable symbId="y"/>
+                    
+                    <!-- aux = lambda+k∗Delta
+                    Log(P(Y=k)) = log(lambda) + (k−1)∗log(aux) − aux − factln(k)} -->
+                    <PMF linkFunction="log">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="k"/>
+                        </math:LogicBinop>
+                        <ProbOnto>
+                            <DistributionName>GeneralizedPoisson</DistributionName>
+                            <Parameter order="1">
+                                <ct:Assign>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                                </ct:Assign>
+                            </Parameter>
+                            <Parameter order="2">
+                                <ct:Assign>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="delta"/>
+                                </ct:Assign>
+                            </Parameter>
+                        </ProbOnto>
                     </PMF>
                 </CountData>
             </Discrete>

@@ -18,7 +18,7 @@
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
         
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="lambda"/>
+            <PopulationParameter symbId="lambda"/>
             <!-- individual def with IIV omitted -->
         </ParameterModel>
         
@@ -26,7 +26,7 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
-                    <SimpleParameter symbId="k"/>
+                    <PopulationParameter symbId="k"/>
                     <CountVariable symbId="Y"/>
                     
                     <IntensityParameter symbId="Lambda">
@@ -81,7 +81,7 @@
         <ObservationModel blkId="om2">
             <Discrete>
                 <CountData>
-                    <SimpleParameter symbId="k"/>
+                    <PopulationParameter symbId="k"/>
                     <CountVariable symbId="Y"/>
                     
                     <IntensityParameter symbId="Lambda">

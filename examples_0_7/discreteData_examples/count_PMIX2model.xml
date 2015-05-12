@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name>Poisson Mixture model – PMIX</ct:Name>
     
@@ -18,11 +18,11 @@
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
         
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="lambda1"/>
+            <PopulationParameter symbId="lambda1"/>
             <!-- individual def with IIV omitted -->
-            <SimpleParameter symbId="lambda2"/>
+            <PopulationParameter symbId="lambda2"/>
             <!-- individual def with IIV omitted -->
-            <SimpleParameter symbId="pi"/>
+            <PopulationParameter symbId="pi"/>
             <!-- individual def with IIV omitted -->
         </ParameterModel>
         
@@ -33,7 +33,7 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
-                    <SimpleParameter symbId="k"/>
+                    <PopulationParameter symbId="k"/>
                     <CountVariable symbId="y"/>
                     <IntensityParameter symbId="Lambda1">
                         <ct:Assign>
