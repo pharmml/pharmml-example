@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name id="i2">Cumulative Logit Markov and Initial Prob</ct:Name>
     
@@ -21,9 +21,9 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CategoricalData ordered="yes">
-                    <SimpleParameter symbId="a11"/>
+                    <PopulationParameter symbId="a11"/>
                     <!-- omitted a12...a32 -->
-                    <SimpleParameter symbId="a33"/>
+                    <PopulationParameter symbId="a33"/>
                     
                     <ListOfCategories> 
                         <Category symbId="cat1"/>

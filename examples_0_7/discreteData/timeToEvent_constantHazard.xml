@@ -4,71 +4,43 @@
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
     xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
-    xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
     xmlns:un="http://www.uncertml.org/3.0"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
-    <ct:Name>TTE - concentration dependent hazard</ct:Name>
+    <ct:Name>TTE - constant hazard</ct:Name>
     
-    <ct:Description>Time-to-event model with concetration dependent hazard function</ct:Description>
+    <ct:Description>Time-to-event model with constant hazard function</ct:Description>
     
-    <IndependentVariable symbId="t"/>
-    
-    <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
-
+        
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="beta"/>
+            <PopulationParameter symbId="lambda"/>
         </ParameterModel>
         
-        <StructuralModel blkId="sm1">
-            <ct:Variable symbolType="real" symbId="Cc"/>
-        </StructuralModel>
-        
-        <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
                 <TimeToEventData>
-                    <EventVariable symbId="Y"/>
+                    <EventVariable symbId="y"/>
                     
-                    <!-- h(t) = beta*Cc -->
-                    <HazardFunction symbId="h">
+                    <!-- h(t) = 1/lambda -->
+                    <HazardFunction symbId="H">
                         <ct:Assign>
                             <math:Equation>
-                                <math:Binop op="times">
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
-                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                <math:Binop op="divide">
+                                    <ct:Real>1</ct:Real>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                                 </math:Binop>
                             </math:Equation>
-                        </ct:Assign>   
-                    </HazardFunction>
-                    
-                    <Censoring censoringType="intervalCensored">
-                        <IntervalLength>
-                            <ct:Assign>
-                                <ct:Real>5</ct:Real> 
-                            </ct:Assign>
-                        </IntervalLength>
-                        
-                        <RightCensoringTime>
-                            <ct:Assign>
-                                <ct:Real>200</ct:Real> 
-                            </ct:Assign>
-                        </RightCensoringTime>
-                    </Censoring>
-                    
-                    <MaximumNumberEvents>
-                        <ct:Assign>
-                            <ct:Real>3</ct:Real> 
                         </ct:Assign>
-                    </MaximumNumberEvents>
+                    </HazardFunction>
                 </TimeToEventData>
-            </Discrete>
+            </Discrete>            
         </ObservationModel>
     </ModelDefinition>
-
+    
     
     <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
         
@@ -79,7 +51,7 @@
             </ColumnMapping>
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="Y"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
             </ColumnMapping>
             <ds:DataSet>
                 <ds:Definition>
@@ -98,23 +70,23 @@
 
 
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
-        
+            
         <mstep:SimulationStep oid="simStep1">
             <mstep:ExternalDataSetReference>
                 <ct:OidRef oidRef="NMoid"/>
             </mstep:ExternalDataSetReference>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                 <ct:Assign>
                     <ct:Real>5</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
         </mstep:SimulationStep>
-
+        
         <mstep:StepDependencies>
             <mstep:Step>
                 <ct:OidRef oidRef="simStep1"/>
             </mstep:Step>
         </mstep:StepDependencies>
-    </ModellingSteps>
+    </ModellingSteps>    
 </PharmML>

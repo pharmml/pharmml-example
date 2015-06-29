@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name id="i2">Cumulative logit model (3 categories)</ct:Name>
     
@@ -18,8 +18,8 @@
     <ModelDefinition id="i3" xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
        
        <ParameterModel blkId="pm1">
-           <SimpleParameter symbId="theta1"/>
-           <SimpleParameter symbId="theta2"/>           
+           <PopulationParameter symbId="theta1"/>
+           <PopulationParameter symbId="theta2"/>           
        </ParameterModel>
         
         <StructuralModel blkId="sm1">
@@ -106,19 +106,21 @@
             </ds:DataSet>
         </ExternalDataSet>
         
-        <Observations oid="OBSoid_Y">
-            <ExplicitObservations>
-                <Timepoints>
-                    <ct:Sequence>
-                        <ct:Begin><ct:Real>1</ct:Real></ct:Begin>
-                        <ct:StepSize><ct:Real>1</ct:Real></ct:StepSize>
-                        <ct:End><ct:Real>1</ct:Real></ct:End>
-                    </ct:Sequence>
-                </Timepoints>
+        <Observations>
+            <Observation oid="OBSoid_Y">
+                <ObservationTimes>
+                    <ct:Assign>
+                        <ct:Sequence>
+                            <ct:Begin><ct:Real>1</ct:Real></ct:Begin>
+                            <ct:StepSize><ct:Real>1</ct:Real></ct:StepSize>
+                            <ct:End><ct:Real>1</ct:Real></ct:End>
+                        </ct:Sequence>
+                    </ct:Assign>
+                </ObservationTimes>
                 <Discrete>
                     <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
                 </Discrete>
-            </ExplicitObservations>
+            </Observation>
         </Observations>
         
     </TrialDesign>    

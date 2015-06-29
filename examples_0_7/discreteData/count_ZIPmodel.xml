@@ -25,8 +25,8 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
-                    <PopulationParameter symbId="k"/>
                     <CountVariable symbId="y"/>
+                    <NumberCounts symbId="k"/>
                     
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
@@ -111,6 +111,36 @@
                                 </math:Piecewise>
                             </math:Equation>
                         </ct:Assign>
+                    </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+        
+        <ObservationModel blkId="om1A">
+            <Discrete>
+                <CountData>
+                    <CountVariable symbId="y"/>
+                    <NumberCounts symbId="k"/>
+                    
+                    <PMF linkFunction="log">
+                        <math:LogicBinop op="eq">
+                            <ct:SymbRef symbIdRef="y"/>
+                            <ct:SymbRef symbIdRef="k"/>
+                        </math:LogicBinop>
+                        <Distribution>
+                            <ProbOnto name="ZeroInflatedPoisson">
+                                <Parameter name="rate">
+                                    <ct:Assign>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Lambda"/>
+                                    </ct:Assign>
+                                </Parameter>
+                                <Parameter name="probabilityOfZero">
+                                    <ct:Assign>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="P0"/>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+                        </Distribution>
                     </PMF>
                 </CountData>
             </Discrete>

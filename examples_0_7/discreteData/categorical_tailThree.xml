@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name id="i2">Tail probabilities model (3 categories)</ct:Name>
     
@@ -22,9 +22,9 @@
                     <!-- b1 -->
                     <!-- omitted definition with IIV -->
                     <!-- b2 -->
-                    <SimpleParameter symbId="b2"/>
+                    <PopulationParameter symbId="b2"/>
                     <!-- b3 -->
-                    <SimpleParameter symbId="b3"/>
+                    <PopulationParameter symbId="b3"/>
                     
                     <ListOfCategories> 
                         <Category symbId="cat1"/>

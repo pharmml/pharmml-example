@@ -7,7 +7,7 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
     xmlns:un="http://www.uncertml.org/3.0"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name>Categorical template</ct:Name>
     
@@ -22,7 +22,7 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CategoricalData ordered="yes">
-                    <SimpleParameter symbId="p"/>
+                    <PopulationParameter symbId="p"/>
                     
                     <ListOfCategories> 
                         <Category symbId="cat0"/>
@@ -46,14 +46,27 @@
                     
                     <!-- ALTERNATIVE -->
                     <PMF linkFunction="identity">
-                        <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
-                            <un:categoryProb definition="http://www.uncertml.org/3.0">
-                                <un:name>cat0</un:name>
-                                <un:probability>
-                                    <un:var varId="p"/>
-                                </un:probability>
-                            </un:categoryProb>
-                        </un:BernoulliDistribution>
+                        <Distribution>
+                            <ProbOnto name="Bernoulli">
+                                <Parameter name="probability">
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="p"/>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+                        </Distribution>
+<!--                        <Distribution>
+                            <UncertML>
+                                <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
+                                    <un:categoryProb definition="http://www.uncertml.org/3.0">
+                                        <un:name>cat0</un:name>
+                                        <un:prob>
+                                            <un:var varId="p"/>
+                                        </un:prob>
+                                    </un:categoryProb>
+                                </un:BernoulliDistribution>
+                            </UncertML>
+                        </Distribution>-->
                     </PMF>  
                 </CategoricalData>
             </Discrete>
@@ -102,8 +115,8 @@
         <ObservationModel blkId="om3">
             <Discrete>
                 <CategoricalData ordered="yes">
-                    <SimpleParameter symbId="p01"/>
-                    <SimpleParameter symbId="a112"/>
+                    <PopulationParameter symbId="p01"/>
+                    <PopulationParameter symbId="a112"/>
                         <!-- omitted parameters -->
                     
                     <ListOfCategories>
@@ -173,7 +186,7 @@
         <ObservationModel blkId="om4">
             <Discrete>
                 <CategoricalData ordered="yes">
-                    <SimpleParameter symbId="p01"/>
+                    <PopulationParameter symbId="p01"/>
                     
                     <ListOfCategories>
                         <Category symbId="cat0"/>

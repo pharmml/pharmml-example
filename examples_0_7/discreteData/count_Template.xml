@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name>Count data models - a template</ct:Name>
     
@@ -16,15 +16,15 @@
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
 
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="lambda"/>
+            <PopulationParameter symbId="lambda"/>
         </ParameterModel>
         
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
-                    <SimpleParameter symbId="k"/>
                     <CountVariable symbId="Y"/>
+                    <NumberCounts symbId="k"/>
 
                     <IntensityParameter symbId="Lambda">
                         <!-- e.g. assignment for Lambda -->
@@ -36,11 +36,15 @@
                             <ct:SymbRef symbIdRef="Y"/>
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                            <rate>
-                                <var varId="Lambda"/>
-                            </rate>
-                        </PoissonDistribution>
+                        <Distribution>
+                            <ProbOnto name="Poisson">
+                                <Parameter name="rate">
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+                        </Distribution>
                     </PMF>
                     
                     <!-- ALTERNATIVELY explicit implementation -->
@@ -61,8 +65,8 @@
         <ObservationModel blkId="om2">
             <Discrete>
                 <CountData>
-                    <SimpleParameter symbId="k"/>
                     <CountVariable symbId="Y"/>
+                    <NumberCounts symbId="k"/>
                     <PreviousCountVariable symbId="Yp"/>
 
                     <Dependance type="continuousMarkov">
@@ -96,11 +100,15 @@
                             <ct:SymbRef symbIdRef="Y"/>
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0">
-                            <rate>
-                                <var varId="Lambda"/>
-                            </rate>
-                        </PoissonDistribution>
+                        <Distribution>
+                            <ProbOnto name="Poisson">
+                                <Parameter name="rate">
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+                        </Distribution>
                     </PMF>
                     
                     <!-- ALTERNATIVELY explicit implementation -->
@@ -121,8 +129,8 @@
         <ObservationModel blkId="om3">
             <Discrete>
                 <CountData>
-                    <SimpleParameter symbId="k"/>
                     <CountVariable symbId="Y"/>
+                    <NumberCounts symbId="k"/>
                     
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
@@ -132,20 +140,28 @@
                     
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
                     <PMF linkFunction="log">
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                            <rate>
-                                <var varId="Lambda"/>
-                            </rate>
-                        </PoissonDistribution>
+                        <Distribution>
+                            <ProbOnto name="Poisson">
+                                <Parameter name="rate">
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+                        </Distribution>
                     </PMF>
                     
                     <!-- P(Y=k) = (Lambda^k * exp(-Lambda) / k! -->
                     <PMF linkFunction="identity">
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                            <rate>
-                                <var varId="Lambda"/>
-                            </rate>
-                        </PoissonDistribution>
+                        <Distribution>
+                            <ProbOnto name="Poisson">
+                                <Parameter name="rate">
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+                        </Distribution>
                     </PMF>
                 </CountData>
             </Discrete>

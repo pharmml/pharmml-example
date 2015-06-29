@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name>Poisson model</ct:Name>
     
@@ -38,11 +38,28 @@
                     <!-- using UncertML -->
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
                     <PMF linkFunction="log">
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                            <rate>
-                                <var varId="Lambda"/>
-                            </rate>
-                        </PoissonDistribution>
+                        <Distribution>
+                            <UncertML>
+                                <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                                    <rate>
+                                        <var varId="Lambda"/>
+                                    </rate>
+                                </PoissonDistribution>
+                            </UncertML>
+                        </Distribution>
+                    </PMF>
+                    
+                    <!-- using ProbOnto -->
+                    <PMF linkFunction="log">
+                        <Distribution>
+                            <ProbOnto name="Poisson">                                      <!-- in this case <IntensityParameter> not required -->
+                                <Parameter name="rate">
+                                    <ct:Assign>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+                        </Distribution>
                     </PMF>
                     
                     <!-- explicit PMF -->
@@ -92,20 +109,28 @@
                     
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
                     <PMF linkFunction="log">
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                            <rate>
-                                <var varId="Lambda"/>
-                            </rate>
-                        </PoissonDistribution>
+                        <Distribution>
+                            <UncertML>
+                                <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                                    <rate>
+                                        <var varId="Lambda"/>
+                                    </rate>
+                                </PoissonDistribution>
+                            </UncertML>
+                        </Distribution>
                     </PMF>
                     
                     <!-- P(Y=k) = (Lambda^k * exp(-Lambda) / k! -->
                     <PMF linkFunction="identity">
-                        <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                            <rate>
-                                <var varId="Lambda"/>
-                            </rate>
-                        </PoissonDistribution>
+                        <Distribution>
+                            <UncertML>
+                                <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                                    <rate>
+                                        <var varId="Lambda"/>
+                                    </rate>
+                                </PoissonDistribution>
+                            </UncertML>
+                        </Distribution>
                     </PMF>
                 </CountData>
             </Discrete>
@@ -137,29 +162,6 @@
                 </ds:ExternalFile>
             </ds:DataSet>
         </ExternalDataSet>
-        
-        <!-- also Y but defined explicitely -->
-        <Observations oid="OBSoid">
-            <ExplicitObservations>
-                <Timepoints>
-                    <ct:Sequence>
-                        <ct:Begin>
-                            <ct:Int>1</ct:Int>
-                        </ct:Begin>
-                        <ct:StepSize>
-                            <ct:Int>1</ct:Int>
-                        </ct:StepSize>
-                        <ct:End>
-                            <ct:Int>10</ct:Int>
-                        </ct:End>
-                    </ct:Sequence>
-                </Timepoints>
-                <Discrete>
-                    <ct:SymbRef blkIdRef="om2" symbIdRef="Y"/>  <!-- 'om2' -->
-                </Discrete>
-            </ExplicitObservations>
-        </Observations>
-        
     </TrialDesign>
     
     
@@ -167,7 +169,7 @@
         
         <mstep:SimulationStep oid="simStep1">
             <mstep:ExternalDataSetReference>
-                <ct:OidRef oidRef="NMoid"/>        <!-- reference to <ExternalDataSet toolName="NONMEM" oid="NMoid"> -->
+                <ct:OidRef oidRef="NMoid"/>
             </mstep:ExternalDataSetReference>
             <ct:VariableAssignment>
                 <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
@@ -177,24 +179,9 @@
             </ct:VariableAssignment>
         </mstep:SimulationStep>
         
-        <mstep:SimulationStep oid="simStep2">
-            <mstep:ObservationsReference>
-                <ct:OidRef oidRef="OBSoid"/>        <!-- reference to <Observations oid="OBSoid"> -->
-            </mstep:ObservationsReference>
-            <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                <ct:Assign>
-                    <ct:Real>2</ct:Real>
-                </ct:Assign>
-            </ct:VariableAssignment>
-        </mstep:SimulationStep>
-        
         <mstep:StepDependencies>
             <mstep:Step>
                 <ct:OidRef oidRef="simStep1"/>
-            </mstep:Step>
-            <mstep:Step>
-                <ct:OidRef oidRef="simStep2"/>
             </mstep:Step>
         </mstep:StepDependencies>
     </mstep:ModellingSteps>

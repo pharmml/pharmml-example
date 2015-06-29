@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition"
     xmlns:mml="http://www.pharmml.org/pharmml/0.6/PharmML"
-    implementedBy="MJS" metadataFile="Ttemplate.rdf" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" metadataFile="Ttemplate.rdf" writtenVersion="0.7" id="i1">
     
     <ct:Name>TTE template</ct:Name>
     

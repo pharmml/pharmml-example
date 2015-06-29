@@ -33,8 +33,9 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
-                    <PopulationParameter symbId="k"/>
                     <CountVariable symbId="y"/>
+                    <NumberCounts symbId="k"/>
+
                     <IntensityParameter symbId="Lambda1">
                         <ct:Assign>
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
@@ -52,7 +53,7 @@
                     </MixtureProbabilityParameter>
                     
                     <PMF linkFunction="log">
-                        <!-- P(Y=k) -->
+                        <!-- log(P(Y=k)) -->
                         <math:LogicBinop op="eq">
                             <ct:SymbRef symbIdRef="y"/>
                             <ct:SymbRef symbIdRef="k"/>
@@ -110,6 +111,43 @@
                 </CountData>
             </Discrete>
         </ObservationModel>
+        
+        <ObservationModel blkId="om1B">
+            <Discrete>
+                <CountData>
+                    <CountVariable symbId="y"/>
+                    <PMF linkFunction="log">
+                        <Distribution>
+                            <ProbOnto name="MixtureDistribution">
+                                <!-- mixing coefficients -->
+                                <Parameter name="weight">
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="pi1"/>
+                                    </ct:Assign>
+                                </Parameter>
+                                <!-- lambda_1	-	Poisson intensity	
+                                     lambda_2	-	Poisson intensity -->
+                                <MixtureComponent name="Poisson">
+                                    <Parameter name="rate">
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="lambda1"/>
+                                        </ct:Assign>
+                                    </Parameter>
+                                </MixtureComponent>
+                                <MixtureComponent name="Poisson">
+                                    <Parameter name="rate">
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="lambda2"/>
+                                        </ct:Assign>
+                                    </Parameter>
+                                </MixtureComponent>
+                            </ProbOnto>
+                        </Distribution>
+                    </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+        
     </ModelDefinition>
 
     <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">

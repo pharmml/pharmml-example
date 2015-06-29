@@ -8,7 +8,7 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
     xmlns:un="http://www.uncertml.org/3.0"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name>TTE - concentration dependent hazard</ct:Name>
     
@@ -18,9 +18,9 @@
     
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
-        
+
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="beta"/>
+            <PopulationParameter symbId="beta"/>
         </ParameterModel>
         
         <StructuralModel blkId="sm1">
@@ -31,7 +31,7 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <TimeToEventData>
-                    <EventVariable symbId="hemorrhaging"/>
+                    <EventVariable symbId="Y"/>
                     
                     <!-- h(t) = beta*Cc -->
                     <HazardFunction symbId="h">
@@ -44,12 +44,32 @@
                             </math:Equation>
                         </ct:Assign>   
                     </HazardFunction>
+                    
+                    <Censoring censoringType="intervalCensored">
+                        <IntervalLength>
+                            <ct:Assign>
+                                <ct:Real>5</ct:Real> 
+                            </ct:Assign>
+                        </IntervalLength>
+                        
+                        <RightCensoringTime>
+                            <ct:Assign>
+                                <ct:Real>200</ct:Real> 
+                            </ct:Assign>
+                        </RightCensoringTime>
+                    </Censoring>
+                    
+                    <MaximumNumberEvents>
+                        <ct:Assign>
+                            <ct:Real>3</ct:Real> 
+                        </ct:Assign>
+                    </MaximumNumberEvents>
                 </TimeToEventData>
             </Discrete>
         </ObservationModel>
     </ModelDefinition>
 
-
+    
     <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
         
         <ExternalDataSet toolName="NONMEM" oid="NMoid">
@@ -59,7 +79,7 @@
             </ColumnMapping>
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="Y"/>
-                <ct:SymbRef blkIdRef="om1" symbIdRef="hemorrhaging"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
             </ColumnMapping>
             <ds:DataSet>
                 <ds:Definition>
@@ -75,10 +95,10 @@
             </ds:DataSet>
         </ExternalDataSet>
     </TrialDesign>
-    
-    
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
 
+
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
+        
         <mstep:SimulationStep oid="simStep1">
             <mstep:ExternalDataSetReference>
                 <ct:OidRef oidRef="NMoid"/>
@@ -90,7 +110,7 @@
                 </ct:Assign>
             </ct:VariableAssignment>
         </mstep:SimulationStep>
-        
+
         <mstep:StepDependencies>
             <mstep:Step>
                 <ct:OidRef oidRef="simStep1"/>

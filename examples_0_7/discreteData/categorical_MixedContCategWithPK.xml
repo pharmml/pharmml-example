@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name>PK with Continuous/Categorical - combined model</ct:Name>
     
@@ -45,24 +45,67 @@
             <Level symbId="residual"/>
         </VariabilityModel>
         
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="W">
+                <Continuous>
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="a"/>
+                                <ct:SymbRef symbIdRef="b"/>
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>
+                </Continuous>
+            </Covariate>
+        </CovariateModel>
+        
         <!-- PARAMETERS -->
         <ParameterModel blkId="pm1">
-
+            <IndividualParameter symbId="V">
+                <StructuredModel>
+                    <Transformation type="log"/>
+                    <PopulationValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="Vpop"/>
+                        </ct:Assign>
+                    </PopulationValue>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_V"/>
+                    </RandomEffects>
+                </StructuredModel>
+            </IndividualParameter>
+            
+            
             <!-- ka -->
-            <SimpleParameter symbId="pop_ka"/>
-            <SimpleParameter symbId="omega_ka"/>
+            <PopulationParameter symbId="pop_ka"/>
+            <PopulationParameter symbId="omega_ka"/>
             <RandomVariable symbId="eta_ka">
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
                 </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                <Distribution>
+                    <ProbOnto name="Normal2">
+                        <Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </Parameter>
+                        <Parameter name="var">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="omega_ka"/>
+                            </ct:Assign>
+                        </Parameter>
+                    </ProbOnto>
+                </Distribution>
+<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                     <mean>
                         <rVal>0</rVal>
                     </mean>
                     <variance>
                         <var varId="omega_ka"/>
                     </variance>
-                </NormalDistribution>
+                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="ka">
                 <ct:Assign>
@@ -78,67 +121,95 @@
             </IndividualParameter>
             
             <!-- V -->
-            <SimpleParameter symbId="pop_V"/>
-            <SimpleParameter symbId="omega_V"/>
+            <PopulationParameter symbId="pop_V"/>
+            <PopulationParameter symbId="omega_V"/>
             <RandomVariable symbId="eta_V">
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
                 </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                <Distribution>
+                    <ProbOnto name="Normal2">
+                        <Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </Parameter>
+                        <Parameter name="var">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="omega_V"/>
+                            </ct:Assign>
+                        </Parameter>
+                    </ProbOnto>
+                </Distribution>
+<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                     <mean>
                         <rVal>0</rVal>
                     </mean>
                     <variance>
                         <var varId="omega_V"/>
                     </variance>
-                </NormalDistribution>
+                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="V">
-                <GaussianModel>
-                    <Transformation>log</Transformation>
+                <StructuredModel>
+                    <Transformation type="log"/>
                     <LinearCovariate>
-                        <PopulationParameter>
+                        <PopulationValue>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="omega_V"></ct:SymbRef>
                             </ct:Assign>
-                        </PopulationParameter>
+                        </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
                         <ct:SymbRef symbIdRef="eta_V"/>
                     </RandomEffects>
-                </GaussianModel>
+                </StructuredModel>
             </IndividualParameter>
             
             <!-- k -->
-            <SimpleParameter symbId="pop_k"/>
-            <SimpleParameter symbId="omega_k"/>
+            <PopulationParameter symbId="pop_k"/>
+            <PopulationParameter symbId="omega_k"/>
             <RandomVariable symbId="eta_k">
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
                 </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                <Distribution>
+                    <ProbOnto name="Normal2">
+                        <Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </Parameter>
+                        <Parameter name="var">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="omega_k"/>
+                            </ct:Assign>
+                        </Parameter>
+                    </ProbOnto>
+                </Distribution>
+<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                     <mean>
                         <rVal>0</rVal>
                     </mean>
                     <variance>
                         <var varId="omega_k"/>
                     </variance>
-                </NormalDistribution>
+                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="k">
-                <GaussianModel>
-                    <Transformation>log</Transformation>
+                <StructuredModel>
+                    <Transformation type="log"/>
                     <LinearCovariate>
-                        <PopulationParameter>
+                        <PopulationValue>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="omega_k"></ct:SymbRef>
                             </ct:Assign>
-                        </PopulationParameter>
+                        </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
                         <ct:SymbRef symbIdRef="eta_k"/>
                     </RandomEffects>
-                </GaussianModel>
+                </StructuredModel>
             </IndividualParameter>
 
             <!-- ommited other parameters -->
@@ -260,14 +331,28 @@
                     <ct:VariabilityReference>
                         <ct:SymbRef symbIdRef="residual"/>
                     </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                    <Distribution>
+                        <ProbOnto name="Normal1">
+                            <Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                            <Parameter name="stdev">
+                                <ct:Assign>
+                                    <ct:Real>1</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                        </ProbOnto>
+                    </Distribution>
+<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
                         <mean>
                             <rVal>0</rVal>
                         </mean>
                         <stddev>
                             <prVal>1</prVal>
                         </stddev>
-                    </NormalDistribution>
+                    </NormalDistribution>-->
                 </RandomVariable>
                 <Standard symbId="C_obs">
                     <Output>
@@ -292,14 +377,28 @@
                     <ct:VariabilityReference>
                         <ct:SymbRef symbIdRef="residual"/>
                     </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
+                    <Distribution>
+                        <ProbOnto name="Normal1">
+                            <Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                            <Parameter name="stdev">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="a2"/>
+                                </ct:Assign>
+                            </Parameter>
+                        </ProbOnto>
+                    </Distribution>
+<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
                         <mean>
                             <rVal>0</rVal>
                         </mean>
                         <stddev>
                             <var varId="a2"/>
                         </stddev>
-                    </NormalDistribution>
+                    </NormalDistribution>-->
                 </RandomVariable>
                 <General symbId="E_obs">
                     <ct:Assign>

@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name id="i2">Explicit probabilities model (3 categories)</ct:Name>
     
@@ -21,7 +21,7 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CategoricalData ordered="no">
-                    <SimpleParameter symbId="a1"/>
+                    <PopulationParameter symbId="a1"/>
                     <!-- a2, a3 omitted -->
                     
                     <ListOfCategories> 
@@ -79,6 +79,73 @@
                             </math:Equation>
                         </ct:Assign>
                     </ProbabilityAssignment>
+                </CategoricalData>
+            </Discrete>
+        </ObservationModel>
+        
+        <ObservationModel blkId="om1A">
+            <Discrete>
+                <CategoricalData ordered="no">
+                    <PopulationParameter symbId="a1"/>  <!-- or as individual parameters -->
+                    <PopulationParameter symbId="a2"/>
+                    <PopulationParameter symbId="a3"/>
+                    
+                    <PopulationParameter symbId="p1">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="a1"/>
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="a1"/>
+                                        <math:Binop op="plus">
+                                            <ct:SymbRef symbIdRef="a2"/>
+                                            <ct:SymbRef symbIdRef="a3"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </PopulationParameter>
+                    <PopulationParameter symbId="p2">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="a2"/>
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="a1"/>
+                                        <math:Binop op="plus">
+                                            <ct:SymbRef symbIdRef="a2"/>
+                                            <ct:SymbRef symbIdRef="a3"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </PopulationParameter>
+                    
+                    <ListOfCategories> 
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
+                    </ListOfCategories>
+                    <CategoryVariable symbId="y"/>
+                    
+                    <PMF linkFunction="identity">
+                        <Distribution>
+                            <ProbOnto name="CategoricalNonordered">
+                                <Parameter name="categoryProb">     <!-- category probabilities - a vector of length 2 (=k-1) -->
+                                    <ct:Assign>
+                                        <ct:Vector>
+                                            <ct:VectorElements>
+                                                <ct:SymbRef symbIdRef="p1"/>
+                                                <ct:SymbRef symbIdRef="p2"/>
+                                            </ct:VectorElements>
+                                        </ct:Vector>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+                        </Distribution>
+                    </PMF>
                 </CategoricalData>
             </Discrete>
         </ObservationModel>

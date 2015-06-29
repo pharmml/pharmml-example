@@ -28,8 +28,8 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
-                    <PopulationParameter symbId="k"/>
                     <CountVariable symbId="y"/>
+                    <NumberCounts symbId="k"/>
                     <PreviousCountVariable symbId="yp"/>
                     
                     <Dependance type="discreteMarkov"/>
@@ -97,8 +97,8 @@
         <ObservationModel blkId="om2">
             <Discrete>
                 <CountData>
-                    <PopulationParameter symbId="k"/>
                     <CountVariable symbId="y"/>
+                    <NumberCounts symbId="k"/>
                     <PreviousCountVariable symbId="yp"/>
                     
                     <Dependance type="discreteMarkov"/>
@@ -132,13 +132,15 @@
                                 <ct:Int>0</ct:Int>
                             </math:LogicBinop>
                         </PreviousState>
-                        <UncertML>
-                            <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                                <rate>
-                                    <var varId="Lambda1"/>
-                                </rate>
-                            </PoissonDistribution>
-                        </UncertML>
+                        <Distribution>
+                            <ProbOnto name="Poisson">
+                                <Parameter name="rate">
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="Lambda1"/>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+                        </Distribution>
                     </PMF>
                     
                     <!-- log(P(y=k | yp != 0)) = -lambda2 + k*log(lambda2) - factln(k) -->
@@ -155,11 +157,22 @@
                                 <ct:Int>0</ct:Int>
                             </math:LogicBinop>
                         </PreviousState>
-                        <ct:Assign>
-                            
-                        </ct:Assign>
-                        <!-- omitted -->
-                        <!-- equation analog as above with Lambda2 instead of Lambda1 --> 
+                        <Distribution>
+                            <ProbOnto name="Poisson">
+                                <Parameter name="rate">
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="Lambda2"/>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+<!--                            <UncertML>
+                                <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                                    <rate>
+                                        <var varId="Lambda2"/>
+                                    </rate>
+                                </PoissonDistribution>
+                            </UncertML>-->
+                        </Distribution>
                     </PMF>
                     
                 </CountData>
