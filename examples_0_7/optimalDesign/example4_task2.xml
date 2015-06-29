@@ -5,26 +5,22 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     implementedBy="MJS" writtenVersion="0.6.1"
-    metadataFile="example4_task1.rdf" id="i1">
+    metadataFile="example4_task2.rdf" id="i1">
     
     <!--    Task description
-	The experimental design of the study is a basic crossover design, with washout period and inter-occasion variability (IOV). There are two treatments and the subjects are organised into two groups that start with a different treatment. In between each treatment there is a washout period during which time the drug is eliminated from each subject. In the model the treatments provide a second level of variability which is described by the IOV. More details can be found in the PharmML Language Specification document. The model also uses covariates to model the variability within the model and so the treatments, the sequence of treatments (i.e. treatments A, B or B,A) and the occasion itself encoded in the model description.
-    The design includes 2 groups of subjects:
-    •	one group of 40 subjects receiving first treatment A then treatment B, with a washout period in between
-    •	one group of 60 subjects receiving first treatment B then treatment A, with a washout period in between
-    The two treatment periods are characterised by:
-    •	treatment A
-    ◦	multiple doses of 150mg given every 12 hours over a period of 0 to 72h
-    ◦	observation period from 0 to 100h
-    •	treatment B
-    ◦	multiple doses of 100mg given every 24 hours over a period of 0 to 72h
-    ◦	observation period from 0 to 100h -->
+        We now want to perform optimisation, and we would like also to optimise 
+        the sequence of treatments. 
+        - optimisation on sampling times is done through the usual design spaces on 
+        sampling times
+        - optimisation on the sequence of treatments is done by creating possible 
+        sequences of treatments and assigning them to different arms in the study, 
+        while optimising on the number of subjects in each arm (possibly 0) -->
     
     
     <!-- MODEL NAME -->
-    <ct:Name>example4_task1 - design only</ct:Name>
+    <ct:Name>example4_task2 - design only</ct:Name>
     
-    <ct:Description>based on example4_task1 - design only with dummy model definition</ct:Description>
+    <ct:Description>based on example4_task2 - design only with dummy model definition</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="time"/>
@@ -123,20 +119,64 @@
                 <Washout>
                     <VariableToReset>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="CENTRAL"/>
-                        <ResetValue>0.5</ResetValue>
-                        <ResetTime>120.5</ResetTime>
                     </VariableToReset>
                 </Washout>
             </Action>
             
-            <!--            TEST ONLY
-                    <Action oid="washout_fullreset">
-                    <Washout>
-                        <VariableToReset>
-                            <FullReset/>
-                        </VariableToReset>
-                    </Washout>
-                </Action>-->
+            <InterventionsCombination oid="seq1">
+                <Interventions>
+                    <InterventionRef oidRef="trtA"/>
+                    <InterventionRef oidRef="washout"/>
+                    <InterventionRef oidRef="trtB"/>
+                    <Start>
+                        <ct:Assign>
+                            <ct:Vector>
+                                <ct:VectorElements>
+                                    <ct:Real>0</ct:Real>
+                                    <ct:Real>100</ct:Real>
+                                    <ct:Real>100</ct:Real>
+                                </ct:VectorElements>
+                            </ct:Vector>
+                        </ct:Assign>
+                    </Start>
+                </Interventions>
+            </InterventionsCombination>
+            
+            <InterventionsCombination oid="seq2">
+                <Interventions>
+                    <InterventionRef oidRef="trtB"/>
+                    <InterventionRef oidRef="washout"/>
+                    <InterventionRef oidRef="trtA"/>
+                    <Start>
+                        <ct:Assign>
+                            <ct:Vector>
+                                <ct:VectorElements>
+                                    <ct:Real>0</ct:Real>
+                                    <ct:Real>100</ct:Real>
+                                    <ct:Real>100</ct:Real>
+                                </ct:VectorElements>
+                            </ct:Vector>
+                        </ct:Assign>
+                    </Start>
+                </Interventions>
+            </InterventionsCombination>
+            
+            <InterventionsCombination oid="seq3">
+                <Interventions>
+                    <InterventionRef oidRef="trtA"/>
+                    <InterventionRef oidRef="trtB"/>
+                    <Start>
+                        <ct:Assign>
+                            <ct:Vector>
+                                <ct:VectorElements>
+                                    <ct:Real>0</ct:Real>
+                                    <ct:Real>100</ct:Real>
+                                </ct:VectorElements>
+                            </ct:Vector>
+                        </ct:Assign>
+                    </Start>
+                </Interventions>
+            </InterventionsCombination>
         </Interventions>
         
         <Observations>
@@ -191,11 +231,11 @@
             </Observation>
         </Observations>
         
-        <Occasions>                          <!-- DEFINED FOR ALL ARMS TO FOLLOW -->
-            <OccasionList oid="OCCASION">
+        <Occasions>
+            <OccasionList oid="OCC1">                   <!-- DEFINED FOR ALL ARMS TO FOLLOW -->
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="iov"/>
-                </ct:VariabilityReference>                
+                </ct:VariabilityReference>
                 <Occasion oid="occ1">
                     <Start>
                         <ct:Assign>
@@ -224,11 +264,11 @@
         </Occasions>
         
         <Arms>
-            <ArmSize>
+            <TotalSize>
                 <ct:Assign>
-                    <ct:Int>40</ct:Int>
+                    <ct:Int>100</ct:Int>
                 </ct:Assign>
-            </ArmSize>
+            </TotalSize>
             
             <Arm oid="arm1">
                 <ArmSize>
@@ -238,21 +278,8 @@
                 </ArmSize>
                 <InterventionSequence>
                     <InterventionList>
-                        <InterventionRef oidRef="trtA"/>
-                        <InterventionRef oidRef="washout"/>
-                        <InterventionRef oidRef="trtB"/>
+                        <InterventionRef oidRef="seq1"/>
                     </InterventionList>
-                    <Start>
-                        <ct:Assign>
-                            <ct:Vector>
-                                <ct:VectorElements>
-                                    <ct:Real>0</ct:Real>
-                                    <ct:Real>100</ct:Real>
-                                    <ct:Real>100</ct:Real>
-                                </ct:VectorElements>
-                            </ct:Vector>
-                        </ct:Assign>
-                    </Start>
                 </InterventionSequence>
                 <ObservationSequence>
                     <ObservationList>
@@ -275,26 +302,42 @@
             <Arm oid="arm2">
                 <ArmSize>
                     <ct:Assign>
-                        <ct:Int>60</ct:Int>
+                        <ct:Int>40</ct:Int>
                     </ct:Assign>
                 </ArmSize>
                 <InterventionSequence>
                     <InterventionList>
-                        <InterventionRef oidRef="trtB"/>
-                        <InterventionRef oidRef="washout"/>
-                        <InterventionRef oidRef="trtA"/>
+                        <InterventionRef oidRef="seq2"/>
                     </InterventionList>
+                </InterventionSequence>
+                <ObservationSequence>
+                    <ObservationList>
+                        <ObservationRef oidRef="window2"/>
+                        <ObservationRef oidRef="window1"/>
+                    </ObservationList>
                     <Start>
                         <ct:Assign>
                             <ct:Vector>
                                 <ct:VectorElements>
                                     <ct:Real>0</ct:Real>
                                     <ct:Real>100</ct:Real>
-                                    <ct:Real>100</ct:Real>
                                 </ct:VectorElements>
                             </ct:Vector>
                         </ct:Assign>
                     </Start>
+                </ObservationSequence>
+            </Arm>
+            
+            <Arm oid="arm3">
+                <ArmSize>
+                    <ct:Assign>
+                        <ct:Int>40</ct:Int>
+                    </ct:Assign>
+                </ArmSize>
+                <InterventionSequence>
+                    <InterventionList>
+                        <InterventionRef oidRef="seq3"/>
+                    </InterventionList>
                 </InterventionSequence>
                 <ObservationSequence>
                     <ObservationList>
@@ -314,8 +357,8 @@
                 </ObservationSequence>
             </Arm>
         </Arms>
+
     </TrialDesign>
-    
     
     <!-- BLOCK III: MODELLING STEPS -->
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
@@ -324,7 +367,7 @@
         <EstimationStep oid="estTask1">
             
             <ParametersToEstimate>
-
+                
                 <!-- a -->
                 <ParameterEstimation>
                     <ct:SymbRef blkIdRef="pm1" symbIdRef="a"/>
@@ -337,7 +380,7 @@
             <Operation order="1" opType="estPop"/>
             <Operation order="2" opType="estIndiv"/>
         </EstimationStep>
-
+        
         <!-- STEP DEPENDENCIES -->
         <StepDependencies>
             <Step>

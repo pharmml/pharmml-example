@@ -49,6 +49,26 @@
                     <Category catId="rare_hz"/>
                 </Categorical>
             </Covariate>
+            
+            <Covariate symbId="WT">
+                <Continuous>
+                    <Distribution>
+                        <ProbOnto name="Normal1">
+                            <Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="WTmean"/>
+                                </ct:Assign>
+                            </Parameter>
+                            <Parameter name="stdev">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="WTvariance"/>
+                                </ct:Assign>
+                            </Parameter>
+                        </ProbOnto>
+                    </Distribution>
+                </Continuous>
+            </Covariate>
+            
         </CovariateModel>
         
         <!-- PARAMETER MODEL -->
@@ -104,62 +124,32 @@
     <!-- TRIAL DEFINITION -->
     <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
         
-<!--        adm1 <- list(type=1, amount=100, time=seq(0, 84, by=6))
-            adm2 <- list(type=2, amount=50, time=seq(3, 87, by=12), tinf=1)
+        <!-- Genp1, Genp2, Genp3 -->
+        <mdef:DesignParameter symbId="Genp1">
+            <ct:Assign>
+                <ct:Real>0.5</ct:Real>
+            </ct:Assign>
+        </mdef:DesignParameter>
+        <mdef:DesignParameter symbId="Genp2">
+            <ct:Assign>
+                <ct:Real>0.25</ct:Real>
+            </ct:Assign>
+        </mdef:DesignParameter>
+        <mdef:DesignParameter symbId="Genp3">
+            <ct:Assign>
+                <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Binop op="minus">
+                        <ct:Real>1</ct:Real>
+                        <Binop op="plus">
+                            <ct:SymbRef symbIdRef="Genp1"/>
+                            <ct:SymbRef symbIdRef="Genp2"/>
+                        </Binop>
+                    </Binop>
+                </Equation>
+            </ct:Assign>
+        </mdef:DesignParameter>
         
-PK:
-depot(type=1, target=Ad, p=F)
-depot(type=2, target=Ac)
-
-EQUATION:
-k = Cl/V
-ddt_Ad = -ka*Ad
-ddt_Ac =  ka*Ad - k*Ac
-Cc = Ac/V
-        -->
-                
         <Interventions>
-            <Administration oid="adm1">
-                <Bolus>
-                    <DoseAmount inputTarget="derivativeVariable">
-                        <ct:SymbRef symbIdRef="Ad"/>
-                        <ct:Assign>
-                            <ct:Real>100</ct:Real>
-                        </ct:Assign>
-                    </DoseAmount>
-                    <DosingTimes>
-                        <ct:Assign>
-                            <ct:Sequence>
-                                <ct:Begin><ct:Real>0</ct:Real></ct:Begin>
-                                <ct:StepSize><ct:Real>6</ct:Real></ct:StepSize>
-                                <ct:End><ct:Real>84</ct:Real></ct:End>
-                            </ct:Sequence>
-                        </ct:Assign>
-                    </DosingTimes>
-                </Bolus>
-            </Administration>
-            <Administration oid="adm2">
-                <Infusion>
-                    <DoseAmount inputTarget="derivativeVariable">
-                        <ct:SymbRef symbIdRef="Ac"/>
-                        <ct:Assign>
-                            <ct:Real>50</ct:Real>
-                        </ct:Assign>
-                    </DoseAmount>
-                    <DosingTimes>
-                        <ct:Assign>
-                            <ct:Real>1</ct:Real>
-                        </ct:Assign>
-                        <!-- skipped, as analog to adm1 -->
-                    </DosingTimes>
-                    <Duration>
-                        <ct:Assign>
-                            <ct:Real>1</ct:Real>
-                        </ct:Assign>
-                    </Duration>
-                </Infusion>
-            </Administration>
-                    
             <Administration oid="admin1">
                 <Bolus>
                     <DoseAmount inputTarget="admType">
@@ -178,7 +168,7 @@ Cc = Ac/V
                 </Bolus>
             </Administration>
         </Interventions>            
-                    
+        
         <Observations>
             <Observation oid="window1">
                 <ObservationTimes>
@@ -194,7 +184,7 @@ Cc = Ac/V
                     </ct:Assign>
                 </ObservationTimes>
                 <Continuous>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="Conc"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
                 </Continuous>
             </Observation>
         </Observations>
@@ -221,23 +211,145 @@ Cc = Ac/V
                     <mdef:Categorical>
                         <mdef:Category catId="common_Hz">
                             <mdef:Probability>
-                                <ct:Real>0.5</ct:Real>
+                                <ct:SymbRef symbIdRef="Genp1"/>
                             </mdef:Probability>
                         </mdef:Category>
                         <mdef:Category catId="hz">
                             <mdef:Probability>
-                                <ct:Real>0.25</ct:Real>
+                                <ct:SymbRef symbIdRef="Genp2"/>
                             </mdef:Probability>
                         </mdef:Category>
                         <mdef:Category catId="rare_hz">
                             <mdef:Probability>
-                                <ct:Real>0.25</ct:Real>
+                                <ct:SymbRef symbIdRef="Genp3"/>
                             </mdef:Probability>
                         </mdef:Category>
                     </mdef:Categorical>
                 </Covariate>
-            </CovariateModel>
+            </CovariateModel>            
         </Covariates>
+        
+        <DesignSpaces>
+            
+            <DesignSpace>
+                <ObservationRef oidRef="window1"/>
+                <ObservationTimes>
+                    <ct:Assign>
+                        <ct:Vector>
+                            <ct:VectorElements>
+                                <ct:Real>0.5</ct:Real>
+                                <ct:Real>1</ct:Real>
+                                <ct:Real>2</ct:Real>
+                                <ct:Real>3</ct:Real>
+                                <ct:Real>4</ct:Real>
+                                <ct:Real>6</ct:Real>
+                                <ct:Real>7</ct:Real>
+                            </ct:VectorElements>
+                        </ct:Vector>
+                    </ct:Assign>
+                </ObservationTimes>
+            </DesignSpace>
+            
+            <DesignSpace>
+                <CovariateModelRef blkIdRef="td_cm1"/>
+                <CovariateRef symbIdRef="SEX">
+                    <mdef:Categorical>
+                        <mdef:Category catId="M">
+                            <mdef:Probability>
+                                <ct:Interval>
+                                    <ct:LeftEndpoint>
+                                        <ct:Assign>
+                                            <ct:Real>0</ct:Real>
+                                        </ct:Assign>
+                                    </ct:LeftEndpoint>
+                                    <ct:RightEndpoint>
+                                        <ct:Assign>
+                                            <ct:Real>1</ct:Real>
+                                        </ct:Assign>
+                                    </ct:RightEndpoint>
+                                </ct:Interval>
+                            </mdef:Probability>
+                        </mdef:Category>
+                    </mdef:Categorical>
+                </CovariateRef>
+            </DesignSpace>
+            
+            <DesignSpace>
+                <CovariateModelRef blkIdRef="td_cm1"/>
+                <CovariateRef symbIdRef="SEX">
+                    <mdef:Categorical>
+                        <mdef:Category catId="F">
+                            <mdef:Probability>
+                                <ct:Interval>
+                                    <ct:LeftEndpoint>
+                                        <ct:Assign>
+                                            <ct:Real>0</ct:Real>
+                                        </ct:Assign>
+                                    </ct:LeftEndpoint>
+                                    <ct:RightEndpoint>
+                                        <ct:Assign>
+                                            <ct:Real>1</ct:Real>
+                                        </ct:Assign>
+                                    </ct:RightEndpoint>
+                                </ct:Interval>
+                            </mdef:Probability>
+                        </mdef:Category>
+                    </mdef:Categorical>
+                </CovariateRef>
+            </DesignSpace>
+            
+            <DesignSpace>
+                <ct:SymbRef symbIdRef="Genp1"/>
+                <ct:Assign>
+                    <ct:Interval>
+                        <ct:LeftEndpoint>
+                            <ct:Assign>
+                                <ct:Real>0.25</ct:Real>
+                            </ct:Assign>
+                        </ct:LeftEndpoint>
+                        <ct:RightEndpoint>
+                            <ct:Assign>
+                                <ct:Real>1</ct:Real>
+                            </ct:Assign>
+                        </ct:RightEndpoint>
+                    </ct:Interval>
+                </ct:Assign>
+            </DesignSpace>
+            <DesignSpace>
+                <ct:SymbRef symbIdRef="Genp2"/>
+                <ct:Assign>
+                    <ct:Interval>
+                        <ct:LeftEndpoint>
+                            <ct:Assign>
+                                <ct:Real>0.25</ct:Real>
+                            </ct:Assign>
+                        </ct:LeftEndpoint>
+                        <ct:RightEndpoint>
+                            <ct:Assign>
+                                <ct:Real>0.5</ct:Real>
+                            </ct:Assign>
+                        </ct:RightEndpoint>
+                    </ct:Interval>
+                </ct:Assign>
+            </DesignSpace>
+            <DesignSpace>
+                <ct:SymbRef symbIdRef="Genp3"/>
+                <ct:Assign>
+                    <ct:Interval>
+                        <ct:LeftEndpoint>
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </ct:LeftEndpoint>
+                        <ct:RightEndpoint>
+                            <ct:Assign>
+                                <ct:Real>0.25</ct:Real>
+                            </ct:Assign>
+                        </ct:RightEndpoint>
+                    </ct:Interval>
+                </ct:Assign>
+            </DesignSpace>
+        </DesignSpaces>
         
         <Arms>
             <NumberSamples>
@@ -274,9 +386,9 @@ Cc = Ac/V
                 </ObservationSequence>
             </Arm>
         </Arms>
-        
     </TrialDesign>
-    
+
+
     <!-- MODELLING STEPS -->
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
         

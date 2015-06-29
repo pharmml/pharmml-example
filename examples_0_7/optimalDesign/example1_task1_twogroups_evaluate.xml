@@ -4,27 +4,14 @@
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
-    
-<!--    Task description
-    This example is taken from the PFIM documentation (PFIM 3.2, additional documentation, example 3), and involves 2 responses with different sampling times.
-    •	PK/PD model (assumed to be defined in the model object)
-    ◦	PK model: 1hr infusion, Michaelis-Menten elimination
-    ◦	PD model: immediate response model with linear drug action and no baseline
-    ◦	covariate model:
-    ▪	gender effect on volume of distribution V; assuming an equal proportion of men and women in the sample
-    ▪	treatment effect on clearance CL, assuming two successive occasions receiving the reference and tested treatments
-    •	design
-    ◦	one group of 100 subjects with a dose of 100
-    ◦	PK sampling times: 0.5, 2, 30, 49, 180
-    ◦	PD sampling times: 0.5, 2, 14, 110, 150
-    The objective in this task is to evaluate this design without considering the effect of covariates-->
+    implementedBy="MJS" writtenVersion="0.6.1"
+    metadataFile="task1_twogroups_evaluate.rdf" id="i1">
     
     
     <!-- MODEL NAME -->
-    <ct:Name>example2_task1 - design only</ct:Name>
+    <ct:Name>task1_twogroups_evaluate - design only</ct:Name>
     
-    <ct:Description>based on example2_task1 - design only with dummy model definition</ct:Description>
+    <ct:Description>based on task1_twogroups_evaluate.mld - design only with dummy model definition</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="time"/>
@@ -42,15 +29,13 @@
         </ParameterModel>
         
         <StructuralModel blkId="sm1">
-            <ct:Variable symbolType="real" symbId="Gut"/>
             <ct:Variable symbolType="real" symbId="A"/>
-            <ct:Variable symbolType="real" symbId="E"/>
         </StructuralModel>
         
         <ObservationModel blkId="om1">
             <ContinuousData>
                 <PopulationParameter symbId="a"/>
-                <Standard symbId="Conc">
+                <Standard symbId="Y">
                     <Output>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="A"/>
                     </Output>
@@ -65,26 +50,7 @@
                 </Standard>
             </ContinuousData>
         </ObservationModel>
-        
-        <ObservationModel blkId="om2">  <!-- E_obs = E + g*epsilon -->
-            <ContinuousData>
-                <PopulationParameter symbId="a"/>
-                <Standard symbId="Effect">
-                    <Output>
-                        <ct:SymbRef blkIdRef="sm1" symbIdRef="E"/>
-                    </Output>
-                    <ErrorModel>
-                        <ct:Assign>
-                            <ct:Real>1</ct:Real>
-                        </ct:Assign>
-                    </ErrorModel>
-                    <ResidualError>
-                        <ct:SymbRef symbIdRef="blub"/>
-                    </ResidualError>
-                </Standard>
-            </ContinuousData>
-        </ObservationModel>
-        
+
     </ModelDefinition>
     
     <!-- BLOCK II: TRIAL DEFINITION -->
@@ -92,13 +58,13 @@
         
         <Interventions>
             <Administration oid="admin1">
-                <Infusion>
-                    <DoseAmount inputTarget="derivativeVariable">
+                <Bolus>
+                    <DoseAmount inputTarget="admType">
                         <TargetMapping blkIdRef="sm1">
-                            <ds:Map modelSymbol="Gut"/>
+                            <ds:Map modelSymbol="CENTRAL"/>
                         </TargetMapping>
                         <ct:Assign>
-                            <ct:Real>100</ct:Real>
+                            <ct:Int>100</ct:Int>              
                         </ct:Assign>
                     </DoseAmount>
                     <DosingTimes>
@@ -106,14 +72,27 @@
                             <ct:Real>0</ct:Real>
                         </ct:Assign>
                     </DosingTimes>
-                    <Duration>
-                        <ct:Assign>
-                            <ct:Real>100</ct:Real>
-                        </ct:Assign>
-                    </Duration>
-                </Infusion>
+                </Bolus>
             </Administration>
-        </Interventions>            
+            
+            <Administration oid="admin2">
+                <Bolus>
+                    <DoseAmount inputTarget="admType">
+                        <TargetMapping blkIdRef="sm1">
+                            <ds:Map modelSymbol="CENTRAL"/>
+                        </TargetMapping>
+                        <ct:Assign>
+                            <ct:Int>200</ct:Int>              
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </DosingTimes>
+                </Bolus>
+            </Administration>
+        </Interventions>
         
         <Observations>
             <Observation oid="window1">
@@ -124,16 +103,15 @@
                                 <ct:Real>0.5</ct:Real>
                                 <ct:Real>2</ct:Real>
                                 <ct:Real>30</ct:Real>
-                                <ct:Real>49</ct:Real>
-                                <ct:Real>180</ct:Real>
                             </ct:VectorElements>
                         </ct:Vector>
                     </ct:Assign>
                 </ObservationTimes>
                 <Continuous>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="Conc"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/> <!-- CHECK THAT -->
                 </Continuous>
             </Observation>
+            
             <Observation oid="window2">
                 <ObservationTimes>
                     <ct:Assign>
@@ -141,48 +119,65 @@
                             <ct:VectorElements>
                                 <ct:Real>0.5</ct:Real>
                                 <ct:Real>2</ct:Real>
-                                <ct:Real>14</ct:Real>
-                                <ct:Real>110</ct:Real>
-                                <ct:Real>150</ct:Real>
+                                <ct:Real>16</ct:Real>
                             </ct:VectorElements>
                         </ct:Vector>
                     </ct:Assign>
                 </ObservationTimes>
                 <Continuous>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="Effect"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/> <!-- CHECK THAT -->
                 </Continuous>
             </Observation>
-            
-            <ObservationsCombination oid="samp1">
-                <Observations>
-                    <ObservationRef oidRef="window1"/>
-                </Observations>
-                <Observations>
-                    <ObservationRef oidRef="window2"/>
-                </Observations>
-            </ObservationsCombination>
         </Observations>
         
         <Arms>
-            <TotalSize>
+            <ArmSize>
                 <ct:Assign>
-                    <ct:Int>100</ct:Int>
+                    <ct:Int>20</ct:Int>
                 </ct:Assign>
-            </TotalSize>
+            </ArmSize>
             <Arm oid="arm1">
                 <ArmSize>
                     <ct:Assign>
-                        <ct:Int>100</ct:Int>
+                        <ct:Int>10</ct:Int>
                     </ct:Assign>
                 </ArmSize>
                 <InterventionSequence>
                     <InterventionList>
                         <InterventionRef oidRef="admin1"/>
                     </InterventionList>
+                    <Start>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </Start>
                 </InterventionSequence>
                 <ObservationSequence>
                     <ObservationList>
-                        <ObservationRef oidRef="samp1"/>
+                        <ObservationRef oidRef="window1"/>
+                    </ObservationList>
+                    <Start>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </Start>
+                </ObservationSequence>
+            </Arm>
+            
+            <Arm oid="arm2">
+                <InterventionSequence>
+                    <InterventionList>
+                        <InterventionRef oidRef="admin2"/>
+                    </InterventionList>
+                    <Start>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </Start>
+                </InterventionSequence>
+                <ObservationSequence>
+                    <ObservationList>
+                        <ObservationRef oidRef="window2"/>
                     </ObservationList>
                     <Start>
                         <ct:Assign>
