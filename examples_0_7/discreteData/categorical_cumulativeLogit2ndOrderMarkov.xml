@@ -103,6 +103,8 @@
         <ObservationModel blkId="om2">
             <Discrete>
                 <CategoricalData ordered="yes">
+                    <PopulationParameter symbId="a1"/>
+                    <!-- a2 omitted -->
                     <PopulationParameter symbId="a112"/>
                     <!-- omitted here a213...a131 -->
                     <PopulationParameter symbId="a232"/>

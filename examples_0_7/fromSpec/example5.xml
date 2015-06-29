@@ -62,10 +62,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_P0"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="P0">
                 <StructuredModel>
@@ -103,10 +99,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_Q0"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="Q0">
                 <StructuredModel>
@@ -139,8 +131,8 @@
             <PopulationParameter symbId="omega_KQPP"/>
             <PopulationParameter symbId="pop_KPQ"/>
             <PopulationParameter symbId="omega_KPQ"/>
-            <PopulationParameter symbId="pop_GAMA"/>
-            <PopulationParameter symbId="omega_GAMA"/>
+            <PopulationParameter symbId="pop_GAMMA"/>
+            <PopulationParameter symbId="omega_GAMMA"/>
             <PopulationParameter symbId="pop_DELTAQP"/>
             <PopulationParameter symbId="omega_DELTAQP"/>
             
@@ -163,14 +155,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_KDE"/>
-                    </stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="KDE">
                 <StructuredModel>
@@ -206,15 +190,7 @@
                             </ct:Assign>
                         </Parameter>
                     </ProbOnto>
-                </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_LAMBDAP"/>
-                    </stddev>
-                </NormalDistribution>-->
+                </Distribution>å
             </RandomVariable>
             <IndividualParameter symbId="LAMBDAP">
                 <StructuredModel>
@@ -251,14 +227,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_KQPP"/>
-                    </stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="KQPP">
                 <StructuredModel>
@@ -295,14 +263,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_KPQ"/>
-                    </stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="KPQ">
                 <StructuredModel>
@@ -339,14 +299,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_GAMMA"/>
-                    </stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="GAMMA">
                 <StructuredModel>
@@ -383,14 +335,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_DELTAQP"/>
-                    </stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="DELTAQP">
                 <StructuredModel>
@@ -604,14 +548,6 @@
                             </Parameter>
                         </ProbOnto>
                     </Distribution>
-<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <prVal>1</prVal>
-                        </stddev>
-                    </NormalDistribution>-->
                 </RandomVariable>
                 <Standard symbId="PSTAR_obs">
                     <Output>

@@ -20,19 +20,6 @@
 
     <!-- MODEL DEFINITION -->
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
-    
-        <!-- PARAMETER MODEL -->
-        <ParameterModel blkId="pm1">            
-            
-            <PopulationParameter symbId="A"/>
-            <PopulationParameter symbId="d"/>
-            <PopulationParameter symbId="lambda"/>
-            <PopulationParameter symbId="gamma"/>
-            <PopulationParameter symbId="epsilon"/>
-            <PopulationParameter symbId="tau"/>
-            <PopulationParameter symbId="omega"/>
-            
-        </ParameterModel>
 
         <!-- STRUCTURAL MODEL -->
         <StructuralModel blkId="sm1">

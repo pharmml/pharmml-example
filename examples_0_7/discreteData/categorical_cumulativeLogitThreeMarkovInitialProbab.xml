@@ -21,6 +21,8 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CategoricalData ordered="yes">
+                    <PopulationParameter symbId="a1"/>
+                    <PopulationParameter symbId="a2"/>
                     <PopulationParameter symbId="a11"/>
                     <!-- omitted a12...a32 -->
                     <PopulationParameter symbId="a33"/>
@@ -125,6 +127,7 @@
                 <ct:OidRef oidRef="NMoid"/>
             </mstep:ExternalDataSetReference>
             <mstep:ParametersToEstimate>
+                <!-- omitted a1, a2 -->
                 <mstep:ParameterEstimation>
                     <ct:SymbRef symbIdRef="a11"/>
                     <mstep:InitialEstimate>

@@ -191,13 +191,13 @@
                     </mstep:InitialEstimate>
                 </mstep:ParameterEstimation>
                 <mstep:ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Lambda1"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
                     <mstep:InitialEstimate>
                         <ct:Real>.5</ct:Real>
                     </mstep:InitialEstimate>
                 </mstep:ParameterEstimation>
                 <mstep:ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Lambda2"/>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda2"/>
                     <mstep:InitialEstimate>
                         <ct:Real>.5</ct:Real>
                     </mstep:InitialEstimate>

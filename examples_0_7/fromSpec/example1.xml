@@ -504,8 +504,8 @@
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
-                                    <ct:SymbRef symbIdRef="Rin"/>
-                                    <ct:SymbRef symbIdRef="kout"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Rin"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="kout"/>
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
@@ -523,7 +523,7 @@
                     <math:Equation>
                         <math:Binop op="divide">
                             <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef symbIdRef="V"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
@@ -716,7 +716,7 @@
             <Administration oid="d4">
                 <Bolus>
                     <DoseAmount inputTarget="derivativeVariable">
-                        <ct:SymbRef symbIdRef="Ad"/>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Ad"/>
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="times">

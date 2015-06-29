@@ -36,6 +36,7 @@
             <PopulationParameter symbId="k1"/>
             <PopulationParameter symbId="k2"/>
             <PopulationParameter symbId="a"/>
+            <PopulationParameter symbId="kl"/>
         </ParameterModel>
 
         <!--

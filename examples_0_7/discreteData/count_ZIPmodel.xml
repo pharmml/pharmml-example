@@ -12,6 +12,8 @@
     
     <ct:Description>Zero-Inflated Poisson model - based on code from Elodie Plan</ct:Description>
     
+    <IndependentVariable symbId="t"/>
+    
     <!-- MODEL -->
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
 

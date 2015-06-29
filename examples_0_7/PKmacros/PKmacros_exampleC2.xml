@@ -56,6 +56,7 @@
             <PopulationParameter symbId="p"/>
             <PopulationParameter symbId="k"/>
             <PopulationParameter symbId="a"/>
+            <PopulationParameter symbId="Tk0"/>
         </ParameterModel>
         
         <!--
@@ -107,7 +108,7 @@
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value>
-                        <ct:SymbRef symbIdRef="p"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
                     </Value>
                     <Value>
                         <ct:SymbRef symbIdRef="Tlag"/>

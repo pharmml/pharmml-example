@@ -127,14 +127,14 @@
             </mstep:ExternalDataSetReference>
             <mstep:ParametersToEstimate>
                 <mstep:ParameterEstimation>
-                    <ct:SymbRef symbIdRef="a1"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="a1"/>
                     <mstep:InitialEstimate>
                         <ct:Real>1</ct:Real>
                     </mstep:InitialEstimate>
                 </mstep:ParameterEstimation>
                 <!-- omitted a2 -->
                 <mstep:ParameterEstimation>
-                    <ct:SymbRef symbIdRef="a3"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="a3"/>
                     <mstep:InitialEstimate>
                         <ct:Real>0.6</ct:Real>
                     </mstep:InitialEstimate>

@@ -100,13 +100,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal></mean>
-                    <stddev>
-                        <var varId="omega_Tlag"/>
-                    </stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="Tlag">
                 <StructuredModel>
@@ -142,13 +135,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal></mean>
-                    <stddev>
-                        <var varId="omega_ka"/>
-                    </stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="ka">
                 <StructuredModel>
@@ -184,13 +170,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal></mean>
-                    <stddev>
-                        <var varId="omega_V"/>
-                    </stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="V">
                 <StructuredModel>
@@ -232,13 +211,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal></mean>
-                    <stddev>
-                        <var varId="omega_CL"/>
-                    </stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="CL">
                 <StructuredModel>
@@ -292,7 +264,7 @@
                                             <ct:SymbRef symbIdRef="t"/>
                                             <ct:SymbRef symbIdRef="tD"/>
                                         </math:Binop>
-                                        <ct:SymbRef symbIdRef="Tlag"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Tlag"/>
                                     </math:LogicBinop>
                                 </math:Condition>
                             </math:Piece>
@@ -320,7 +292,7 @@
                                                 <math:Binop op="minus">
                                                     <math:Binop op="minus">
                                                         <ct:SymbRef symbIdRef="t"/>
-                                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="tD"/>
+                                                        <ct:SymbRef symbIdRef="tD"/>
                                                     </math:Binop>
                                                     <ct:SymbRef blkIdRef="pm1" symbIdRef="Tlag"/>
                                                 </math:Binop>
@@ -334,7 +306,7 @@
                                                 <math:Binop op="minus">
                                                     <math:Binop op="minus">
                                                         <ct:SymbRef symbIdRef="t"/>
-                                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="tD"/>
+                                                        <ct:SymbRef symbIdRef="tD"/>
                                                     </math:Binop>
                                                     <ct:SymbRef blkIdRef="pm1" symbIdRef="Tlag"/>
                                                 </math:Binop>
@@ -375,18 +347,10 @@
                             </Parameter>
                         </ProbOnto>
                     </Distribution>
-<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <variance>
-                            <prVal>1</prVal>
-                        </variance>
-                    </NormalDistribution>-->
                 </RandomVariable>
                 <Standard symbId="C_obs">
                     <Output>
-                        <ct:SymbRef symbIdRef="C"/>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
                     </Output>
                     <ErrorModel>
                         <ct:Assign>

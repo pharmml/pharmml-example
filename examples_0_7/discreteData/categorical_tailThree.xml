@@ -18,9 +18,10 @@
         <!-- OBSERVATIONS -->
         <ObservationModel blkId="om1">
             <Discrete>
-                <CategoricalData ordered="yes">           
-                    <!-- b1 -->
+                <CategoricalData ordered="yes">
                     <!-- omitted definition with IIV -->
+                    <!-- b1 -->
+                    <PopulationParameter symbId="b1"/>
                     <!-- b2 -->
                     <PopulationParameter symbId="b2"/>
                     <!-- b3 -->

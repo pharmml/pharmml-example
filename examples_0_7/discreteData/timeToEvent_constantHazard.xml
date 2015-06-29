@@ -14,6 +14,8 @@
     
     <ct:Description>Time-to-event model with constant hazard function</ct:Description>
     
+    <IndependentVariable symbId="t"/>
+    
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
         
         <ParameterModel blkId="pm1">

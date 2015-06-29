@@ -96,6 +96,8 @@
             <!-- ka -->
             <PopulationParameter symbId="omega_ka"/>
             <PopulationParameter symbId="pop_ka"/>
+            <PopulationParameter symbId="beta_ka_treatseq"/>
+            <PopulationParameter symbId="k"/>
             <RandomVariable symbId="eta_ka">
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
@@ -114,10 +116,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_ka"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="ka">
                 <StructuredModel>
@@ -181,7 +179,7 @@
                             <ct:Assign><ct:SymbRef symbIdRef="pop_V"/></ct:Assign>
                         </PopulationValue>
                         <Covariate>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="sex"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_V"/>
                                 <Category catId="F"/>
@@ -257,7 +255,7 @@
                             <ct:Assign><ct:SymbRef symbIdRef="pop_CL"/></ct:Assign>
                         </PopulationValue>
                         <Covariate>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="sex"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_CL"/>
                                 <Category catId="F"/>
@@ -309,7 +307,7 @@
                                             </math:Uniop>
                                             <math:Binop op="minus">
                                                 <ct:SymbRef symbIdRef="t"/>
-                                                <ct:SymbRef symbIdRef="t_D"/>
+                                                <ct:SymbRef symbIdRef="tD"/>
                                             </math:Binop>
                                         </math:Binop>
                                     </math:Uniop>
@@ -320,7 +318,7 @@
                                             </math:Uniop>
                                             <math:Binop op="minus">
                                                 <ct:SymbRef symbIdRef="t"/>
-                                                <ct:SymbRef symbIdRef="t_D"/>
+                                                <ct:SymbRef symbIdRef="tD"/>
                                             </math:Binop>
                                         </math:Binop>
                                     </math:Uniop>
@@ -511,6 +509,18 @@
                     <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_ka"/>
                     <InitialEstimate fixed="false">
                         <ct:Real>0</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_ka_treatseq"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
                     </InitialEstimate>
                 </ParameterEstimation>
                 <ParameterEstimation>

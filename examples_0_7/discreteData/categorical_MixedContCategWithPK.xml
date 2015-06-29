@@ -37,7 +37,7 @@
     <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
         
         <!-- VARIABILITY -->
-        <VariabilityModel blkId="randomError" type="parameterVariability">
+        <VariabilityModel blkId="model" type="parameterVariability">
             <Level symbId="subject"/>
         </VariabilityModel>
         
@@ -82,7 +82,7 @@
             <PopulationParameter symbId="omega_ka"/>
             <RandomVariable symbId="eta_ka">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
+                    <ct:SymbRef blkIdRef="model" symbIdRef="subject"/>
                 </ct:VariabilityReference>
                 <Distribution>
                     <ProbOnto name="Normal2">
@@ -98,14 +98,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_ka"/>
-                    </variance>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="ka">
                 <ct:Assign>
@@ -125,7 +117,7 @@
             <PopulationParameter symbId="omega_V"/>
             <RandomVariable symbId="eta_V">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
+                    <ct:SymbRef blkIdRef="model" symbIdRef="subject"/>
                 </ct:VariabilityReference>
                 <Distribution>
                     <ProbOnto name="Normal2">
@@ -141,14 +133,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_V"/>
-                    </variance>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="V">
                 <StructuredModel>
@@ -171,7 +155,7 @@
             <PopulationParameter symbId="omega_k"/>
             <RandomVariable symbId="eta_k">
                 <ct:VariabilityReference>
-                    <ct:SymbRef blkIdRef="randomError" symbIdRef="subject"/>
+                    <ct:SymbRef blkIdRef="model" symbIdRef="subject"/>
                 </ct:VariabilityReference>
                 <Distribution>
                     <ProbOnto name="Normal2">
@@ -187,14 +171,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <variance>
-                        <var varId="omega_k"/>
-                    </variance>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="k">
                 <StructuredModel>
@@ -202,7 +178,7 @@
                     <LinearCovariate>
                         <PopulationValue>
                             <ct:Assign>
-                                <ct:SymbRef symbIdRef="omega_k"></ct:SymbRef>
+                                <ct:SymbRef symbIdRef="omega_k"/>
                             </ct:Assign>
                         </PopulationValue>
                     </LinearCovariate>
@@ -327,9 +303,9 @@
         <!-- Continuous model for Cc -->
         <ObservationModel blkId="om1">
             <ContinuousData>
-                <RandomVariable symbId="eta_Cc">
+                <RandomVariable symbId="epsilon_C">
                     <ct:VariabilityReference>
-                        <ct:SymbRef symbIdRef="residual"/>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
                     <Distribution>
                         <ProbOnto name="Normal1">
@@ -345,18 +321,10 @@
                             </Parameter>
                         </ProbOnto>
                     </Distribution>
-<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <prVal>1</prVal>
-                        </stddev>
-                    </NormalDistribution>-->
                 </RandomVariable>
                 <Standard symbId="C_obs">
                     <Output>
-                        <ct:SymbRef symbIdRef="C"/>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
@@ -375,7 +343,7 @@
             <ContinuousData>
                 <RandomVariable symbId="eta_E">
                     <ct:VariabilityReference>
-                        <ct:SymbRef symbIdRef="residual"/>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
                     <Distribution>
                         <ProbOnto name="Normal1">
@@ -391,20 +359,12 @@
                             </Parameter>
                         </ProbOnto>
                     </Distribution>
-<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/3.0">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <var varId="a2"/>
-                        </stddev>
-                    </NormalDistribution>-->
                 </RandomVariable>
                 <General symbId="E_obs">
                     <ct:Assign>
                         <math:Equation>
                             <math:Binop op="plus">
-                                <ct:SymbRef symbIdRef="E"/>
+                                <ct:SymbRef blkIdRef="sm1" symbIdRef="E"/>
                                 <ct:SymbRef symbIdRef="eta_E"/>
                             </math:Binop>
                         </math:Equation>

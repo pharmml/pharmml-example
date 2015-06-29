@@ -86,6 +86,8 @@
             <!-- ka -->
             <PopulationParameter symbId="omega_ka"/>
             <PopulationParameter symbId="pop_ka"/>
+            <PopulationParameter symbId="beta_ka_treatseq"/>
+            <PopulationParameter symbId="k"/>
             <RandomVariable symbId="eta_ka">
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
@@ -104,10 +106,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_ka"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="ka">
                 <StructuredModel>
@@ -155,10 +153,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_V"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <RandomVariable symbId="kappa_V">
                 <ct:VariabilityReference>
@@ -178,10 +172,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="gamma_V"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="V">
                 <StructuredModel>
@@ -191,7 +181,7 @@
                             <ct:Assign><ct:SymbRef symbIdRef="pop_V"/></ct:Assign>
                         </PopulationValue>
                         <Covariate>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="sex"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_V"/>
                                 <Category catId="F"/>
@@ -251,10 +241,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_CL"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <RandomVariable symbId="kappa_CL">
                 <ct:VariabilityReference>
@@ -274,10 +260,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="gamma_CL"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="CL">
                 <StructuredModel>
@@ -287,7 +269,7 @@
                             <ct:Assign><ct:SymbRef symbIdRef="pop_CL"/></ct:Assign>
                         </PopulationValue>
                         <Covariate>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="sex"/>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_CL"/>
                                 <Category catId="F"/>
@@ -339,7 +321,7 @@
                                             </math:Uniop>
                                             <math:Binop op="minus">
                                                 <ct:SymbRef symbIdRef="t"/>
-                                                <ct:SymbRef symbIdRef="t_D"/>
+                                                <ct:SymbRef symbIdRef="tD"/>
                                             </math:Binop>
                                         </math:Binop>
                                     </math:Uniop>
@@ -350,7 +332,7 @@
                                             </math:Uniop>
                                             <math:Binop op="minus">
                                                 <ct:SymbRef symbIdRef="t"/>
-                                                <ct:SymbRef symbIdRef="t_D"/>
+                                                <ct:SymbRef symbIdRef="tD"/>
                                             </math:Binop>
                                         </math:Binop>
                                     </math:Uniop>
@@ -567,25 +549,25 @@
                     </ds:Definition>
                     <ds:Table>
                         <!-- arm1 -->
-                        <ds:Row><ct:String>1</ct:String><ct:Id>arm1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id><ct:Id>AB</ct:Id></ds:Row>
-                        <ds:Row><ct:String>1</ct:String><ct:Id>arm1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id><ct:Id>AB</ct:Id></ds:Row>
-                        <ds:Row><ct:String>2</ct:String><ct:Id>arm1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id><ct:Id>AB</ct:Id></ds:Row>
-                        <ds:Row><ct:String>2</ct:String><ct:Id>arm1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id><ct:Id>AB</ct:Id></ds:Row>
-                        <ds:Row><ct:String>3</ct:String><ct:Id>arm1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id><ct:Id>AB</ct:Id></ds:Row>
-                        <ds:Row><ct:String>3</ct:String><ct:Id>arm1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                        <ds:Row><ct:String>1</ct:String><ct:Id>arm1</ct:Id><ct:String>M</ct:String><ct:Id>ep1</ct:Id><ct:String>A</ct:String><ct:String>AB</ct:String></ds:Row>
+                        <ds:Row><ct:String>1</ct:String><ct:Id>arm1</ct:Id><ct:String>M</ct:String><ct:Id>ep3</ct:Id><ct:String>B</ct:String><ct:String>AB</ct:String></ds:Row>
+                        <ds:Row><ct:String>2</ct:String><ct:Id>arm1</ct:Id><ct:String>M</ct:String><ct:Id>ep1</ct:Id><ct:String>A</ct:String><ct:String>AB</ct:String></ds:Row>
+                        <ds:Row><ct:String>2</ct:String><ct:Id>arm1</ct:Id><ct:String>M</ct:String><ct:Id>ep3</ct:Id><ct:String>B</ct:String><ct:String>AB</ct:String></ds:Row>
+                        <ds:Row><ct:String>3</ct:String><ct:Id>arm1</ct:Id><ct:String>M</ct:String><ct:Id>ep1</ct:Id><ct:String>A</ct:String><ct:String>AB</ct:String></ds:Row>
+                        <ds:Row><ct:String>3</ct:String><ct:Id>arm1</ct:Id><ct:String>M</ct:String><ct:Id>ep3</ct:Id><ct:String>B</ct:String><ct:String>AB</ct:String></ds:Row>
                         <!-- omitted subjects -->
-                        <ds:Row><ct:String>33</ct:String><ct:Id>arm1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>A</ct:Id><ct:Id>AB</ct:Id></ds:Row>
-                        <ds:Row><ct:String>33</ct:String><ct:Id>arm1</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>B</ct:Id><ct:Id>AB</ct:Id></ds:Row>
+                        <ds:Row><ct:String>33</ct:String><ct:Id>arm1</ct:Id><ct:String>M</ct:String><ct:Id>ep1</ct:Id><ct:String>A</ct:String><ct:String>AB</ct:String></ds:Row>
+                        <ds:Row><ct:String>33</ct:String><ct:Id>arm1</ct:Id><ct:String>M</ct:String><ct:Id>ep3</ct:Id><ct:String>B</ct:String><ct:String>AB</ct:String></ds:Row>
                         <!-- arm2 -->
-                        <ds:Row><ct:String>6</ct:String><ct:Id>arm2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id><ct:Id>BA</ct:Id></ds:Row>
-                        <ds:Row><ct:String>6</ct:String><ct:Id>arm2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id><ct:Id>BA</ct:Id></ds:Row>
-                        <ds:Row><ct:String>7</ct:String><ct:Id>arm2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id><ct:Id>BA</ct:Id></ds:Row>
-                        <ds:Row><ct:String>7</ct:String><ct:Id>arm2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id><ct:Id>BA</ct:Id></ds:Row>
-                        <ds:Row><ct:String>8</ct:String><ct:Id>arm2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id><ct:Id>BA</ct:Id></ds:Row>
-                        <ds:Row><ct:String>8</ct:String><ct:Id>arm2</ct:Id><ct:Id>F</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id><ct:Id>BA</ct:Id></ds:Row>
+                        <ds:Row><ct:String>6</ct:String><ct:Id>arm2</ct:Id><ct:String>M</ct:String><ct:Id>ep1</ct:Id><ct:String>B</ct:String><ct:String>BA</ct:String></ds:Row>
+                        <ds:Row><ct:String>6</ct:String><ct:Id>arm2</ct:Id><ct:String>M</ct:String><ct:Id>ep3</ct:Id><ct:String>A</ct:String><ct:String>BA</ct:String></ds:Row>
+                        <ds:Row><ct:String>7</ct:String><ct:Id>arm2</ct:Id><ct:String>F</ct:String><ct:Id>ep1</ct:Id><ct:String>B</ct:String><ct:String>BA</ct:String></ds:Row>
+                        <ds:Row><ct:String>7</ct:String><ct:Id>arm2</ct:Id><ct:String>F</ct:String><ct:Id>ep3</ct:Id><ct:String>A</ct:String><ct:String>BA</ct:String></ds:Row>
+                        <ds:Row><ct:String>8</ct:String><ct:Id>arm2</ct:Id><ct:String>F</ct:String><ct:Id>ep1</ct:Id><ct:String>B</ct:String><ct:String>BA</ct:String></ds:Row>
+                        <ds:Row><ct:String>8</ct:String><ct:Id>arm2</ct:Id><ct:String>F</ct:String><ct:Id>ep3</ct:Id><ct:String>A</ct:String><ct:String>BA</ct:String></ds:Row>
                         <!-- omitted subjects -->
-                        <ds:Row><ct:String>33</ct:String><ct:Id>arm2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep1</ct:Id><ct:Id>B</ct:Id><ct:Id>BA</ct:Id></ds:Row>
-                        <ds:Row><ct:String>33</ct:String><ct:Id>arm2</ct:Id><ct:Id>M</ct:Id><ct:Id>ep3</ct:Id><ct:Id>A</ct:Id><ct:Id>BA</ct:Id></ds:Row>
+                        <ds:Row><ct:String>33</ct:String><ct:Id>arm2</ct:Id><ct:String>M</ct:String><ct:Id>ep1</ct:Id><ct:String>B</ct:String><ct:String>BA</ct:String></ds:Row>
+                        <ds:Row><ct:String>33</ct:String><ct:Id>arm2</ct:Id><ct:String>M</ct:String><ct:Id>ep3</ct:Id><ct:String>A</ct:String><ct:String>BA</ct:String></ds:Row>
                     </ds:Table>
                 </ds:DataSet>
             </IndividualCovariates>
@@ -673,6 +655,18 @@
                     <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_ka"/>
                     <InitialEstimate fixed="false">
                         <ct:Real>0</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_ka_treatseq"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
                     </InitialEstimate>
                 </ParameterEstimation>
                 <ParameterEstimation>

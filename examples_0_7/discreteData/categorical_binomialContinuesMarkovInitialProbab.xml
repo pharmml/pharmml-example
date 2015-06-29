@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    <PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
     xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
@@ -32,6 +32,7 @@
                     
                     <CategoryVariable symbId="y"/>
                     <InitialStateVariable symbId="yinit"/>
+                    <PreviousStateVariable symbId="yp"/>
                     
                     <Dependance type="continuousMarkov"/>
                     
@@ -135,7 +136,7 @@
             </mstep:ExternalDataSetReference>
             <mstep:ParametersToEstimate>
                 <mstep:ParameterEstimation>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="p"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="p1"/>
                     <mstep:InitialEstimate>
                         <ct:Real>1</ct:Real>
                     </mstep:InitialEstimate>

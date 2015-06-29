@@ -118,7 +118,7 @@
                     </ct:Assign>
                 </ObservationTimes>
                 <Discrete>
-                    <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="y"/>
                 </Discrete>
             </Observation>
         </Observations>

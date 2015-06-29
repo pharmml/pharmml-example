@@ -95,7 +95,7 @@
         </CovariateModel>
         
         <!-- parameter model -->
-        <ParameterModel blkId="p1">
+        <ParameterModel blkId="pm1">
             <!-- V -->
             <PopulationParameter symbId="beta_V"/>
             <PopulationParameter symbId="pop_V"/>
@@ -427,8 +427,8 @@
                 <ct:Assign>
                     <math:Equation>
                         <math:Binop op="divide">
-                            <ct:SymbRef blkIdRef="p1" symbIdRef="Cl"/>
-                            <ct:SymbRef blkIdRef="p1" symbIdRef="V"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Cl"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
@@ -438,7 +438,7 @@
                     <math:Equation>
                         <math:Binop op="times">
                             <math:Uniop op="minus">
-                                <ct:SymbRef blkIdRef="p1" symbIdRef="ka"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
                             </math:Uniop>
                             <ct:SymbRef symbIdRef="Ad"/>
                         </math:Binop>
@@ -460,7 +460,7 @@
                     <math:Equation>
                         <math:Binop op="minus">
                             <math:Binop op="times">
-                                <ct:SymbRef blkIdRef="p1" symbIdRef="ka"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
                                 <ct:SymbRef symbIdRef="Ad"/>
                             </math:Binop>
                             <math:Binop op="times">
@@ -492,23 +492,23 @@
                     <math:Equation>
                         <math:Binop op="minus">
                             <math:Binop op="times">
-                                <ct:SymbRef blkIdRef="p1" symbIdRef="Rin"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Rin"/>
                                 <math:Binop op="minus">
                                     <ct:Real>1</ct:Real>
                                     <math:Binop op="divide">
                                         <math:Binop op="times">
-                                            <ct:SymbRef blkIdRef="p1" symbIdRef="Imax"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Imax"/>
                                             <ct:SymbRef symbIdRef="Cc"/>
                                         </math:Binop>
                                         <math:Binop op="plus">
                                             <ct:SymbRef symbIdRef="Cc"/>
-                                            <ct:SymbRef blkIdRef="p1" symbIdRef="IC50"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="IC50"/>
                                         </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
                             </math:Binop>
                             <math:Binop op="times">
-                                <ct:SymbRef blkIdRef="p1" symbIdRef="kout"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="kout"/>
                                 <ct:SymbRef symbIdRef="E"/>
                             </math:Binop>
                         </math:Binop>
@@ -522,8 +522,8 @@
                         <ct:Assign>
                             <math:Equation>
                                 <math:Binop op="divide">
-                                    <ct:SymbRef symbIdRef="Rin"/>
-                                    <ct:SymbRef symbIdRef="kout"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Rin"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="kout"/>
                                 </math:Binop>
                             </math:Equation>
                         </ct:Assign>
@@ -756,103 +756,103 @@
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="pop_ka"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_ka"/>
                 <ct:Assign>
                     <ct:Real>1</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="omega_ka"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_ka"/>
                 <ct:Assign>
                     <ct:Real>0.6</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="pop_V"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_V"/>
                 <ct:Assign>
                     <ct:Real>8</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="omega_V"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_V"/>
                 <ct:Assign>
                     <ct:Real>0.2</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="pop_Cl"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_Cl"/>
                 <ct:Assign>
                     <ct:Real>0.13</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="omega_Cl"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_Cl"/>
                 <ct:Assign>
                     <ct:Real>0.2</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="beta_V"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_V"/>
                 <ct:Assign>
                     <ct:Real>1</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="beta_Cl"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_Cl"/>
                 <ct:Assign>
                     <ct:Real>0.75</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="rho_V_Cl"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="rho_V_Cl"/>
                 <ct:Assign>
                     <ct:Real>0.7</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="pop_Imax"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_Imax"/>
                 <ct:Assign>
                     <ct:Real>0.9</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="omega_Imax"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_Imax"/>
                 <ct:Assign>
                     <ct:Real>2</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="pop_IC50"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_IC50"/>
                 <ct:Assign>
                     <ct:Real>0.4</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="omega_IC50"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_IC50"/>
                 <ct:Assign>
                     <ct:Real>0.4</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="pop_kout"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_kout"/>
                 <ct:Assign>
                     <ct:Real>0.05</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="omega_kout"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_kout"/>
                 <ct:Assign>
                     <ct:Real>0.05</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="pop_Rin"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_Rin"/>
                 <ct:Assign>
                     <ct:Real>5</ct:Real>
                 </ct:Assign>
             </ct:VariableAssignment>
             <ct:VariableAssignment>
-                <ct:SymbRef blkIdRef="p1" symbIdRef="omega_Rin"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_Rin"/>
                 <ct:Assign>
                     <ct:Real>0.05</ct:Real>
                 </ct:Assign>
