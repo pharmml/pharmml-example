@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
+    writtenVersion="0.6" id="i1">
+    
+    <ct:Name>example335</ct:Name>
+    
+    <ct:Description>Example 3.3.5 from BayesianModels-V1.1.pdf - population scenario, some parameters correlated (prior level), WITH PRIOR DISTRIBUTIONS</ct:Description>
+    
+    <IndependentVariable symbId="T"/>
+    
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+        
+        <VariabilityModel blkId="model" type="parameterVariability">
+            <Level symbId="pop"/>
+            <Level symbId="indiv">
+                <ParentLevel>
+                    <ct:SymbRef symbIdRef="pop"/>
+                </ParentLevel>
+            </Level>
+        </VariabilityModel>
+        <VariabilityModel blkId="resErrorModel" type="residualError"> 
+            <Level symbId="residual"/>
+        </VariabilityModel>
+        
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="WT">
+                <Continuous>
+                    <Distribution>
+                        <Piecewise>
+                            <math:Piece>
+                                <math:ProbOnto>
+                                    <DistributionName>Normal1</DistributionName>
+                                    <Parameter1>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="mu_ARM1"/>
+                                        </ct:Assign>
+                                    </Parameter1>
+                                    <Parameter2>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="sd_ARM1"/>
+                                        </ct:Assign>
+                                    </Parameter2>
+                                </math:ProbOnto>
+                                <math:Condition>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="ARM"/>
+                                        <ct:Int>1</ct:Int>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                            <math:Piece>
+                                <math:ProbOnto>
+                                    <DistributionName>Normal1</DistributionName>
+                                    <Parameter1>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="mu_ARM2"/>
+                                        </ct:Assign>
+                                    </Parameter1>
+                                    <Parameter2>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="sd_ARM2"/>
+                                        </ct:Assign>
+                                    </Parameter2>
+                                </math:ProbOnto>
+                                <math:Condition>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="ARM"/>
+                                        <ct:Int>2</ct:Int>
+                                    </math:LogicBinop>
+<!--                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="SEX"/>
+                                        <ct:SymbRef symbIdRef="Female"/>    <!-\- CHECK !!!!!! -\->
+                                    </math:LogicBinop>-->
+                                </math:Condition>
+                            </math:Piece>
+                        </Piecewise>
+                    </Distribution>
+                    
+<!--                    <Transformation>
+                        <TransformedCovariate symbId="logWT"/>
+                        <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                            <Uniop op="log">
+                                <ct:SymbRef symbIdRef="WT"/>
+                            </Uniop>
+                        </Equation>
+                    </Transformation>-->
+                </Continuous>
+            </Covariate>
+    
+            <Covariate symbId="TREAT">
+                <Categorical>
+                    <Category catId="tA"/>
+                    <Category catId="tB"/>
+                </Categorical>
+            </Covariate>
+            
+            <Covariate symbId="TREATSEQ">
+                <Categorical>
+                    <Category catId="seq1"/>
+                    <Category catId="seq2"/>
+                </Categorical>
+            </Covariate>
+            
+        </CovariateModel>
+        
+        <ParameterModel blkId="pm1">
+            
+ 
+ 
+            <!-- V = {distribution=logNormal, prediction=V_pred, sd=omega_V} -->
+            <IndividualParameter symbId="V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <UncertML>
+                        <LogNormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                            <logScale>
+                                <var varId="V_pred"/>
+                            </logScale>
+                            <shape>
+                                <var varId="omega_V"/>
+                            </shape>
+                        </LogNormalDistribution>
+                    </UncertML>
+                </Distribution>
+            </IndividualParameter>
+            
+
+
+
+            <!-- V = {distribution=logNormal, prediction=V_pred + beta*logWT, sd=omega_V} --> <!-- if W time-varying - issues -->
+            <!-- try to avoid to define random variables with time-varying parametrs -->
+            
+            <!-- V = V1 + beta*logWT  - indiv parameter
+                V1: RV ~ Normal(V_pred,omega_V) -->            
+            <IndividualParameter symbId="V">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Binop op="plus">
+                            <ct:SymbRef symbIdRef="V1"/>
+                            <Binop op="times">
+                                <ct:SymbRef symbIdRef="beta"/>
+                                <ct:SymbRef blkIdRef="cm1" symbIdRef="logWT"/>
+                            </Binop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </IndividualParameter>
+            
+            <IndividualParameter symbId="V1">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <ProbOnto>
+                        <DistributionName>Normal</DistributionName>
+                        <Parameter1>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="V_pred"/>
+                            </ct:Assign>
+                        </Parameter1>
+                        <Parameter2>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="omega_V"/>
+                            </ct:Assign>
+                        </Parameter2>
+                    </ProbOnto>
+                </Distribution>
+            </IndividualParameter>
+            
+            
+            <IndividualParameter symbId="V">
+                <Distribution>
+                    <ProbOnto>
+                        <DistributionName>logNormal</DistributionName>
+                        <Parameter1>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="V_pred"/>
+                            </ct:Assign>
+                        </Parameter1>
+                        <Parameter2>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="omega_V"/>
+                            </ct:Assign>
+                        </Parameter2>
+                    </ProbOnto>
+                </Distribution>
+<!--                <CovariateModel>
+                    
+                </CovariateModel>-->
+            </IndividualParameter>
+                
+            <PopulationParameter symbId="beta_logWT">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Binop op="times">
+                            <ct:SymbRef symbIdRef="beta"/>
+                            <ct:SymbRef symbIdRef="logWT"/>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            
+            <!-- log(V) ~ Normal(logit(Vpop), omega_V)-->
+            
+            <!-- log(V) = {distribution=Normal, mean=logit(Vpop), sd=omega_V}-->
+            <IndividualParameter symbId="V_pop">
+                <LHSTransformation>log</LHSTransformation>
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <ProbOnto>
+                        <DistributionName>Normal1</DistributionName>
+                        <Parameter1>
+                            <ct:Assign>
+                                <math:Equation>
+                                    <math:Uniop op="logit">
+                                        <ct:SymbRef symbIdRef="Vpop"/>
+                                    </math:Uniop>
+                                </math:Equation>
+                            </ct:Assign>
+                        </Parameter1>
+                        <Parameter2>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="omega_V"/>
+                            </ct:Assign>
+                        </Parameter2>
+                    </ProbOnto>
+                </Distribution>
+            </IndividualParameter>
+            
+            
+<!--            log(Vi)∼Normal(log(Vpop), ωV (IIV) +κV (IOV))-->
+            <IndividualParameter symbId="V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="indiv"/>
+                    <ct:RandomEffectMapping>
+                        <ct:SymbRef symbIdRef="rabbit_V"/>
+                    </ct:RandomEffectMapping>
+                </ct:VariabilityReference>
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="occasion"/>
+                    <ct:RandomEffectMapping>
+                        <ct:SymbRef symbIdRef="cat_V"/>
+                    </ct:RandomEffectMapping>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <ProbOnto>
+                        <DistributionName>Normal1</DistributionName>
+                        <Parameter1>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="log_V_pop"/>
+                            </ct:Assign>
+                        </Parameter1>
+                        <Parameter2>
+                            <ct:Assign>
+                                <math:Equation>
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="rabbit_V"/>
+                                        <ct:SymbRef symbIdRef="cat_V"/>
+                                    </math:Binop>
+                                </math:Equation>
+                            </ct:Assign>
+                        </Parameter2>
+                    </ProbOnto>
+                </Distribution>
+            </IndividualParameter>
+            
+            
+        </ParameterModel>
+        
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="DOSE"/>
+
+            <ct:Variable symbId="C" symbolType="real">
+                <ct:Assign>
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                        <Binop op="times">
+                            <Binop op="divide">
+                                <ct:SymbRef symbIdRef="DOSE" blkIdRef="sm1"/>
+                                <ct:SymbRef symbIdRef="V" blkIdRef="pm1"/>
+                            </Binop>
+                            <Uniop op="exp">
+                                <Uniop op="minus">
+                                    <Binop op="times">
+                                        <ct:SymbRef symbIdRef="K" blkIdRef="pm1"/>
+                                        <ct:SymbRef symbIdRef="T"/>
+                                    </Binop>
+                                </Uniop>
+                            </Uniop>
+                        </Binop>
+                    </Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+        </StructuralModel>
+        
+        <ObservationModel blkId="om1">
+            <ContinuousData>                
+<!--                <Standard symbId="Y">
+                    <Output>
+                        <ct:SymbRef symbIdRef="C" blkIdRef="sm1"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="SD_ADD" blkIdRef="pm1"/>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps" blkIdRef="pm1"/>
+                    </ResidualError>
+                </Standard>-->
+                
+                <!-- log(Y) ~ Normal(C, SD_ADD) -->
+                <General symbId="Y">                                        <!-- FIX sequence!!!!!!!!!! -->
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="resErrorModel" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <LHSTransformation>log</LHSTransformation>
+                    <Distribution>
+                        <ProbOnto>
+                            <DistributionName>Normal1</DistributionName>
+                            <Parameter1>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="C" blkIdRef="sm1"/>
+                                </ct:Assign>
+                            </Parameter1>
+                            <Parameter2>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="SD_ADD" blkIdRef="pm1"/>
+                                </ct:Assign>
+                            </Parameter2>
+                        </ProbOnto>
+                    </Distribution>
+                </General>
+                
+                
+            </ContinuousData>
+        </ObservationModel>
+    </ModelDefinition>
+    
+    
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
+        
+        <ExternalDataSet toolName="NONMEM" oid="NMoid">     <!-- ********** MS: renamed from NONMEMdataSet to 'ExternalDataSet toolName="NONMEM"' ********** -->
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="T"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="DV"/>
+                <ct:SymbRef symbIdRef="Y" blkIdRef="om1"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="DOSE"/>
+                <ct:SymbRef symbIdRef="DOSE" blkIdRef="sm1"/>           <!-- ********** MS: mapping changed from cm1 to sm1 ********** -->
+            </ColumnMapping>
+            
+            <DataSet xmlns="http://www.pharmml.org/pharmml/0.6/Dataset">
+                <Definition>
+                    <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="4"/> <!-- ********** MS: new columnType ********** -->
+                </Definition>
+                <ExternalFile oid="id1">                        <!-- ********** MS: renamed from ImportData ********** -->
+                    <path>bo1.csv</path>
+                    <format>CSV</format>
+                    <delimiter>COMMA</delimiter>
+                </ExternalFile>
+            </DataSet>
+        </ExternalDataSet>
+        
+        
+        <EstimationStep oid="est1">
+            
+            <ExternalDataSetReference>                            <!-- ********** MS: renamed from NONMEMdataSetReference ********** -->
+                <ct:OidRef oidRef="NMoid"/>
+            </ExternalDataSetReference>
+                        
+            <!-- MS: ********** the parameters listed below are derived parameters and cannot be estimation target ********** -->
+            <!--<ParametersToEstimate>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="lPOP_P" blkIdRef="pm1"/>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="OMEGA_K" blkIdRef="pm1"/>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="OMEGA_V" blkIdRef="pm1"/>
+                </ParameterEstimation>
+                <ParameterEstimation>   
+                    <ct:SymbRef symbIdRef="POP_T" blkIdRef="pm1"/>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="OMEGA_T" blkIdRef="pm1"/>
+                </ParameterEstimation>
+            </ParametersToEstimate>-->
+            
+            <ParametersToEstimate>
+                <ParameterEstimation>
+                    <ct:SymbRef symbIdRef="DUMMY_PARAMETER"/>   <!-- omittted this part -->
+                </ParameterEstimation>
+            </ParametersToEstimate>
+            
+            <Operation order="1" opType="estPop"/>
+        </EstimationStep>
+        
+        <StepDependencies>
+            <Step>
+                <ct:OidRef oidRef="est1"/>
+            </Step>
+        </StepDependencies>
+        
+    </ModellingSteps>
+    
+</PharmML>

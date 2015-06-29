@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
-    writtenVersion="0.6" id="i1">
+    writtenVersion="0.7" id="i1">
     
     <ct:Name>example335</ct:Name>
     
@@ -354,11 +354,11 @@
                 <StructuredModel>                     <!-- ********** MS: renamed from GaussianModel ********** -->
                     <Transformation>log</Transformation>
                     <LinearCovariate>
-                        <PopulationParameter>
+                        <PopulationValue>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="POP_K"/>
                             </ct:Assign>
-                        </PopulationParameter>
+                        </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
                         <ct:SymbRef symbIdRef="eta_K"/>
@@ -370,11 +370,11 @@
                 <StructuredModel>                     <!-- ********** MS: renamed from GaussianModel ********** -->
                     <Transformation>log</Transformation>
                     <LinearCovariate>
-                        <PopulationParameter>
+                        <PopulationValue>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="POP_V"/>
                             </ct:Assign>
-                        </PopulationParameter>
+                        </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
                         <ct:SymbRef symbIdRef="eta_V"/>
@@ -386,11 +386,11 @@
                 <StructuredModel>                     <!-- ********** MS: renamed from GaussianModel ********** -->
                     <Transformation>log</Transformation>
                     <LinearCovariate>
-                        <PopulationParameter>
+                        <PopulationValue>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="POP_T"/>
                             </ct:Assign>
-                        </PopulationParameter>
+                        </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
                         <ct:SymbRef symbIdRef="eta_T"/>
@@ -459,10 +459,9 @@
         </ObservationModel>
     </ModelDefinition>
     
-    
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
         
-        <ExternalDataSet toolName="NONMEM" oid="NMoid">     <!-- ********** MS: renamed from NONMEMdataSet to 'ExternalDataSet toolName="NONMEM"' ********** -->
+        <ExternalDataSet toolName="NONMEM" oid="NMoid">
             <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="T"/>
@@ -473,7 +472,7 @@
             </ColumnMapping>
             <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="DOSE"/>
-                <ct:SymbRef symbIdRef="DOSE" blkIdRef="sm1"/>           <!-- ********** MS: mapping changed from cm1 to sm1 ********** -->
+                <ct:SymbRef symbIdRef="DOSE" blkIdRef="sm1"/>
             </ColumnMapping>
             
             <DataSet xmlns="http://www.pharmml.org/pharmml/0.6/Dataset">
@@ -481,9 +480,9 @@
                     <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
                     <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
                     <Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
-                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="4"/> <!-- ********** MS: new columnType ********** -->
+                    <Column columnId="DOSE" columnType="dose" valueType="real" columnNum="4"/>
                 </Definition>
-                <ExternalFile oid="id1">                        <!-- ********** MS: renamed from ImportData ********** -->
+                <ExternalFile oid="id1">
                     <path>bo1.csv</path>
                     <format>CSV</format>
                     <delimiter>COMMA</delimiter>
@@ -491,6 +490,9 @@
             </DataSet>
         </ExternalDataSet>
         
+    </TrialDesign>
+    
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">        
         
         <EstimationStep oid="est1">
             
