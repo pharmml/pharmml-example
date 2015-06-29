@@ -5,12 +5,12 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" 
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
 
     <!-- MODEL NAME -->
-    <ct:Name>Advan12</ct:Name>
+    <ct:Name>Advan11</ct:Name>
     
-    <ct:Description>Advan12/Trans1 - model with PK macros</ct:Description>
+    <ct:Description>Advan11/Trans1 - model with PK macros</ct:Description>
     
     <!-- INDEPENDENT VARIABLE -->
     <IndependentVariable symbId="t"/>
@@ -26,28 +26,27 @@
         <VariabilityModel blkId="obsErr" type="residualError"> 
             <Level symbId="residual"/>
         </VariabilityModel>
-                
+        
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="V"/>
-            <SimpleParameter symbId="ka"/>
-            <SimpleParameter symbId="k12"/>
-            <SimpleParameter symbId="k21"/>
-            <SimpleParameter symbId="k13"/>
-            <SimpleParameter symbId="k31"/>
-            <SimpleParameter symbId="k"/>
-            <SimpleParameter symbId="a"/>
+            <PopulationParameter symbId="V"/>
+            <PopulationParameter symbId="k12"/>
+            <PopulationParameter symbId="k21"/>
+            <PopulationParameter symbId="k13"/>
+            <PopulationParameter symbId="k31"/>
+            <PopulationParameter symbId="k"/>
+            <PopulationParameter symbId="a"/>
         </ParameterModel>
         
         <!--
-           compartment(cmt=1, amount=Ac, volume=V) 
-           peripheral(k12, k21, amount=Ap1) 
-           peripheral(k13, k31, amount=Ap2) 
-           oral(adm=1, cmt=1, ka)
-           elimination(cmt=1, k)
-           Cc = Ac/V
+            compartment(cmt=1, amount=Ac, volume=V) 
+            peripheral(k12, k21, amount=Ap1) 
+            peripheral(k13, k31, amount=Ap2)
+            iv(adm=1, cmt=1) 
+            elimination(cmt=1, k)
+            Cc = Ac/V
         -->
 
-        <StructuralModel blkId="sm12">
+        <StructuralModel blkId="sm11">
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Ap1"/>
             <ct:Variable symbolType="real" symbId="Ap2"/>
@@ -99,17 +98,14 @@
                     </Value>
                 </Peripheral>
                 
-                <Oral>
+                <IV>
                     <Value argument="adm">
                         <ct:Int>1</ct:Int>
                     </Value>
                     <Value argument="cmt">
                         <ct:Int>1</ct:Int>
                     </Value>
-                    <Value>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                    </Value>
-                </Oral>
+                </IV>
                 
                 <Elimination>
                     <Value argument="cmt">
@@ -121,7 +117,7 @@
                 </Elimination>
             </PKmacros>
         </StructuralModel>
-
+        
 
         <ObservationModel blkId="om1">
             <ContinuousData>
@@ -129,14 +125,28 @@
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <Distribution>
+                        <ProbOnto name="Normal1">
+                            <Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                            <Parameter name="stdev">
+                                <ct:Assign>
+                                    <ct:Real>1</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                        </ProbOnto>
+                    </Distribution>
+<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
                         <mean><rVal>0</rVal></mean>
                         <stddev><prVal>1</prVal></stddev>
-                    </NormalDistribution>
+                    </NormalDistribution>-->
                 </RandomVariable>
                 <Standard symbId="Cc_obs">
                     <Output>
-                        <ct:SymbRef blkIdRef="sm12" symbIdRef="Cc"/>
+                        <ct:SymbRef blkIdRef="sm11" symbIdRef="Cc"/>
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
@@ -150,7 +160,7 @@
             </ContinuousData>
         </ObservationModel>
     </ModelDefinition>
-    
+
     <!-- SECTION II -->
     <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
         
@@ -165,10 +175,10 @@
             </ColumnMapping>
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="ADM"/>
-                <ds:TargetMapping blkIdRef="sm1">
+                <ds:TargetMapping blkIdRef="sm11">
                     <ds:Map dataSymbol="1" admNumber="1"/>
                 </ds:TargetMapping>
-            </ColumnMapping>
+            </ColumnMapping>             
             <DataSet xmlns="http://www.pharmml.org/pharmml/0.6/Dataset">
                 <Definition>
                     <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
@@ -178,9 +188,7 @@
                     <Column columnId="ADM" columnType="adm" valueType="int" columnNum="5"/> 
                 </Definition>
                 <ExternalFile oid="importMLX">
-                    <path>example12.csv</path>
-                    <format>CSV</format>
-                    <delimiter>COMMA</delimiter>
+                    <path>example11.csv</path>
                 </ExternalFile>
             </DataSet>
         </ExternalDataSet>

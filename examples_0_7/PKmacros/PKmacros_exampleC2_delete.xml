@@ -5,7 +5,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" 
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
-    implementedBy="MJS" writtenVersion="0.6" id="i1">
+    implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>Example C2</ct:Name>
@@ -28,11 +28,11 @@
         </VariabilityModel>
         
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="V"/>
-            <SimpleParameter symbId="k12"/>
-            <SimpleParameter symbId="k21"/>
-            <SimpleParameter symbId="alpha"/>
-            <SimpleParameter symbId="k13">
+            <PopulationParameter symbId="V"/>
+            <PopulationParameter symbId="k12"/>
+            <PopulationParameter symbId="k21"/>
+            <PopulationParameter symbId="alpha"/>
+            <PopulationParameter symbId="k13">
                 <ct:Assign>
                     <math:Equation>
                         <math:Binop op="plus">
@@ -41,9 +41,9 @@
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
-            </SimpleParameter>
-            <SimpleParameter symbId="beta"/>
-            <SimpleParameter symbId="k31">
+            </PopulationParameter>
+            <PopulationParameter symbId="beta"/>
+            <PopulationParameter symbId="k31">
                 <ct:Assign>
                     <math:Equation>
                         <math:Binop op="plus">
@@ -52,10 +52,10 @@
                         </math:Binop>
                     </math:Equation>
                 </ct:Assign>
-            </SimpleParameter>
-            <SimpleParameter symbId="p"/>
-            <SimpleParameter symbId="k"/>
-            <SimpleParameter symbId="a"/>
+            </PopulationParameter>
+            <PopulationParameter symbId="p"/>
+            <PopulationParameter symbId="k"/>
+            <PopulationParameter symbId="a"/>
         </ParameterModel>
         
         <!-- ******************************************************** -->
@@ -66,7 +66,7 @@
             peripheral(k12=0.6, k21=0.8, amount=Ap)
         -->
         
-        <StructuralModel blkId="sm1">
+ <!--       <StructuralModel blkId="sm1">
             <ct:Variable symbolType="real" symbId="Cc"/>
             <ct:Variable symbolType="real" symbId="Ap"/>
             
@@ -94,7 +94,7 @@
                 </Peripheral>
                 
             </PKmacros>
-        </StructuralModel>
+        </StructuralModel>-->
         
         <!--
             compartment(cmt=1, volume=V, concentration=Cc)
@@ -206,12 +206,27 @@
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
-                    <PDF>
+                    <Distribution>
+                        <ProbOnto>
+                            <DistributionName>Normal1</DistributionName>
+                            <Parameter order="1">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                            <Parameter order="2">
+                                <ct:Assign>
+                                    <ct:Real>1</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                        </ProbOnto>
+                    </Distribution>
+<!--                    <PDF>
                         <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
                             <mean><rVal>0</rVal></mean>
                             <stddev><prVal>1</prVal></stddev>
                         </NormalDistribution>
-                    </PDF>
+                    </PDF>-->
                 </RandomVariable>
                 <Standard symbId="Cc_obs">
                     <Output>
