@@ -7,7 +7,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:design="http://www.pharmml.org/pharmml/0.6/TrialDesign"
-    writtenVersion="0.6" implementedBy="MJS" id="i1">
+    writtenVersion="0.7" implementedBy="MJS" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>DDE - Basic Model</ct:Name>
@@ -132,16 +132,30 @@
         <!-- OBSERVATION MODEL -->
         <ObservationModel blkId="om1">
             <ContinuousData>
-                <SimpleParameter symbId="a"/>
-                <SimpleParameter symbId="b"/>
+                <PopulationParameter symbId="a"/>
+                <PopulationParameter symbId="b"/>
                 <RandomVariable symbId="epsilon_Cc">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="resErr"/>
                     </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                    <Distribution>
+                        <ProbOnto name="Normal1">
+                            <Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                            <Parameter name="stdev">
+                                <ct:Assign>
+                                    <ct:Real>1</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                        </ProbOnto>
+                    </Distribution>
+<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                         <mean><rVal>0</rVal></mean>
                         <stddev><prVal>1</prVal></stddev>
-                    </NormalDistribution>
+                    </NormalDistribution>-->
                 </RandomVariable>
                 <Standard symbId="Cc_obs"> 
                     <Output>

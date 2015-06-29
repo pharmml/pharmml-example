@@ -7,7 +7,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
     xmlns:design="http://www.pharmml.org/pharmml/0.6/TrialDesign"
-    writtenVersion="0.6" implementedBy="MJS" id="i1">
+    writtenVersion="0.7" implementedBy="MJS" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>SEIRS model - DDE</ct:Name>
@@ -24,13 +24,13 @@
         <!-- PARAMETER MODEL -->
         <ParameterModel blkId="pm1">            
             
-            <SimpleParameter symbId="A"/>
-            <SimpleParameter symbId="d"/>
-            <SimpleParameter symbId="lambda"/>
-            <SimpleParameter symbId="gamma"/>
-            <SimpleParameter symbId="epsilon"/>
-            <SimpleParameter symbId="tau"/>
-            <SimpleParameter symbId="omega"/>
+            <PopulationParameter symbId="A"/>
+            <PopulationParameter symbId="d"/>
+            <PopulationParameter symbId="lambda"/>
+            <PopulationParameter symbId="gamma"/>
+            <PopulationParameter symbId="epsilon"/>
+            <PopulationParameter symbId="tau"/>
+            <PopulationParameter symbId="omega"/>
             
         </ParameterModel>
 

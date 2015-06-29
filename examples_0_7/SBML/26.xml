@@ -7,24 +7,24 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes" 
     xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition" 
     xmlns:mml="http://www.pharmml.org/pharmml/0.6/PharmML" 
-    writtenVersion="0.6" implementedBy="Cyprotex Model Writer" id="_case00026">
+    writtenVersion="0.7" implementedBy="Cyprotex Model Writer" id="_case00026">
     <ct:Name>case00026</ct:Name>
     <ct:Description>case00026
         Dated: Thu Mar 19 18:17:48 GMT 2015</ct:Description>
     <mml:IndependentVariable symbId="t"/>
     <mdef:ModelDefinition>
         <mdef:ParameterModel blkId="pm">
-            <mdef:SimpleParameter symbId="compartment">
+            <mdef:PopulationParameter symbId="compartment">
                 <ct:Description>Compartment: compartment</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="k1">
+            </mdef:PopulationParameter>
+            <mdef:PopulationParameter symbId="k1">
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
+            </mdef:PopulationParameter>
         </mdef:ParameterModel>
         <mdef:StructuralModel blkId="sm">
             <ct:Variable symbolType="real" symbId="reaction1">
