@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     implementedBy="MJS" writtenVersion="0.7"
     metadataFile="example5_NONMEM.rdf" id="i1">
     
@@ -24,7 +24,7 @@
     </ct:FunctionDefinition>
 
     <!-- BLOCK I: MODEL DEFINITION -->
-    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.7/ModelDefinition">
         
         <!-- VARIABILITY MODEL -->
         <VariabilityModel blkId="vm1" type="parameterVariability"> 
@@ -360,7 +360,7 @@
             <!-- dC/dt -->
             <ct:DerivativeVariable symbolType="real" symbId="C">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Binop op="times">
                             <Uniop op="minus">
                                 <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
@@ -384,7 +384,7 @@
             <!-- dPT/dt -->
             <ct:DerivativeVariable symbolType="real" symbId="PT">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Binop op="plus">
                             <Binop op="times">
                                 <ct:SymbRef blkIdRef="pm1" symbIdRef="LAMBDAP"/>
@@ -439,7 +439,7 @@
             <!-- dQ/dt --> 
             <ct:DerivativeVariable symbolType="real" symbId="Q">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Binop op="minus">
                             <Binop op="times">
                                 <ct:SymbRef blkIdRef="pm1" symbIdRef="KPQ"/>
@@ -473,7 +473,7 @@
             <!-- dQP/dt -->
             <ct:DerivativeVariable symbolType="real" symbId="QP">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Binop op="minus">
                             <Binop op="minus">
                                 <Binop op="times">
@@ -513,7 +513,7 @@
             <!-- PSTAR -->
             <ct:Variable symbolType="real" symbId="PSTAR" >
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Binop op="plus">
                             <ct:SymbRef symbIdRef="PT"/>
                             <Binop op="plus">
@@ -555,7 +555,7 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                            <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                                 <FunctionCall>
                                     <ct:SymbRef symbIdRef="constantErrorModel"/>
                                     <FunctionArgument symbId="a">
@@ -575,7 +575,7 @@
     </ModelDefinition>
     
     <!-- BLOCK II: TRIAL DEFINITION -->
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.7/TrialDesign">
         
         <!-- INTERVENTIONS -->
         <Interventions>
@@ -589,10 +589,10 @@
             <IndividualAdministration>
                 <InterventionRef oidRef="bolusIV"/>
                 <ColumnMapping>
-                    <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="TIME"/>
+                    <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.7/Dataset" columnIdRef="TIME"/>
                     <ct:SymbRef symbIdRef="time"/>
                 </ColumnMapping>
-                <DataSet xmlns="http://www.pharmml.org/pharmml/0.6/Dataset">
+                <DataSet xmlns="http://www.pharmml.org/pharmml/0.7/Dataset">
                     <Definition>
                         <Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
                         <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
@@ -626,14 +626,14 @@
         <Observations>
             <IndividualObservations oid="OBSoid">
                 <ColumnMapping>
-                    <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="TIME"/> 
+                    <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.7/Dataset" columnIdRef="TIME"/> 
                     <ct:SymbRef symbIdRef="time"/>
                 </ColumnMapping>
                 <ColumnMapping>
-                    <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="DV"/> 
+                    <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.7/Dataset" columnIdRef="DV"/> 
                     <ct:SymbRef blkIdRef="om1" symbIdRef="PSTAR_obs"/>
                 </ColumnMapping>
-                <DataSet xmlns="http://www.pharmml.org/pharmml/0.6/Dataset">
+                <DataSet xmlns="http://www.pharmml.org/pharmml/0.7/Dataset">
                     <Definition>
                         <Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
                         <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
@@ -704,7 +704,7 @@
     </TrialDesign>
     
     <!-- BLOCK III: MODELLING STEPS -->
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.7/ModellingSteps">
         
         <!-- ESTIMATION STEP -->
         <EstimationStep oid="estTask1">

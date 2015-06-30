@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
-    xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
     writtenVersion="0.7" id="i1">
     
     <ct:Name>example332</ct:Name>
@@ -12,7 +12,7 @@
     
     <IndependentVariable symbId="T"/>
     
-    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.7/ModelDefinition">
         
         <!-- EXTENDED -->
         <VariabilityModel blkId="model" type="parameterVariability">
@@ -39,7 +39,7 @@
                 <Continuous>
                     <Distribution>
                         <Piecewise>
-                            <Piece xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                            <Piece xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                                 <ProbOnto name="Normal2">
                                     <mdef:Parameter name="mean">
                                         <ct:Assign>
@@ -60,7 +60,7 @@
                                     </LogicBinop>
                                 </Condition>
                             </Piece>
-                            <Piece xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                            <Piece xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                                 <ProbOnto name="Normal2">
                                     <mdef:Parameter name="mean">
                                         <ct:Assign>
@@ -145,7 +145,7 @@
 <!--            lmu_Ppop[2]<-log(mu_kpop)-->
             <PopulationParameter symbId="lMU_POP_K">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Uniop op="log">
                             <ct:SymbRef symbIdRef="MU_POP_K"/>
                         </Uniop>
@@ -156,7 +156,7 @@
 <!--            lmu_Ppop[1]<-log(mu_Vpop)-->
             <PopulationParameter symbId="lMU_POP_V">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Uniop op="log">
                             <ct:SymbRef symbIdRef="MU_POP_V"/>
                         </Uniop>
@@ -202,7 +202,7 @@
             kpop<-exp(lkpop)-->
             <PopulationParameter symbId="POP_K">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Uniop op="exp">
                             <ct:VectorSelector>
                                 <ct:SymbRef symbIdRef="lPOP_P"/>
@@ -219,7 +219,7 @@
             Vpop<-exp(lVpop)-->                    
             <PopulationParameter symbId="POP_V">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Uniop op="exp">
                             <ct:VectorSelector>
                                 <ct:SymbRef symbIdRef="lPOP_P"/>
@@ -265,7 +265,7 @@
 <!--            Rinv[1:2,1:2]<-inverse(R[,])-->
             <PopulationParameter symbId="OMEGA_P">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <MatrixUniop op="inverse">
                             <ct:SymbRef symbIdRef="invOMEGA_P"/>
                         </MatrixUniop>
@@ -297,7 +297,7 @@
             <!--            Ttau~dgamma(a_omega_tau, b_omega_tau)--> <!-- RELATED TO -->
             <PopulationParameter symbId="OMEGA_T">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Binop op="divide">
                             <ct:Real>1</ct:Real>
                             <ct:SymbRef symbIdRef="TAU_T"/>
@@ -379,7 +379,7 @@
             k[j]<-exp(lk[j])--> 
         <IndividualParameter symbId="K">
             <ct:Assign>
-                <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                     <Uniop op="exp">
                         <ct:VectorSelector>
                             <ct:SymbRef symbIdRef="lP"/>
@@ -396,7 +396,7 @@
             V[j]<-exp(lV[j])-->
         <IndividualParameter symbId="V">
             <ct:Assign>
-                <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                     <Uniop op="exp">
                         <ct:VectorSelector>
                             <ct:SymbRef symbIdRef="lP"/>
@@ -430,7 +430,7 @@
             <!-- sigmaSquare can also be defined as PopulationParameter -->
             <IndividualParameter symbId="sigmaSquare">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Uniop op="sqrt">
                             <Binop op="divide">
                                 <ct:Real>1</ct:Real>
@@ -449,7 +449,7 @@
             
             <ct:Variable symbId="C" symbolType="real">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Binop op="times">
                             <Binop op="divide">
                                 <ct:SymbRef symbIdRef="DOSE"/>
@@ -485,7 +485,7 @@
                             </Parameter>
                             <Parameter name="stdev">
                                 <ct:Assign>
-                                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                                         <Binop op="times">
                                             <ct:SymbRef blkIdRef="pm1" symbIdRef="b"/>
                                             <ct:SymbRef blkIdRef="sm1" symbIdRef="f"/>
@@ -539,23 +539,23 @@
     </ModelDefinition>
     
     
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.7/TrialDesign">
 
         <ExternalDataSet toolName="NONMEM" oid="NMoid">
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="TIME"/>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.7/Dataset" columnIdRef="TIME"/>
                 <ct:SymbRef symbIdRef="T"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="DV"/>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.7/Dataset" columnIdRef="DV"/>
                 <ct:SymbRef symbIdRef="Y" blkIdRef="om1"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.6/Dataset" columnIdRef="DOSE"/>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.7/Dataset" columnIdRef="DOSE"/>
                 <ct:SymbRef symbIdRef="DOSE" blkIdRef="sm1"/>
             </ColumnMapping>
             
-            <DataSet xmlns="http://www.pharmml.org/pharmml/0.6/Dataset">
+            <DataSet xmlns="http://www.pharmml.org/pharmml/0.7/Dataset">
                 <Definition>
                     <Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
                     <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
@@ -572,7 +572,7 @@
     </TrialDesign>    
     
     
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.7/ModellingSteps">
         
         <EstimationStep oid="est1">
             

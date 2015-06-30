@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     writtenVersion="0.7" id="i1">
     
     <ct:Name>Rats example</ct:Name>
@@ -11,7 +11,7 @@
     
     <IndependentVariable symbId="x"/>
     
-    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.7/ModelDefinition">
         
         <VariabilityModel blkId="vm1" type="parameterVariability">
             <Level symbId="pop"/>
@@ -30,7 +30,7 @@
             <!-- mu[i , j] <- alpha[i] + beta[i] * (x[j] - xbar) -->
             <IndividualParameter symbId="mu">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Binop op="plus">
                             <ct:SymbRef symbIdRef="alpha"/>
                             <Binop op="times">
@@ -111,7 +111,7 @@
             <!-- sigma <- 1 / sqrt(tau.c) -->
             <PopulationParameter symbId="sigma">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Binop op="divide">
                             <ct:Real>1</ct:Real>
                             <Uniop op="sqrt">
@@ -209,7 +209,7 @@
             <!-- alpha0 <- alpha.c - xbar * beta.c - pop -->
             <PopulationParameter symbId="alpha0">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
                         <Binop op="minus">
                             <ct:SymbRef symbIdRef="alpha.c"/>
                             <Binop op="times">

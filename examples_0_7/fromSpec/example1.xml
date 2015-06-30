@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
-    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
-    xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition"
-    xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
+    xmlns="http://www.pharmml.org/pharmml/0.7/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
     implementedBy="MJS" writtenVersion="0.7" 
     metadataFile="example1.rdf" id="i1">
     
@@ -19,14 +19,14 @@
     <IndependentVariable symbId="t"/>
     
     <!-- function definition -->
-    <FunctionDefinition xmlns="http://www.pharmml.org/pharmml/0.6/CommonTypes" symbId="constantErrorModel" symbolType="real">
+    <FunctionDefinition xmlns="http://www.pharmml.org/pharmml/0.7/CommonTypes" symbId="constantErrorModel" symbolType="real">
         <FunctionArgument symbId="a" symbolType="real"/>
         <Definition>
             <ct:SymbRef symbIdRef="a"/>
         </Definition>
     </FunctionDefinition>
     
-    <FunctionDefinition xmlns="http://www.pharmml.org/pharmml/0.6/CommonTypes" symbId="combinedErrorModel" symbolType="real">
+    <FunctionDefinition xmlns="http://www.pharmml.org/pharmml/0.7/CommonTypes" symbId="combinedErrorModel" symbolType="real">
         <FunctionArgument symbId="a" symbolType="real"/>
         <FunctionArgument symbId="b" symbolType="real"/>
         <FunctionArgument symbId="f" symbolType="real"/>
@@ -44,7 +44,7 @@
     </FunctionDefinition>
     
     <!-- model definition -->
-    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.7/ModelDefinition">
         
         <!-- variability model -->
         <VariabilityModel blkId="vm1" type="parameterVariability">
@@ -638,7 +638,7 @@
     
     
     <!-- Trial Design model -->
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.7/TrialDesign">
         
         <Interventions>
             <Administration oid="d1">
@@ -845,7 +845,7 @@
     </TrialDesign>
     
     <!-- modeling steps -->
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.7/ModellingSteps">
         
         <SimulationStep oid="s1">
         

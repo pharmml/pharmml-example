@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
     
-    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
-    xmlns:design="http://www.pharmml.org/pharmml/0.6/TrialDesign"
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
+    xmlns:design="http://www.pharmml.org/pharmml/0.7/TrialDesign"
     writtenVersion="0.7" implementedBy="MJS" id="i1">
     
     <!-- MODEL NAME -->
@@ -23,7 +23,7 @@
         <ct:FunctionArgument symbolType="real" symbId="b"/>
         <ct:FunctionArgument symbolType="real" symbId="f"/>
         <ct:Definition>
-            <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths" >
+            <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths" >
                 <Binop op="plus">
                     <ct:VectorSelector>
                         <ct:SymbRef symbIdRef="V"/>
@@ -38,7 +38,7 @@
     </ct:FunctionDefinition>
     
     <!-- MODEL DEFINITION -->
-    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.7/ModelDefinition">
         
         <VariabilityModel blkId="obsErr" type="residualError">
             <Level symbId="resErr"/>

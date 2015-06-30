@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
-    xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition"
-    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
     implementedBy="MJS" writtenVersion="0.7" id="i1">
     
     <ct:Name>Distribution test</ct:Name>
     
     <IndependentVariable symbId="time"/>
     
-    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.7/ModelDefinition">
         
         <CovariateModel blkId="cm1">
             <Covariate symbId="W">
