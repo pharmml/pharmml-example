@@ -145,12 +145,6 @@
                             </ct:Assign>
                         </Parameter>
                     </ProbOnto>
-<!--                    <UncertML>
-                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                            <mean><rVal>0</rVal></mean>
-                            <stddev><var varId="omega_ka"/></stddev>
-                        </NormalDistribution>
-                    </UncertML>-->
                 </Distribution>
             </RandomVariable>
             <IndividualParameter symbId="ka">
@@ -190,10 +184,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_Imax"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="Imax">
                 <StructuredModel>
@@ -232,10 +222,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_Cl"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="Cl">
                 <StructuredModel>
@@ -278,10 +264,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_Rin"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="Rin">
                 <ct:Assign>
@@ -317,10 +299,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_kout"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="kout">
                 <StructuredModel>
@@ -364,10 +342,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_IC50"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="IC50">
                 <StructuredModel>
@@ -552,10 +526,6 @@
                             </Parameter>
                         </ProbOnto>
                     </Distribution>
-<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                        <mean><rVal>0</rVal></mean>
-                        <variance><prVal>1</prVal></variance>
-                    </NormalDistribution>-->
                 </RandomVariable>
                 <General symbId="E_obs">
                     <ct:Assign>
@@ -601,10 +571,6 @@
                             </Parameter>
                         </ProbOnto>
                     </Distribution>
-<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                        <mean><rVal>0</rVal></mean>
-                        <variance><prVal>1</prVal></variance>
-                    </NormalDistribution>-->
                 </RandomVariable>
                 <Standard symbId="Cc_obs">
                     <Output>

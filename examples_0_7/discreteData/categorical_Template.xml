@@ -55,18 +55,6 @@
                                 </Parameter>
                             </ProbOnto>
                         </Distribution>
-<!--                        <Distribution>
-                            <UncertML>
-                                <un:BernoulliDistribution definition="http://www.uncertml.org/3.0">
-                                    <un:categoryProb definition="http://www.uncertml.org/3.0">
-                                        <un:name>cat0</un:name>
-                                        <un:prob>
-                                            <un:var varId="p"/>
-                                        </un:prob>
-                                    </un:categoryProb>
-                                </un:BernoulliDistribution>
-                            </UncertML>
-                        </Distribution>-->
                     </PMF>  
                 </CategoricalData>
             </Discrete>

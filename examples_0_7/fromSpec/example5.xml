@@ -190,7 +190,7 @@
                             </ct:Assign>
                         </Parameter>
                     </ProbOnto>
-                </Distribution>å
+                </Distribution>
             </RandomVariable>
             <IndividualParameter symbId="LAMBDAP">
                 <StructuredModel>

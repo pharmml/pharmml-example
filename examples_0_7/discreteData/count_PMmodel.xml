@@ -49,18 +49,18 @@
                         </Distribution>
                     </PMF>
                     
-                    <!-- using ProbOnto -->
-                    <PMF linkFunction="log">
-                        <Distribution>
-                            <ProbOnto name="Poisson">                                      <!-- in this case <IntensityParameter> not required -->
-                                <Parameter name="rate">
-                                    <ct:Assign>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                                    </ct:Assign>
-                                </Parameter>
-                            </ProbOnto>
-                        </Distribution>
-                    </PMF>
+            <!-- using ProbOnto -->
+            <PMF linkFunction="log">
+                <Distribution>
+                    <ProbOnto name="Poisson">                                      <!-- in this case <IntensityParameter> not required -->
+                        <Parameter name="rate">
+                            <ct:Assign>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                            </ct:Assign>
+                        </Parameter>
+                    </ProbOnto>
+                </Distribution>
+            </PMF>
                     
                     <!-- explicit PMF -->
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->

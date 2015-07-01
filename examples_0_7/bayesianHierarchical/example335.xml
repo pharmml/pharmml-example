@@ -89,18 +89,18 @@
                     <ct:SymbRef symbIdRef="pop" blkIdRef="model"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <UncertML>
-                        <MultivariateNormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                            <meanVector>
-                                <var varId="lMU_POP_P"/>
-                            </meanVector>
-                            <covarianceMatrix dimension="3" definition="">
-                                <values>
-                                    <var varId="SIGMA_POP_P"/>
-                                </values>
-                            </covarianceMatrix>
-                        </MultivariateNormalDistribution>
-                    </UncertML>
+                    <ProbOnto name="MultivariateNormal1">
+                        <Parameter name="mean">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="lMU_POP_P"/>
+                            </ct:Assign>
+                        </Parameter>
+                        <Parameter name="covarianceMatrix">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="SIGMA_POP_P"/>
+                            </ct:Assign>
+                        </Parameter>
+                    </ProbOnto>
                 </Distribution>
             </RandomVariable>
             

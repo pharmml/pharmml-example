@@ -118,10 +118,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-                <!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_V"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="V">
                 <StructuredModel>
@@ -166,10 +162,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_ka"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="ka">
                 <StructuredModel>
@@ -208,10 +200,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean><rVal>0</rVal></mean>
-                    <stddev><var varId="omega_Imax"/></stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="Imax">
                 <StructuredModel>

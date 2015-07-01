@@ -165,13 +165,6 @@
                                     </ct:Assign>
                                 </Parameter>
                             </ProbOnto>
-<!--                            <UncertML>
-                                <PoissonDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                                    <rate>
-                                        <var varId="Lambda2"/>
-                                    </rate>
-                                </PoissonDistribution>
-                            </UncertML>-->
                         </Distribution>
                     </PMF>
                     

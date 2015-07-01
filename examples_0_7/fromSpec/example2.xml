@@ -60,14 +60,6 @@
                             </Parameter>
                         </ProbOnto>
                     </Distribution>
-<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <var varId="pop_Weight"/>
-                        </mean>
-                        <stddev>
-                            <var varId="omega_Weight"/>
-                        </stddev>
-                    </NormalDistribution>-->
                     <Transformation>
                         <TransformedCovariate symbId="theta2Weight"/>
                         <math:Equation>
@@ -124,14 +116,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_theta1"/>
-                    </stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="theta1">
                 <StructuredModel>
@@ -168,14 +152,6 @@
                         </Parameter>
                     </ProbOnto>
                 </Distribution>
-<!--                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_V"/>
-                    </stddev>
-                </NormalDistribution>-->
             </RandomVariable>
             <IndividualParameter symbId="V">
                 <StructuredModel>
@@ -304,14 +280,6 @@
                             </Parameter>
                         </ProbOnto>
                     </Distribution>
-<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <prVal>1</prVal>
-                        </stddev>
-                    </NormalDistribution>-->
                 </RandomVariable>
                 <Standard symbId="Css_obs">
                     <Output>

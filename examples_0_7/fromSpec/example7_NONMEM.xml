@@ -145,14 +145,6 @@
                                 </Parameter>
                             </ProbOnto>
                         </Distribution>
-<!--                        <BinomialDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                            <numberOfTrials>
-                                <nnVal>1</nnVal>
-                            </numberOfTrials>
-                            <probabilityOfSuccess>
-                                <var varId="p1"/>
-                            </probabilityOfSuccess>
-                        </BinomialDistribution>-->
                     </PMF>
                 </CategoricalData>
             </Discrete>
