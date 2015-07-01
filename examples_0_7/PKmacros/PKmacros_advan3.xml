@@ -123,10 +123,6 @@
                             </Parameter>
                         </ProbOnto>
                     </Distribution>
-<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                        <mean><rVal>0</rVal></mean>
-                        <stddev><prVal>1</prVal></stddev>
-                    </NormalDistribution>-->
                 </RandomVariable>
                 <Standard symbId="Cc_obs">
                     <Output>

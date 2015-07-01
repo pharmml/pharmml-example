@@ -295,49 +295,49 @@
                 </Distribution>
             </IndividualParameter>
             
-<!--            X ~normal(mu,sigma,lower=mu-1.96*sigma,upper=mu+1.96*sigma)-->
-    <IndividualParameter symbId="pTruncated">
-        <Distribution>
-            <ProbOnto name="Normal1">
-                <Parameter name="mean">
-                    <ct:Assign>
-                        <ct:SymbRef symbIdRef="mu"/>
-                    </ct:Assign>
-                </Parameter>
-                <Parameter name="stdev">
-                    <ct:Assign>
-                        <ct:SymbRef symbIdRef="sigma"/>
-                    </ct:Assign>
-                </Parameter>
-                <LowerTruncationBound>
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:Binop op="minus">
+            <!--            X ~normal(mu,sigma,lower=mu-1.96*sigma,upper=mu+1.96*sigma)-->
+            <IndividualParameter symbId="pTruncated">
+                <Distribution>
+                    <ProbOnto name="Normal1">
+                        <Parameter name="mean">
+                            <ct:Assign>
                                 <ct:SymbRef symbIdRef="mu"/>
-                                <math:Binop op="times">
-                                    <ct:Real>1.96</ct:Real>
-                                    <ct:SymbRef symbIdRef="sigma"/>
-                                </math:Binop>
-                            </math:Binop>
-                        </math:Equation>
-                    </ct:Assign>
-                </LowerTruncationBound>
-                <UpperTruncationBound>
-                    <ct:Assign>
-                        <math:Equation>
-                            <math:Binop op="plus">
-                                <ct:SymbRef symbIdRef="mu"/>
-                                <math:Binop op="times">
-                                    <ct:Real>1.96</ct:Real>
-                                    <ct:SymbRef symbIdRef="sigma"/>
-                                </math:Binop>
-                            </math:Binop>
-                        </math:Equation>
-                    </ct:Assign>
-                </UpperTruncationBound>
-            </ProbOnto>
-        </Distribution>
-    </IndividualParameter>
+                            </ct:Assign>
+                        </Parameter>
+                        <Parameter name="stdev">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="sigma"/>
+                            </ct:Assign>
+                        </Parameter>
+                        <LowerTruncationBound>
+                            <ct:Assign>
+                                <math:Equation>
+                                    <math:Binop op="minus">
+                                        <ct:SymbRef symbIdRef="mu"/>
+                                        <math:Binop op="times">
+                                            <ct:Real>1.96</ct:Real>
+                                            <ct:SymbRef symbIdRef="sigma"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Equation>
+                            </ct:Assign>
+                        </LowerTruncationBound>
+                        <UpperTruncationBound>
+                            <ct:Assign>
+                                <math:Equation>
+                                    <math:Binop op="plus">
+                                        <ct:SymbRef symbIdRef="mu"/>
+                                        <math:Binop op="times">
+                                            <ct:Real>1.96</ct:Real>
+                                            <ct:SymbRef symbIdRef="sigma"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Equation>
+                            </ct:Assign>
+                        </UpperTruncationBound>
+                    </ProbOnto>
+                </Distribution>
+            </IndividualParameter>
             
             <!-- omitted other continuous distributions - no other features are required
             then these tested above - only scalar parameters -->
