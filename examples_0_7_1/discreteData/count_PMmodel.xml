@@ -6,7 +6,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <ct:Name>Poisson model</ct:Name>
     
@@ -49,18 +50,18 @@
                         </Distribution>
                     </PMF>
                     
-            <!-- using ProbOnto -->
-            <PMF linkFunction="log">
-                <Distribution>
-                    <ProbOnto name="Poisson">                                      <!-- in this case <IntensityParameter> not required -->
-                        <Parameter name="rate">
-                            <ct:Assign>
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                            </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
-                </Distribution>
-            </PMF>
+                    <!-- using ProbOnto -->
+                    <PMF linkFunction="log">
+                        <Distribution>
+                            <po:ProbOnto name="Poisson1">                                      <!-- in this case <IntensityParameter> not required -->
+                                <po:Parameter name="rate">
+                                    <ct:Assign>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                                    </ct:Assign>
+                                </po:Parameter>
+                            </po:ProbOnto>
+                        </Distribution>
+                    </PMF>
                     
                     <!-- explicit PMF -->
                     <!-- log(P(Y=k)) = -Lambda+k*log(Lambda)-log(k!) -->
@@ -70,24 +71,22 @@
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                <Binop op="minus">
-                                    <Binop op="plus">
-                                        <Uniop op="minus">
-                                            <ct:SymbRef symbIdRef="Lambda"/>
-                                        </Uniop>
-                                        <Binop op="times">
-                                            <ct:SymbRef symbIdRef="k"/>
-                                            <Uniop op="log">
-                                                <ct:SymbRef symbIdRef="Lambda"/>
-                                            </Uniop>
-                                        </Binop>
-                                    </Binop>
-                                    <Uniop op="factln">
+                            <math:Binop op="minus">
+                                <math:Binop op="plus">
+                                    <math:Uniop op="minus">
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </math:Uniop>
+                                    <math:Binop op="times">
                                         <ct:SymbRef symbIdRef="k"/>
-                                    </Uniop>
-                                </Binop>
-                            </Equation>
+                                        <math:Uniop op="log">
+                                            <ct:SymbRef symbIdRef="Lambda"/>
+                                        </math:Uniop>
+                                    </math:Binop>
+                                </math:Binop>
+                                <math:Uniop op="factln">
+                                    <ct:SymbRef symbIdRef="k"/>
+                                </math:Uniop>
+                            </math:Binop>
                         </ct:Assign>
                     </PMF>
                 </CountData>
@@ -152,7 +151,7 @@
             <ds:DataSet>
                 <ds:Definition>
                     <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
-                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
                     <ds:Column columnId="Y" columnType="dv" valueType="int" columnNum="3"/>
                 </ds:Definition>
                 <ds:ExternalFile oid="dataOid">

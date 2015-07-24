@@ -5,7 +5,9 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
-    implementedBy="MJS" writtenVersion="0.7"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
+    implementedBy="MJS" writtenVersion="0.7.1"
     metadataFile="example3_task1.rdf" id="i1">
     
     <!--    Task description
@@ -53,18 +55,18 @@
             <Covariate symbId="WT">
                 <Continuous>
                     <Distribution>
-                        <ProbOnto name="Normal1">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:SymbRef symbIdRef="WTmean"/>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="stdev">
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
                                 <ct:Assign>
                                     <ct:SymbRef symbIdRef="WTvariance"/>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                 </Continuous>
             </Covariate>
@@ -137,15 +139,13 @@
         </mdef:DesignParameter>
         <mdef:DesignParameter symbId="Genp3">
             <ct:Assign>
-                <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                    <Binop op="minus">
-                        <ct:Real>1</ct:Real>
-                        <Binop op="plus">
-                            <ct:SymbRef symbIdRef="Genp1"/>
-                            <ct:SymbRef symbIdRef="Genp2"/>
-                        </Binop>
-                    </Binop>
-                </Equation>
+                <math:Binop op="minus">
+                    <ct:Real>1</ct:Real>
+                    <math:Binop op="plus">
+                        <ct:SymbRef symbIdRef="Genp1"/>
+                        <ct:SymbRef symbIdRef="Genp2"/>
+                    </math:Binop>
+                </math:Binop>
             </ct:Assign>
         </mdef:DesignParameter>
         

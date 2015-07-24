@@ -5,7 +5,8 @@
     xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>Hierarchical model</ct:Name>
@@ -37,18 +38,18 @@
             <Covariate symbId="w">
                 <Continuous>
                     <Distribution>
-                        <ProbOnto name="Normal1">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:SymbRef blkIdRef="pm1" symbIdRef="w_pop"/>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="stdev">
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
                                 <ct:Assign>
                                     <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_w"/>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                 </Continuous>
             </Covariate>
@@ -65,18 +66,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="LogNormal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="LogNormal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="V_pred"/>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="stdev">
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="omega_V"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </IndividualParameter>
             
@@ -95,15 +96,13 @@
             <!-- V_pred = V_pop*(w/w_pop) -->
             <PopulationParameter symbId="V_pred">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="V_pop"/>
-                            <math:Binop op="divide">
-                                <ct:SymbRef blkIdRef="cm1" symbIdRef="w"/>
-                                <ct:SymbRef symbIdRef="w_pop"/>
-                            </math:Binop>
+                    <math:Binop op="times">
+                        <ct:SymbRef symbIdRef="V_pop"/>
+                        <math:Binop op="divide">
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="w"/>
+                            <ct:SymbRef symbIdRef="w_pop"/>
                         </math:Binop>
-                    </math:Equation>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
             
@@ -113,18 +112,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="pop"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="ws"/>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="stdev">
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="gw"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
@@ -134,22 +133,20 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="pop"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="LogNormal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="LogNormal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
-                                <math:Equation>
-                                    <math:Uniop op="log">
-                                        <ct:SymbRef symbIdRef="Vs"/>
-                                    </math:Uniop>
-                                </math:Equation>
+                                <math:Uniop op="log">
+                                    <ct:SymbRef symbIdRef="Vs"/>
+                                </math:Uniop>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="stdev">
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="gV"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
@@ -166,22 +163,20 @@
             
             <ct:Variable symbolType="real" symbId="f">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <math:Binop op="divide">
-                                <ct:SymbRef symbIdRef="D"/>
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                            </math:Binop>
-                            <math:Uniop op="exp">
-                                <math:Binop op="times">
-                                    <math:Uniop op="minus">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                                    </math:Uniop>
-                                    <ct:SymbRef symbIdRef="t"/>
-                                </math:Binop>
-                            </math:Uniop>
+                    <math:Binop op="times">
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="D"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
                         </math:Binop>
-                    </math:Equation>
+                        <math:Uniop op="exp">
+                            <math:Binop op="times">
+                                <math:Uniop op="minus">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                                </math:Uniop>
+                                <ct:SymbRef symbIdRef="t"/>
+                            </math:Binop>
+                        </math:Uniop>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
         </StructuralModel>
@@ -197,23 +192,21 @@
                         <ct:SymbRef blkIdRef="vm2" symbIdRef="resErr"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <ProbOnto name="Normal1">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:SymbRef blkIdRef="sm1" symbIdRef="f"/>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="stdev">
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
                                 <ct:Assign>
-                                    <math:Equation>
-                                        <math:Binop op="times">
-                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="b"/>
-                                            <ct:SymbRef blkIdRef="sm1" symbIdRef="f"/>
-                                        </math:Binop>
-                                    </math:Equation>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="b"/>
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="f"/>
+                                    </math:Binop>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                 </General>
                 

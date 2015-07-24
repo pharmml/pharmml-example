@@ -7,8 +7,7 @@
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
-    xmlns:un="http://www.uncertml.org/3.0"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <ct:Name>TTE - concentration dependent hazard</ct:Name>
     
@@ -36,12 +35,10 @@
                     <!-- h(t) = beta*Cc -->
                     <HazardFunction symbId="h">
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="times">
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
-                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                                </math:Binop>
-                            </math:Equation>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
+                                <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                            </math:Binop>
                         </ct:Assign>   
                     </HazardFunction>
                     

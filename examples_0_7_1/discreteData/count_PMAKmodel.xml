@@ -6,7 +6,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <ct:Name>PMAK model</ct:Name>
     
@@ -38,25 +39,23 @@
                     <!-- Poisson with Markov - choose one lambda dependent on yp -->
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Piecewise>
-                                    <math:Piece>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
-                                        <math:Condition>
-                                            <math:LogicBinop op="eq">
-                                                <ct:SymbRef symbIdRef="yp"/>
-                                                <ct:Real>0</ct:Real>
-                                            </math:LogicBinop>
-                                        </math:Condition>
-                                    </math:Piece>
-                                    <math:Piece>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda2"/>
-                                        <math:Condition>
-                                            <math:Otherwise/>
-                                        </math:Condition>
-                                    </math:Piece>
-                                </math:Piecewise>
-                            </math:Equation>
+                            <ct:Piecewise>
+                                <math:Piece>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
+                                    <math:Condition>
+                                        <math:LogicBinop op="eq">
+                                            <ct:SymbRef symbIdRef="yp"/>
+                                            <ct:Real>0</ct:Real>
+                                        </math:LogicBinop>
+                                    </math:Condition>
+                                </math:Piece>
+                                <math:Piece>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda2"/>
+                                    <math:Condition>
+                                        <math:Otherwise/>
+                                    </math:Condition>
+                                </math:Piece>
+                            </ct:Piecewise>
                         </ct:Assign>
                     </IntensityParameter>
                     
@@ -68,24 +67,22 @@
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
                         <ct:Assign>
-                            <math:Equation>
+                            <math:Binop op="plus">
+                                <math:Uniop op="minus">
+                                    <ct:SymbRef symbIdRef="Lambda"/>
+                                </math:Uniop>
                                 <math:Binop op="plus">
-                                    <math:Uniop op="minus">
-                                        <ct:SymbRef symbIdRef="Lambda"/>
-                                    </math:Uniop>
-                                    <math:Binop op="plus">
-                                        <math:Binop op="times">
-                                            <ct:SymbRef symbIdRef="k"/>
-                                            <math:Uniop op="log">
-                                                <ct:SymbRef symbIdRef="Lambda"/>
-                                            </math:Uniop>
-                                        </math:Binop>
-                                        <math:Uniop op="factln">
-                                            <ct:SymbRef symbIdRef="k"/>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="k"/>
+                                        <math:Uniop op="log">
+                                            <ct:SymbRef symbIdRef="Lambda"/>
                                         </math:Uniop>
                                     </math:Binop>
+                                    <math:Uniop op="factln">
+                                        <ct:SymbRef symbIdRef="k"/>
+                                    </math:Uniop>
                                 </math:Binop>
-                            </math:Equation>
+                            </math:Binop>
                         </ct:Assign>
                     </PMF>
                 </CountData>
@@ -133,13 +130,13 @@
                             </math:LogicBinop>
                         </PreviousState>
                         <Distribution>
-                            <ProbOnto name="Poisson">
-                                <Parameter name="rate">
+                            <po:ProbOnto name="Poisson1">
+                                <po:Parameter name="rate">
                                     <ct:Assign>
                                         <ct:SymbRef symbIdRef="Lambda1"/>
                                     </ct:Assign>
-                                </Parameter>
-                            </ProbOnto>
+                                </po:Parameter>
+                            </po:ProbOnto>
                         </Distribution>
                     </PMF>
                     
@@ -158,13 +155,13 @@
                             </math:LogicBinop>
                         </PreviousState>
                         <Distribution>
-                            <ProbOnto name="Poisson">
-                                <Parameter name="rate">
+                            <po:ProbOnto name="Poisson1">
+                                <po:Parameter name="rate">
                                     <ct:Assign>
                                         <ct:SymbRef symbIdRef="Lambda2"/>
                                     </ct:Assign>
-                                </Parameter>
-                            </ProbOnto>
+                                </po:Parameter>
+                            </po:ProbOnto>
                         </Distribution>
                     </PMF>
                     

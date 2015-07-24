@@ -6,7 +6,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <ct:Name>Example 6 - PK with Poisson - joint model</ct:Name>
     
@@ -40,56 +41,48 @@
             <!-- k -->
             <ct:Variable symbolType="real" symbId="k">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="divide">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
             
             <!-- dAd/dt -->
             <ct:DerivativeVariable symbId="Ad" symbolType="real">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <math:Uniop op="minus">
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                            </math:Uniop>
-                            <ct:SymbRef symbIdRef="Ad"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="times">
+                        <math:Uniop op="minus">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                        </math:Uniop>
+                        <ct:SymbRef symbIdRef="Ad"/>
+                    </math:Binop>
                 </ct:Assign>
             </ct:DerivativeVariable>
             
             <!-- dAc/dt -->
             <ct:DerivativeVariable symbId="Ac" symbolType="real">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="minus">
-                            <math:Binop op="times">
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                                <ct:SymbRef symbIdRef="Ad"/>
-                            </math:Binop>
-                            <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="k"/>
-                                <ct:SymbRef symbIdRef="Ac"/>
-                            </math:Binop>
-                        </math:Binop>                        
-                    </math:Equation>
+                    <math:Binop op="minus">
+                        <math:Binop op="times">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                            <ct:SymbRef symbIdRef="Ad"/>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="k"/>
+                            <ct:SymbRef symbIdRef="Ac"/>
+                        </math:Binop>
+                    </math:Binop>                        
                 </ct:Assign>
             </ct:DerivativeVariable>
             
             <!-- Cc -->
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="divide">
+                        <ct:SymbRef symbIdRef="Ac"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
             
@@ -105,34 +98,32 @@
                     <!-- Poisson intensity - function of drug concentration, Cc -->                    
                     <IntensityParameter symbId="Lambda">
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="times">
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda0"/>
-                                    <math:Binop op="minus">
-                                        <ct:Real>1</ct:Real>
-                                        <math:Binop op="divide">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda0"/>
+                                <math:Binop op="minus">
+                                    <ct:Real>1</ct:Real>
+                                    <math:Binop op="divide">
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                        <math:Binop op="plus">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="IC50"/>
                                             <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                                            <math:Binop op="plus">
-                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="IC50"/>
-                                                <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                                            </math:Binop>
                                         </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
-                            </math:Equation>
+                            </math:Binop>
                         </ct:Assign>
                     </IntensityParameter>
                     
                     <!-- version A -->
                     <PMF linkFunction="log">
                         <Distribution>
-                            <ProbOnto name="Poisson">
-                                <Parameter name="rate">
+                            <po:ProbOnto name="Poisson1">
+                                <po:Parameter name="rate">
                                     <ct:Assign>
                                         <ct:SymbRef symbIdRef="Lambda"/>
                                     </ct:Assign>
-                                </Parameter>
-                            </ProbOnto>
+                                </po:Parameter>
+                            </po:ProbOnto>
                         </Distribution>
                     </PMF>
                     
@@ -143,24 +134,22 @@
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="minus">
-                                    <math:Binop op="plus">
-                                        <math:Uniop op="minus">
+                            <math:Binop op="minus">
+                                <math:Binop op="plus">
+                                    <math:Uniop op="minus">
+                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                    </math:Uniop>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="k"/>
+                                        <math:Uniop op="log">
                                             <ct:SymbRef symbIdRef="Lambda"/>
                                         </math:Uniop>
-                                        <math:Binop op="times">
-                                            <ct:SymbRef symbIdRef="k"/>
-                                            <math:Uniop op="log">
-                                                <ct:SymbRef symbIdRef="Lambda"/>
-                                            </math:Uniop>
-                                        </math:Binop>
                                     </math:Binop>
-                                    <math:Uniop op="factln">
-                                        <ct:SymbRef symbIdRef="k"/>
-                                    </math:Uniop>
                                 </math:Binop>
-                            </math:Equation>
+                                <math:Uniop op="factln">
+                                    <ct:SymbRef symbIdRef="k"/>
+                                </math:Uniop>
+                            </math:Binop>
                         </ct:Assign>
                     </PMF>
                 </CountData>
@@ -177,18 +166,18 @@
                         <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <ProbOnto name="Normal2">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal2">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:Real>0</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="var">
+                            </po:Parameter>
+                            <po:Parameter name="var">
                                 <ct:Assign>
                                     <ct:Real>1</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                 </RandomVariable>
                 <Standard symbId="Cc_obs">
@@ -197,15 +186,13 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="plus">
-                                    <ct:SymbRef symbIdRef="a"/>
-                                    <math:Binop op="times">
-                                        <ct:SymbRef symbIdRef="b"/>
-                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                                    </math:Binop>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="a"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
                                 </math:Binop>
-                            </math:Equation>
+                            </math:Binop>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>

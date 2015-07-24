@@ -3,7 +3,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
-    writtenVersion="0.7" id="i1">
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    writtenVersion="0.7.1" id="i1">
     
     <ct:Name>example334</ct:Name>
     
@@ -54,21 +56,17 @@
             <!-- prior variables and transformations on "THETA" -->
             <PopulationParameter symbId="lMU_POP_K">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="log">
-                            <ct:SymbRef symbIdRef="MU_POP_K"/>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="log">
+                        <ct:SymbRef symbIdRef="MU_POP_K"/>
+                    </math:Uniop>
                 </ct:Assign>
             </PopulationParameter>
             
             <PopulationParameter symbId="lMU_POP_V">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="log">
-                            <ct:SymbRef symbIdRef="MU_POP_V"/>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="log">
+                        <ct:SymbRef symbIdRef="MU_POP_V"/>
+                    </math:Uniop>
                 </ct:Assign>
             </PopulationParameter>
             
@@ -76,17 +74,19 @@
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="pop" blkIdRef="model"/>
                 </ct:VariabilityReference>
-                <Distribution>              
-                    <UncertML>
-                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                            <mean>
-                                <var varId="lMU_POP_K"/>
-                            </mean>
-                            <variance>
-                                <var varId="VAR_POP_K"/>
-                            </variance>
-                        </NormalDistribution>
-                    </UncertML>
+                <Distribution>
+                    <po:ProbOnto name="Normal2">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="lMU_POP_K"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="var">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="VAR_POP_K"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
@@ -95,36 +95,34 @@
                     <ct:SymbRef symbIdRef="pop" blkIdRef="model"/>
                 </ct:VariabilityReference>
                 <Distribution>                  
-                    <UncertML>
-                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                            <mean>
-                                <var varId="lMU_POP_V"/>
-                            </mean>
-                            <variance>
-                                <var varId="VAR_POP_V"/>
-                            </variance>
-                        </NormalDistribution>
-                    </UncertML>
+                    <po:ProbOnto name="Normal2">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="lMU_POP_V"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="var">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="VAR_POP_V"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
             <PopulationParameter symbId="POP_K">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="exp">
-                            <ct:SymbRef symbIdRef="lPOP_K"/>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="exp">
+                        <ct:SymbRef symbIdRef="lPOP_K"/>
+                    </math:Uniop>
                 </ct:Assign>
             </PopulationParameter>
             
             <PopulationParameter symbId="POP_V">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="exp">
-                            <ct:SymbRef symbIdRef="lPOP_V"/>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="exp">
+                        <ct:SymbRef symbIdRef="lPOP_V"/>
+                    </math:Uniop>
                 </ct:Assign>
             </PopulationParameter>
             
@@ -134,28 +132,26 @@
                     <ct:SymbRef symbIdRef="pop" blkIdRef="model"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Wishart1">
-                        <Parameter name="scaleMatrix">
+                    <po:ProbOnto name="Wishart1">
+                        <po:Parameter name="scaleMatrix">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="R"/>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="degreesOfFreedom">
+                        </po:Parameter>
+                        <po:Parameter name="degreesOfFreedom">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="rho"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
             <PopulationParameter symbId="OMEGA_P">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <MatrixUniop op="inverse">
-                            <ct:SymbRef symbIdRef="invOMEGA_P"/>
-                        </MatrixUniop>
-                    </Equation>
+                    <math:MatrixUniop op="inverse">
+                        <ct:SymbRef symbIdRef="invOMEGA_P"/>
+                    </math:MatrixUniop>
                 </ct:Assign>
             </PopulationParameter>
             
@@ -164,27 +160,27 @@
                     <ct:SymbRef symbIdRef="pop" blkIdRef="model"/>
                 </ct:VariabilityReference>
                 <Distribution>                              
-                    <UncertML>
-                        <GammaDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                            <shape>
-                                <var varId="a_OMEGA_T"/>
-                            </shape>
-                            <scale>
-                                <var varId="b_OMEGA_T"/>
-                            </scale>
-                        </GammaDistribution>
-                    </UncertML>
+                    <po:ProbOnto name="Gamma1">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="a_OMEGA_T"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="var">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="b_OMEGA_T"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
             <PopulationParameter symbId="OMEGA_T">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Binop op="divide">
-                            <ct:Real>1</ct:Real>
-                            <ct:SymbRef symbIdRef="TAU_T"/>
-                        </Binop>
-                    </Equation>
+                    <math:Binop op="divide">
+                        <ct:Real>1</ct:Real>
+                        <ct:SymbRef symbIdRef="TAU_T"/>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
             
@@ -193,17 +189,19 @@
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="pop" blkIdRef="model"/>
                 </ct:VariabilityReference>          
-                <Distribution>                      
-                    <UncertML>
-                        <GammaDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                            <shape>
-                                <var varId="a_POP_T"/>
-                            </shape>
-                            <scale>
-                                <var varId="b_POP_T"/>
-                            </scale>
-                        </GammaDistribution>
-                    </UncertML>
+                <Distribution>
+                    <po:ProbOnto name="Gamma1">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="a_POP_T"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="var">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="b_POP_T"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
@@ -225,18 +223,18 @@
                     <ct:SymbRef symbIdRef="indiv" blkIdRef="model"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="MultivariateNormal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="MultivariateNormal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="lPOP_P"/>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="covarianceMatrix">
+                        </po:Parameter>
+                        <po:Parameter name="covarianceMatrix">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="OMEGA_P"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
@@ -245,16 +243,18 @@
                     <ct:SymbRef symbIdRef="indiv" blkIdRef="model"/>
                 </ct:VariabilityReference>
                 <Distribution>                      
-                    <UncertML>
-                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                            <mean>
-                                <rVal>0</rVal>
-                            </mean>
-                            <variance>
-                                <var varId="OMEGA_T"/>
-                            </variance>
-                        </NormalDistribution>
-                    </UncertML>
+                    <po:ProbOnto name="Normal2">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="var">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="OMEGA_T"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </RandomVariable>
             
@@ -263,46 +263,44 @@
                     <ct:SymbRef symbIdRef="residual" blkIdRef="resErrorModel"/>
                 </ct:VariabilityReference>          
                 <Distribution>
-                    <UncertML>
-                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                            <mean>
-                                <rVal>0</rVal>
-                            </mean>
-                            <variance>
-                                <prVal>1</prVal>
-                            </variance>
-                        </NormalDistribution>
-                    </UncertML>
+                    <po:ProbOnto name="Normal2">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="var">
+                            <ct:Assign>
+                                <ct:Real>1</ct:Real>
+                            </ct:Assign>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </RandomVariable>
 
             <IndividualParameter symbId="K">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="exp">
-                            <ct:VectorSelector>
-                                <ct:SymbRef symbIdRef="lP"/>
-                                <ct:Cell>
-                                    <ct:Int>1</ct:Int>
-                                </ct:Cell>
-                            </ct:VectorSelector>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="exp">
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="lP"/>
+                            <ct:Cell>
+                                <ct:Int>1</ct:Int>
+                            </ct:Cell>
+                        </ct:VectorSelector>
+                    </math:Uniop>
                 </ct:Assign>
             </IndividualParameter>
             
             <IndividualParameter symbId="V">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="exp">
-                            <ct:VectorSelector>
-                                <ct:SymbRef symbIdRef="lP"/>
-                                <ct:Cell>
-                                    <ct:Int>2</ct:Int>
-                                </ct:Cell>
-                            </ct:VectorSelector>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="exp">
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="lP"/>
+                            <ct:Cell>
+                                <ct:Int>2</ct:Int>
+                            </ct:Cell>
+                        </ct:VectorSelector>
+                    </math:Uniop>
                 </ct:Assign>
             </IndividualParameter>
             
@@ -322,14 +320,12 @@
             
             <PopulationParameter symbId="SD_ADD">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="sqrt">
-                            <Binop op="divide">
-                                <ct:Real>1</ct:Real>
-                                <ct:SymbRef symbIdRef="TAU"/>
-                            </Binop>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="sqrt">
+                        <math:Binop op="divide">
+                            <ct:Real>1</ct:Real>
+                            <ct:SymbRef symbIdRef="TAU"/>
+                        </math:Binop>
+                    </math:Uniop>
                 </ct:Assign>
             </PopulationParameter>
 
@@ -340,22 +336,20 @@
             
             <ct:Variable symbId="C" symbolType="real">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Binop op="times">
-                            <Binop op="divide">
-                                <ct:SymbRef symbIdRef="DOSE" blkIdRef="sm1"/>
-                                <ct:SymbRef symbIdRef="V" blkIdRef="pm1"/>
-                            </Binop>
-                            <Uniop op="exp">
-                                <Uniop op="minus">
-                                    <Binop op="times">
-                                        <ct:SymbRef symbIdRef="K" blkIdRef="pm1"/>
-                                        <ct:SymbRef symbIdRef="T"/>
-                                    </Binop>
-                                </Uniop>
-                            </Uniop>
-                        </Binop>
-                    </Equation>
+                    <math:Binop op="times">
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="DOSE" blkIdRef="sm1"/>
+                            <ct:SymbRef symbIdRef="V" blkIdRef="pm1"/>
+                        </math:Binop>
+                        <math:Uniop op="exp">
+                            <math:Uniop op="minus">
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="K" blkIdRef="pm1"/>
+                                    <ct:SymbRef symbIdRef="T"/>
+                                </math:Binop>
+                            </math:Uniop>
+                        </math:Uniop>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
             

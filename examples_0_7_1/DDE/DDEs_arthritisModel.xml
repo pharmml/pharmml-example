@@ -7,7 +7,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:design="http://www.pharmml.org/pharmml/0.7/TrialDesign"
-    writtenVersion="0.7" implementedBy="MJS" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>DDE arthritis Model</ct:Name>
@@ -23,17 +24,17 @@
         <ct:FunctionArgument symbolType="real" symbId="b"/>
         <ct:FunctionArgument symbolType="real" symbId="f"/>
         <ct:Definition>
-            <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths" >
-                <Binop op="plus">
+            <ct:Assign>
+                <math:Binop op="plus">
                     <ct:VectorSelector>
                         <ct:SymbRef symbIdRef="V"/>
                     </ct:VectorSelector>
-                    <Binop op="times">
+                    <math:Binop op="times">
                         <ct:SymbRef symbIdRef="b"/>
                         <ct:SymbRef symbIdRef="f"/>
-                    </Binop>
-                </Binop>
-            </Equation>
+                    </math:Binop>
+                </math:Binop>
+            </ct:Assign>
         </ct:Definition>
     </ct:FunctionDefinition>
     
@@ -60,17 +61,15 @@
                     <!-- G_0 = a*exp(b*t) -->
                     <ct:HistoryValue>
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="times">
-                                    <ct:SymbRef symbIdRef="a"/>
-                                    <math:Uniop op="exp">
-                                        <math:Binop op="times">
-                                            <ct:SymbRef symbIdRef="b"/>
-                                            <ct:SymbRef symbIdRef="t"/>
-                                        </math:Binop>
-                                    </math:Uniop>
-                                </math:Binop>
-                            </math:Equation>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="a"/>
+                                <math:Uniop op="exp">
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="b"/>
+                                        <ct:SymbRef symbIdRef="t"/>
+                                    </math:Binop>
+                                </math:Uniop>
+                            </math:Binop>
                         </ct:Assign>
                     </ct:HistoryValue>
                     <ct:HistoryTime>
@@ -85,23 +84,21 @@
             <!-- I_0 = 2.52-->
             <ct:DerivativeVariable symbolType="real" symbId="I">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="minus">
-                            <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="k4"/>
-                                <ct:SymbRef symbIdRef="G"/>
-                            </math:Binop>
-                            <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="k4"/>
-                                <ct:Delay>
-                                    <ct:SymbRef symbIdRef="G"/>
-                                    <ct:DelayVariable>
-                                        <ct:SymbRef symbIdRef="tau"/>
-                                    </ct:DelayVariable>
-                                </ct:Delay>
-                            </math:Binop>
+                    <math:Binop op="minus">
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="k4"/>
+                            <ct:SymbRef symbIdRef="G"/>
                         </math:Binop>
-                    </math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="k4"/>
+                            <ct:Delay>
+                                <ct:SymbRef symbIdRef="G"/>
+                                <ct:DelayVariable>
+                                    <ct:SymbRef symbIdRef="tau"/>
+                                </ct:DelayVariable>
+                            </ct:Delay>
+                        </math:Binop>
+                    </math:Binop>
                 </ct:Assign>
                 <ct:History>
                     <ct:HistoryValue>
@@ -121,25 +118,23 @@
             <!-- D_0 = 0 -->
             <ct:DerivativeVariable symbolType="real" symbId="D">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="plus">
-                            <math:Binop op="times">
-                                <math:Uniop op="minus">
-                                    <ct:SymbRef symbIdRef="k5"/>
-                                </math:Uniop>
-                                <ct:SymbRef symbIdRef="D"/>
-                            </math:Binop>
-                            <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="k4"/>
-                                <ct:Delay>
-                                    <ct:SymbRef symbIdRef="G"/>
-                                    <ct:DelayVariable>
-                                        <ct:SymbRef symbIdRef="tau"/>
-                                    </ct:DelayVariable>
-                                </ct:Delay>
-                            </math:Binop>
+                    <math:Binop op="plus">
+                        <math:Binop op="times">
+                            <math:Uniop op="minus">
+                                <ct:SymbRef symbIdRef="k5"/>
+                            </math:Uniop>
+                            <ct:SymbRef symbIdRef="D"/>
                         </math:Binop>
-                    </math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="k4"/>
+                            <ct:Delay>
+                                <ct:SymbRef symbIdRef="G"/>
+                                <ct:DelayVariable>
+                                    <ct:SymbRef symbIdRef="tau"/>
+                                </ct:DelayVariable>
+                            </ct:Delay>
+                        </math:Binop>
+                    </math:Binop>
                 </ct:Assign>
                 <ct:History>
                     <ct:HistoryValue>
@@ -167,18 +162,18 @@
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="resErr"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <ProbOnto name="Normal1">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:Real>0</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="stdev">
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
                                 <ct:Assign>
                                     <ct:Real>1</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                 </RandomVariable>
                 <Standard symbId="Cc_obs"> 
@@ -187,22 +182,20 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <math:Equation >
-                                <math:FunctionCall>
-                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
-                                    <math:FunctionArgument symbId="a">
-                                        <ct:SymbRef symbIdRef="a"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="b">
-                                        <ct:SymbRef symbIdRef="b"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="f">
-                                        <math:Equation >
-                                            <ct:SymbRef symbIdRef="Cc"/>
-                                        </math:Equation>
-                                    </math:FunctionArgument>
-                                </math:FunctionCall>
-                            </math:Equation>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="Cc"/>
+                                    </ct:Assign>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>

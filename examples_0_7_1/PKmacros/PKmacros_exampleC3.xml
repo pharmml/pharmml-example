@@ -5,7 +5,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths" 
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>Example C3</ct:Name>
@@ -56,12 +57,10 @@
             <ct:Variable symbolType="real" symbId="Ac"/>
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef symbIdRef="Ac"/>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="divide">
+                        <ct:SymbRef symbIdRef="Ac"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
             
@@ -167,18 +166,18 @@
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <ProbOnto name="Normal1">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:Real>0</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="stdev">
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
                                 <ct:Assign>
                                     <ct:Real>1</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                 </RandomVariable>
                 <Standard symbId="Cc_obs">

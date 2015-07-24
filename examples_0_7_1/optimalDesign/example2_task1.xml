@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
 <!--    Task description
     This example is taken from the PFIM documentation (PFIM 3.2, additional documentation, example 3), and involves 2 responses with different sampling times.

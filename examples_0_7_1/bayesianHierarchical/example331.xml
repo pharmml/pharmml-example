@@ -3,7 +3,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
-    writtenVersion="0.7" id="i1">
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths" 
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    writtenVersion="0.7.1" id="i1">
     
     <ct:Name>example331</ct:Name>
     
@@ -58,21 +60,17 @@
             <!-- prior variables and transformations on "THETA" -->
             <PopulationParameter symbId="lMU_POP_K">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="log">
-                            <ct:SymbRef symbIdRef="MU_POP_K"/>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="log">
+                        <ct:SymbRef symbIdRef="MU_POP_K"/>
+                    </math:Uniop>
                 </ct:Assign>
             </PopulationParameter>
             
             <PopulationParameter symbId="lMU_POP_V">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="log">
-                            <ct:SymbRef symbIdRef="MU_POP_V"/>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="log">
+                        <ct:SymbRef symbIdRef="MU_POP_V"/>
+                    </math:Uniop>
                 </ct:Assign>
             </PopulationParameter>
             
@@ -114,21 +112,17 @@
             
             <PopulationParameter symbId="POP_K">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="exp">
-                            <ct:SymbRef symbIdRef="lPOP_K"/>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="exp">
+                        <ct:SymbRef symbIdRef="lPOP_K"/>
+                    </math:Uniop>
                 </ct:Assign>
             </PopulationParameter>
             
             <PopulationParameter symbId="POP_V">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="exp">
-                            <ct:SymbRef symbIdRef="lPOP_V"/>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="exp">
+                        <ct:SymbRef symbIdRef="lPOP_V"/>
+                    </math:Uniop>
                 </ct:Assign>
             </PopulationParameter>
             
@@ -189,34 +183,28 @@
             
             <PopulationParameter symbId="OMEGA_K">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Binop op="divide">
-                            <ct:Real>1</ct:Real>
-                            <ct:SymbRef symbIdRef="TAU_K"/>
-                        </Binop>
-                    </Equation>
+                    <math:Binop op="divide">
+                        <ct:Real>1</ct:Real>
+                        <ct:SymbRef symbIdRef="TAU_K"/>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
             
             <PopulationParameter symbId="OMEGA_V">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Binop op="divide">
-                            <ct:Real>1</ct:Real>
-                            <ct:SymbRef symbIdRef="TAU_V"/>
-                        </Binop>
-                    </Equation>
+                    <math:Binop op="divide">
+                        <ct:Real>1</ct:Real>
+                        <ct:SymbRef symbIdRef="TAU_V"/>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
             
             <PopulationParameter symbId="OMEGA_T">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Binop op="divide">
-                            <ct:Real>1</ct:Real>
-                            <ct:SymbRef symbIdRef="TAU_T"/>
-                        </Binop>
-                    </Equation>
+                    <math:Binop op="divide">
+                        <ct:Real>1</ct:Real>
+                        <ct:SymbRef symbIdRef="TAU_T"/>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
             
@@ -363,14 +351,12 @@
             <!-- SD_ADD can also be defined as SimpleParameter -->
             <IndividualParameter symbId="SD_ADD">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Uniop op="sqrt">
-                            <Binop op="divide">
-                                <ct:Real>1</ct:Real>
-                                <ct:SymbRef symbIdRef="TAU"/>
-                            </Binop>
-                        </Uniop>
-                    </Equation>
+                    <math:Uniop op="sqrt">
+                        <math:Binop op="divide">
+                            <ct:Real>1</ct:Real>
+                            <ct:SymbRef symbIdRef="TAU"/>
+                        </math:Binop>
+                    </math:Uniop>
                 </ct:Assign>
             </IndividualParameter>
 
@@ -381,22 +367,20 @@
             
             <ct:Variable symbId="C" symbolType="real">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Binop op="times">
-                            <Binop op="divide">
-                                <ct:SymbRef symbIdRef="DOSE"/>
-                                <ct:SymbRef symbIdRef="V" blkIdRef="pm1"/>
-                            </Binop>
-                            <Uniop op="exp">
-                                <Uniop op="minus">
-                                    <Binop op="times">
-                                        <ct:SymbRef symbIdRef="K" blkIdRef="pm1"/>
-                                        <ct:SymbRef symbIdRef="T"/>
-                                    </Binop>
-                                </Uniop>
-                            </Uniop>
-                        </Binop>
-                    </Equation>
+                    <math:Binop op="times">
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="DOSE"/>
+                            <ct:SymbRef symbIdRef="V" blkIdRef="pm1"/>
+                        </math:Binop>
+                        <math:Uniop op="exp">
+                            <math:Uniop op="minus">
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="K" blkIdRef="pm1"/>
+                                    <ct:SymbRef symbIdRef="T"/>
+                                </math:Binop>
+                            </math:Uniop>
+                        </math:Uniop>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
             

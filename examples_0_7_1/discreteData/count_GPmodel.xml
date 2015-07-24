@@ -6,7 +6,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <ct:Name>Generalized Poisson model</ct:Name>
     
@@ -51,28 +52,17 @@
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="plus">
-                                    <math:Uniop op="log">
-                                        <ct:SymbRef symbIdRef="Lambda"/>
-                                    </math:Uniop>
-                                    <math:Binop op="minus">
-                                        <math:Binop op="times">
-                                            <math:Binop op="minus">
-                                                <ct:SymbRef symbIdRef="k"/>
-                                                <ct:Real>1</ct:Real>
-                                            </math:Binop>
-                                            <math:Uniop op="log">
-                                                <math:Binop op="plus">
-                                                    <ct:SymbRef symbIdRef="Lambda"/>
-                                                    <math:Binop op="times">
-                                                        <ct:SymbRef symbIdRef="k"/>
-                                                        <ct:SymbRef symbIdRef="Delta"/>
-                                                    </math:Binop>
-                                                </math:Binop>
-                                            </math:Uniop>
-                                        </math:Binop>
+                            <math:Binop op="plus">
+                                <math:Uniop op="log">
+                                    <ct:SymbRef symbIdRef="Lambda"/>
+                                </math:Uniop>
+                                <math:Binop op="minus">
+                                    <math:Binop op="times">
                                         <math:Binop op="minus">
+                                            <ct:SymbRef symbIdRef="k"/>
+                                            <ct:Real>1</ct:Real>
+                                        </math:Binop>
+                                        <math:Uniop op="log">
                                             <math:Binop op="plus">
                                                 <ct:SymbRef symbIdRef="Lambda"/>
                                                 <math:Binop op="times">
@@ -80,13 +70,22 @@
                                                     <ct:SymbRef symbIdRef="Delta"/>
                                                 </math:Binop>
                                             </math:Binop>
-                                            <math:Uniop op="factln">
+                                        </math:Uniop>
+                                    </math:Binop>
+                                    <math:Binop op="minus">
+                                        <math:Binop op="plus">
+                                            <ct:SymbRef symbIdRef="Lambda"/>
+                                            <math:Binop op="times">
                                                 <ct:SymbRef symbIdRef="k"/>
-                                            </math:Uniop>
+                                                <ct:SymbRef symbIdRef="Delta"/>
+                                            </math:Binop>
                                         </math:Binop>
+                                        <math:Uniop op="factln">
+                                            <ct:SymbRef symbIdRef="k"/>
+                                        </math:Uniop>
                                     </math:Binop>
                                 </math:Binop>
-                            </math:Equation>
+                            </math:Binop>
                         </ct:Assign>
                     </PMF>
                 </CountData>
@@ -106,18 +105,18 @@
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
                         <Distribution>
-                            <ProbOnto name="GeneralizedPoisson">
-                                <Parameter name="rate">
+                            <po:ProbOnto name="GeneralizedPoisson1">
+                                <po:Parameter name="rate">
                                     <ct:Assign>
                                         <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                                     </ct:Assign>
-                                </Parameter>
-                                <Parameter name="dispersion">
+                                </po:Parameter>
+                                <po:Parameter name="dispersion">
                                     <ct:Assign>
                                         <ct:SymbRef blkIdRef="pm1" symbIdRef="delta"/>
                                     </ct:Assign>
-                                </Parameter>
-                            </ProbOnto>
+                                </po:Parameter>
+                            </po:ProbOnto>
                         </Distribution>
                     </PMF>
                 </CountData>

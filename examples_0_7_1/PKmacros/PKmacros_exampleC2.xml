@@ -5,7 +5,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths" 
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>Example C2</ct:Name>
@@ -34,23 +35,19 @@
             <PopulationParameter symbId="alpha"/>
             <PopulationParameter symbId="k13">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="plus">
-                            <ct:Real>0.6</ct:Real>
-                            <ct:SymbRef symbIdRef="alpha"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="plus">
+                        <ct:Real>0.6</ct:Real>
+                        <ct:SymbRef symbIdRef="alpha"/>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
             <PopulationParameter symbId="beta"/>
             <PopulationParameter symbId="k31">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="plus">
-                            <ct:Real>0.8</ct:Real>
-                            <ct:SymbRef symbIdRef="beta"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="plus">
+                        <ct:Real>0.8</ct:Real>
+                        <ct:SymbRef symbIdRef="beta"/>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
             <PopulationParameter symbId="p"/>
@@ -75,15 +72,13 @@
             
             <ct:Variable symbolType="real" symbId="Tlag">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
+                    <math:Binop op="divide">
+                        <ct:SymbRef symbIdRef="t"/>
+                        <math:Binop op="plus">
                             <ct:SymbRef symbIdRef="t"/>
-                            <math:Binop op="plus">
-                                <ct:SymbRef symbIdRef="t"/>
-                                <ct:Real>10</ct:Real>
-                            </math:Binop>
+                            <ct:Real>10</ct:Real>
                         </math:Binop>
-                    </math:Equation>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
 
@@ -170,18 +165,18 @@
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <ProbOnto name="Normal1">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:Real>0</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="stdev">
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
                                 <ct:Assign>
                                     <ct:Real>1</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                 </RandomVariable>
                 <Standard symbId="Cc_obs">

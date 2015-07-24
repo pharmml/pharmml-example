@@ -4,7 +4,8 @@
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
-    writtenVersion="0.7" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    writtenVersion="0.7.1" id="i1">
     
     <ct:Name>example333</ct:Name>
     
@@ -35,87 +36,75 @@
                     <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="MultivariateNormal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="MultivariateNormal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="log_V_k_tau_pop"/>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="covarianceMatrix">
+                        </po:Parameter>
+                        <po:Parameter name="covarianceMatrix">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Omega_P"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </IndividualParameter>
             <!-- log_V = log_V_k_tau[1] -->
             <IndividualParameter symbId="log_V">
                 <ct:Assign>
-                    <math:Equation>
-                        <ct:VectorSelector>
-                            <ct:SymbRef symbIdRef="log_V_k_tau"/>
-                            <ct:Cell>
-                                <ct:Int>1</ct:Int>
-                            </ct:Cell>
-                        </ct:VectorSelector>
-                    </math:Equation>
+                    <ct:VectorSelector>
+                        <ct:SymbRef symbIdRef="log_V_k_tau"/>
+                        <ct:Cell>
+                            <ct:Int>1</ct:Int>
+                        </ct:Cell>
+                    </ct:VectorSelector>
                 </ct:Assign>
             </IndividualParameter>
             <!-- log_k = log_V_k_tau[2] -->
             <IndividualParameter symbId="log_k">
                 <ct:Assign>
-                    <math:Equation>
-                        <ct:VectorSelector>
-                            <ct:SymbRef symbIdRef="log_V_k_tau"/>
-                            <ct:Cell>
-                                <ct:Int>2</ct:Int>
-                            </ct:Cell>
-                        </ct:VectorSelector>
-                    </math:Equation>
+                    <ct:VectorSelector>
+                        <ct:SymbRef symbIdRef="log_V_k_tau"/>
+                        <ct:Cell>
+                            <ct:Int>2</ct:Int>
+                        </ct:Cell>
+                    </ct:VectorSelector>
                 </ct:Assign>
             </IndividualParameter>
             <!-- log_tau = log_V_k_tau[3] -->
             <IndividualParameter symbId="log_tau">
                 <ct:Assign>
-                    <math:Equation>
-                        <ct:VectorSelector>
-                            <ct:SymbRef symbIdRef="log_V_k_tau"/>
-                            <ct:Cell>
-                                <ct:Int>3</ct:Int>
-                            </ct:Cell>
-                        </ct:VectorSelector>
-                    </math:Equation>
+                    <ct:VectorSelector>
+                        <ct:SymbRef symbIdRef="log_V_k_tau"/>
+                        <ct:Cell>
+                            <ct:Int>3</ct:Int>
+                        </ct:Cell>
+                    </ct:VectorSelector>
                 </ct:Assign>
             </IndividualParameter>
             <!-- V = exp(log_V) -->
             <IndividualParameter symbId="V">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Uniop op="exp">
-                            <ct:SymbRef symbIdRef="log_V"/>
-                        </math:Uniop>
-                    </math:Equation>
+                    <math:Uniop op="exp">
+                        <ct:SymbRef symbIdRef="log_V"/>
+                    </math:Uniop>
                 </ct:Assign>
             </IndividualParameter>
             <!-- k = exp(log_k) -->
             <IndividualParameter symbId="k">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Uniop op="exp">
-                            <ct:SymbRef symbIdRef="log_k"/>
-                        </math:Uniop>
-                    </math:Equation>
+                    <math:Uniop op="exp">
+                        <ct:SymbRef symbIdRef="log_k"/>
+                    </math:Uniop>
                 </ct:Assign>
             </IndividualParameter>
             <!-- tau = exp(log_tau) -->
             <IndividualParameter symbId="tau">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Uniop op="exp">
-                            <ct:SymbRef symbIdRef="log_tau"/>
-                        </math:Uniop>
-                    </math:Equation>
+                    <math:Uniop op="exp">
+                        <ct:SymbRef symbIdRef="log_tau"/>
+                    </math:Uniop>
                 </ct:Assign>
             </IndividualParameter>
             
@@ -125,18 +114,18 @@
                     <ct:SymbRef blkIdRef="model" symbIdRef="pop"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="InverseWishart">
-                        <Parameter name="scaleMatrix">
+                    <po:ProbOnto name="InverseWishart1">
+                        <po:Parameter name="scaleMatrix">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="R"/>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="degreesOfFreedom">
+                        </po:Parameter>
+                        <po:Parameter name="degreesOfFreedom">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="rho"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
@@ -151,75 +140,69 @@
                     <ct:SymbRef blkIdRef="model" symbIdRef="pop"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="MultivariateNormal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="MultivariateNormal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:Vector>             <!-- vector(log(mu_V_pop),log(mu_k_pop),log(mu_tau_pop)) -->
                                     <ct:VectorElements>
-                                        <math:Equation>
+                                        <ct:Assign>
                                             <math:Uniop op="log">
                                                 <ct:SymbRef symbIdRef="mu_V_pop"/>
                                             </math:Uniop>
-                                        </math:Equation>
-                                        <math:Equation>
+                                        </ct:Assign>
+                                        <ct:Assign>
                                             <math:Uniop op="log">
                                                 <ct:SymbRef symbIdRef="mu_k_pop"/>
                                             </math:Uniop>
-                                        </math:Equation>
-                                        <math:Equation>
+                                        </ct:Assign>
+                                        <ct:Assign>
                                             <math:Uniop op="log">
                                                 <ct:SymbRef symbIdRef="mu_tau_pop"/>
                                             </math:Uniop>
-                                        </math:Equation>
+                                        </ct:Assign>
                                     </ct:VectorElements>
                                 </ct:Vector>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="covarianceMatrix">
+                        </po:Parameter>
+                        <po:Parameter name="covarianceMatrix">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Sigma_P_pop"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             <!-- log_V_pop = log_V_k_tau_pop[1]-->
             <PopulationParameter symbId="log_V_pop">
                 <ct:Assign>
-                    <math:Equation>
-                        <ct:VectorSelector>
-                            <ct:SymbRef symbIdRef="log_V_k_tau_pop"/>
-                            <ct:Cell>
-                                <ct:Int>1</ct:Int>
-                            </ct:Cell>
-                        </ct:VectorSelector>
-                    </math:Equation>
+                    <ct:VectorSelector>
+                        <ct:SymbRef symbIdRef="log_V_k_tau_pop"/>
+                        <ct:Cell>
+                            <ct:Int>1</ct:Int>
+                        </ct:Cell>
+                    </ct:VectorSelector>
                 </ct:Assign>
             </PopulationParameter>
             <!-- log_k_pop = log_V_k_tau_pop[2]-->
             <PopulationParameter symbId="log_k_pop">
                 <ct:Assign>
-                    <math:Equation>
-                        <ct:VectorSelector>
-                            <ct:SymbRef symbIdRef="log_V_k_tau_pop"/>
-                            <ct:Cell>
-                                <ct:Int>2</ct:Int>
-                            </ct:Cell>
-                        </ct:VectorSelector>
-                    </math:Equation>
+                    <ct:VectorSelector>
+                        <ct:SymbRef symbIdRef="log_V_k_tau_pop"/>
+                        <ct:Cell>
+                            <ct:Int>2</ct:Int>
+                        </ct:Cell>
+                    </ct:VectorSelector>
                 </ct:Assign>
             </PopulationParameter>
             <!-- log_tau_pop = log_V_k_tau_pop[3]-->
             <PopulationParameter symbId="log_tau_pop">
                 <ct:Assign>
-                    <math:Equation>
-                        <ct:VectorSelector>
-                            <ct:SymbRef symbIdRef="log_V_k_tau_pop"/>
-                            <ct:Cell>
-                                <ct:Int>3</ct:Int>
-                            </ct:Cell>
-                        </ct:VectorSelector>
-                    </math:Equation>
+                    <ct:VectorSelector>
+                        <ct:SymbRef symbIdRef="log_V_k_tau_pop"/>
+                        <ct:Cell>
+                            <ct:Int>3</ct:Int>
+                        </ct:Cell>
+                    </ct:VectorSelector>
                 </ct:Assign>
             </PopulationParameter>
            
@@ -230,22 +213,20 @@
             
             <ct:Variable symbId="C" symbolType="real">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <math:Binop op="divide">
-                                <ct:SymbRef symbIdRef="DOSE" blkIdRef="sm1"/>
-                                <ct:SymbRef symbIdRef="V" blkIdRef="pm1"/>
-                            </math:Binop>
-                            <math:Uniop op="exp">
-                                <math:Uniop op="minus">
-                                    <math:Binop op="times">
-                                        <ct:SymbRef symbIdRef="K" blkIdRef="pm1"/>
-                                        <ct:SymbRef symbIdRef="T"/>
-                                    </math:Binop>
-                                </math:Uniop>
-                            </math:Uniop>
+                    <math:Binop op="times">
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="DOSE" blkIdRef="sm1"/>
+                            <ct:SymbRef symbIdRef="V" blkIdRef="pm1"/>
                         </math:Binop>
-                    </math:Equation>
+                        <math:Uniop op="exp">
+                            <math:Uniop op="minus">
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="K" blkIdRef="pm1"/>
+                                    <ct:SymbRef symbIdRef="T"/>
+                                </math:Binop>
+                            </math:Uniop>
+                        </math:Uniop>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
             
@@ -260,18 +241,18 @@
                         <ct:SymbRef blkIdRef="resErrorModel" symbIdRef="residual"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <ProbOnto name="Normal2">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal2">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="var">
+                            </po:Parameter>
+                            <po:Parameter name="var">
                                 <ct:Assign>
                                     <ct:SymbRef symbIdRef="sigma2"/>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                 </General>
             </ContinuousData>

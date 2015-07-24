@@ -4,8 +4,8 @@
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
-    xmlns:po="http://www.pharmml.org/probonto/0.2/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.7" 
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" 
     metadataFile="example2_NONMEM.rdf" id="i1">
     
     <ct:Name>Example 2 - simulation continuous PK (Bonate 2012) with NONMEM dataset</ct:Name>
@@ -16,12 +16,12 @@
         <ct:FunctionArgument symbolType="real" symbId="b"/>
         <ct:FunctionArgument symbolType="real" symbId="f"/>
         <ct:Definition>
-            <math:Equation>
+            <ct:Assign>
                 <math:Binop op="times">
                     <ct:SymbRef symbIdRef="b"/>
                     <ct:SymbRef symbIdRef="f"/>
                 </math:Binop>
-            </math:Equation>
+            </ct:Assign>
         </ct:Definition>
     </ct:FunctionDefinition>
     
@@ -39,7 +39,7 @@
                 <Continuous>
                     <Transformation>
                         <TransformedCovariate symbId="theta2Weight"/>
-                        <math:Equation>
+                        <ct:Assign>
                             <math:Binop op="power">
                                 <math:Binop op="divide">
                                     <ct:SymbRef symbIdRef="Weight"/>
@@ -47,7 +47,7 @@
                                 </math:Binop>
                                 <ct:SymbRef blkIdRef="pm1" symbIdRef="theta2"/>
                             </math:Binop>
-                        </math:Equation>
+                        </ct:Assign>
                     </Transformation>
                 </Continuous>
             </Covariate>
@@ -65,12 +65,10 @@
             <!-- CL -->
             <PopulationParameter symbId="CL">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="theta1"/>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="theta2Weight"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="times">
+                        <ct:SymbRef symbIdRef="theta1"/>
+                        <ct:SymbRef blkIdRef="cm1" symbIdRef="theta2Weight"/>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
             
@@ -161,84 +159,80 @@
             <ct:Variable symbolType="real" symbId="tD"/>
             <ct:Variable symbolType="real" symbId="k">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="divide">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
             <!-- Css -->
             <ct:Variable symbolType="real" symbId="Css">
                 <ct:Assign>
-                    <math:Equation>
+                    <math:Binop op="times">
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="D"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
                         <math:Binop op="times">
                             <math:Binop op="divide">
-                                <ct:SymbRef symbIdRef="D"/>
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                            </math:Binop>
-                            <math:Binop op="times">
-                                <math:Binop op="divide">
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
-                                    <math:Binop op="minus">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
-                                        <ct:SymbRef symbIdRef="k"/>
-                                    </math:Binop>
-                                </math:Binop>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
                                 <math:Binop op="minus">
-                                    <math:Binop op="divide">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
+                                    <ct:SymbRef symbIdRef="k"/>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="minus">
+                                <math:Binop op="divide">
+                                    <math:Uniop op="exp">
+                                        <math:Binop op="times">
+                                            <math:Uniop op="minus">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                            </math:Uniop>
+                                            <math:Binop op="minus">
+                                                <ct:SymbRef symbIdRef="t"/>
+                                                <ct:SymbRef symbIdRef="tD"/>                                                    
+                                            </math:Binop>
+                                        </math:Binop>
+                                    </math:Uniop>
+                                    <math:Binop op="minus">
+                                        <ct:Real>1</ct:Real>
                                         <math:Uniop op="exp">
                                             <math:Binop op="times">
                                                 <math:Uniop op="minus">
                                                     <ct:SymbRef symbIdRef="k"/>
                                                 </math:Uniop>
-                                                <math:Binop op="minus">
-                                                    <ct:SymbRef symbIdRef="t"/>
-                                                    <ct:SymbRef symbIdRef="tD"/>                                                    
-                                                </math:Binop>
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
                                             </math:Binop>
                                         </math:Uniop>
-                                        <math:Binop op="minus">
-                                            <ct:Real>1</ct:Real>
-                                            <math:Uniop op="exp">
-                                                <math:Binop op="times">
-                                                    <math:Uniop op="minus">
-                                                        <ct:SymbRef symbIdRef="k"/>
-                                                    </math:Uniop>
-                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
-                                                </math:Binop>
-                                            </math:Uniop>
-                                        </math:Binop>
                                     </math:Binop>
-                                    <math:Binop op="divide">
+                                </math:Binop>
+                                <math:Binop op="divide">
+                                    <math:Uniop op="exp">
+                                        <math:Binop op="times">
+                                            <math:Uniop op="minus">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
+                                            </math:Uniop>
+                                            <math:Binop op="minus">
+                                                <ct:SymbRef symbIdRef="t"/>
+                                                <ct:SymbRef symbIdRef="tD"/>                                                    
+                                            </math:Binop>
+                                        </math:Binop>
+                                    </math:Uniop>
+                                    <math:Binop op="minus">
+                                        <ct:Real>1</ct:Real>
                                         <math:Uniop op="exp">
                                             <math:Binop op="times">
                                                 <math:Uniop op="minus">
                                                     <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
                                                 </math:Uniop>
-                                                <math:Binop op="minus">
-                                                    <ct:SymbRef symbIdRef="t"/>
-                                                    <ct:SymbRef symbIdRef="tD"/>                                                    
-                                                </math:Binop>
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
                                             </math:Binop>
                                         </math:Uniop>
-                                        <math:Binop op="minus">
-                                            <ct:Real>1</ct:Real>
-                                            <math:Uniop op="exp">
-                                                <math:Binop op="times">
-                                                    <math:Uniop op="minus">
-                                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
-                                                    </math:Uniop>
-                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
-                                                </math:Binop>
-                                            </math:Uniop>
-                                        </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
                             </math:Binop>
                         </math:Binop>
-                    </math:Equation>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
         </StructuralModel>
@@ -280,17 +274,15 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <math:Equation>
-                                <math:FunctionCall>
-                                    <ct:SymbRef symbIdRef="proportional"/>
-                                    <math:FunctionArgument symbId="b">
-                                        <ct:SymbRef symbIdRef="b"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="f">
-                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Css"/>
-                                    </math:FunctionArgument>
-                                </math:FunctionCall>
-                            </math:Equation>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="proportional"/>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Css"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>

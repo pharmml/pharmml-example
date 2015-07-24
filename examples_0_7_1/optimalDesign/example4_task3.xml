@@ -5,7 +5,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
-    implementedBy="MJS" writtenVersion="0.7"
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
+    implementedBy="MJS" writtenVersion="0.7.1"
     metadataFile="example4_task3.rdf" id="i1">
     
     <!--    Task description
@@ -111,12 +112,10 @@
                                         <ct:Real>24</ct:Real>
                                     </ct:StepSize>
                                     <ct:End>
-                                        <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                            <Binop op="plus">
-                                                <ct:SymbRef symbIdRef="tdoseB"/>
-                                                <ct:Real>72</ct:Real>
-                                            </Binop>
-                                        </Equation>
+                                        <math:Binop op="plus">
+                                            <ct:SymbRef symbIdRef="tdoseB"/>
+                                            <ct:Real>72</ct:Real>
+                                        </math:Binop>
                                     </ct:End>
                                 </ct:Sequence>
                             </ct:Assign>

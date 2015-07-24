@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
-    implementedBy="MJS" writtenVersion="0.7"
+    implementedBy="MJS" writtenVersion="0.7.1"
     metadataFile="task1_twogroups_evaluate.rdf" id="i1">
     
     

@@ -6,8 +6,8 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
     xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
-    xmlns:po="http://www.pharmml.org/probonto/0.2/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <ct:Name>Distribution test</ct:Name>
     
@@ -34,7 +34,7 @@
             <!-- UNIVARIATE DISCRETE UNIVARIATE DISCRETE UNIVARIATE DISCRETE UNIVARIATE DISCRETE -->
             <IndividualParameter symbId="p_Bernoulli">
                 <Distribution>
-                    <po:ProbOnto name="Bernoulli">
+                    <po:ProbOnto name="Bernoulli1">
                         <po:Parameter name="probability">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="p"/>
@@ -46,7 +46,7 @@
             
             <IndividualParameter symbId="p_Binomial">
                 <Distribution>
-                    <po:ProbOnto name="Binomial">
+                    <po:ProbOnto name="Binomial1">
                         <po:Parameter name="numberOfFailures">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="n"/>
@@ -63,7 +63,7 @@
             
             <IndividualParameter symbId="p_CategoricalOrdered">
                 <Distribution>
-                    <po:ProbOnto name="CategoricalOrdered">
+                    <po:ProbOnto name="CategoricalOrdered1">
                         <po:Parameter name="categoryProb">   <!-- p vector for cat1, cat2, cat3 -->
                             <ct:Assign>
                                 <ct:Vector>
@@ -82,7 +82,7 @@
             
             <IndividualParameter symbId="p_CategoricalNonOrdered">
                 <Distribution>
-                    <po:ProbOnto name="CategoricalNonordered">
+                    <po:ProbOnto name="CategoricalNonordered1">
                         <po:Parameter name="categoryProb">   <!-- p vector for cat1, cat2, cat3 -->
                             <ct:Assign>
                                 <ct:Vector>
@@ -101,7 +101,7 @@
             
             <IndividualParameter symbId="p_GP">
                 <Distribution>
-                    <po:ProbOnto name="GeneralizedPoisson">
+                    <po:ProbOnto name="GeneralizedPoisson1">
                         <po:Parameter name="rate">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="lambda"/>
@@ -118,7 +118,7 @@
             
             <IndividualParameter symbId="p_Hypergeometric">
                 <Distribution>
-                    <po:ProbOnto name="Hypergeometric">
+                    <po:ProbOnto name="Hypergeometric1">
                         <po:Parameter name="populationSize">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="N"/>
@@ -174,7 +174,7 @@
             
             <IndividualParameter symbId="p_Poisson">
                 <Distribution>
-                    <po:ProbOnto name="Poisson">
+                    <po:ProbOnto name="Poisson1">
                         <po:Parameter name="rate">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="lambda"/>
@@ -192,14 +192,14 @@
                                 <ct:SymbRef symbIdRef="pi"/>
                             </ct:Assign>
                         </po:Parameter>
-                        <po:MixtureComponent name="Poisson">
+                        <po:MixtureComponent name="Poisson1">
                             <po:Parameter name="rate">
                                 <ct:Assign>
                                     <ct:SymbRef symbIdRef="lambda1"/>
                                 </ct:Assign>
                             </po:Parameter>
                         </po:MixtureComponent>
-                        <po:MixtureComponent name="Poisson">
+                        <po:MixtureComponent name="Poisson1">
                             <po:Parameter name="rate">
                                 <ct:Assign>
                                     <ct:SymbRef symbIdRef="lambda2"/>
@@ -246,7 +246,7 @@
             
             <IndividualParameter symbId="p_ZeroInflatedPoisson">
                 <Distribution>
-                    <po:ProbOnto name="ZeroInflatedPoisson">
+                    <po:ProbOnto name="ZeroInflatedPoisson1">
                         <po:Parameter name="rate">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="lambda"/>
@@ -264,7 +264,7 @@
             <!-- UNIVARIATE CONTINUOUS UNIVARIATE CONTINUOUS UNIVARIATE CONTINUOUS UNIVARIATE CONTINUOUS -->
             <IndividualParameter symbId="p_Beta">
                 <Distribution>
-                    <po:ProbOnto name="Beta">
+                    <po:ProbOnto name="Beta1">
                         <po:Parameter name="alpha">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="alpha"/>
@@ -281,7 +281,7 @@
             
             <IndividualParameter symbId="p_Cauchy">
                 <Distribution>
-                    <po:ProbOnto name="Cauchy">
+                    <po:ProbOnto name="Cauchy1">
                         <po:Parameter name="location">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="x0"/>
@@ -312,28 +312,24 @@
                         </po:Parameter>
                         <po:LowerTruncationBound>
                             <ct:Assign>
-                                <math:Equation>
-                                    <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="mu"/>
-                                        <math:Binop op="times">
-                                            <ct:Real>1.96</ct:Real>
-                                            <ct:SymbRef symbIdRef="sigma"/>
-                                        </math:Binop>
+                                <math:Binop op="minus">
+                                    <ct:SymbRef symbIdRef="mu"/>
+                                    <math:Binop op="times">
+                                        <ct:Real>1.96</ct:Real>
+                                        <ct:SymbRef symbIdRef="sigma"/>
                                     </math:Binop>
-                                </math:Equation>
+                                </math:Binop>
                             </ct:Assign>
                         </po:LowerTruncationBound>
                         <po:UpperTruncationBound>
                             <ct:Assign>
-                                <math:Equation>
-                                    <math:Binop op="plus">
-                                        <ct:SymbRef symbIdRef="mu"/>
-                                        <math:Binop op="times">
-                                            <ct:Real>1.96</ct:Real>
-                                            <ct:SymbRef symbIdRef="sigma"/>
-                                        </math:Binop>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="mu"/>
+                                    <math:Binop op="times">
+                                        <ct:Real>1.96</ct:Real>
+                                        <ct:SymbRef symbIdRef="sigma"/>
                                     </math:Binop>
-                                </math:Equation>
+                                </math:Binop>
                             </ct:Assign>
                         </po:UpperTruncationBound>
                     </po:ProbOnto>
@@ -346,7 +342,7 @@
             <!-- MULTIVARIATE DISCRETE MULTIVARIATE DISCRETE MULTIVARIATE DISCRETE MULTIVARIATE DISCRETE -->
             <IndividualParameter symbId="p_Multinomial">
                 <Distribution>
-                    <po:ProbOnto name="Multinomial">
+                    <po:ProbOnto name="Multinomial1">
                         <po:Parameter name="numberOfTrials">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="n"/>
@@ -369,7 +365,7 @@
             
             <IndividualParameter symbId="p_Dirichlet">
                 <Distribution>
-                    <po:ProbOnto name="Dirichlet">
+                    <po:ProbOnto name="Dirichlet1">
                         <po:Parameter name="concentration">
                             <ct:Assign>
                                 <ct:Vector>
@@ -407,7 +403,7 @@
             
             <PopulationParameter symbId="p_InverseWishart">
                 <Distribution>
-                    <po:ProbOnto name="InverseWishart">
+                    <po:ProbOnto name="InverseWishart1">
                         <po:Parameter name="scaleMatrix">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="R"/>     <!-- scale matrix -->

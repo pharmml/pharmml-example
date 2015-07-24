@@ -4,7 +4,8 @@
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     
     <!-- MODEL NAME -->
@@ -26,15 +27,13 @@
         <ParameterModel blkId="pm1">
             <PopulationParameter symbId="a">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Binop op="minus">
-                            <ct:Real>1</ct:Real>
-                            <Binop op="plus">
-                                <ct:SymbRef symbIdRef="Genp1"/>
-                                <ct:SymbRef symbIdRef="Genp2"/>
-                            </Binop>
-                        </Binop>
-                    </Equation>
+                    <math:Binop op="minus">
+                        <ct:Real>1</ct:Real>
+                        <math:Binop op="plus">
+                            <ct:SymbRef symbIdRef="Genp1"/>
+                            <ct:SymbRef symbIdRef="Genp2"/>
+                        </math:Binop>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
         </ParameterModel>

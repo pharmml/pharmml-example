@@ -7,8 +7,7 @@
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
-    xmlns:un="http://www.uncertml.org/3.0"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <ct:Name>TTE - Weibull hazard</ct:Name>
     
@@ -34,24 +33,22 @@
                     <!-- h(t) = beta/lambda * t^(beta-1)/lambda -->
                     <HazardFunction symbId="h">
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="times">
-                                    <math:Binop op="divide">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                                    </math:Binop>
-                                    <math:Binop op="divide">
-                                        <math:Binop op="power">
-                                            <ct:SymbRef symbIdRef="t"/>
-                                            <math:Binop op="minus">
-                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
-                                                <ct:Real>1</ct:Real>
-                                            </math:Binop>
-                                        </math:Binop>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                                    </math:Binop>
+                            <math:Binop op="times">
+                                <math:Binop op="divide">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                                 </math:Binop>
-                            </math:Equation>
+                                <math:Binop op="divide">
+                                    <math:Binop op="power">
+                                        <ct:SymbRef symbIdRef="t"/>
+                                        <math:Binop op="minus">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="beta"/>
+                                            <ct:Real>1</ct:Real>
+                                        </math:Binop>
+                                    </math:Binop>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                                </math:Binop>
+                            </math:Binop>
                         </ct:Assign>   
                     </HazardFunction>
                 </TimeToEventData>

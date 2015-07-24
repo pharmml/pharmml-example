@@ -4,7 +4,8 @@
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
-    implementedBy="MJS" writtenVersion="0.7" 
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" 
     metadataFile="example2.rdf" id="i1">
     
     <ct:Name>Example 2 - simulation continuous PK (Bonate 2012)</ct:Name>
@@ -15,12 +16,12 @@
         <ct:FunctionArgument symbolType="real" symbId="b"/>
         <ct:FunctionArgument symbolType="real" symbId="f"/>
         <ct:Definition>
-            <math:Equation>
+            <ct:Assign>
                 <math:Binop op="times">
                     <ct:SymbRef symbIdRef="b"/>
                     <ct:SymbRef symbIdRef="f"/>
                 </math:Binop>
-            </math:Equation>
+            </ct:Assign>
         </ct:Definition>
     </ct:FunctionDefinition>
     
@@ -47,22 +48,22 @@
             <Covariate symbId="Weight">
                 <Continuous>
                     <Distribution>
-                        <ProbOnto name="Normal1">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:SymbRef symbIdRef="pop_Weight"/>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="stdev">
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
                                 <ct:Assign>
                                     <ct:SymbRef symbIdRef="omega_Weight"/>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                     <Transformation>
                         <TransformedCovariate symbId="theta2Weight"/>
-                        <math:Equation>
+                        <ct:Assign>
                             <math:Binop op="power">
                                 <math:Binop op="divide">
                                     <ct:SymbRef symbIdRef="Weight"/>
@@ -70,7 +71,7 @@
                                 </math:Binop>
                                 <ct:SymbRef blkIdRef="pm1" symbIdRef="theta2"/>
                             </math:Binop>
-                        </math:Equation>
+                        </ct:Assign>
                     </Transformation>
                 </Continuous>
             </Covariate>
@@ -88,12 +89,10 @@
             <!-- CL -->
             <PopulationParameter symbId="CL">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="theta1"/>
-                            <ct:SymbRef blkIdRef="cm1" symbIdRef="theta2Weight"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="times">
+                        <ct:SymbRef symbIdRef="theta1"/>
+                        <ct:SymbRef blkIdRef="cm1" symbIdRef="theta2Weight"/>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
             
@@ -103,18 +102,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:Real>0</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="stdev">
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="omega_theta1"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </RandomVariable>
             <IndividualParameter symbId="theta1">
@@ -139,18 +138,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:Real>0</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="stdev">
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="omega_V"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </RandomVariable>
             <IndividualParameter symbId="V">
@@ -176,84 +175,80 @@
             <ct:Variable symbolType="real" symbId="tD"/>
             <ct:Variable symbolType="real" symbId="k">
                 <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="divide">
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                        </math:Binop>
-                    </math:Equation>
+                    <math:Binop op="divide">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
             <!-- Css -->
             <ct:Variable symbolType="real" symbId="Css">
                 <ct:Assign>
-                    <math:Equation>
+                    <math:Binop op="times">
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="D"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
                         <math:Binop op="times">
                             <math:Binop op="divide">
-                                <ct:SymbRef symbIdRef="D"/>
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                            </math:Binop>
-                            <math:Binop op="times">
-                                <math:Binop op="divide">
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
-                                    <math:Binop op="minus">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
-                                        <ct:SymbRef symbIdRef="k"/>
-                                    </math:Binop>
-                                </math:Binop>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
                                 <math:Binop op="minus">
-                                    <math:Binop op="divide">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
+                                    <ct:SymbRef symbIdRef="k"/>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="minus">
+                                <math:Binop op="divide">
+                                    <math:Uniop op="exp">
+                                        <math:Binop op="times">
+                                            <math:Uniop op="minus">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                            </math:Uniop>
+                                            <math:Binop op="minus">
+                                                <ct:SymbRef symbIdRef="t"/>
+                                                <ct:SymbRef symbIdRef="tD"/>                                                    
+                                            </math:Binop>
+                                        </math:Binop>
+                                    </math:Uniop>
+                                    <math:Binop op="minus">
+                                        <ct:Real>1</ct:Real>
                                         <math:Uniop op="exp">
                                             <math:Binop op="times">
                                                 <math:Uniop op="minus">
                                                     <ct:SymbRef symbIdRef="k"/>
                                                 </math:Uniop>
-                                                <math:Binop op="minus">
-                                                    <ct:SymbRef symbIdRef="t"/>
-                                                    <ct:SymbRef symbIdRef="tD"/>                                                    
-                                                </math:Binop>
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
                                             </math:Binop>
                                         </math:Uniop>
-                                        <math:Binop op="minus">
-                                            <ct:Real>1</ct:Real>
-                                            <math:Uniop op="exp">
-                                                <math:Binop op="times">
-                                                    <math:Uniop op="minus">
-                                                        <ct:SymbRef symbIdRef="k"/>
-                                                    </math:Uniop>
-                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
-                                                </math:Binop>
-                                            </math:Uniop>
-                                        </math:Binop>
                                     </math:Binop>
-                                    <math:Binop op="divide">
+                                </math:Binop>
+                                <math:Binop op="divide">
+                                    <math:Uniop op="exp">
+                                        <math:Binop op="times">
+                                            <math:Uniop op="minus">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
+                                            </math:Uniop>
+                                            <math:Binop op="minus">
+                                                <ct:SymbRef symbIdRef="t"/>
+                                                <ct:SymbRef symbIdRef="tD"/>                                                    
+                                            </math:Binop>
+                                        </math:Binop>
+                                    </math:Uniop>
+                                    <math:Binop op="minus">
+                                        <ct:Real>1</ct:Real>
                                         <math:Uniop op="exp">
                                             <math:Binop op="times">
                                                 <math:Uniop op="minus">
                                                     <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
                                                 </math:Uniop>
-                                                <math:Binop op="minus">
-                                                    <ct:SymbRef symbIdRef="t"/>
-                                                    <ct:SymbRef symbIdRef="tD"/>                                                    
-                                                </math:Binop>
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
                                             </math:Binop>
                                         </math:Uniop>
-                                        <math:Binop op="minus">
-                                            <ct:Real>1</ct:Real>
-                                            <math:Uniop op="exp">
-                                                <math:Binop op="times">
-                                                    <math:Uniop op="minus">
-                                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka"/>
-                                                    </math:Uniop>
-                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
-                                                </math:Binop>
-                                            </math:Uniop>
-                                        </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
                             </math:Binop>
-                        </math:Binop>                        
-                    </math:Equation>
+                        </math:Binop>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
         </StructuralModel>
@@ -267,18 +262,18 @@
                         <ct:SymbRef blkIdRef="vm2" symbIdRef="resErr"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <ProbOnto name="Normal1">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:Real>0</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="stdev">
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
                                 <ct:Assign>
                                     <ct:Real>1</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                 </RandomVariable>
                 <Standard symbId="Css_obs">
@@ -287,17 +282,15 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <math:Equation>
-                                <math:FunctionCall>
-                                    <ct:SymbRef symbIdRef="proportional"/>
-                                    <math:FunctionArgument symbId="b">
-                                        <ct:SymbRef symbIdRef="b"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="f">
-                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Css"/>
-                                    </math:FunctionArgument>
-                                </math:FunctionCall>
-                            </math:Equation>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="proportional"/>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Css"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>

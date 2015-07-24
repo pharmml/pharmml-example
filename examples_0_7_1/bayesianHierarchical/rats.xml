@@ -3,7 +3,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
-    writtenVersion="0.7" id="i1">
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    writtenVersion="0.7.1" id="i1">
     
     <ct:Name>Rats example</ct:Name>
     
@@ -30,18 +35,16 @@
             <!-- mu[i , j] <- alpha[i] + beta[i] * (x[j] - xbar) -->
             <IndividualParameter symbId="mu">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Binop op="plus">
-                            <ct:SymbRef symbIdRef="alpha"/>
-                            <Binop op="times">
-                                <ct:SymbRef symbIdRef="beta"/>
-                                <Binop op="minus">
-                                    <ct:SymbRef symbIdRef="x"/>
-                                    <ct:SymbRef symbIdRef="xbar"/>
-                                </Binop>
-                            </Binop>
-                        </Binop>
-                    </Equation>
+                    <math:Binop op="plus">
+                        <ct:SymbRef symbIdRef="alpha"/>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="beta"/>
+                            <math:Binop op="minus">
+                                <ct:SymbRef symbIdRef="x"/>
+                                <ct:SymbRef symbIdRef="xbar"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
                 </ct:Assign>
             </IndividualParameter>
             
@@ -51,18 +54,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="subject"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal3">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal3">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="alpha.c"/>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="precision">
+                        </po:Parameter>
+                        <po:Parameter name="precision">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="alpha.tau"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </IndividualParameter>
             
@@ -72,18 +75,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="subject"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal2">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal2">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="beta.c"/>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="stdev">
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="beta.tau"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </IndividualParameter>
             
@@ -93,32 +96,30 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="pop"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Gamma">
-                        <Parameter name="shape">
+                    <po:ProbOnto name="Gamma1">
+                        <po:Parameter name="shape">
                             <ct:Assign>
                                 <ct:Real>0.001</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="scale">
+                        </po:Parameter>
+                        <po:Parameter name="scale">
                             <ct:Assign>
                                 <ct:Real>0.001</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
             <!-- sigma <- 1 / sqrt(tau.c) -->
             <PopulationParameter symbId="sigma">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Binop op="divide">
-                            <ct:Real>1</ct:Real>
-                            <Uniop op="sqrt">
-                                <ct:SymbRef symbIdRef="tau.c"/>
-                            </Uniop>
-                        </Binop>
-                    </Equation>
+                    <math:Binop op="divide">
+                        <ct:Real>1</ct:Real>
+                        <math:Uniop op="sqrt">
+                            <ct:SymbRef symbIdRef="tau.c"/>
+                        </math:Uniop>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
             
@@ -128,18 +129,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="pop"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal3">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal3">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:Real>0.0</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="precision">
+                        </po:Parameter>
+                        <po:Parameter name="precision">
                             <ct:Assign>
                                 <ct:Real>1.0E-6</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
@@ -149,18 +150,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="pop"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal2">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal2">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:Real>0.001</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="var">
+                        </po:Parameter>
+                        <po:Parameter name="var">
                             <ct:Assign>
                                 <ct:Real>0.001</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
 
@@ -170,18 +171,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="pop"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal2">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal2">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:Real>0.0</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="var">
+                        </po:Parameter>
+                        <po:Parameter name="var">
                             <ct:Assign>
                                 <ct:Real>1.0E-6</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
@@ -191,33 +192,31 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="pop"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Gamma">
-                        <Parameter name="shape">
+                    <po:ProbOnto name="Gamma1">
+                        <po:Parameter name="shape">
                             <ct:Assign>
                                 <ct:Real>0.001</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="scale">
+                        </po:Parameter>
+                        <po:Parameter name="scale">
                             <ct:Assign>
                                 <ct:Real>0.001</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </PopulationParameter>
             
             <!-- alpha0 <- alpha.c - xbar * beta.c - pop -->
             <PopulationParameter symbId="alpha0">
                 <ct:Assign>
-                    <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                        <Binop op="minus">
-                            <ct:SymbRef symbIdRef="alpha.c"/>
-                            <Binop op="times">
-                                <ct:SymbRef symbIdRef="xbar"/>
-                                <ct:SymbRef symbIdRef="beta.c"/>
-                            </Binop>
-                        </Binop>
-                    </Equation>
+                    <math:Binop op="minus">
+                        <ct:SymbRef symbIdRef="alpha.c"/>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="xbar"/>
+                            <ct:SymbRef symbIdRef="beta.c"/>
+                        </math:Binop>
+                    </math:Binop>
                 </ct:Assign>
             </PopulationParameter>
         </ParameterModel>
@@ -230,18 +229,18 @@
                         <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <ProbOnto name="Normal3">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal3">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:SymbRef blkIdRef="pm1" symbIdRef="mu"/>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="precision">
+                            </po:Parameter>
+                            <po:Parameter name="precision">
                                 <ct:Assign>
                                     <ct:SymbRef blkIdRef="pm1" symbIdRef="tau.c"/>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                 </General>
             </ContinuousData>

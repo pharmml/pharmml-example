@@ -6,7 +6,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <ct:Name>Negative Binomial model</ct:Name>
     
@@ -50,75 +51,73 @@
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
                         <ct:Assign>
-                            <math:Equation>
-                                <math:Binop op="minus">
-                                    <math:Binop op="plus">
+                            <math:Binop op="minus">
+                                <math:Binop op="plus">
+                                    <math:Binop op="minus">
                                         <math:Binop op="minus">
                                             <math:Binop op="minus">
-                                                <math:Binop op="minus">
-                                                    <!-- gammaln(k+1/tau) -->
-                                                    <math:Uniop op="gammaln">
-                                                        <math:Binop op="plus">
-                                                            <ct:SymbRef symbIdRef="k"/>
-                                                            <math:Binop op="divide">
-                                                                <ct:Real>1</ct:Real>
-                                                                <ct:SymbRef symbIdRef="Tau"/>
-                                                            </math:Binop>
-                                                        </math:Binop>
-                                                    </math:Uniop>
-                                                    <!-- factln(k) -->
-                                                    <math:Uniop op="factln">
-                                                        <ct:SymbRef symbIdRef="k"/>
-                                                    </math:Uniop>
-                                                </math:Binop>
-                                                <!-- gammaln(1/tau) -->
+                                                <!-- gammaln(k+1/tau) -->
                                                 <math:Uniop op="gammaln">
-                                                    <math:Binop op="divide">
-                                                        <ct:Real>1</ct:Real>
-                                                        <ct:SymbRef symbIdRef="Tau"/>
+                                                    <math:Binop op="plus">
+                                                        <ct:SymbRef symbIdRef="k"/>
+                                                        <math:Binop op="divide">
+                                                            <ct:Real>1</ct:Real>
+                                                            <ct:SymbRef symbIdRef="Tau"/>
+                                                        </math:Binop>
                                                     </math:Binop>
                                                 </math:Uniop>
+                                                <!-- factln(k) -->
+                                                <math:Uniop op="factln">
+                                                    <ct:SymbRef symbIdRef="k"/>
+                                                </math:Uniop>
                                             </math:Binop>
-                                            <!-- 1/tau log(1+tau * lambda) -->
-                                            <math:Binop op="times">
+                                            <!-- gammaln(1/tau) -->
+                                            <math:Uniop op="gammaln">
                                                 <math:Binop op="divide">
                                                     <ct:Real>1</ct:Real>
                                                     <ct:SymbRef symbIdRef="Tau"/>
                                                 </math:Binop>
-                                                <math:Uniop op="log">
-                                                    <math:Binop op="plus">
-                                                        <ct:Real>1</ct:Real>
-                                                        <math:Binop op="times">
-                                                            <ct:SymbRef symbIdRef="Tau"/>
-                                                            <ct:SymbRef symbIdRef="Lambda"/>
-                                                        </math:Binop>
-                                                    </math:Binop>
-                                                </math:Uniop>
-                                            </math:Binop>
+                                            </math:Uniop>
                                         </math:Binop>
+                                        <!-- 1/tau log(1+tau * lambda) -->
                                         <math:Binop op="times">
-                                            <!-- k*log(lambda) -->
-                                            <ct:SymbRef symbIdRef="k"/>                         
+                                            <math:Binop op="divide">
+                                                <ct:Real>1</ct:Real>
+                                                <ct:SymbRef symbIdRef="Tau"/>
+                                            </math:Binop>
                                             <math:Uniop op="log">
-                                                <ct:SymbRef symbIdRef="Lambda"/>
+                                                <math:Binop op="plus">
+                                                    <ct:Real>1</ct:Real>
+                                                    <math:Binop op="times">
+                                                        <ct:SymbRef symbIdRef="Tau"/>
+                                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                                    </math:Binop>
+                                                </math:Binop>
                                             </math:Uniop>
                                         </math:Binop>
                                     </math:Binop>
                                     <math:Binop op="times">
-                                        <!-- k*log(1/tau + lambda) -->
+                                        <!-- k*log(lambda) -->
                                         <ct:SymbRef symbIdRef="k"/>                         
                                         <math:Uniop op="log">
-                                            <math:Binop op="plus">
-                                                <math:Binop op="divide">
-                                                    <ct:Real>1</ct:Real>
-                                                    <ct:SymbRef symbIdRef="Tau"/>
-                                                </math:Binop>
-                                                <ct:SymbRef symbIdRef="Lambda"/>
-                                            </math:Binop>
+                                            <ct:SymbRef symbIdRef="Lambda"/>
                                         </math:Uniop>
                                     </math:Binop>
                                 </math:Binop>
-                            </math:Equation>
+                                <math:Binop op="times">
+                                    <!-- k*log(1/tau + lambda) -->
+                                    <ct:SymbRef symbIdRef="k"/>                         
+                                    <math:Uniop op="log">
+                                        <math:Binop op="plus">
+                                            <math:Binop op="divide">
+                                                <ct:Real>1</ct:Real>
+                                                <ct:SymbRef symbIdRef="Tau"/>
+                                            </math:Binop>
+                                            <ct:SymbRef symbIdRef="Lambda"/>
+                                        </math:Binop>
+                                    </math:Uniop>
+                                </math:Binop>
+                            </math:Binop>
                         </ct:Assign>
                     </PMF>
                 </CountData>
@@ -139,18 +138,18 @@
                             <ct:SymbRef symbIdRef="k"/>
                         </math:LogicBinop>
                         <Distribution>
-                            <ProbOnto name="NegativeBinomial2">
-                                <Parameter name="rate">
+                            <po:ProbOnto name="NegativeBinomial2">
+                                <po:Parameter name="rate">
                                     <ct:Assign>
                                         <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                                     </ct:Assign>
-                                </Parameter>
-                                <Parameter name="overdispersion">
+                                </po:Parameter>
+                                <po:Parameter name="overdispersion">
                                     <ct:Assign>
                                         <ct:SymbRef blkIdRef="pm1" symbIdRef="tau"/>
                                     </ct:Assign>
-                                </Parameter>
-                            </ProbOnto>
+                                </po:Parameter>
+                            </po:ProbOnto>
                         </Distribution>
                     </PMF>
                 </CountData>

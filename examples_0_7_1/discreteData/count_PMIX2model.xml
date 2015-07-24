@@ -6,7 +6,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.7" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <ct:Name>Poisson Mixture model – PMIX</ct:Name>
     
@@ -60,52 +61,50 @@
                         </math:LogicBinop>
                         <ct:Assign>
                             <!-- MP*P1; P1 = - lambda1 + k*log(lambda1) - factln(k) -->
-                            <math:Equation>
-                                <math:Binop op="plus">
-                                    <math:Binop op="times">
-                                        <ct:SymbRef symbIdRef="Pi"/>
-                                        <math:Binop op="plus">
-                                            <math:Uniop op="minus">
-                                                <ct:SymbRef symbIdRef="Lambda1"/>
-                                            </math:Uniop>
-                                            <math:Binop op="minus">
-                                                <math:Binop op="times">
-                                                    <ct:SymbRef symbIdRef="k"/>
-                                                    <math:Uniop op="log">
-                                                        <ct:SymbRef symbIdRef="Lambda1"/>
-                                                    </math:Uniop>
-                                                </math:Binop>
-                                                <math:Uniop op="factln">
-                                                    <ct:SymbRef symbIdRef="k"/>
-                                                </math:Uniop>
-                                            </math:Binop>
-                                        </math:Binop>
-                                    </math:Binop>
-                                    <!-- (1-MP)*P2; P2 = - lambda2 + k*log(lambda2) - factln(k) -->
-                                    <math:Binop op="times">
+                            <math:Binop op="plus">
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="Pi"/>
+                                    <math:Binop op="plus">
+                                        <math:Uniop op="minus">
+                                            <ct:SymbRef symbIdRef="Lambda1"/>
+                                        </math:Uniop>
                                         <math:Binop op="minus">
-                                            <ct:Real>1</ct:Real>
-                                            <ct:SymbRef symbIdRef="Pi"/>
-                                        </math:Binop>
-                                        <math:Binop op="plus">
-                                            <math:Uniop op="minus">
-                                                <ct:SymbRef symbIdRef="Lambda2"/>
-                                            </math:Uniop>
-                                            <math:Binop op="minus">
-                                                <math:Binop op="times">
-                                                    <ct:SymbRef symbIdRef="k"/>
-                                                    <math:Uniop op="log">
-                                                        <ct:SymbRef symbIdRef="Lambda2"/>
-                                                    </math:Uniop>
-                                                </math:Binop>
-                                                <math:Uniop op="factln">
-                                                    <ct:SymbRef symbIdRef="k"/>
+                                            <math:Binop op="times">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                                <math:Uniop op="log">
+                                                    <ct:SymbRef symbIdRef="Lambda1"/>
                                                 </math:Uniop>
                                             </math:Binop>
+                                            <math:Uniop op="factln">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                            </math:Uniop>
                                         </math:Binop>
                                     </math:Binop>
                                 </math:Binop>
-                            </math:Equation>
+                                <!-- (1-MP)*P2; P2 = - lambda2 + k*log(lambda2) - factln(k) -->
+                                <math:Binop op="times">
+                                    <math:Binop op="minus">
+                                        <ct:Real>1</ct:Real>
+                                        <ct:SymbRef symbIdRef="Pi"/>
+                                    </math:Binop>
+                                    <math:Binop op="plus">
+                                        <math:Uniop op="minus">
+                                            <ct:SymbRef symbIdRef="Lambda2"/>
+                                        </math:Uniop>
+                                        <math:Binop op="minus">
+                                            <math:Binop op="times">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                                <math:Uniop op="log">
+                                                    <ct:SymbRef symbIdRef="Lambda2"/>
+                                                </math:Uniop>
+                                            </math:Binop>
+                                            <math:Uniop op="factln">
+                                                <ct:SymbRef symbIdRef="k"/>
+                                            </math:Uniop>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
                         </ct:Assign>
                     </PMF>
                 </CountData>
@@ -118,30 +117,30 @@
                     <CountVariable symbId="y"/>
                     <PMF linkFunction="log">
                         <Distribution>
-                            <ProbOnto name="MixtureDistribution">
+                            <po:ProbOnto name="MixtureDistribution">
                                 <!-- mixing coefficients -->
-                                <Parameter name="weight">
+                                <po:Parameter name="weight">
                                     <ct:Assign>
                                         <ct:SymbRef symbIdRef="pi1"/>
                                     </ct:Assign>
-                                </Parameter>
+                                </po:Parameter>
                                 <!-- lambda_1	-	Poisson intensity	
                                      lambda_2	-	Poisson intensity -->
-                                <MixtureComponent name="Poisson">
-                                    <Parameter name="rate">
+                                <po:MixtureComponent name="Poisson1">
+                                    <po:Parameter name="rate">
                                         <ct:Assign>
                                             <ct:SymbRef symbIdRef="lambda1"/>
                                         </ct:Assign>
-                                    </Parameter>
-                                </MixtureComponent>
-                                <MixtureComponent name="Poisson">
-                                    <Parameter name="rate">
+                                    </po:Parameter>
+                                </po:MixtureComponent>
+                                <po:MixtureComponent name="Poisson1">
+                                    <po:Parameter name="rate">
                                         <ct:Assign>
                                             <ct:SymbRef symbIdRef="lambda2"/>
                                         </ct:Assign>
-                                    </Parameter>
-                                </MixtureComponent>
-                            </ProbOnto>
+                                    </po:Parameter>
+                                </po:MixtureComponent>
+                            </po:ProbOnto>
                         </Distribution>
                     </PMF>
                 </CountData>

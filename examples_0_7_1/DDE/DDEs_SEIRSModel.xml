@@ -7,7 +7,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:design="http://www.pharmml.org/pharmml/0.7/TrialDesign"
-    writtenVersion="0.7" implementedBy="MJS" id="i1">
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>SEIRS model - DDE</ct:Name>
@@ -27,68 +28,64 @@
             <!-- N = S + E + I + R -->
             <ct:Variable symbolType="real" symbId="N">
                 <ct:Assign>
-                    <math:Equation>
+                    <math:Binop op="plus">
+                        <ct:SymbRef symbIdRef="S"/>
                         <math:Binop op="plus">
-                            <ct:SymbRef symbIdRef="S"/>
+                            <ct:SymbRef symbIdRef="E"/>
                             <math:Binop op="plus">
-                                <ct:SymbRef symbIdRef="E"/>
-                                <math:Binop op="plus">
-                                    <ct:SymbRef symbIdRef="I"/>
-                                    <ct:SymbRef symbIdRef="R"/>
-                                </math:Binop>
+                                <ct:SymbRef symbIdRef="I"/>
+                                <ct:SymbRef symbIdRef="R"/>
                             </math:Binop>
                         </math:Binop>
-                    </math:Equation>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
-        
+            
             <!-- ddt_S = A - d*S -lambda*S*I/N +gamma*delay(I,tau)*exp(-d*tau) -->
             <ct:DerivativeVariable symbId="S" symbolType="real">
                 <ct:Assign>
-                    <math:Equation>
+                    <math:Binop op="minus">
+                        <ct:SymbRef symbIdRef="A"/>
                         <math:Binop op="minus">
-                            <ct:SymbRef symbIdRef="A"/>
-                            <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="d"/>
+                                <ct:SymbRef symbIdRef="A"/>
+                            </math:Binop>
+                            <math:Binop op="plus">
                                 <math:Binop op="times">
-                                    <ct:SymbRef symbIdRef="d"/>
-                                    <ct:SymbRef symbIdRef="A"/>
-                                </math:Binop>
-                                <math:Binop op="plus">
+                                    <math:Uniop op="minus">
+                                        <ct:SymbRef symbIdRef="lambda"/>
+                                    </math:Uniop>
                                     <math:Binop op="times">
-                                        <math:Uniop op="minus">
-                                            <ct:SymbRef symbIdRef="lambda"/>
-                                        </math:Uniop>
-                                        <math:Binop op="times">
-                                            <ct:SymbRef symbIdRef="S"/>
-                                            <math:Binop op="divide">
-                                                <ct:SymbRef symbIdRef="I"/>
-                                                <ct:SymbRef symbIdRef="N"/>
-                                            </math:Binop>
+                                        <ct:SymbRef symbIdRef="S"/>
+                                        <math:Binop op="divide">
+                                            <ct:SymbRef symbIdRef="I"/>
+                                            <ct:SymbRef symbIdRef="N"/>
                                         </math:Binop>
                                     </math:Binop>
+                                </math:Binop>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="gamma"/>
                                     <math:Binop op="times">
-                                        <ct:SymbRef symbIdRef="gamma"/>
-                                        <math:Binop op="times">
-                                            <ct:Delay>
-                                                <ct:SymbRef symbIdRef="I"/>
-                                                <ct:DelayVariable>
-                                                    <ct:SymbRef symbIdRef="tau"/>
-                                                </ct:DelayVariable>
-                                            </ct:Delay>
-                                            <math:Uniop op="exp">
-                                                <math:Binop op="times">
-                                                    <math:Uniop op="minus">
-                                                        <ct:SymbRef symbIdRef="d"/>
-                                                    </math:Uniop>
-                                                    <ct:SymbRef symbIdRef="tau"/>
-                                                </math:Binop>
-                                            </math:Uniop>
-                                        </math:Binop>
+                                        <ct:Delay>
+                                            <ct:SymbRef symbIdRef="I"/>
+                                            <ct:DelayVariable>
+                                                <ct:SymbRef symbIdRef="tau"/>
+                                            </ct:DelayVariable>
+                                        </ct:Delay>
+                                        <math:Uniop op="exp">
+                                            <math:Binop op="times">
+                                                <math:Uniop op="minus">
+                                                    <ct:SymbRef symbIdRef="d"/>
+                                                </math:Uniop>
+                                                <ct:SymbRef symbIdRef="tau"/>
+                                            </math:Binop>
+                                        </math:Uniop>
                                     </math:Binop>
                                 </math:Binop>
                             </math:Binop>
                         </math:Binop>
-                    </math:Equation>
+                    </math:Binop>
                 </ct:Assign>
                 <ct:IndependentVariable>
                     <ct:SymbRef symbIdRef="t"/>

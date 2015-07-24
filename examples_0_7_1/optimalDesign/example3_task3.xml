@@ -5,7 +5,8 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
-    implementedBy="MJS" writtenVersion="0.7"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1"
     metadataFile="example3_task1.rdf" id="i1">
     
     <!--    Task description
@@ -165,18 +166,18 @@
                         <mdef:Distribution>
                             <mdef:Piecewise>
                                 <Piece xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                    <ProbOnto name="Normal2">
-                                        <mdef:Parameter name="mean">
+                                    <po:ProbOnto name="Normal2">
+                                        <po:Parameter name="mean">
                                             <ct:Assign>
                                                 <ct:SymbRef symbIdRef="WT1_mean"/>
                                             </ct:Assign>
-                                        </mdef:Parameter>
-                                        <mdef:Parameter name="var">
+                                        </po:Parameter>
+                                        <po:Parameter name="var">
                                             <ct:Assign>
                                                 <ct:SymbRef symbIdRef="WT1_variance"/>
                                             </ct:Assign>
-                                        </mdef:Parameter>
-                                    </ProbOnto>
+                                        </po:Parameter>
+                                    </po:ProbOnto>
                                     <Condition>
                                         <!-- "arm1" -->
                                         <LogicBinop op="eq">
@@ -186,18 +187,18 @@
                                     </Condition>
                                 </Piece>
                                 <Piece xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                    <ProbOnto name="Normal2">
-                                        <mdef:Parameter name="mean">
+                                    <po:ProbOnto name="Normal2">
+                                        <po:Parameter name="mean">
                                             <ct:Assign>
                                                 <ct:SymbRef symbIdRef="WT2_mean"/>
                                             </ct:Assign>
-                                        </mdef:Parameter>
-                                        <mdef:Parameter name="var">
+                                        </po:Parameter>
+                                        <po:Parameter name="var">
                                             <ct:Assign>
                                                 <ct:SymbRef symbIdRef="WT2_variance"/>
                                             </ct:Assign>
-                                        </mdef:Parameter>
-                                    </ProbOnto>
+                                        </po:Parameter>
+                                    </po:ProbOnto>
                                     <Condition>
                                         <!-- "arm2" -->
                                         <LogicBinop op="eq">

@@ -5,7 +5,9 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
-    implementedBy="MJS" writtenVersion="0.7"
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1"
     metadataFile="example5_task1.rdf" id="i1">
     
     <!--    Task description
@@ -125,12 +127,10 @@
                             <ds:Map admNumber="1"/>
                         </TargetMapping>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                <Binop op="times">
-                                    <ct:SymbRef symbIdRef="p"/>
-                                    <ct:Real>30</ct:Real>
-                                </Binop>
-                            </Equation>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="p"/>
+                                <ct:Real>30</ct:Real>
+                            </math:Binop>
                         </ct:Assign>
                     </DoseAmount>
                     <!-- doseTime=[0,4,24,28,48,52,72,76,168,172,192,196,216,220,240,244,336,340,360,364,384,388,408,412] -->
@@ -158,12 +158,10 @@
                             <ds:Map admNumber="1"/>
                         </TargetMapping>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                <Binop op="times">
-                                    <ct:SymbRef symbIdRef="p"/>
-                                    <ct:Real>45</ct:Real>
-                                </Binop>
-                            </Equation>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="p"/>
+                                <ct:Real>45</ct:Real>
+                            </math:Binop>
                         </ct:Assign>
                     </DoseAmount>
                     <!-- doseTime=[0,4,24,28,48,52,72,76,168,172,192,196,216,220,240,244,336,340,360,364,384,388,408,412] -->
@@ -191,12 +189,10 @@
                             <ds:Map admNumber="1"/>
                         </TargetMapping>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                <Binop op="times">
-                                    <ct:SymbRef symbIdRef="p"/>
-                                    <ct:Real>60</ct:Real>
-                                </Binop>
-                            </Equation>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="p"/>
+                                <ct:Real>60</ct:Real>
+                            </math:Binop>
                         </ct:Assign>
                     </DoseAmount>
                     <!-- doseTime=[0,4,24,28,48,52,72,76,168,172,192,196,216,220,240,244,336,340,360,364,384,388,408,412] -->
@@ -224,12 +220,10 @@
                             <ds:Map admNumber="1"/>
                         </TargetMapping>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                <Binop op="times">
-                                    <ct:SymbRef symbIdRef="p"/>
-                                    <ct:Real>75</ct:Real>
-                                </Binop>
-                            </Equation>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="p"/>
+                                <ct:Real>75</ct:Real>
+                            </math:Binop>
                         </ct:Assign>
                     </DoseAmount>
                     <!-- doseTime=[0,4,24,28,48,52,72,76,168,172,192,196,216,220,240,244,336,340,360,364,384,388,408,412] -->
@@ -257,12 +251,10 @@
                             <ds:Map admNumber="2"/>
                         </TargetMapping>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                <Binop op="times">
-                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="BSA"/>     <!-- p=BSA -->
-                                    <ct:Real>25</ct:Real>
-                                </Binop>
-                            </Equation>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="cm1" symbIdRef="BSA"/>     <!-- p=BSA -->
+                                <ct:Real>25</ct:Real>
+                            </math:Binop>
                         </ct:Assign>
                     </DoseAmount>
                     <!-- doseTime=[rep(c(54,222,390),1)+672*rep(0, each=3)] -->
@@ -292,12 +284,10 @@
                             <ds:Map admNumber="3"/>
                         </TargetMapping>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                <Binop op="times">
-                                    <ct:SymbRef blkIdRef="cm1" symbIdRef="BSA"/>
-                                    <ct:Real>75</ct:Real>
-                                </Binop>
-                            </Equation>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="cm1" symbIdRef="BSA"/>
+                                <ct:Real>75</ct:Real>
+                            </math:Binop>
                         </ct:Assign>
                     </DoseAmount>
                     <DosingTimes>
@@ -543,18 +533,18 @@
                         <mdef:Distribution>
                             <mdef:Piecewise>
                                 <Piece xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                    <ProbOnto name="Normal2">
-                                        <mdef:Parameter name="mean">
+                                    <po:ProbOnto name="Normal2">
+                                        <po:Parameter name="mean">
                                             <ct:Assign>
                                                 <ct:Real>1.847727</ct:Real>
                                             </ct:Assign>
-                                        </mdef:Parameter>
-                                        <mdef:Parameter name="var">
+                                        </po:Parameter>
+                                        <po:Parameter name="var">
                                             <ct:Assign>
                                                 <ct:Real>0.038066</ct:Real>
                                             </ct:Assign>
-                                        </mdef:Parameter>
-                                    </ProbOnto>
+                                        </po:Parameter>
+                                    </po:ProbOnto>
                                     <Condition>                                 <!-- special case -->
                                         <LogicBinop op="or">                    <!-- arm=arm1 OR arm=arm2 -->
                                             <LogicBinop op="eq">                <!-- SEX=M AND ETHNICITY=indian -->
@@ -569,18 +559,18 @@
                                     </Condition>
                                 </Piece>
                                 <Piece xmlns="http://www.pharmml.org/pharmml/0.7/Maths">
-                                    <ProbOnto name="Normal2">
-                                        <mdef:Parameter name="mean">
+                                    <po:ProbOnto name="Normal2">
+                                        <po:Parameter name="mean">
                                             <ct:Assign>
                                                 <ct:Real>1.795</ct:Real>
                                             </ct:Assign>
-                                        </mdef:Parameter>
-                                        <mdef:Parameter name="var">
+                                        </po:Parameter>
+                                        <po:Parameter name="var">
                                             <ct:Assign>
                                                 <ct:Real>0.041209</ct:Real>
                                             </ct:Assign>
-                                        </mdef:Parameter>
-                                    </ProbOnto>
+                                        </po:Parameter>
+                                    </po:ProbOnto>
                                     <Condition>
                                         <LogicBinop op="eq">
                                             <ct:SymbRef symbIdRef="arm2"/>

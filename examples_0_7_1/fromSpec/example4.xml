@@ -7,7 +7,8 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:design="http://www.pharmml.org/pharmml/0.7/TrialDesign"
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
-    implementedBy="MJS" writtenVersion="0.7" 
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.1"
     metadataFile="example4.rdf" id="i1">
     
     <!-- MODEL NAME -->
@@ -24,7 +25,7 @@
         <ct:FunctionArgument symbId="b" symbolType="real"/>
         <ct:FunctionArgument symbId="f" symbolType="real"/>
         <ct:Definition>
-            <math:Equation>
+            <ct:Assign>
                 <math:Binop op="plus">
                     <ct:SymbRef symbIdRef="a"/>
                     <math:Binop op="times">
@@ -32,7 +33,7 @@
                         <ct:SymbRef symbIdRef="f"/>
                     </math:Binop>
                 </math:Binop>
-            </math:Equation>
+            </ct:Assign>
         </ct:Definition>
     </ct:FunctionDefinition>
     
@@ -93,18 +94,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:Real>0</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="stdev">
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="omega_ka"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </RandomVariable>
             <IndividualParameter symbId="ka">
@@ -140,18 +141,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:Real>0</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="stdev">
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="omega_V"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </RandomVariable>
             <RandomVariable symbId="kappa_V">
@@ -159,18 +160,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="iov1"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:Real>0</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="stdev">
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="gamma_ka"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </RandomVariable>
             <IndividualParameter symbId="V">
@@ -228,18 +229,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:Real>0</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="stdev">
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="omega_CL"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </RandomVariable>
             <RandomVariable symbId="kappa_CL">
@@ -247,18 +248,18 @@
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="iov1"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <ProbOnto name="Normal1">
-                        <Parameter name="mean">
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
                             <ct:Assign>
                                 <ct:Real>0</ct:Real>
                             </ct:Assign>
-                        </Parameter>
-                        <Parameter name="stdev">
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="gamma_CL"/>
                             </ct:Assign>
-                        </Parameter>
-                    </ProbOnto>
+                        </po:Parameter>
+                    </po:ProbOnto>
                 </Distribution>
             </RandomVariable>
             <IndividualParameter symbId="CL">
@@ -299,47 +300,45 @@
             <ct:Variable symbolType="real" symbId="tD"/>
             <ct:Variable symbolType="real" symbId="Cc">
                 <ct:Assign>
-                    <math:Equation>
+                    <math:Binop op="times">
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="D"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
                         <math:Binop op="times">
                             <math:Binop op="divide">
-                                <ct:SymbRef symbIdRef="D"/>
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                            </math:Binop>
-                            <math:Binop op="times">
-                                <math:Binop op="divide">
-                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                                    <math:Binop op="minus">
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                                    </math:Binop>
-                                </math:Binop>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
                                 <math:Binop op="minus">
-                                    <math:Uniop op="exp">
-                                        <math:Binop op="times">
-                                            <math:Uniop op="minus">
-                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
-                                            </math:Uniop>
-                                            <math:Binop op="minus">
-                                                <ct:SymbRef symbIdRef="t"/>
-                                                <ct:SymbRef symbIdRef="tD"/>
-                                            </math:Binop>
-                                        </math:Binop>
-                                    </math:Uniop>
-                                    <math:Uniop op="exp">
-                                        <math:Binop op="times">
-                                            <math:Uniop op="minus">
-                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
-                                            </math:Uniop>
-                                            <math:Binop op="minus">
-                                                <ct:SymbRef symbIdRef="t"/>
-                                                <ct:SymbRef symbIdRef="tD"/>
-                                            </math:Binop>
-                                        </math:Binop>
-                                    </math:Uniop>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                                 </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="minus">
+                                <math:Uniop op="exp">
+                                    <math:Binop op="times">
+                                        <math:Uniop op="minus">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                                        </math:Uniop>
+                                        <math:Binop op="minus">
+                                            <ct:SymbRef symbIdRef="t"/>
+                                            <ct:SymbRef symbIdRef="tD"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Uniop>
+                                <math:Uniop op="exp">
+                                    <math:Binop op="times">
+                                        <math:Uniop op="minus">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                                        </math:Uniop>
+                                        <math:Binop op="minus">
+                                            <ct:SymbRef symbIdRef="t"/>
+                                            <ct:SymbRef symbIdRef="tD"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Uniop>
                             </math:Binop>
                         </math:Binop>
-                    </math:Equation>
+                    </math:Binop>
                 </ct:Assign>
             </ct:Variable>
         </StructuralModel>
@@ -354,18 +353,18 @@
                         <ct:SymbRef blkIdRef="vm2" symbIdRef="resErr"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <ProbOnto name="Normal1">
-                            <Parameter name="mean">
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
                                 <ct:Assign>
                                     <ct:Real>0</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                            <Parameter name="stdev">
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
                                 <ct:Assign>
                                     <ct:Real>1</ct:Real>
                                 </ct:Assign>
-                            </Parameter>
-                        </ProbOnto>
+                            </po:Parameter>
+                        </po:ProbOnto>
                     </Distribution>
                 </RandomVariable>
                 <Standard symbId="Cc_obs"> 
@@ -374,20 +373,18 @@
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <math:Equation>
-                                <math:FunctionCall>
-                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
-                                    <math:FunctionArgument symbId="a">
-                                        <ct:SymbRef symbIdRef="a"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="b">
-                                        <ct:SymbRef symbIdRef="b"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="f">
-                                        <ct:SymbRef symbIdRef="Cc"/>
-                                    </math:FunctionArgument>
-                                </math:FunctionCall>
-                            </math:Equation>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef symbIdRef="Cc"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>
