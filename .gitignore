@@ -130,3 +130,5 @@ examples_0_7_1/archive/example3_complexCovariateAndRandEffectStructure.xml
 examples_0_7_1/archive/testingVectors.xml
 
 examples_0_7_1/archive/Westerhout2012_BrainDistributionModel_031_rb_str.xml
+
+*.zip

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.7/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
+    implementedBy="MJS" writtenVersion="0.7"
+    metadataFile="example3_task1.rdf" id="i1">
+    
+    <!--    Task description
+	This example is taken from the PFIM documentation (PFIM 3.2, additional documentation, example 7, refer for more details). The purpose is to evaluate a design with 2 covariates. This example has the following characteristics:
+•	PK model is a one compartment oral model with first order absorption and first order elimination
+•	covariate effect: gender effect and a genetic effect in three categories on the volume of distribution (V)
+◦	we assume that the effect of gender and genetic effect on the PK parameters is defined in the model object
+•	design:
+◦	 dose is fixed to 30 for the 40 subjects
+◦	same sampling times at 0.5, 2, 6 and 8. -->
+    
+    
+    <!-- MODEL NAME -->
+    <ct:Name>example3_task1 - design only</ct:Name>
+    
+    <ct:Description>based on example3_task1 - design only with dummy model definition</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="time"/>
+
+    <!-- MODEL DEFINITION -->
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.7/ModelDefinition">
+        
+        <!-- VARIABILITY MODEL -->
+        <VariabilityModel blkId="vm1" type="parameterVariability">
+            <Level symbId="subject"/>
+        </VariabilityModel>
+        
+        <!-- COVARIATE MODEL -->
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="SEX">
+                <Categorical>
+                    <Category catId="F"/>
+                    <Category catId="M"/>
+                </Categorical>
+            </Covariate>
+            <Covariate symbId="Genetics">
+                <Categorical>
+                    <Category catId="common_Hz"/>
+                    <Category catId="hz"/>
+                    <Category catId="rare_hz"/>
+                </Categorical>
+            </Covariate>
+        </CovariateModel>
+        
+        <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm1">
+            <PopulationParameter symbId="a"/>
+        </ParameterModel>
+        
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="A"/>
+            <ct:Variable symbolType="real" symbId="E"/>
+        </StructuralModel>
+        
+        <ObservationModel blkId="om1">
+            <ContinuousData>
+                <PopulationParameter symbId="a"/>
+                <Standard symbId="Conc">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="A"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <ct:Real>1</ct:Real>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="blub"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+        
+        <ObservationModel blkId="om2">
+            <ContinuousData>
+                <PopulationParameter symbId="a"/>
+                <Standard symbId="Effect">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="E"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <ct:Real>1</ct:Real>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="blub"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+        
+    </ModelDefinition>
+    
+    
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.7/TrialDesign">
+        <Interventions>
+            <Administration oid="adm1">
+                <Bolus>
+                    <DoseAmount inputTarget="derivativeVariable">
+                        <ct:SymbRef symbIdRef="Ad"/>
+                        <ct:Assign>
+                            <ct:Real>100</ct:Real>
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <ct:Assign>
+                            <ct:Sequence>
+                                <ct:Begin><ct:Real>0</ct:Real></ct:Begin>
+                                <ct:StepSize><ct:Real>6</ct:Real></ct:StepSize>
+                                <ct:End><ct:Real>84</ct:Real></ct:End>
+                            </ct:Sequence>
+                        </ct:Assign>
+                    </DosingTimes>
+                </Bolus>
+            </Administration>
+            <Administration oid="adm2">
+                <Infusion>
+                    <DoseAmount inputTarget="derivativeVariable">
+                        <ct:SymbRef symbIdRef="Ac"/>
+                        <ct:Assign>
+                            <ct:Real>50</ct:Real>
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <ct:Assign>
+                            <ct:Real>1</ct:Real>
+                        </ct:Assign>
+                        <!-- skipped, as analog to adm1 -->
+                    </DosingTimes>
+                    <Duration>
+                        <ct:Assign>
+                            <ct:Real>1</ct:Real>
+                        </ct:Assign>
+                    </Duration>
+                </Infusion>
+            </Administration>
+        </Interventions>
+
+        <Observations>
+            <Observation oid="OBSoid_Cc">
+                <ObservationTimes>
+                    <ct:Assign>
+                        <ct:Sequence>
+                            <ct:Begin><ct:Real>-5</ct:Real></ct:Begin>
+                            <ct:StepSize><ct:Real>.1</ct:Real></ct:StepSize>
+                            <ct:End><ct:Real>100</ct:Real></ct:End>
+                        </ct:Sequence>
+                    </ct:Assign>
+                </ObservationTimes>
+                <Continuous>
+                    <ct:SymbRef symbIdRef="Cc"/>
+                </Continuous>
+            </Observation>
+        </Observations>
+    </TrialDesign>
+
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.7/ModellingSteps">
+        
+        <SimulationStep oid="sm1">
+            <InterventionsReference>
+                <ct:OidRef oidRef="adm1"/>
+                <ct:OidRef oidRef="adm2"/>
+            </InterventionsReference>
+            
+            <ObservationsReference>
+                <ct:OidRef oidRef="OBSoid_Cc"/>
+            </ObservationsReference>
+        </SimulationStep>
+    </ModellingSteps>
+</PharmML>
