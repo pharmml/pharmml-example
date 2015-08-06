@@ -305,6 +305,7 @@
                         <ct:SymbRef symbIdRef="eta_Cl"/>
                     </RandomVariable2>
                     <CorrelationCoefficient>
+                        <ct:Real>1</ct:Real>
                         <ct:SymbRef symbIdRef="rho_V_Cl"/>
                     </CorrelationCoefficient>
                 </Pairwise>
