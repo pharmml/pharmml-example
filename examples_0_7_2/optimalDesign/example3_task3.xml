@@ -6,7 +6,7 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.7.1"
+    implementedBy="MJS" writtenVersion="0.7.2"
     metadataFile="example3_task1.rdf" id="i1">
     
     <!--    Task description

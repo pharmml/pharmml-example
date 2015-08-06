@@ -149,6 +149,7 @@
                 </FIMfunction>
                 <ComputeFIM type="FO"/>
                 <ApproximateFIM type="full"/>
+                <TypeFIM type="population"/>
             </Method>
             <Cost></Cost>
             <PriorInformation></PriorInformation>
