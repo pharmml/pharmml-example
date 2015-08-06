@@ -136,20 +136,40 @@
         
         <EvaluationStep oid="evaTask1">
             <FIM symbId="FIM1">
-                <File oid="FIMfile">
+                <ct:Matrix matrixType="Any">
+                    <ct:MatrixRow>
+                        <ct:Real>1.1</ct:Real><!-- omitted elements --><ct:Real>1.6</ct:Real>
+                        <!-- omotted rows -->
+                        <ct:Real>10.1</ct:Real><!-- omitted elements --><ct:Real>10.6</ct:Real>
+                    </ct:MatrixRow>
+                </ct:Matrix>
+                <!-- ALTERNATIVE: FIM stored in an external file -->
+                <!-- <File oid="FIMfile">
                     <ds:path>myFIM.csv</ds:path>
-                </File>
+                </File>-->
             </FIM>
             <Method>
                 <Criterion type="A"/>
                 <FIMfunction type="trInv">
-<!--                    <ct:Assign>
-                        <ct:SymbRef symbIdRef="FIM1"/>
-                    </ct:Assign>-->
+                    <ct:Assign>
+                        <math:MatrixUniop op="trace">
+                            <math:MatrixUniop op="inverse">
+                                <ct:SymbRef symbIdRef="FIM1"/>
+                            </math:MatrixUniop>
+                        </math:MatrixUniop>
+                    </ct:Assign>
                 </FIMfunction>
+                <!--ALTERNATIVE: using build-in operator types, here 'trInv' 
+                which is identical to the explicit expression above-->
+                <!-- <FIMfunction type="trInv">     
+                    <ct:Assign>
+                        <ct:SymbRef symbIdRef="FIM1"/>
+                    </ct:Assign>
+                </FIMfunction>-->
                 <ComputeFIM type="FO"/>
                 <ApproximateFIM type="full"/>
                 <TypeFIM type="population"/>
+                <DesignType type="exact"/>
             </Method>
             <Cost></Cost>
             <PriorInformation></PriorInformation>
