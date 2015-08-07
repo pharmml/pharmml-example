@@ -4,6 +4,7 @@
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
     implementedBy="MJS" writtenVersion="0.7.2"
     metadataFile="task1_twogroups_evaluate.rdf" id="i1">
     
@@ -189,32 +190,37 @@
         </Arms>
     </TrialDesign>
     
-    <!-- BLOCK III: MODELLING STEPS -->
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.7/ModellingSteps">
         
-        <EvaluationStep oid="evaTask1">
+        <TargetTool oid="targetTool">
+            <TargetToolName>PFIM</TargetToolName>
+        </TargetTool>
+        
+        <OptimalDesignStep oid="evaTask1">
+            
+            <TargetToolReference>
+                <ct:OidRef oidRef="targetTool"/>
+            </TargetToolReference>
+            
             <FIM symbId="FIM1">
                 <File oid="FIMfile">
                     <ds:path>myFIM.csv</ds:path>
                 </File>
             </FIM>
-            <Criterion>
-                <CriterionList>A</CriterionList>
-                <FIMfunction>
+            <Method>
+                <Criterion type="A"/>
+                <ApproximateFIM type="full"/>
+            </Method>
+            <Compute>
+                <GraphOnly>
                     <ct:Assign>
-                        <MatrixUniop xmlns="http://www.pharmml.org/pharmml/0.7/Maths" op="trace">
-                            <MatrixUniop op="inverse">
-                                <ct:SymbRef symbIdRef="FIM1"/>
-                            </MatrixUniop>
-                        </MatrixUniop>
+                        <ct:False/>
                     </ct:Assign>
-                </FIMfunction>
-            </Criterion>
-            <Cost></Cost>
-            <PriorInformation></PriorInformation>
-            <Compute></Compute>
-            <SoftwareSettings></SoftwareSettings>
-        </EvaluationStep>
+                </GraphOnly>
+            </Compute>
+            
+            <Operation opType="evaluation" order="1"/>            
+        </OptimalDesignStep>
         
         <!-- STEP DEPENDENCIES -->
         <StepDependencies>

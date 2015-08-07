@@ -5,7 +5,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
-    implementedBy="MJS" writtenVersion="0.7.1"
+    implementedBy="MJS" writtenVersion="0.7.2"
     metadataFile="task1_twogroups_evaluate.rdf" id="i1">
     
     
@@ -334,31 +334,55 @@
     </TrialDesign>
 
 
-    <!-- BLOCK III: MODELLING STEPS -->
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.7/ModellingSteps">
         
-        <!-- ESTIMATION STEP -->
-        <EstimationStep oid="estTask1">
+        <TargetTool oid="targetTool">
+            <TargetToolName>PFIM</TargetToolName>
+        </TargetTool>
+        
+        <OptimalDesignStep oid="evaTask1">
             
-            <ParametersToEstimate>
+            <TargetToolReference>
+                <ct:OidRef oidRef="targetTool"/>
+            </TargetToolReference>
+            
+            <OptimiseOn>
+                <DoseAmount/>
+                <ObservationTimes/>
+            </OptimiseOn>
+            
+            <FIM symbId="FIM1">
+                <File oid="FIMfile">
+                    <ds:path>myFIM.csv</ds:path>
+                </File>
+            </FIM>
+            <Method>
+                <ApproximateFIM type="full"/>
+                <DesignType type="statistical"/>
+                <OptimizationAlgorithm type="simplex"/>
+            </Method>
+            <Cost>
+                <TotalCost>120</TotalCost>
+            </Cost>
 
-                <!-- a -->
-                <ParameterEstimation>
-                    <ct:SymbRef blkIdRef="pm1" symbIdRef="a"/>
-                    <InitialEstimate fixed="false">
-                        <ct:Real>10</ct:Real>
-                    </InitialEstimate>
-                </ParameterEstimation>
-                
-            </ParametersToEstimate>
-            <Operation order="1" opType="estPop"/>
-            <Operation order="2" opType="estIndiv"/>
-        </EstimationStep>
-
+            <Operation opType="evaluation" order="1">
+                <Property name="iter.print">
+                    <ct:Assign>
+                        <ct:False/>
+                    </ct:Assign>
+                </Property>
+                <Property name="simplex.parameter">
+                    <ct:Assign>
+                        <ct:Real>20</ct:Real>
+                    </ct:Assign>
+                </Property>
+            </Operation>
+        </OptimalDesignStep>
+        
         <!-- STEP DEPENDENCIES -->
         <StepDependencies>
             <Step>
-                <ct:OidRef oidRef="estTask1"/>
+                <ct:OidRef oidRef="evaTask1"/>
             </Step>
         </StepDependencies>
     </ModellingSteps>
