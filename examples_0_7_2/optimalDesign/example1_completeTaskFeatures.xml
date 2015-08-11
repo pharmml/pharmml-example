@@ -139,15 +139,37 @@
     
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.7/ModellingSteps">
         
-        <TargetTool oid="targetTool">
+        <TargetTool oid="tTool">
             <TargetToolName>PFIM</TargetToolName>
         </TargetTool>
         
         <OptimalDesignStep oid="evaTask1">
             
             <TargetToolReference>
-                <ct:OidRef oidRef="targetTool"/>
+                <ct:OidRef oidRef="tTool"/>
             </TargetToolReference>
+            
+            <OptimiseOn>
+                <ArmSize/>
+                <DoseAmount>
+                    <ct:Assign>
+                        <ct:Real>100</ct:Real>
+                    </ct:Assign>
+                </DoseAmount>
+                <DosingTimes/>
+                <Duration/>
+                <NumberArms/>
+                <NumberSamples>
+                    <ct:Assign>
+                        <ct:Real>20</ct:Real>
+                    </ct:Assign>
+                </NumberSamples>
+                <NumberTimes/>
+                <ObservationTimes/>
+                <ct:SymbRef symbIdRef="tdoseB"/>
+                <ct:SymbRef symbIdRef="SEX"/>
+                <ct:SymbRef symbIdRef="Genp1"/>
+            </OptimiseOn>
             
             <FIM symbId="FIM1">
                 <ct:Matrix matrixType="Any">
@@ -190,7 +212,11 @@
                 <OptimizationAlgorithm type="FedorovWynn"/>
             </Method>
             <Cost>
-                <TotalCost>1.3</TotalCost>
+                <TotalCost>
+                    <ct:Assign>
+                        <ct:Real>1.3</ct:Real>
+                    </ct:Assign>
+                </TotalCost>
                 <CostFunction type="sample"/>
             </Cost>
             <PriorInformation>
@@ -291,7 +317,7 @@
                         <ct:String>'y'</ct:String>
                     </ct:Assign>
                 </Property>
-                <Property name="graph.onf">
+                <Property name="graph.only">
                     <ct:Assign>
                         <ct:Real>0</ct:Real>
                     </ct:Assign>

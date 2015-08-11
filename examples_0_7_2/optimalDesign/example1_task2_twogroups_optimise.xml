@@ -362,7 +362,11 @@
                 <OptimizationAlgorithm type="simplex"/>
             </Method>
             <Cost>
-                <TotalCost>120</TotalCost>
+                <TotalCost>
+                    <ct:Assign>
+                        <ct:Real>120</ct:Real>
+                    </ct:Assign>
+                </TotalCost>
             </Cost>
 
             <Operation opType="evaluation" order="1">

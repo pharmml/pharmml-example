@@ -8,28 +8,26 @@
     xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
     implementedBy="MJS" writtenVersion="0.7.2"
-    metadataFile="example5_task1.rdf" id="i1">
+    metadataFile="example5_task2.rdf" id="i1">
     
     <!--    Task description
-        Task 1: Evaluation of the design
-        The purpose in this section is to evaluate the design, comprised of the two studies 
-        (total 41 subjects). Figure 3 shows the structure of the MDL code. Each study includes 4 arms.
-        
-        The structure of the two studies is defined through a STUDY_DESIGN block:
-        - each study is assumed to have a different distribution of BSA, a covariate entering 
-          the model for dose input (doses are assumed to be given per BSA)
-        - within an ARM block, the sampling times are defined for each drug
-        
-        Possible administration and sampling scenarios are defined in ADMINISTRATION and SAMPLING blocks. 
-        Finally, we define 8 ARM designs for the sampling times within the STUDY_DESIGN block. In this 
-        example, the first four ARM elements correspond to the four dose groups in study 1, and the 
-        four others to the four dose groups in study 2. All default values (covariate distributions, 
-        administration times, observation period,..) have been defined either in the ADMINISTRATION, 
-        SAMPLING or in the STUDY_DESIGN block. -->
+        Task 2: Optimization of the time difference of drug Administrations
+        The purpose in this section is to optimize the difference in administration time 
+        between the two drugs S and D in order to maximize a user-defined metric of interest. 
+        In this example, the typical nadir value of the PD response, computed using the FO 
+        approximation method is maximized. For simplification, the optimization is only carried 
+        out in study 1 for the first cycle and for the free drug D (Treatment B) only. The time 
+        of administration of drug S is also fixed to the original administration schedule while 
+        the time of administration of drug D varies with some design restrictions: treatment D 
+        must still be given once a week, three out of a four-week cycle, and at the same time 
+        as the original design (i.e. 2 hours after the second intake of drug S during the day). 
+        The optimization is restrained to only optimize on the day of this administration within 
+        one week and must be a discrete value (in hours EC: days ?). The resulting time of 
+        administration must be identical for all the groups.  -->
     
     
     <!-- MODEL NAME -->
-    <ct:Name>example5_task1 - design only</ct:Name>
+    <ct:Name>example5_task2 - design only</ct:Name>
     
     <ct:Description>based on example5_task1 - design only with dummy model definition</ct:Description>
     
