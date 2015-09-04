@@ -5,7 +5,7 @@
     xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
     xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.7.1" 
+    implementedBy="MJS" writtenVersion="0.7.2" 
     metadataFile="example2.rdf" id="i1">
     
     <ct:Name>Example 2 - simulation continuous PK (Bonate 2012)</ct:Name>

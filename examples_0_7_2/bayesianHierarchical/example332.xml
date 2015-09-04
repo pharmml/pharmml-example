@@ -6,7 +6,7 @@
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
     xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths" 
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    writtenVersion="0.7.1" id="i1">
+    writtenVersion="0.7.2" id="i1">
     
     <ct:Name>example332</ct:Name>
     

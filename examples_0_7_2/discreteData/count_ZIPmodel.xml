@@ -7,7 +7,7 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
+    implementedBy="MJS" writtenVersion="0.7.2" id="i1">
     
     <ct:Name>Zero-Inflated Poisson model</ct:Name>
     
@@ -31,18 +31,6 @@
                     <CountVariable symbId="y"/>
                     <NumberCounts symbId="k"/>
                     
-                    <IntensityParameter symbId="Lambda">
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
-                        </ct:Assign>
-                    </IntensityParameter>
-                    
-                    <ZeroProbabilityParameter symbId="P0">
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="p0"/>
-                        </ct:Assign>
-                    </ZeroProbabilityParameter>
-                    
                     <!-- if (k > 0)
                             log(P(Y=k)) = log(1-p0) - lambda + k*log(lambda) - factln(k)
                         else
@@ -61,16 +49,16 @@
                                         <math:Uniop op="log">
                                             <math:Binop op="minus">
                                                 <ct:Real>1</ct:Real>
-                                                <ct:SymbRef symbIdRef="P0"/>
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="p0"/>
                                             </math:Binop>
                                         </math:Uniop>
                                         <math:Binop op="plus">
-                                            <ct:SymbRef symbIdRef="Lambda"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                                             <math:Binop op="minus">
                                                 <math:Binop op="times">
                                                     <ct:SymbRef symbIdRef="k"/>
                                                     <math:Uniop op="log">
-                                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                                                     </math:Uniop>
                                                 </math:Binop>
                                                 <math:Uniop op="factln">
@@ -91,15 +79,15 @@
                                     <!-- aux = log(p0 + (1-p0)*exp(-lambda)) -->
                                     <math:Uniop op="log">
                                         <math:Binop op="plus">
-                                            <ct:SymbRef symbIdRef="P0"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="p0"/>
                                             <math:Binop op="times">
                                                 <math:Binop op="minus">
                                                     <ct:Real>1</ct:Real>
-                                                    <ct:SymbRef symbIdRef="P0"/>
+                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="p0"/>
                                                 </math:Binop>
                                                 <math:Uniop op="exp">
                                                     <math:Uniop op="minus">
-                                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                                                     </math:Uniop>
                                                 </math:Uniop>
                                             </math:Binop>
@@ -124,20 +112,16 @@
                     <NumberCounts symbId="k"/>
                     
                     <PMF linkFunction="log">
-                        <math:LogicBinop op="eq">
-                            <ct:SymbRef symbIdRef="y"/>
-                            <ct:SymbRef symbIdRef="k"/>
-                        </math:LogicBinop>
                         <Distribution>
                             <po:ProbOnto name="ZeroInflatedPoisson1">
                                 <po:Parameter name="rate">
                                     <ct:Assign>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Lambda"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
                                     </ct:Assign>
                                 </po:Parameter>
                                 <po:Parameter name="probabilityOfZero">
                                     <ct:Assign>
-                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="P0"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="p0"/>
                                     </ct:Assign>
                                 </po:Parameter>
                             </po:ProbOnto>

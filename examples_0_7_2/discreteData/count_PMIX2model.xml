@@ -7,7 +7,7 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
+    implementedBy="MJS" writtenVersion="0.7.2" id="i1">
     
     <ct:Name>Poisson Mixture model – PMIX</ct:Name>
     

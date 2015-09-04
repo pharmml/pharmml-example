@@ -321,7 +321,11 @@
                 <OptimizationAlgorithm type="FedorovWynn"/>
             </Method>
             <Cost>
-                <TotalCost>1000</TotalCost>
+                <TotalCost>
+                    <ct:Assign>
+                        <ct:Real>1000</ct:Real>
+                    </ct:Assign>
+                </TotalCost>
             </Cost>
             
             <Operation opType="evaluation" order="1"/>

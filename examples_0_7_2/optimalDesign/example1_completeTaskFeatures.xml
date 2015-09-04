@@ -147,8 +147,7 @@
             
             <TargetToolReference>
                 <ct:OidRef oidRef="tTool"/>
-            </TargetToolReference>
-            
+            </TargetToolReference>           
             <OptimiseOn>
                 <ArmSize/>
                 <DoseAmount>
@@ -169,8 +168,7 @@
                 <ct:SymbRef symbIdRef="tdoseB"/>
                 <ct:SymbRef symbIdRef="SEX"/>
                 <ct:SymbRef symbIdRef="Genp1"/>
-            </OptimiseOn>
-            
+            </OptimiseOn>           
             <FIM symbId="FIM1">
                 <ct:Matrix matrixType="Any">
                     <ct:MatrixRow>
@@ -187,7 +185,7 @@
             </FIM>
             <Method>
                 <Criterion type="A"/>
-                <FIMfunction type="trInv">
+                <FIMfunction type="trInv">      <!-- redundant specification of the operator -->
                     <ct:Assign>
                         <math:MatrixUniop op="trace">
                             <math:MatrixUniop op="inverse">

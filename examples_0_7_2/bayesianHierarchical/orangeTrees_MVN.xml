@@ -8,7 +8,7 @@
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    writtenVersion="0.7.1" id="i1">
+    writtenVersion="0.7.2" id="i1">
     
     <ct:Name>Rats example</ct:Name>
     
@@ -269,7 +269,7 @@
                 <mstep:ParameterEstimation>
                     <ct:SymbRef symbIdRef="mean"/>
                     <mstep:InitialEstimate fixed="true">
-                        <ct:Vector>
+                        <ct:Vector default="0" length="3">
                             <ct:VectorElements>
                                 <ct:Real>0</ct:Real>
                                 <ct:Real>0</ct:Real>
@@ -277,6 +277,10 @@
                             </ct:VectorElements>
                         </ct:Vector>
                     </mstep:InitialEstimate>
+                    <!-- ALTERNATIVELY using default/lenght attributes -->
+<!--                    <mstep:InitialEstimate fixed="true">
+                        <ct:Vector default="0" length="3"/>
+                    </mstep:InitialEstimate>-->
                 </mstep:ParameterEstimation>
                 
                 <!-- R = structure(.Data = c(0.1, 0, 0,
@@ -286,7 +290,7 @@
                 <mstep:ParameterEstimation>
                     <ct:SymbRef symbIdRef="R"/>
                     <mstep:InitialEstimate fixed="true">
-                        <ct:Matrix matrixType="Diagonal" offDiagDefault="0.0">
+                        <ct:Matrix matrixType="Diagonal">
                             <ct:MatrixRow><ct:Real>0.1</ct:Real></ct:MatrixRow>
                             <ct:MatrixRow><ct:Real>0.1</ct:Real></ct:MatrixRow>
                             <ct:MatrixRow><ct:Real>0.1</ct:Real></ct:MatrixRow>
@@ -301,11 +305,13 @@
                 <mstep:ParameterEstimation>
                     <ct:SymbRef symbIdRef="prec"/>
                     <mstep:InitialEstimate fixed="true">
-                        <ct:Matrix matrixType="Diagonal" offDiagDefault="0.0E1">
+                         <ct:Matrix matrixType="Diagonal" numbCols="3" numbRows="3" diagDefault="1.0E-6"/> 
+                        <!-- ALTERNATIVELY
+                            <ct:Matrix matrixType="Diagonal">
                             <ct:MatrixRow><ct:Real>1.0E-6</ct:Real></ct:MatrixRow>
                             <ct:MatrixRow><ct:Real>1.0E-6</ct:Real></ct:MatrixRow>
                             <ct:MatrixRow><ct:Real>1.0E-6</ct:Real></ct:MatrixRow>
-                        </ct:Matrix>
+                        </ct:Matrix>-->
                     </mstep:InitialEstimate>
                 </mstep:ParameterEstimation>
             </mstep:ParametersToEstimate>

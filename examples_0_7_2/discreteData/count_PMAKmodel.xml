@@ -7,7 +7,7 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
+    implementedBy="MJS" writtenVersion="0.7.2" id="i1">
     
     <ct:Name>PMAK model</ct:Name>
     
@@ -29,15 +29,9 @@
         <ObservationModel blkId="om1">
             <Discrete>
                 <CountData>
-                    <CountVariable symbId="y"/>
-                    <NumberCounts symbId="k"/>
-                    <PreviousCountVariable symbId="yp"/>
-                    
-                    <Dependance type="discreteMarkov"/>
-                    
                     <!-- Version 1 -->
                     <!-- Poisson with Markov - choose one lambda dependent on yp -->
-                    <IntensityParameter symbId="Lambda">
+                    <IndividualParameter symbId="Lambda">
                         <ct:Assign>
                             <ct:Piecewise>
                                 <math:Piece>
@@ -57,8 +51,13 @@
                                 </math:Piece>
                             </ct:Piecewise>
                         </ct:Assign>
-                    </IntensityParameter>
+                    </IndividualParameter>
+
+                    <CountVariable symbId="y"/>
+                    <NumberCounts symbId="k"/>
+                    <PreviousCountVariable symbId="yp"/>
                     
+                    <Dependance type="discreteMarkov"/>
                     
                     <!-- log(P(y=k)) = -lambda + k*log(lambda) - factln(k) -->
                     <PMF linkFunction="log">
@@ -101,19 +100,7 @@
                     <Dependance type="discreteMarkov"/>
                     
                     <!-- Version 2 -->
-                    <!-- Poisson with Markov -->
-                    <IntensityParameter symbId="Lambda1">
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
-                        </ct:Assign>
-                    </IntensityParameter>
-                    
-                    <IntensityParameter symbId="Lambda2">
-                        <ct:Assign>
-                            <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda2"/>
-                        </ct:Assign>
-                    </IntensityParameter>
-                    
+                    <!-- Poisson with Markov -->                   
                     
                     <!-- log(P(y=k | yp=0)) = -lambda1 + k*log(lambda1) - factln(k) -->
                     <PMF linkFunction="log">
@@ -133,7 +120,7 @@
                             <po:ProbOnto name="Poisson1">
                                 <po:Parameter name="rate">
                                     <ct:Assign>
-                                        <ct:SymbRef symbIdRef="Lambda1"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda1"/>
                                     </ct:Assign>
                                 </po:Parameter>
                             </po:ProbOnto>

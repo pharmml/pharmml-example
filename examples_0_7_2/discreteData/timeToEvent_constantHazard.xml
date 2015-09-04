@@ -7,7 +7,7 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
     xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.7.1" id="i1">
+    implementedBy="MJS" writtenVersion="0.7.2" id="i1">
     
     <ct:Name>TTE - constant hazard</ct:Name>
     
