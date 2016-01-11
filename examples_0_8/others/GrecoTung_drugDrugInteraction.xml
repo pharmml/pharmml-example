@@ -36,18 +36,18 @@
                     <math:Binop op="divide">
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="d1"/>
                         <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="mu1"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="mu1"/>
                             <math:Binop op="power">
                                 <math:Binop op="divide">
                                     <ct:SymbRef symbIdRef="E"/>
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Ec"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Ec"/>
                                         <ct:SymbRef symbIdRef="E"/>
                                     </math:Binop>
                                 </math:Binop>
                                 <math:Binop op="divide">
                                     <ct:Real>1</ct:Real>
-                                    <ct:SymbRef symbIdRef="m1"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="m1"/>
                                 </math:Binop>
                             </math:Binop>
                         </math:Binop>
@@ -56,18 +56,18 @@
                         <math:Binop op="divide">
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="d2"/>
                             <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="mu2"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="mu2"/>
                                 <math:Binop op="power">
                                     <math:Binop op="divide">
                                         <ct:SymbRef symbIdRef="E"/>
                                         <math:Binop op="minus">
-                                            <ct:SymbRef symbIdRef="Ec"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Ec"/>
                                             <ct:SymbRef symbIdRef="E"/>
                                         </math:Binop>
                                     </math:Binop>
                                     <math:Binop op="divide">
                                         <ct:Real>1</ct:Real>
-                                        <ct:SymbRef symbIdRef="m2"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="m2"/>
                                     </math:Binop>
                                 </math:Binop>
                             </math:Binop>
@@ -82,14 +82,14 @@
                             </math:Binop>
                             <math:Binop op="times">
                                 <math:Binop op="times">
-                                    <ct:SymbRef symbIdRef="mu1"/>
-                                    <ct:SymbRef symbIdRef="mu2"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="mu1"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="mu2"/>
                                 </math:Binop>
                                 <math:Binop op="power">
                                     <math:Binop op="divide">
                                         <ct:SymbRef symbIdRef="E"/>
                                         <math:Binop op="minus">
-                                            <ct:SymbRef symbIdRef="Ec"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Ec"/>
                                             <ct:SymbRef symbIdRef="E"/>
                                         </math:Binop>
                                     </math:Binop>
@@ -98,14 +98,14 @@
                                             <ct:Real>1</ct:Real>
                                             <math:Binop op="times">
                                                 <ct:Real>2</ct:Real>
-                                                <ct:SymbRef symbIdRef="m1"/>
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="m1"/>
                                             </math:Binop>
                                         </math:Binop>
                                         <math:Binop op="divide">
                                             <ct:Real>1</ct:Real>
                                             <math:Binop op="times">
                                                 <ct:Real>2</ct:Real>
-                                                <ct:SymbRef symbIdRef="m2"/>
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="m2"/>
                                             </math:Binop>
                                         </math:Binop>
                                     </math:Binop>
