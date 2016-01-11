@@ -105,15 +105,6 @@
                         </po:Parameter>
                     </po:ProbOnto>
                 </Distribution>
-                <!-- this distribution name does not exist (it can be changed), it should be like NonParametricDistribution but in multivariate mode -->
-                <!--<MultivariateNonParametricDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                    <bins>
-                        <var varId="bins_POP_K_V"/>
-                    </bins>
-                    <probability>
-                        <var varId="p_POP_K"/>
-                    </probability>
-                </MultivariateNonParametricDistribution>-->
             </RandomVariable>
 
             <!-- We extract and transform the POP_K_V elements: is it ok to use the random variable POP_K_V as a vector? it should be ok since it has dimension=2 -->
@@ -532,13 +523,6 @@
                 <ct:OidRef oidRef="NMoid"/>
             </ExternalDataSetReference>
             
-            <!-- THE FOLLOWING PROPOSED TAG IS TO USE PRIOR DATA FROM EXTERNAL FILE. IF IT IS DEFINED "INLINE" IN MDL, THIS IS NOT NECESSARY -->
-            <!-- 
-            <NONMEMdataSetReference>
-                <ct:OidRef oidRef="NMpri"/>
-            </NONMEMdataSetReference>
-             -->
-                        
             <ParametersToEstimate>
                 <ParameterEstimation>
                     <ct:SymbRef symbIdRef="lPOP_P" blkIdRef="pm1"/>
