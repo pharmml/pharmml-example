@@ -20,12 +20,12 @@
     <!-- BLOCK I: MODEL DEFINITION -->
     <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
         <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="mu1"/>
-            <SimpleParameter symbId="mu2"/>
-            <SimpleParameter symbId="Ec"/>
-            <SimpleParameter symbId="m1"/>
-            <SimpleParameter symbId="m2"/>
-            <SimpleParameter symbId="alpha"/>
+            <Parameter symbId="mu1"/>
+            <Parameter symbId="mu2"/>
+            <Parameter symbId="Ec"/>
+            <Parameter symbId="m1"/>
+            <Parameter symbId="m2"/>
+            <Parameter symbId="alpha"/>
         </ParameterModel>
         
         <StructuralModel blkId="sm1">

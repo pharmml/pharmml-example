@@ -14,234 +14,234 @@
     <IndependentVariable symbId="t"/>
     <mdef:ModelDefinition>
         <mdef:ParameterModel blkId="pm">
-            <mdef:SimpleParameter symbId="gut_km1">
+            <mdef:Parameter symbId="gut_km1">
                 <ct:Description>gut_km1</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="gut_km2">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="gut_km2">
                 <ct:Description>gut_km2</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="gut_vmax1">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="gut_vmax1">
                 <ct:Description>gut_vmax1</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="gut_vmax2">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="gut_vmax2">
                 <ct:Description>gut_vmax2</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="gut_bindingAffinity">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="gut_bindingAffinity">
                 <ct:Description>gut_bindingAffinity</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="gut_bindingCapacity">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="gut_bindingCapacity">
                 <ct:Description>gut_bindingCapacity</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="gut_bloodFlow">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="gut_bloodFlow">
                 <ct:Description>gut_bloodFlow</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="gut_partitionCoefficient">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="gut_partitionCoefficient">
                 <ct:Description>gut_partitionCoefficient</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="gut_volume">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="gut_volume">
                 <ct:Description>gut_volume</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="kidney_km1">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="kidney_km1">
                 <ct:Description>kidney_km1</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="kidney_km2">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="kidney_km2">
                 <ct:Description>kidney_km2</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="kidney_vmax1">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="kidney_vmax1">
                 <ct:Description>kidney_vmax1</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="kidney_vmax2">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="kidney_vmax2">
                 <ct:Description>kidney_vmax2</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="kidney_bindingAffinity">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="kidney_bindingAffinity">
                 <ct:Description>kidney_bindingAffinity</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="kidney_bindingCapacity">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="kidney_bindingCapacity">
                 <ct:Description>kidney_bindingCapacity</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="kidney_bloodFlow">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="kidney_bloodFlow">
                 <ct:Description>kidney_bloodFlow</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="kidney_partitionCoefficient">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="kidney_partitionCoefficient">
                 <ct:Description>kidney_partitionCoefficient</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="kidney_volume">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="kidney_volume">
                 <ct:Description>kidney_volume</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="liver_km1">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="liver_km1">
                 <ct:Description>liver_km1</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="liver_km2">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="liver_km2">
                 <ct:Description>liver_km2</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="liver_vmax1">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="liver_vmax1">
                 <ct:Description>liver_vmax1</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="liver_vmax2">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="liver_vmax2">
                 <ct:Description>liver_vmax2</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="liver_bindingAffinity">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="liver_bindingAffinity">
                 <ct:Description>liver_bindingAffinity</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="liver_bindingCapacity">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="liver_bindingCapacity">
                 <ct:Description>liver_bindingCapacity</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="liver_hepaticArteryBloodFlow">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="liver_hepaticArteryBloodFlow">
                 <ct:Description>liver_hepaticArteryBloodFlow</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="liver_partitionCoefficient">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="liver_partitionCoefficient">
                 <ct:Description>liver_partitionCoefficient</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="liver_volume">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="liver_volume">
                 <ct:Description>liver_volume</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="rapidlyPerfused_bindingAffinity">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="rapidlyPerfused_bindingAffinity">
                 <ct:Description>rapidlyPerfused_bindingAffinity</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="rapidlyPerfused_bindingCapacity">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="rapidlyPerfused_bindingCapacity">
                 <ct:Description>rapidlyPerfused_bindingCapacity</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="rapidlyPerfused_bloodFlow">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="rapidlyPerfused_bloodFlow">
                 <ct:Description>rapidlyPerfused_bloodFlow</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="rapidlyPerfused_partitionCoefficient">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="rapidlyPerfused_partitionCoefficient">
                 <ct:Description>rapidlyPerfused_partitionCoefficient</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="rapidlyPerfused_volume">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="rapidlyPerfused_volume">
                 <ct:Description>rapidlyPerfused_volume</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="slowlyPerfused_bindingAffinity">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="slowlyPerfused_bindingAffinity">
                 <ct:Description>slowlyPerfused_bindingAffinity</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="slowlyPerfused_bindingCapacity">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="slowlyPerfused_bindingCapacity">
                 <ct:Description>slowlyPerfused_bindingCapacity</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="slowlyPerfused_bloodFlow">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="slowlyPerfused_bloodFlow">
                 <ct:Description>slowlyPerfused_bloodFlow</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="slowlyPerfused_partitionCoefficient">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="slowlyPerfused_partitionCoefficient">
                 <ct:Description>slowlyPerfused_partitionCoefficient</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="slowlyPerfused_volume">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="slowlyPerfused_volume">
                 <ct:Description>slowlyPerfused_volume</ct:Description>
                 <ct:Assign>
                     <ct:Real>1.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
-            <mdef:SimpleParameter symbId="blood_volume">
+            </mdef:Parameter>
+            <mdef:Parameter symbId="blood_volume">
                 <ct:Description>blood_volume</ct:Description>
                 <ct:Assign>
                     <ct:Real>10.0</ct:Real>
                 </ct:Assign>
-            </mdef:SimpleParameter>
+            </mdef:Parameter>
         </mdef:ParameterModel>
         <mdef:StructuralModel blkId="sm">
             <ct:Variable symbolType="real" symbId="liver_splanchicBloodFlow">

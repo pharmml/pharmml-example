@@ -31,7 +31,7 @@
             <Discrete>
                 <CategoricalData ordered="yes">
                     
-                    <ListOfCategories> 
+                    <ListOfCategories>
                         <Category symbId="cat1"/>
                         <Category symbId="cat2"/>
                         <Category symbId="cat3"/>

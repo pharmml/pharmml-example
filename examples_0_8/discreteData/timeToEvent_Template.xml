@@ -26,6 +26,15 @@
                         <!-- h0*exp(-beta*C) -->
                     </HazardFunction>
                     
+                    <!-- Alternative -->
+                    <HazardFunction symbId="H">
+                        <Distribution>
+                            <ProbOnto xmlns="http://www.pharmml.org/probonto/ProbOnto" name="Weibull1">
+                                <!-- parameters declaration -->
+                            </ProbOnto>
+                        </Distribution>
+                    </HazardFunction>
+                    
                     <SurvivalFunction symbId="S">
                         <!-- exp(-lambda*t) -->
                     </SurvivalFunction>
