@@ -351,7 +351,7 @@
                 </StructuredModel>
             </IndividualParameter>
             
-            <!-- SD_ADD can also be defined as SimpleParameter -->
+            <!-- SD_ADD can also be defined as Parameter -->
             <PopulationParameter symbId="SD_ADD">
                 <ct:Assign>
                     <math:Uniop op="sqrt">

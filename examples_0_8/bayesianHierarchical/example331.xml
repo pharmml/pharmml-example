@@ -303,13 +303,11 @@
             <IndividualParameter symbId="K">
                 <StructuredModel>
                     <Transformation type="log"/>
-                    <LinearCovariate>
-                        <PopulationValue>
-                            <ct:Assign>
-                                <ct:SymbRef symbIdRef="POP_K"/>
-                            </ct:Assign>
-                        </PopulationValue>
-                    </LinearCovariate>
+                    <PopulationValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="POP_K"/>
+                        </ct:Assign>
+                    </PopulationValue>
                     <RandomEffects>
                         <ct:SymbRef symbIdRef="eta_K"/>
                     </RandomEffects>
@@ -319,13 +317,11 @@
             <IndividualParameter symbId="V">
                 <StructuredModel>
                     <Transformation type="log"/>
-                    <LinearCovariate>
-                        <PopulationValue>
-                            <ct:Assign>
-                                <ct:SymbRef symbIdRef="POP_V"/>
-                            </ct:Assign>
-                        </PopulationValue>
-                    </LinearCovariate>
+                    <PopulationValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="POP_V"/>
+                        </ct:Assign>
+                    </PopulationValue>
                     <RandomEffects>
                         <ct:SymbRef symbIdRef="eta_V"/>
                     </RandomEffects>
@@ -335,20 +331,18 @@
             <IndividualParameter symbId="TAU">
                 <StructuredModel>
                     <Transformation type="log"/>
-                    <LinearCovariate>
-                        <PopulationValue>
-                            <ct:Assign>
-                                <ct:SymbRef symbIdRef="POP_T"/>
-                            </ct:Assign>
-                        </PopulationValue>
-                    </LinearCovariate>
+                    <PopulationValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="POP_T"/>
+                        </ct:Assign>
+                    </PopulationValue>
                     <RandomEffects>
                         <ct:SymbRef symbIdRef="eta_T"/>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
             
-            <!-- SD_ADD can also be defined as SimpleParameter -->
+            <!-- SD_ADD can also be defined as Parameter -->
             <IndividualParameter symbId="SD_ADD">
                 <ct:Assign>
                     <math:Uniop op="sqrt">

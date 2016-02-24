@@ -57,6 +57,11 @@
     <!-- BLOCK II: TRIAL DEFINITION -->
     <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
         
+        <DesignParameter xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition" symbId="varDose">
+            <ct:Assign>
+                <ct:Real>1</ct:Real>
+            </ct:Assign>
+        </DesignParameter>
         
         <Interventions>
             <Administration oid="admin1">
@@ -77,7 +82,45 @@
                     </DosingTimes>
                 </Bolus>
             </Administration>
+
+            <!--        Case 1
+        ADMINISTRATION{
+        varDose=0
+        trt1 : {input=iv, amount=100+varDose, doseTime=0}
+        trt2 : {input=oral, amount=100, doseTime=0}
+        }
+        DESIGN_SPACES{
+        DS{name=varDose, range=[0,100]}
+        }-->
+            <Administration oid="t1">
+                <Bolus>
+                    <DoseAmount inputTarget="admType">
+                        <TargetMapping blkIdRef="sm1">
+                            <ds:Map admNumber="1"/>
+                        </TargetMapping>
+                        <ct:Assign>
+                            <math:Binop op="plus">
+                                <ct:Int>100</ct:Int>              
+                                <ct:SymbRef symbIdRef="varDose"/>
+                            </math:Binop>
+                        </ct:Assign>
+                    </DoseAmount>
+                    <DosingTimes>
+                        <ct:Assign>
+                            <math:Binop op="plus">
+                                <ct:VectorSelector>
+                                    <ct:SymbRef symbIdRef="vectroOf100El"/>
+                                </ct:VectorSelector>
+                                <ct:SymbRef symbIdRef="varDose"/>
+                            </math:Binop>
+                        </ct:Assign>
+                    </DosingTimes>
+                </Bolus>
+            </Administration>
+
         </Interventions>            
+        
+        
         
         <Observations>
             <Observation oid="window1">
@@ -105,6 +148,28 @@
             </ObservationsCombination>
         </Observations>
         
+        <DesignSpaces>
+            <DesignSpace>
+                <InterventionRef oidRef="t1"/>
+                <DoseAmount>
+                    <ct:Assign>
+                        <ct:Interval>
+                            <ct:LeftEndpoint>
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </ct:LeftEndpoint>
+                            <ct:RightEndpoint>
+                                <ct:Assign>
+                                    <ct:Real>6</ct:Real>
+                                </ct:Assign>
+                            </ct:RightEndpoint>
+                        </ct:Interval>
+                    </ct:Assign>
+                </DoseAmount>
+            </DesignSpace>
+        </DesignSpaces>
+
         <Arms>
             <Arm oid="arm1">
                 <ArmSize>
@@ -144,10 +209,11 @@
         </TargetTool>
         
         <OptimalDesignStep oid="evaTask1">
-            
+                        
             <TargetToolReference>
                 <ct:OidRef oidRef="tTool"/>
-            </TargetToolReference>           
+            </TargetToolReference>
+            
             <OptimiseOn>
                 <ArmSize/>
                 <DoseAmount>
@@ -169,20 +235,7 @@
                 <ct:SymbRef symbIdRef="SEX"/>
                 <ct:SymbRef symbIdRef="Genp1"/>
             </OptimiseOn>           
-            <FIM symbId="FIM1">
-                <ct:Matrix matrixType="Any">
-                    <ct:MatrixRow>
-                        <ct:Real>1.1</ct:Real><!-- omitted elements --><ct:Real>1.6</ct:Real>
-                        <!-- omotted rows -->
-                        <ct:Real>10.1</ct:Real><!-- omitted elements --><ct:Real>10.6</ct:Real>
-                    </ct:MatrixRow>
-                </ct:Matrix>
-                <!-- ALTERNATIVE to Matrix: FIM stored in an external 
-                    file -->
-                <!-- <File oid="FIMfile">
-                    <ds:path>myFIM.csv</ds:path>
-                </File>-->
-            </FIM>
+            <FIM type="P"/>
             <Method>
                 <Criterion type="A"/>
                 <FIMfunction type="trInv">      <!-- redundant specification of the operator -->
@@ -288,11 +341,6 @@
                     </ct:Assign>
                 </TypeIIError>
             </Compute>
-            <SoftwareSettings>
-                <File oid="softSettingsOID">
-                    <ds:path>mySettings.xml</ds:path>
-                </File>
-            </SoftwareSettings>
             
             <Operation opType="evaluation" order="1">
                 <Property name="RtolEq">
@@ -335,6 +383,13 @@
                     </ct:Interval></ct:Assign>
                 </Property>
             </Operation>
+            
+            <SoftwareSettings>
+                <File oid="softSettingsOID">
+                    <ds:path>mySettings.xml</ds:path>
+                </File>
+            </SoftwareSettings>
+            
         </OptimalDesignStep>
 
         <!-- STEP DEPENDENCIES -->

@@ -33,7 +33,7 @@
         <ParameterModel blkId="pm1">
             
             <!-- prior parameters on "THETA" -->
-            <!-- the following 2 SimpleParameters are read from INLINE in MDL: -->            
+            <!-- the following 2 PopulationParameter are read from INLINE in MDL: -->            
             <PopulationParameter symbId="POP_K_V">
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="pop" blkIdRef="vm1"/>

@@ -336,6 +336,34 @@
                 </Distribution>
             </IndividualParameter>
             
+            <IndividualParameter symbId="TruncatedNormal1">
+                <Distribution>
+                    <po:ProbOnto name="TruncatedNormal1">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="mu"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="sigma"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="lowerBound">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="a"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="upperBound">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="b"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        
+                    </po:ProbOnto>
+                </Distribution>
+            </IndividualParameter>
+            
             <!-- omitted other continuous distributions - no other features are required
             then these tested above - only scalar parameters -->
             
