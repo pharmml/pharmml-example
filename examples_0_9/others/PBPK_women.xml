@@ -3532,6 +3532,35 @@
             
 <!--            } # End of Dynamics-->
             
+            
+<!--            CalcOutputs {-->
+            
+<!--            # Exhaled air concentration (mM)-->
+<!--            C_exh  = 0.7 * C_ven + 0.3 * C_inh;-->
+            <ct:Variable symbId="C_exh">
+                <ct:Assign>
+                    <math:Binop op="plus">
+                        <math:Binop op="times">
+                            <ct:Real>0.7</ct:Real>
+                            <ct:SymbRef symbIdRef="C_ven"/>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <ct:Real>0.3</ct:Real>
+                            <ct:SymbRef symbIdRef="C_inh"/>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:Assign>
+            </ct:Variable>
+            
+<!--            C_null = 0;-->
+            <ct:Variable symbId="C_null">
+                <ct:Assign>
+                    <ct:Real>0</ct:Real>
+                </ct:Assign>
+            </ct:Variable>
+            
+<!--            } # End of CalcOutputs-->
+            
         </StructuralModel>
     </ModelDefinition>
  
