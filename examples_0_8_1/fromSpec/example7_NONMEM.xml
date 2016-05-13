@@ -7,7 +7,7 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8" id="i1">
+    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
     
     <ct:Name>Example 7 - PK with Categorical - joint model</ct:Name>
     
@@ -23,6 +23,10 @@
             <Level symbId="subject"/>
         </VariabilityModel>
 
+        <VariabilityModel blkId="vm2" type="residualError">
+            <Level symbId="residual"/>
+        </VariabilityModel>
+        
         <ParameterModel blkId="pm1">
             <PopulationParameter symbId="ka"/>
             <PopulationParameter symbId="V"/>
@@ -206,13 +210,27 @@
             <ContinuousData>
                 <PopulationParameter symbId="a"/>
                 <PopulationParameter symbId="b"/>
+                <RandomVariable symbId="eps_Cc">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
                 <General symbId="C_obs">
                     <ct:Assign>
                         <math:Binop op="plus">
-                            <ct:SymbRef symbIdRef="a"/>
+                            <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
                             <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="b"/>
-                                <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="b"/>
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                                    </math:Binop>
+                                </math:Binop>
+                                <ct:SymbRef symbIdRef="eps_Cc"/>
                             </math:Binop>
                         </math:Binop>
                     </ct:Assign>

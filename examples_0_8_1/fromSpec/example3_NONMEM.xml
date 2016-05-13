@@ -8,7 +8,7 @@
     xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8"
+    implementedBy="MJS" writtenVersion="0.8.1"
     metadataFile="example3_NONMEM.rdf" id="i1">
     
     <!-- MODEL NAME -->
@@ -278,7 +278,7 @@
             <!-- C - algebraic formula -->
             <ct:Variable symbolType="real" symbId="C">
                 <ct:Assign>
-                    <ct:Piecewise>
+                    <math:Piecewise>
                         <math:Piece>
                             <ct:Real>0</ct:Real>
                             <math:Condition>
@@ -341,7 +341,7 @@
                                 <math:Otherwise/>
                             </math:Condition>
                         </math:Piece>
-                    </ct:Piecewise>                        
+                    </math:Piecewise>                        
                 </ct:Assign>
             </ct:Variable>
         </StructuralModel>
@@ -356,28 +356,7 @@
                         <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <po:ProbOnto name="Normal2">
-                            <po:Parameter name="mean">
-                                <ct:Assign>
-                                    <ct:Real>0</ct:Real>
-                                </ct:Assign>
-                            </po:Parameter>
-                            <po:Parameter name="var">
-                                <ct:Assign>
-                                    <ct:Real>1</ct:Real>
-                                </ct:Assign>
-                            </po:Parameter>
-                        </po:ProbOnto>
-<!--                        <UncertML>
-                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                                <mean>
-                                    <rVal>0</rVal>
-                                </mean>
-                                <variance>
-                                    <prVal>1</prVal>
-                                </variance>
-                            </NormalDistribution>
-                        </UncertML>-->
+                        <po:ProbOnto name="StandardNormal1"/>
                     </Distribution>
                 </RandomVariable>
                 <Standard symbId="C_obs">
@@ -433,17 +412,17 @@
             </ColumnMapping>
             <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="TIME"/>
-                <Piecewise xmlns="http://www.pharmml.org/pharmml/0.8/Dataset">
+                <math:Piecewise>
                     <math:Piece>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
                         <math:Condition>
                             <math:LogicBinop op="neq">
-                                <ColumnRef columnIdRef="AMT"/>
+                                <ds:ColumnRef columnIdRef="AMT"/>
                                 <ct:Real>0</ct:Real>
                             </math:LogicBinop>
                         </math:Condition>
                     </math:Piece>
-                </Piecewise>
+                </math:Piecewise>
             </ColumnMapping>
             <ds:DataSet>
                 <ds:Definition>

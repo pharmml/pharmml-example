@@ -5,7 +5,7 @@
     xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
     xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8"
+    implementedBy="MJS" writtenVersion="0.8.1"
     metadataFile="example2.rdf" id="i1">
     
     <ct:Name>Example 2 - simulation continuous PK (Bonate 2012)</ct:Name>
@@ -262,18 +262,7 @@
                         <ct:SymbRef blkIdRef="vm2" symbIdRef="resErr"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <po:ProbOnto name="Normal1">
-                            <po:Parameter name="mean">
-                                <ct:Assign>
-                                    <ct:Real>0</ct:Real>
-                                </ct:Assign>
-                            </po:Parameter>
-                            <po:Parameter name="stdev">
-                                <ct:Assign>
-                                    <ct:Real>1</ct:Real>
-                                </ct:Assign>
-                            </po:Parameter>
-                        </po:ProbOnto>
+                        <po:ProbOnto name="StandardNormal1"/>
                     </Distribution>
                 </RandomVariable>
                 <Standard symbId="Css_obs">

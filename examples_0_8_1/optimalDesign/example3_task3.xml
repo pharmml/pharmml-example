@@ -165,7 +165,7 @@
                 <Covariate symbId="WT">    <!-- CONDITIONAL ON ARM -->
                     <mdef:Continuous>
                         <mdef:Distribution>
-                            <mdef:Piecewise>
+                            <math:Piecewise>
                                 <Piece xmlns="http://www.pharmml.org/pharmml/0.8/Maths">
                                     <po:ProbOnto name="Normal2">
                                         <po:Parameter name="mean">
@@ -208,7 +208,7 @@
                                         </LogicBinop>
                                     </Condition>
                                 </Piece>
-                            </mdef:Piecewise>
+                            </math:Piecewise>
                         </mdef:Distribution>
                     </mdef:Continuous>
                 </Covariate>

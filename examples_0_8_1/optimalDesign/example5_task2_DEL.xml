@@ -47,8 +47,8 @@
         </VariabilityModel>
         
         <CovariateModel blkId="cm1">
-            <Covariate symbId="BSA">
-                <Continuous/>
+            <Covariate symbId="TRT">
+                <Categorical/>
             </Covariate>
         </CovariateModel>
         
@@ -521,60 +521,33 @@
         <Covariates>
             <CovariateModel oid="td_cm1">
                 <CovariateModelRef blkIdRef="cm1"/>
-                <Covariate symbId="BSA">
-                    <mdef:Continuous>
-                        <mdef:Distribution>
+                <Covariate symbId="TRT">
+                    <mdef:Categorical>
+                        <ct:Assign>
                             <math:Piecewise>
-                                <Piece xmlns="http://www.pharmml.org/pharmml/0.8/Maths">
-                                    <po:ProbOnto name="Normal2">
-                                        <po:Parameter name="mean">
-                                            <ct:Assign>
-                                                <ct:Real>1.847727</ct:Real>
-                                            </ct:Assign>
-                                        </po:Parameter>
-                                        <po:Parameter name="var">
-                                            <ct:Assign>
-                                                <ct:Real>0.038066</ct:Real>
-                                            </ct:Assign>
-                                        </po:Parameter>
-                                    </po:ProbOnto>
-                                    <Condition>                                 <!-- special case -->
-                                        <LogicBinop op="or">                    <!-- arm=arm1 OR arm=arm2 -->
-                                            <LogicBinop op="eq">                <!-- SEX=M AND ETHNICITY=indian -->
-                                                <ct:SymbRef blkIdRef="cm1" symbIdRef="SEX"/>
-                                                <ct:CatRef catIdRef="M"/>
-                                            </LogicBinop>
-                                            <LogicBinop op="eq">    <!-- arm = arm1:  arm1 = TRUE -->
-                                                <ArmRef oidRef="arm1"/>
-                                                <ct:True/>
-                                            </LogicBinop>
-                                        </LogicBinop>
-                                    </Condition>
-                                </Piece>
-                                <Piece xmlns="http://www.pharmml.org/pharmml/0.8/Maths">
-                                    <po:ProbOnto name="Normal2">
-                                        <po:Parameter name="mean">
-                                            <ct:Assign>
-                                                <ct:Real>1.795</ct:Real>
-                                            </ct:Assign>
-                                        </po:Parameter>
-                                        <po:Parameter name="var">
-                                            <ct:Assign>
-                                                <ct:Real>0.041209</ct:Real>
-                                            </ct:Assign>
-                                        </po:Parameter>
-                                    </po:ProbOnto>
-                                    <Condition>
-                                        <LogicBinop op="eq">
-                                            <ct:SymbRef symbIdRef="arm2"/>
+                                <math:Piece>
+                                    <ct:Real>1</ct:Real>
+                                    <math:Condition>
+                                        <math:LogicBinop op="eq">
+                                            <math:ArmRef oidRef="a1"/>
                                             <ct:True/>
-                                        </LogicBinop>
-                                    </Condition>
-                                </Piece>
+                                        </math:LogicBinop>
+                                    </math:Condition>
+                                </math:Piece>
+                                <math:Piece>
+                                    <ct:Real>0</ct:Real>
+                                    <math:Condition>
+                                        <math:LogicBinop op="eq">
+                                            <math:ArmRef oidRef="a1"/>
+                                            <ct:False/>
+                                        </math:LogicBinop>
+                                    </math:Condition>
+                                </math:Piece>
                             </math:Piecewise>
-                        </mdef:Distribution>
-                    </mdef:Continuous>
+                        </ct:Assign>
+                    </mdef:Categorical>
                 </Covariate>
+                
             </CovariateModel>
         </Covariates>
         

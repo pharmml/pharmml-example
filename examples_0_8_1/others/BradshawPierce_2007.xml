@@ -7,7 +7,7 @@
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
     xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
     xmlns:msteps="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
-    writtenVersion="0.8"
+    writtenVersion="0.8.1"
     implementedBy="Cyprotex Model Writer --- adapted to 0.8 by MJS" id="bp1">
     
     <ct:Name>BradshawPierce</ct:Name>

@@ -5,7 +5,8 @@
     xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
     xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8" 
+    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
+    implementedBy="MJS" writtenVersion="0.8.1" 
     metadataFile="example2_NONMEM.rdf" id="i1">
     
     <ct:Name>Example 2 - simulation continuous PK (Bonate 2012) with NONMEM dataset</ct:Name>
@@ -246,27 +247,8 @@
                         <ct:SymbRef blkIdRef="vm2" symbIdRef="resErr"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <po:ProbOnto name="Normal1">
-                            <po:Parameter name="mean">
-                                <ct:Assign>
-                                    <ct:Real>0</ct:Real>
-                                </ct:Assign>
-                            </po:Parameter>
-                            <po:Parameter name="stdev">
-                                <ct:Assign>
-                                    <ct:Real>1</ct:Real>
-                                </ct:Assign>
-                            </po:Parameter>
-                        </po:ProbOnto>
+                        <po:ProbOnto name="StandardNormal1"/>
                     </Distribution>
-<!--                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <prVal>1</prVal>
-                        </stddev>
-                    </NormalDistribution>-->
                 </RandomVariable>
                 <Standard symbId="Css_obs">
                     <Output>
@@ -318,17 +300,17 @@
             </ColumnMapping>
             <ColumnMapping>
                 <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="TIME"/>
-                <Piecewise xmlns="http://www.pharmml.org/pharmml/0.8/Dataset">
+                <math:Piecewise>
                     <math:Piece>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
                         <math:Condition>
                             <math:LogicBinop op="neq">
-                                <ColumnRef columnIdRef="AMT"/>
+                                <ds:ColumnRef columnIdRef="AMT"/>
                                 <ct:Real>0</ct:Real>
                             </math:LogicBinop>
                         </math:Condition>
                     </math:Piece>
-                </Piecewise>
+                </math:Piecewise>
             </ColumnMapping>
             
             <DataSet xmlns="http://www.pharmml.org/pharmml/0.8/Dataset">

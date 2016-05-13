@@ -7,7 +7,7 @@
     xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
     xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8" id="i1">
+    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
     
     <ct:Name>Distribution test</ct:Name>
     
@@ -184,7 +184,7 @@
                 </Distribution>
             </IndividualParameter>
             
-            <IndividualParameter symbId="p_">
+            <IndividualParameter symbId="p_MD">
                 <Distribution>
                     <po:ProbOnto name="MixtureDistribution">
                         <po:Parameter name="weight">
@@ -336,8 +336,16 @@
                 </Distribution>
             </IndividualParameter>
             
+            <IndividualParameter symbId="pSN1">
+                <Distribution>
+                    <po:ProbOnto name="StandardNormal1"/>
+                </Distribution>
+            </IndividualParameter>
+            
+            
             <!-- omitted other continuous distributions - no other features are required
             then these tested above - only scalar parameters -->
+            
             
             <!-- MULTIVARIATE DISCRETE MULTIVARIATE DISCRETE MULTIVARIATE DISCRETE MULTIVARIATE DISCRETE -->
             <IndividualParameter symbId="p_Multinomial">
@@ -420,6 +428,7 @@
             <!-- / InverseWishart InverseWishart InverseWishart InverseWishart InverseWishart InverseWishart -->
             
             
+            
             <!-- MultivariateNormal1 MultivariateNormal1 MultivariateNormal1 MultivariateNormal1 MultivariateNormal1 -->
             <!-- mean vector -->
             <PopulationParameter symbId="lMU">
@@ -468,6 +477,8 @@
             </PopulationParameter>
             <!-- /MultivariateNormal1 MultivariateNormal1 MultivariateNormal1 MultivariateNormal1 MultivariateNormal1 -->
             
+            
+            
             <!-- MultivariateNormal2 MultivariateNormal2 MultivariateNormal2 MultivariateNormal2 MultivariateNormal2 -->
             <!-- mean vector -->
             <PopulationParameter symbId="lMU">
@@ -515,6 +526,7 @@
                 </Distribution>
             </PopulationParameter>
             <!-- /MultivariateNormal2 MultivariateNormal2 MultivariateNormal2 MultivariateNormal2 MultivariateNormal2 -->
+            
             
             
             <!-- Samples Samples Samples Samples Samples Samples Samples Samples Samples Samples Samples Samples  -->

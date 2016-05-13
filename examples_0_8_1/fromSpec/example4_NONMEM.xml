@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8" 
+    implementedBy="MJS" writtenVersion="0.8.1" 
     metadataFile="example4_NONMEM.rdf" id="i1">
     
     <!-- MODEL NAME -->
@@ -404,24 +404,7 @@
                         <ct:SymbRef blkIdRef="vm2" symbIdRef="resErr"/>
                     </ct:VariabilityReference>
                     <Distribution>
-                        <po:ProbOnto name="Normal1">
-                            <po:Parameter name="mean">
-                                <ct:Assign>
-                                    <ct:Real>0</ct:Real>
-                                </ct:Assign>
-                            </po:Parameter>
-                            <po:Parameter name="stdev">
-                                <ct:Assign>
-                                    <ct:Real>1</ct:Real>
-                                </ct:Assign>
-                            </po:Parameter>
-                        </po:ProbOnto>
-<!--                        <UncertML>
-                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                                <mean><rVal>0</rVal></mean>
-                                <stddev><prVal>1</prVal></stddev>
-                            </NormalDistribution>
-                        </UncertML>-->
+                        <po:ProbOnto name="StandardNormal1"/>
                     </Distribution>
                 </RandomVariable>
                 <Standard symbId="Cc_obs"> 
@@ -512,7 +495,7 @@
             <!-- map 'tD' and 'TIME' if 'AMT' != 0 -->
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="TIME"/>
-                <ds:Piecewise>
+                <math:Piecewise>
                     <math:Piece>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
                         <math:Condition>
@@ -522,7 +505,7 @@
                             </math:LogicBinop>
                         </math:Condition>
                     </math:Piece>
-                </ds:Piecewise>
+                </math:Piecewise>
             </ColumnMapping>
             <ds:DataSet>
                 <ds:Definition>

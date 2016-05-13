@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.8.1"
+    metadataFile="pregnantWomen.rdf" id="i1">
+    
+<!--    #-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+    # woman.model
+    # A PK model for woman, based on Luecke et al. 1994
+    #
+    # May 2002 - Sandrine Micallef - various modifications for
+    # correction of Luecke's model,about human life gestation.
+    # Jul 2002 - Frederic Bois - various corrections
+    # Sep 2002 - Sandrine Micallef - checking against ICRP ref parameter values
+    # Dec 2002 - Frederic Bois - introduction of renal elimination, inhalation
+    # input, and rewriting of several comments. Changing the fetal weights 
+    # to kg for consistency, and the list of ouputs. Correction of the
+    # fetal liver weight parameters and biliary output for mother and fetus. 
+    # Reintroduction of placental metabolism. Introduction of gut and lung
+    # metabolism for the mother. Modification of gestational age. Modifications
+    # to allow simulation before pregnancy. Introduction of several variables
+    # for mass balance checking. Correction of fetal blood concentrations.
+    # Nov 2003 - Frederic Bois added life time evolution of the mother and
+    # multiple pregnancies.
+    # Feb 2005 - El Hadji Kone - deletion of the gestation.
+    # Mar 2005 - F. Bois: introduction of a null output (set at zero)
+    #
+    # Units:
+    # Volumes:          L
+    # Time:             min
+    # Flows:            L/min
+    # Concentrations:   mM (ie mmol/L)
+    # Vmax:             mM/min
+    # Km:               mM
+    # Masses:           kg
+    # Height:           m
+    # Perfusion rates:  L/min/kg of tissue
+    #
+    # Copyright (c) 1993-2008 Free Software Foundation, Inc.-->
+    
+    <!-- MODEL NAME -->
+    <ct:Name>PBPK - pregnant women</ct:Name>
+    
+    <ct:Description>PBPK - pregnant women - based on MCSim example 'pbpk_woman.model'.</ct:Description>
+    
+    <IndependentVariable symbId="time"/>
+
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+        
+        <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm1">
+<!--            # Nominal parameter values
+            # Physiological and pharmacokinetic parameters-->
+<!--            # Fraction of dead space in lung
+            F_dead_space = 0.67;-->
+            <Parameter symbId="F_dead_space">
+                <ct:Assign><ct:Real>0.67</ct:Real></ct:Assign>
+            </Parameter>
+            
+<!--            # Age in years-->
+<!--            Age = 30; -->
+            <Parameter symbId="Age">
+                <ct:Assign><ct:Real>30</ct:Real></ct:Assign>
+            </Parameter>
+            
+            
+<!--            # Fraction of arterial blood
+            # Calculated from Filser 2000 p.43
+            Fr_art_blood = 0.0178 / (0.0178 + 0.0533);-->
+            <Parameter symbId="Fr_art_blood">
+                <ct:Assign>
+                    <math:Binop op="divide">
+                        <ct:Real>0.0178</ct:Real>
+                        <math:Binop op="plus">
+                            <ct:Real>0.0178</ct:Real>
+                            <ct:Real>0.0533</ct:Real>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:Assign>
+            </Parameter>
+            
+<!--            # Tissue volumic weight are assumed to be equal to 1
+            # excepted for adipose tissue (cf Brown et al. 97 p.433)
+            density_adip = 0.9;
+            density_bone = 2.0;-->
+            <Parameter symbId="density_adip">
+                <ct:Assign><ct:Real>0.9</ct:Real></ct:Assign>
+            </Parameter>
+            <Parameter symbId="density_bone">
+                <ct:Assign><ct:Real>2.0</ct:Real></ct:Assign>
+            </Parameter>
+                        
+<!--            # Scaling factors for the volume of the organs
+            # Unit = L/meter of height
+            # sc_V_ have been calculated for a standard woman : 1.63m 63kg
+            # and using the organ weights given by the ICRP. 2001
+            # density for the organs is supposed equal to 1 excepted for
+            # adipose tissues (0.9) and bones (2)-->
+            
+<!--            sc_V_adrenal   = 8.0E-3;-->
+            <Parameter symbId="sc_V_adrenal">
+                <ct:Assign><ct:Real>8.0E-3</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_bone      = 1.564;-->
+            <Parameter symbId="sc_V_bone">
+                <ct:Assign><ct:Real>1.564</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_brain     = 0.798;-->
+            <Parameter symbId="sc_V_brain">
+                <ct:Assign><ct:Real>0.798</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_gut       = 0.589;-->
+            <Parameter symbId="sc_V_gut">
+                <ct:Assign><ct:Real>0.589</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_gut_lumen = 0.331;-->
+            <Parameter symbId="sc_V_gut_lumen">
+                <ct:Assign><ct:Real>0.331</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_heart     = 0.153;-->
+            <Parameter symbId="sc_V_heart">
+                <ct:Assign><ct:Real>0.153</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_kidney    = 0.169;-->
+            <Parameter symbId="sc_V_kidney">
+                <ct:Assign><ct:Real>0.169</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_liver     = 0.859;-->
+            <Parameter symbId="sc_V_liver">
+                <ct:Assign><ct:Real>0.859</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_lung      = 0.215;-->
+            <Parameter symbId="sc_V_lung">
+                <ct:Assign><ct:Real>0.215</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_marrow    = 1.656;  # yellow + red-->
+            <Parameter symbId="sc_V_marrow">
+                <ct:Assign><ct:Real>1.656</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_muscle    = 11.043;-->
+            <Parameter symbId="sc_V_muscle">
+                <ct:Assign><ct:Real>11.043</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_other     = 4.012;-->
+            <Parameter symbId="sc_V_other">
+                <ct:Assign><ct:Real>4.012</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_pancreas  = 0.052;-->
+            <Parameter symbId="sc_V_pancreas">
+                <ct:Assign><ct:Real>0.052</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_skin      = 1.530;-->
+            <Parameter symbId="sc_V_skin">
+                <ct:Assign><ct:Real>1.530</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_spleen    = 0.092;-->
+            <Parameter symbId="sc_V_spleen">
+                <ct:Assign><ct:Real>0.092</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_stomach   = 0.086;-->
+            <Parameter symbId="sc_V_stomach">
+                <ct:Assign><ct:Real>0.086</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_stom_lumen= 0.098;-->
+            <Parameter symbId="sc_V_stom_lumen">
+                <ct:Assign><ct:Real>0.098</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_thyroid   = 0.010;-->
+            <Parameter symbId="sc_V_thyroid">
+                <ct:Assign><ct:Real>0.010</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_V_uterus    = 0.049;-->
+            <Parameter symbId="sc_V_uterus">
+                <ct:Assign><ct:Real>0.049</ct:Real></ct:Assign>
+            </Parameter>
+            
+<!--            # Perfusion per unit mass of organ.
+            # These have been calculated as follows:
+            # sc_F_organ = %blood_flow_rate * Card_output / organ_weight
+            # the values have been taken from ICRP 2001
+            # Organ weight : Table R8 p2-5,
+            # Cardiac output : Table R26 p2-23
+            # Blood_flow : Table R15 & R17 p7-11 or William & Leggett
+            #              Table R31 p2-26 for perfusion of breast and uterus assuming
+            #              a factor 10 growth of uterus mass during pregnancy
+            # Unit: L/min/kg of tissue-->
+            
+<!--            sc_F_adip    = 0.03;-->
+            <Parameter symbId="sc_F_adip">
+                <ct:Assign><ct:Real>0.03</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_adrenal = 1.68;-->
+            <Parameter symbId="sc_F_adrenal">
+                <ct:Assign><ct:Real>1.68</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_brain   = 0.49;-->
+            <Parameter symbId="sc_F_brain">
+                <ct:Assign><ct:Real>0.49</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_breast  = 0.27;-->
+            <Parameter symbId="sc_F_breast">
+                <ct:Assign><ct:Real>0.27</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_eport   = 0.25;-->
+            <Parameter symbId="sc_F_eport">
+                <ct:Assign><ct:Real>0.25</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_gut     = 0.95;-->
+            <Parameter symbId="sc_F_gut">
+                <ct:Assign><ct:Real>0.95</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_heart   = 1.08;-->
+            <Parameter symbId="sc_F_heart">
+                <ct:Assign><ct:Real>1.08</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_kidney  = 4.41;-->
+            <Parameter symbId="sc_F_kidney">
+                <ct:Assign><ct:Real>4.41</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_marrow  = 0.10;-->
+            <Parameter symbId="sc_F_marrow">
+                <ct:Assign><ct:Real>0.10</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_muscle  = 0.04;-->
+            <Parameter symbId="sc_F_muscle">
+                <ct:Assign><ct:Real>0.04</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_pancreas= 0.60;-->
+            <Parameter symbId="sc_F_pancreas">
+                <ct:Assign><ct:Real>0.60</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_skin    = 0.29;-->
+            <Parameter symbId="sc_F_skin">
+                <ct:Assign><ct:Real>0.29</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_spleen  = 1.07;-->
+            <Parameter symbId="sc_F_spleen">
+                <ct:Assign><ct:Real>1.07</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_stomach = 0.52;-->
+            <Parameter symbId="sc_F_stomach">
+                <ct:Assign><ct:Real>0.52</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_thyroid = 4.72;-->
+            <Parameter symbId="sc_F_thyroid">
+                <ct:Assign><ct:Real>4.72</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_uterus  = 1.095;-->
+            <Parameter symbId="sc_F_uterus">
+                <ct:Assign><ct:Real>1.095</ct:Real></ct:Assign>
+            </Parameter>
+<!--            sc_F_other   = 0.027;-->
+            <Parameter symbId="sc_F_other">
+                <ct:Assign><ct:Real>0.027</ct:Real></ct:Assign>
+            </Parameter>
+            
+            
+<!--            # Transits; Unit: L/min-->
+<!--            Fl_stom_lumen = 0.208 / 60.0;   # Intestinal transit for stomach -> gut
+                                                # ICRP R8 and R23 p. 6-15-->
+            <Parameter symbId="Fl_stom_lumen">
+                <ct:Assign>
+                    <math:Binop op="divide">
+                        <ct:Real>0.208</ct:Real>
+                        <ct:Real>60.0</ct:Real>
+                    </math:Binop>
+                </ct:Assign>
+            </Parameter>
+<!--            Fl_gut_lumen  = 0.005 / 60.0;   # Intestinal transit for gut (feces)
+                                                # ICRP R8 and R23 p. 6-15-->
+            <Parameter symbId="Fl_gut_lumen">
+                <ct:Assign>
+                    <math:Binop op="divide">
+                        <ct:Real>0.005</ct:Real>
+                        <ct:Real>60.0</ct:Real>
+                    </math:Binop>
+                </ct:Assign>
+            </Parameter>
+            
+            
+            
+            
+<!--<!-\-            Esc_F_adip    = 0.03;  # = Msc_F_adip-\->
+            <Parameter symbId="Esc_F_adip">
+                <ct:Assign><ct:Real>0.03</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_adrenal = 3.40;  # ICRP 2001 Table 3.4 p3-26-\->
+            <Parameter symbId="Esc_F_adrenal">
+                <ct:Assign><ct:Real>3.40</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_brain   = 0.25;  # ICRP 2001 Table 3.4 p3-26-\->
+            <Parameter symbId="Esc_F_brain">
+                <ct:Assign><ct:Real>0.25</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_eport   = 0.25;  # = Msc_F_eport-\->
+            <Parameter symbId="Esc_F_eport">
+                <ct:Assign><ct:Real>0.25</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_gut     = 1.01;  # ICRP 2001 Table 3.4 p3-26-\->
+            <Parameter symbId="Esc_F_gut">
+                <ct:Assign><ct:Real>1.01</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_heart   = 1.65;  # ICRP 2001 Table 3.4 p3-26-\->
+            <Parameter symbId="Esc_F_heart">
+                <ct:Assign><ct:Real>1.65</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_kidney  = 1.55;  # ICRP 2001 Table 3.4 p3-26-\->
+            <Parameter symbId="Esc_F_kidney">
+                <ct:Assign><ct:Real>1.55</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_marrow  = 0.10;  # = Msc_F_marrow-\->
+            <Parameter symbId="Esc_F_marrow">
+                <ct:Assign><ct:Real>0.10</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_muscle  = 0.04;  # = Msc_F_muscle-\->
+            <Parameter symbId="Esc_F_muscle">
+                <ct:Assign><ct:Real>0.04</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_pancreas= 0.60;  # = Msc_F_pancreas-\->
+            <Parameter symbId="Esc_F_pancreas">
+                <ct:Assign><ct:Real>0.60</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_placenta= 0.11;-\->
+            <Parameter symbId="Esc_F_placenta">
+                <ct:Assign><ct:Real>0.11</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_skin    = 0.29;  # = Msc_F_skin-\->
+            <Parameter symbId="Esc_F_skin">
+                <ct:Assign><ct:Real>0.29</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_spleen  = 1.07;  # = Msc_F_spleen-\->
+            <Parameter symbId="Esc_F_spleen">
+                <ct:Assign><ct:Real>1.07</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_stomach = 0.52;  # = Msc_F_stomach-\->
+            <Parameter symbId="Esc_F_stomach">
+                <ct:Assign><ct:Real>0.52</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_thymus  = 5.48;  # based on adult value-\->
+            <Parameter symbId="Esc_F_thymus">
+                <ct:Assign><ct:Real>5.48</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_thyroid = 4.72;  # = Msc_F_thyroid-\->
+            <Parameter symbId="Esc_F_thyroid">
+                <ct:Assign><ct:Real>4.72</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-            Esc_F_lung    = 4.21;  # computed from values for female adult
+                                       # bronchial circulation-\->
+            <Parameter symbId="Esc_F_lung">
+                <ct:Assign><ct:Real>4.21</ct:Real></ct:Assign>
+            </Parameter>
+<!-\-        Esc_F_other   = 0.027; # = Msc_F_other-\->
+            <Parameter symbId="Esc_F_other">
+                <ct:Assign><ct:Real>0.027</ct:Real></ct:Assign>
+            </Parameter>-->
+            
+            
+            
+            
+<!--            # Parameters used to calculate the mother's changing organ weights
+            # (given by Luecke 94)-->
+<!--            Ma_adip    = 0.0009911;-->
+            <Parameter symbId="Ma_adip">
+                <ct:Assign><ct:Real>0.0009911</ct:Real></ct:Assign>
+            </Parameter>
+<!--            Mb_adip    = 2.142;-->
+            <Parameter symbId="Mb_adip">
+                <ct:Assign><ct:Real>2.142</ct:Real></ct:Assign>
+            </Parameter>
+<!--            Mc_adip    = -0.1405;-->
+            <Parameter symbId="Mc_adip">
+                <ct:Assign><ct:Real>-0.1405</ct:Real></ct:Assign>
+            </Parameter>
+<!--            Ma_blood   = 0.000004712;-->
+            <Parameter symbId="Ma_blood">
+                <ct:Assign><ct:Real>0.000004712</ct:Real></ct:Assign>
+            </Parameter>
+<!--            Mb_blood   = 3.295;-->
+            <Parameter symbId="Mb_blood">
+                <ct:Assign><ct:Real>3.295</ct:Real></ct:Assign>
+            </Parameter>
+<!--            Mc_blood   = -0.2164;-->
+            <Parameter symbId="Mc_blood">
+                <ct:Assign><ct:Real>-0.2164</ct:Real></ct:Assign>
+            </Parameter>
+<!--            Ma_breast  = 0.01274;-->
+            <Parameter symbId="Ma_breast">
+                <ct:Assign><ct:Real>0.01274</ct:Real></ct:Assign>
+            </Parameter>
+<!--            Mb_breast  = 0.608;-->
+            <Parameter symbId="Mb_breast">
+                <ct:Assign><ct:Real>0.608</ct:Real></ct:Assign>
+            </Parameter>
+<!--            Mc_breast  = -0.02209;-->
+            <Parameter symbId="Mc_breast">
+                <ct:Assign><ct:Real>-0.02209</ct:Real></ct:Assign>
+            </Parameter>
+<!--            Ma_uterus  = 0.0002057;-->
+            <Parameter symbId="Ma_uterus">
+                <ct:Assign><ct:Real>0.0002057</ct:Real></ct:Assign>
+            </Parameter>
+            
+            
+        </ParameterModel>
+
+        <!-- STRUCTURAL MODEL - ODEs -->
+        <StructuralModel blkId="sm1">
+            
+            <!-- dC/dt -->
+            <ct:DerivativeVariable symbolType="real" symbId="C">
+                <ct:Assign>
+                    <math:Binop op="times">
+                        <math:Uniop op="minus">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                        </math:Uniop>
+                        <ct:SymbRef symbIdRef="C"/>
+                    </math:Binop>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="time"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="C0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- dPT/dt -->
+            <ct:DerivativeVariable symbolType="real" symbId="PT">
+                <ct:Assign>
+                        <math:Binop op="plus">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="LAMBDAP"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="PT"/>
+                                    <math:Binop op="minus">
+                                        <ct:Real>1</ct:Real>                        <math:Binop op="divide">
+                                            <ct:SymbRef symbIdRef="PSTAR"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="K"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="minus">
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KQPP"/>
+                                    <ct:SymbRef symbIdRef="QP"/>
+                                </math:Binop>
+                                <math:Binop op="plus">
+                                    <math:Binop op="times">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="KPQ"/>
+                                        <ct:SymbRef symbIdRef="PT"/>
+                                    </math:Binop>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="GAMMA"/>
+                                        <math:Binop op="times">
+                                            <ct:SymbRef symbIdRef="C"/>
+                                            <math:Binop op="times">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                                                <ct:SymbRef symbIdRef="PT"/>
+                                            </math:Binop>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="time"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="P0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- dQ/dt --> 
+            <ct:DerivativeVariable symbolType="real" symbId="Q">
+                <ct:Assign>
+                    <math:Binop op="minus">
+                        <math:Binop op="times">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="KPQ"/>
+                            <ct:SymbRef symbIdRef="PT"/>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <ct:SymbRef  blkIdRef="pm1" symbIdRef="GAMMA"/>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="C"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                                    <ct:SymbRef symbIdRef="Q"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="time"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Q0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- dQP/dt -->
+            <ct:DerivativeVariable symbolType="real" symbId="QP">
+                <ct:Assign>
+                    <math:Binop op="minus">
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="GAMMA"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="C"/>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
+                                        <ct:SymbRef symbIdRef="Q"/>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="KQPP"/>
+                                <ct:SymbRef symbIdRef="QP"/>
+                            </math:Binop>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="DELTAQP"/>
+                            <ct:SymbRef symbIdRef="QP"/>
+                        </math:Binop>                        
+                    </math:Binop>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="time"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="QP0"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+
+            <!-- PSTAR -->
+            <ct:Variable symbolType="real" symbId="PSTAR" >
+                <ct:Assign>
+                    <math:Binop op="plus">
+                        <ct:SymbRef symbIdRef="PT"/>
+                        <math:Binop op="plus">
+                            <ct:SymbRef symbIdRef="Q"/>
+                            <ct:SymbRef symbIdRef="QP"/>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:Assign>
+            </ct:Variable>
+        </StructuralModel>
+
+
+<!--        <ObservationModel blkId="om1">
+            <ContinuousData>
+                <PopulationParameter symbId="a"/>
+                <RandomVariable symbId="eps">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+                <Standard symbId="PSTAR_obs">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="PSTAR"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="constantErrorModel"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>-->
+
+    </ModelDefinition>
+ 
+</PharmML>
