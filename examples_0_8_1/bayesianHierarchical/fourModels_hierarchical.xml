@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8" id="i1">
+    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>Hierarchical model</ct:Name>

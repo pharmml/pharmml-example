@@ -5,7 +5,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
     xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    writtenVersion="0.8" id="i1">
+    writtenVersion="0.8.1" id="i1">
     
     <ct:Name>example334</ct:Name>
     
@@ -263,18 +263,7 @@
                     <ct:SymbRef symbIdRef="residual" blkIdRef="resErrorModel"/>
                 </ct:VariabilityReference>          
                 <Distribution>
-                    <po:ProbOnto name="Normal2">
-                        <po:Parameter name="mean">
-                            <ct:Assign>
-                                <ct:Real>0</ct:Real>
-                            </ct:Assign>
-                        </po:Parameter>
-                        <po:Parameter name="var">
-                            <ct:Assign>
-                                <ct:Real>1</ct:Real>
-                            </ct:Assign>
-                        </po:Parameter>
-                    </po:ProbOnto>
+                    <po:ProbOnto name="StandardNormal1"/>
                 </Distribution>
             </RandomVariable>
 
@@ -411,7 +400,23 @@
     
     <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.8/ModellingSteps">
         
+        <TargetTool oid="ID">
+            <TargetToolName>WINBUGS</TargetToolName>
+        </TargetTool>
+        
         <EstimationStep oid="est1">
+            
+            <SoftwareSettings>
+                <File oid="inits">
+                    <path xmlns="http://www.pharmml.org/pharmml/0.8/Dataset">INITIAL_VALUES</path>
+                </File>
+            </SoftwareSettings>
+            
+            <SoftwareSettings>
+                <File oid="chain">
+                    <path xmlns="http://www.pharmml.org/pharmml/0.8/Dataset">chain.csv</path>
+                </File>
+            </SoftwareSettings>
             
             <ExternalDataSetReference>
                 <ct:OidRef oidRef="NMoid"/>

@@ -5,7 +5,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
     xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths" 
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    writtenVersion="0.8" id="i1">
+    writtenVersion="0.8.1" id="i1">
     
     <ct:Name>example3321</ct:Name>
     
@@ -259,16 +259,7 @@
                     <ct:SymbRef symbIdRef="residual" blkIdRef="resErrorModel"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <UncertML>
-                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                            <mean>
-                                <rVal>0</rVal>
-                            </mean>
-                            <variance>
-                                <prVal>1</prVal>
-                            </variance>
-                        </NormalDistribution>
-                    </UncertML>
+                    <po:ProbOnto name="StandardNormal1"/>
                 </Distribution>
             </RandomVariable>
             

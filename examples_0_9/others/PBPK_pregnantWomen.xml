@@ -8,44 +8,42 @@
     implementedBy="MJS" writtenVersion="0.9"
     metadataFile="womenModel.rdf" id="i1">
     
-<!--    #-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
-    # woman.model
-    # A PK model for woman, based on Luecke et al. 1994
-    #
-    # May 2002 - Sandrine Micallef - various modifications for
-    # correction of Luecke's model,about human life gestation.
-    # Jul 2002 - Frederic Bois - various corrections
-    # Sep 2002 - Sandrine Micallef - checking against ICRP ref parameter values
-    # Dec 2002 - Frederic Bois - introduction of renal elimination, inhalation
-    # input, and rewriting of several comments. Changing the fetal weights 
-    # to kg for consistency, and the list of ouputs. Correction of the
-    # fetal liver weight parameters and biliary output for mother and fetus. 
-    # Reintroduction of placental metabolism. Introduction of gut and lung
-    # metabolism for the mother. Modification of gestational age. Modifications
-    # to allow simulation before pregnancy. Introduction of several variables
-    # for mass balance checking. Correction of fetal blood concentrations.
-    # Nov 2003 - Frederic Bois added life time evolution of the mother and
-    # multiple pregnancies.
-    # Feb 2005 - El Hadji Kone - deletion of the gestation.
-    # Mar 2005 - F. Bois: introduction of a null output (set at zero)
-    #
-    # Units:
-    # Volumes:          L
-    # Time:             min
-    # Flows:            L/min
-    # Concentrations:   mM (ie mmol/L)
-    # Vmax:             mM/min
-    # Km:               mM
-    # Masses:           kg
-    # Height:           m
-    # Perfusion rates:  L/min/kg of tissue
-    #
-    # Copyright (c) 1993-2008 Free Software Foundation, Inc.-->
+<!-- # PBPK_woman.model
+# A PBPK model for woman, over lifetime, with possible gestations and 
+# lactations, based on Luecke et al. 1994
+#
+# May 2002 - Sandrine Micallef - various modifications for
+# correction of Luecke's model.
+# Jul 2002 - Frederic Bois - various corrections
+# Sep 2002 - Sandrine Micallef - checking against ICRP ref parameter values
+# Dec 2002 - Frederic Bois - introduction of renal elimination, inhalation
+# input, and rewriting of several comments. Changing the fetal weights 
+# to kg for consistency, and the list of ouputs. Correction of the
+# fetal liver weight parameters and biliary output for mother and fetus. 
+# Reintroduction of placental metabolism. Introduction of gut and lung
+# metabolism for the mother. Modification of gestational age. Modifications
+# to allow simulation before pregnancy. Introduction of several variables
+# for mass balance checking. Correction of fetal blood concentrations.
+# Nov 2003 - Frederic Bois added life time evolution of the mother and
+# multiple pregnancies.
+#
+# Units:
+# Volumes:          L
+# Time:             min
+# Flows:            L/min
+# Concentrations:   mM (ie mmol/L)
+# Vmax:             mM/min
+# Km:               mM
+# Masses:           kg
+# Height:           m
+# Perfusion rates:  L/min/kg of tissue
+#
+# Copyright (c) 1993-2008 Free Software Foundation, Inc. -->
     
     <!-- MODEL NAME -->
-    <ct:Name>PBPK - women model</ct:Name>
+    <ct:Name>PBPK - pregnant women model</ct:Name>
     
-    <ct:Description>PBPK -  women - based on MCSim example 'pbpk_woman.model'.</ct:Description>
+    <ct:Description>PBPK - pregnant women - based on MCSim example 'pbpk_pregnant.model'.</ct:Description>
     
     <IndependentVariable symbId="t"/>
 

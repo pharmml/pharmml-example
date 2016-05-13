@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.9" id="i1">
+    
+    <ct:Name>Heat equation.</ct:Name>
+    
+    <ct:Description>Heat equation with various IC/BCs.</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    <IndependentVariable symbId="x"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            <PopulationParameter symbId="ccccc"/>
+        </ParameterModel>
+
+        <!-- STRUCTURE -->
+        <StructuralModel blkId="sm1">
+            
+            <ct:Variable symbId="u"/>
+            
+            <!-- Dirichlet BIV problem -->
+            <ct:DE>
+                <ct:LHS>
+                    <math:Binop op="minus">
+                        <math:PartialDiff>
+                            <math:DiffVariable>
+                                <ct:SymbRef symbIdRef="t"/>
+                            </math:DiffVariable>
+                            <math:ArgumentVariable>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="u"/>
+                                </ct:Assign>
+                            </math:ArgumentVariable>
+                        </math:PartialDiff>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="kappa"/>
+                            <math:PartialDiff>
+                                <math:DiffVariable>
+                                    <ct:SymbRef symbIdRef="x"/>
+                                    <math:Degree>
+                                        <ct:Assign>
+                                            <ct:Int>2</ct:Int>
+                                        </ct:Assign>
+                                    </math:Degree>
+                                </math:DiffVariable>
+                                <math:ArgumentVariable>
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="u"/>
+                                    </ct:Assign>
+                                </math:ArgumentVariable>
+                            </math:PartialDiff>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:LHS>
+                <ct:RHS>
+                    <ct:Real>0</ct:Real>
+                </ct:RHS>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="f"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+                <ct:BoundaryCondition>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:LHS>
+                        <ct:SymbRef symbIdRef="u"/>
+                    </ct:LHS>
+                    <ct:RHS>
+                        <ct:SymbRef symbIdRef="T_0"/>
+                    </ct:RHS>
+                </ct:BoundaryCondition>
+                <ct:BoundaryCondition>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="L"/>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:LHS>
+                        <ct:SymbRef symbIdRef="u"/>
+                    </ct:LHS>
+                    <ct:RHS>
+                        <ct:SymbRef symbIdRef="T_L"/>
+                    </ct:RHS>
+                </ct:BoundaryCondition>
+            </ct:DE>
+            
+            <!-- Neumann BIV problem -->
+            <ct:DE>
+                <ct:LHS>
+                    <math:Binop op="minus">
+                        <math:PartialDiff>
+                            <math:DiffVariable>
+                                <ct:SymbRef symbIdRef="t"/>
+                            </math:DiffVariable>
+                            <math:ArgumentVariable>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="u"/>
+                                </ct:Assign>
+                            </math:ArgumentVariable>
+                        </math:PartialDiff>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="kappa"/>
+                            <math:PartialDiff>
+                                <math:DiffVariable>
+                                    <ct:SymbRef symbIdRef="x"/>
+                                    <math:Degree>
+                                        <ct:Assign>
+                                            <ct:Int>2</ct:Int>
+                                        </ct:Assign>
+                                    </math:Degree>
+                                </math:DiffVariable>
+                                <math:ArgumentVariable>
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="u"/>
+                                    </ct:Assign>
+                                </math:ArgumentVariable>
+                            </math:PartialDiff>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:LHS>
+                <ct:RHS>
+                    <ct:Real>0</ct:Real>
+                </ct:RHS>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="f"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+                <ct:BoundaryCondition>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:LHS>
+                        <math:Uniop op="minus">
+                            <math:PartialDiff>
+                                <math:DiffVariable>
+                                    <ct:SymbRef symbIdRef="x"/>
+                                </math:DiffVariable>
+                                <math:ArgumentVariable>
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="u"/>
+                                    </ct:Assign>
+                                </math:ArgumentVariable>
+                            </math:PartialDiff>
+                        </math:Uniop>
+                    </ct:LHS>
+                    <ct:RHS>
+                        <ct:SymbRef symbIdRef="phi_0"/>
+                    </ct:RHS>
+                </ct:BoundaryCondition>                
+                <ct:BoundaryCondition>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="L"/>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:LHS>
+                        <math:Uniop op="minus">
+                            <math:PartialDiff>
+                                <math:DiffVariable>
+                                    <ct:SymbRef symbIdRef="x"/>
+                                </math:DiffVariable>
+                                <math:ArgumentVariable>
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="u"/>
+                                    </ct:Assign>
+                                </math:ArgumentVariable>
+                            </math:PartialDiff>
+                        </math:Uniop>
+                    </ct:LHS>
+                    <ct:RHS>
+                        <ct:SymbRef symbIdRef="phi_L"/>
+                    </ct:RHS>
+                </ct:BoundaryCondition>
+            </ct:DE>
+
+            <!-- Robin BIV problem -->
+            <ct:DE>
+                <ct:LHS>
+                    <math:Binop op="minus">
+                        <math:PartialDiff>
+                            <math:DiffVariable>
+                                <ct:SymbRef symbIdRef="t"/>
+                            </math:DiffVariable>
+                            <math:ArgumentVariable>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="u"/>
+                                </ct:Assign>
+                            </math:ArgumentVariable>
+                        </math:PartialDiff>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="kappa"/>
+                            <math:PartialDiff>
+                                <math:DiffVariable>
+                                    <ct:SymbRef symbIdRef="x"/>
+                                    <math:Degree>
+                                        <ct:Assign>
+                                            <ct:Int>2</ct:Int>
+                                        </ct:Assign>
+                                    </math:Degree>
+                                </math:DiffVariable>
+                                <math:ArgumentVariable>
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="u"/>
+                                    </ct:Assign>
+                                </math:ArgumentVariable>
+                            </math:PartialDiff>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:LHS>
+                <ct:RHS>
+                    <ct:Real>0</ct:Real>
+                </ct:RHS>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="f"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+                <ct:BoundaryCondition>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:Real>0</ct:Real>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:LHS>
+                        <math:Binop op="plus">
+                            <math:Uniop op="minus">
+                                <math:PartialDiff>
+                                    <math:DiffVariable>
+                                        <ct:SymbRef symbIdRef="x"/>
+                                    </math:DiffVariable>
+                                    <math:ArgumentVariable>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="u"/>
+                                        </ct:Assign>
+                                    </math:ArgumentVariable>
+                                </math:PartialDiff>
+                            </math:Uniop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="h"/>
+                                <ct:SymbRef symbIdRef="u"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </ct:LHS>
+                    <ct:RHS>
+                        <ct:SymbRef symbIdRef="psi_0"/>
+                    </ct:RHS>
+                </ct:BoundaryCondition>
+                <ct:BoundaryCondition>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="L"/>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:LHS>
+                        <math:Binop op="plus">
+                            <math:PartialDiff>
+                                <math:DiffVariable>
+                                    <ct:SymbRef symbIdRef="x"/>
+                                </math:DiffVariable>
+                                <math:ArgumentVariable>
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="u"/>
+                                    </ct:Assign>
+                                </math:ArgumentVariable>
+                            </math:PartialDiff>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="h"/>
+                                <ct:SymbRef symbIdRef="u"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </ct:LHS>
+                    <ct:RHS>
+                        <ct:SymbRef symbIdRef="psi_L"/>
+                    </ct:RHS>
+                </ct:BoundaryCondition>
+            </ct:DE>
+            
+        </StructuralModel>
+        
+    </ModelDefinition>
+    
+</PharmML>

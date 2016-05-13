@@ -8,7 +8,7 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
     xmlns:design="http://www.pharmml.org/pharmml/0.8/TrialDesign"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8" id="i1">
+    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>DDE arthritis Model</ct:Name>

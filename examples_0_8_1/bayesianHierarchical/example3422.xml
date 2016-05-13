@@ -7,7 +7,7 @@
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
     xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
     
-    implementedBy="MJS" writtenVersion="0.8"
+    implementedBy="MJS" writtenVersion="0.8.1"
     metadataFile="example3422.rdf" id="i1">
     
     <ct:Name>example3422</ct:Name>
@@ -354,18 +354,7 @@
                     <ct:SymbRef symbIdRef="residual" blkIdRef="vm2"/>
                 </ct:VariabilityReference>
                 <Distribution>
-                    <po:ProbOnto name="Normal2">
-                        <po:Parameter name="mean">
-                            <ct:Assign>
-                                <ct:Real>0</ct:Real>
-                            </ct:Assign>
-                        </po:Parameter>
-                        <po:Parameter name="var">
-                            <ct:Assign>
-                                <ct:Real>1</ct:Real>
-                            </ct:Assign>
-                        </po:Parameter>
-                    </po:ProbOnto>
+                    <po:ProbOnto name="StandardNormal1"/>
                 </Distribution>
             </RandomVariable>
             

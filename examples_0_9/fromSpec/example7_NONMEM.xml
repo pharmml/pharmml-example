@@ -41,7 +41,7 @@
         <StructuralModel blkId="sm1">
 
             <!-- k -->
-            <ct:Variable symbolType="real" symbId="k">
+            <ct:Variable symbId="k">
                 <ct:Assign>
                     <math:Binop op="divide">
                         <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
@@ -51,7 +51,7 @@
             </ct:Variable>
             
             <!-- dAd/dt -->
-            <ct:DerivativeVariable symbId="Ad" symbolType="real">
+            <ct:DerivativeVariable symbId="Ad">
                 <ct:Assign>
                     <math:Binop op="times">
                         <math:Uniop op="minus">

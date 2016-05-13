@@ -6,7 +6,7 @@
     xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
     xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths" 
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    writtenVersion="0.8" id="i1">
+    writtenVersion="0.8.1" id="i1">
     
     <ct:Name>example332</ct:Name>
     
@@ -40,7 +40,7 @@
             <Covariate symbId="WT">  
                 <Continuous>
                     <Distribution>
-                        <Piecewise>
+                        <math:Piecewise>
                             <Piece xmlns="http://www.pharmml.org/pharmml/0.8/Maths">
                                 <po:ProbOnto name="Normal2">
                                     <po:Parameter name="mean">
@@ -83,7 +83,7 @@
                                     </LogicBinop>
                                 </Condition>
                             </Piece>
-                        </Piecewise>
+                        </math:Piecewise>
                     </Distribution>
                 </Continuous>
             </Covariate>
