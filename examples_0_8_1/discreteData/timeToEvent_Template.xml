@@ -7,7 +7,7 @@
     xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
     xmlns:mml="http://www.pharmml.org/pharmml/0.8/PharmML"
     implementedBy="MJS" metadataFile="Ttemplate.rdf" 
-    writtenVersion="0.8" id="i1">
+    writtenVersion="0.8.1" id="i1">
     
     <ct:Name>TTE template</ct:Name>
     

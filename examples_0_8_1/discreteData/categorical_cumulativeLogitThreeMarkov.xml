@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.8" id="i1">
+    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
     
     <ct:Name id="i2">Cumulative Logit Markov (3 categories)</ct:Name>
     

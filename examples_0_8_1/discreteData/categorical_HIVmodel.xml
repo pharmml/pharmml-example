@@ -6,7 +6,7 @@
     xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
     xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
     xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.8" id="i1">
+    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
     
     <ct:Name>HIV model</ct:Name>
     
@@ -53,7 +53,7 @@
                             </ct:RowNames>
                             <ct:MatrixRow>
                                 <ct:Assign>
-                                    <ct:Piecewise>
+                                    <math:Piecewise>
                                         <math:Piece>
                                             <ct:Real>0.99893</ct:Real>
                                             <math:Condition>
@@ -72,10 +72,10 @@
                                                 </math:LogicBinop>
                                             </math:Condition>
                                         </math:Piece>
-                                    </ct:Piecewise>
+                                    </math:Piecewise>
                                 </ct:Assign>
                                 <ct:Assign>
-                                    <ct:Piecewise>
+                                    <math:Piecewise>
                                         <math:Piece>
                                             <ct:Real>0.00066</ct:Real>
                                             <math:Condition>
@@ -94,10 +94,10 @@
                                                 </math:LogicBinop>
                                             </math:Condition>
                                         </math:Piece>
-                                    </ct:Piecewise>
+                                    </math:Piecewise>
                                 </ct:Assign>
                                 <ct:Assign>
-                                    <ct:Piecewise>
+                                    <math:Piecewise>
                                         <math:Piece>
                                             <ct:Real>0.00041</ct:Real>
                                             <math:Condition>
@@ -116,7 +116,7 @@
                                                 </math:LogicBinop>
                                             </math:Condition>
                                         </math:Piece>
-                                    </ct:Piecewise>
+                                    </math:Piecewise>
                                 </ct:Assign>
                                 <ct:Real>0</ct:Real>
                             </ct:MatrixRow>
