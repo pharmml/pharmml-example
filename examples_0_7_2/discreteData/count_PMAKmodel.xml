@@ -112,7 +112,7 @@
                         </CurrentState>
                         <PreviousState>
                             <math:LogicBinop op="eq">
-                                <ct:SymbRef symbIdRef="y"/>
+                                <ct:SymbRef symbIdRef="yp"/>
                                 <ct:Int>0</ct:Int>
                             </math:LogicBinop>
                         </PreviousState>
@@ -145,7 +145,7 @@
                             <po:ProbOnto name="Poisson1">
                                 <po:Parameter name="rate">
                                     <ct:Assign>
-                                        <ct:SymbRef symbIdRef="Lambda2"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda2"/>
                                     </ct:Assign>
                                 </po:Parameter>
                             </po:ProbOnto>
