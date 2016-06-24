@@ -1,0 +1,1212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.6/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/pharmml/0.6/PharmML"
+    writtenVersion="0.6">
+    
+    <ct:Name>Westerhout2012_BrainDistributionModel</ct:Name>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <FunctionDefinition xmlns="http://www.pharmml.org/pharmml/0.6/CommonTypes" symbId="proportinalErrorModel" symbolType="real">
+        <FunctionArgument symbId="b" symbolType="real"/>
+        <FunctionArgument symbId="f" symbolType="real"/>
+        <Definition>
+            <Equation xmlns="http://www.pharmml.org/pharmml/0.6/Maths">
+                <Binop op="times">
+                    <ct:SymbRef symbIdRef="b"/>
+                    <ct:SymbRef symbIdRef="f"/>
+                </Binop>
+            </Equation>
+        </Definition>
+    </FunctionDefinition>
+    
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+        
+        <VariabilityModel blkId="modelVar" type="parameterVariability">
+            <Level symbId="indiv"/>
+        </VariabilityModel>
+        
+        <VariabilityModel blkId="obsErr" type="residualError">
+            <Level symbId="residual"/>
+        </VariabilityModel>
+        
+<!--         <CovariateModel blkId="cm1"> -->
+<!--             <Covariate symbId="WT"> -->
+<!--                 <Continuous/> -->
+<!--             </Covariate> -->
+<!--         </CovariateModel> -->
+        
+        <ParameterModel blkId="pm1">
+            
+            <!-- CL10 -->
+            <SimpleParameter symbId="OMEGA_CL10"/>
+            <SimpleParameter symbId="POP_CL10"/>
+            <RandomVariable symbId="ETA_CL10">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="OMEGA_CL10"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="CL10">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="POP_CL10"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="ETA_CL10"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+            <!-- Q14 -->
+            <SimpleParameter symbId="OMEGA_Q14"/>
+            <SimpleParameter symbId="POP_Q14"/>
+            <RandomVariable symbId="ETA_Q14">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="OMEGA_Q14"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="Q14">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="POP_Q14"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="ETA_Q14"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+            <!-- Q15 -->
+            <SimpleParameter symbId="OMEGA_Q15"/>
+            <SimpleParameter symbId="POP_Q15"/>
+            <RandomVariable symbId="ETA_Q15">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="OMEGA_Q15"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="Q15">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="POP_Q15"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="ETA_Q15"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+            <!-- Q17 -->
+            <SimpleParameter symbId="OMEGA_Q17"/>
+            <SimpleParameter symbId="POP_Q17"/>
+            <RandomVariable symbId="ETA_Q17">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="OMEGA_Q17"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="Q17">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="POP_Q17"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="ETA_Q17"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+            <!-- Q43 -->
+            <SimpleParameter symbId="OMEGA_Q43"/>
+            <SimpleParameter symbId="POP_Q43"/>
+            <RandomVariable symbId="ETA_Q43">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <variance>
+                        <var varId="OMEGA_Q43"/>
+                    </variance>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="Q43">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="POP_Q43"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="ETA_Q43"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+        </ParameterModel>
+        
+        <!-- STRUCTURAL MODEL -->
+        <StructuralModel blkId="sm1">
+	            
+            <!-- Q12 -->
+            <SimpleParameter symbId="Q12"/>
+                      
+            <!-- KK14 -->
+            <SimpleParameter symbId="KK14"/>
+            
+            <!-- CL14 -->
+            <SimpleParameter symbId="CL14">
+            	<ct:Assign>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Q14"/>
+                </ct:Assign>
+            </SimpleParameter>
+                        
+            <!-- CL41 -->
+            <SimpleParameter symbId="CL41">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="KK14"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Q14"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+                      
+            <!-- KK15 -->
+            <SimpleParameter symbId="KK15"/>
+            
+            <!-- CL15 -->
+            <SimpleParameter symbId="CL15">
+                <ct:Assign>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Q15"/>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- CL51 -->
+            <SimpleParameter symbId="CL51">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="KK15"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Q15"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- CL16 -->
+            <SimpleParameter symbId="CL16">
+                <ct:Assign>
+                    <ct:SymbRef symbIdRef="CL15"/>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- CL61 -->
+            <SimpleParameter symbId="CL61">
+                <ct:Assign>
+                    <ct:SymbRef symbIdRef="CL51"/>
+                </ct:Assign>
+            </SimpleParameter>
+                        
+            <!-- KK17 -->
+            <SimpleParameter symbId="KK17"/>
+            
+            <!-- CL17 -->
+            <SimpleParameter symbId="CL17">
+                <ct:Assign>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Q17"/>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- KK43 -->
+            <SimpleParameter symbId="KK43"/>
+            
+            <!-- CL43 -->
+            <SimpleParameter symbId="CL43">
+                <ct:Assign>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Q43"/>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- CL34 -->
+            <SimpleParameter symbId="CL34">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="KK43"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Q43"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- QECF -->
+            <SimpleParameter symbId="QECF"/>
+            <!-- QCSF -->
+            <SimpleParameter symbId="QCSF"/>
+            <!-- V1 -->
+            <SimpleParameter symbId="V1"/>
+            <!-- V2 -->
+            <SimpleParameter symbId="V2"/>
+            <!-- V3 -->
+            <SimpleParameter symbId="V3">
+            	<ct:Assign>
+                    <ct:Real>1.44</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- V4 -->
+            <SimpleParameter symbId="V4">
+            	<ct:Assign>
+                    <ct:Real>.29</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- V5 -->
+            <SimpleParameter symbId="V5">
+            	<ct:Assign>
+                    <ct:Real>.05</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- V6 -->
+            <SimpleParameter symbId="V6">
+            	<ct:Assign>
+                    <ct:Real>.05</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- V7 -->
+            <SimpleParameter symbId="V7">
+            	<ct:Assign>
+                    <ct:Real>.017</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- V8 -->
+            <SimpleParameter symbId="V8">
+            	<ct:Assign>
+                    <ct:Real>.180</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- V9 -->
+            <SimpleParameter symbId="V9">
+            	<ct:Assign>
+                    <ct:Real>1</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- FRAC -->
+            <SimpleParameter symbId="FRAC"/>
+            <!-- CL13 -->
+            <SimpleParameter symbId="CL13">
+            	<ct:Assign>
+                    <ct:Real>0</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- CL31 -->
+            <SimpleParameter symbId="CL31">
+            	<ct:Assign>
+                    <ct:Real>0</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- Q19 -->
+            <SimpleParameter symbId="Q19">
+            	<ct:Assign>
+                    <ct:Real>0</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- FUP -->
+            <SimpleParameter symbId="FUP">
+            	<ct:Assign>
+                    <ct:Real>.805</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            
+<!--             ADD -->
+<!--             <SimpleParameter symbId="DO"/> -->
+<!--             <SimpleParameter symbId="ADD"> -->
+<!--                 <ct:Assign> -->
+<!--                     <math:Equation> -->
+<!--                         <math:Binop op="times"> -->
+<!--                             <ct:SymbRef blkIdRef="cm1" symbIdRef="DO"/> -->
+<!--                             <math:Binop op="times"> -->
+<!--                                 <ct:SymbRef blkIdRef="cm1" symbIdRef="WT"/> -->
+<!--                                 <ct:Real>1000000</ct:Real> -->
+<!--                             </math:Binop> -->
+<!--                         </math:Binop> -->
+<!--                     </math:Equation> -->
+<!--                 </ct:Assign> -->
+<!--             </SimpleParameter> -->
+            
+            <!--K10 = CL10/V1-->
+            <SimpleParameter symbId="K10">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="CL10"/>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K12 = Q12/V1-->
+            <SimpleParameter symbId="K12">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Q12"/>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K21 = Q12/V2-->
+            <SimpleParameter symbId="K21">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Q12"/>
+                            <ct:SymbRef symbIdRef="V2"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K14 = CL14/V1-->
+            <SimpleParameter symbId="K14">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL14"/>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K41 = CL41/V4-->
+            <SimpleParameter symbId="K41">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL41"/>
+                            <ct:SymbRef symbIdRef="V4"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K15 = CL15/V1-->
+            <SimpleParameter symbId="K15">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL15"/>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K51 = CL51/V5-->
+            <SimpleParameter symbId="K51">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL51"/>
+                            <ct:SymbRef symbIdRef="V5"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K16 = CL16/V1-->
+            <SimpleParameter symbId="K16">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL16"/>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+
+            <!--K61=  CL61/V6-->
+            <SimpleParameter symbId="K61">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL61"/>
+                            <ct:SymbRef symbIdRef="V6"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K17 = CL17/V1-->
+            <SimpleParameter symbId="K17">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL17"/>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K71 = CL71/V7-->
+            <SimpleParameter symbId="K71">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL71"/>
+                            <ct:SymbRef symbIdRef="V7"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+
+            <!--K19 = Q19/V1-->
+            <SimpleParameter symbId="K19">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Q19"/>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K91 = Q19/V9-->
+            <SimpleParameter symbId="K91">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Q19"/>
+                            <ct:SymbRef symbIdRef="V9"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K13 = CL13/V1-->
+            <SimpleParameter symbId="K13">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL13"/>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+
+            <!--K31 = CL31/V3-->
+            <SimpleParameter symbId="K31">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL31"/>
+                            <ct:SymbRef symbIdRef="V3"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K45 = QECF/V4-->
+            <SimpleParameter symbId="K45">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="QECF"/>
+                            <ct:SymbRef symbIdRef="V4"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K56 = QCSF/V5-->
+            <SimpleParameter symbId="K56">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="QCSF"/>
+                            <ct:SymbRef symbIdRef="V5"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K67 = QCSF/V6-->
+            <SimpleParameter symbId="K67">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="QCSF"/>
+                            <ct:SymbRef symbIdRef="V6"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K78 = QCSF/V7-->
+            <SimpleParameter symbId="K78">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="QCSF"/>
+                            <ct:SymbRef symbIdRef="V7"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K81 = QCSF/V8-->
+            <SimpleParameter symbId="K81">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="QCSF"/>
+                            <ct:SymbRef symbIdRef="V8"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K43 = CL43/V4-->
+            <SimpleParameter symbId="K43">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL43"/>
+                            <ct:SymbRef symbIdRef="V4"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!--K34 = CL34/V3-->
+            <SimpleParameter symbId="K34">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CL34"/>
+                            <ct:SymbRef symbIdRef="V3"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- A1' (ODE) -->
+		      <ct:DerivativeVariable symbId="A1" symbolType="real">
+		        <ct:Assign>
+		          <math:Equation>
+		            <math:Binop op="minus">
+		              <math:Binop op="plus">
+		                <math:Binop op="plus">
+		                  <math:Binop op="minus">
+		                    <math:Binop op="plus">
+		                      <math:Binop op="minus">
+		                        <math:Binop op="plus">
+		                          <math:Binop op="minus">
+		                            <math:Binop op="plus">
+		                              <math:Binop op="minus">
+		                                <math:Binop op="plus">
+		                                  <math:Binop op="times">
+		                                    <math:Uniop op="minus">
+		                                      <ct:SymbRef symbIdRef="K12"/>
+		                                    </math:Uniop>
+		                                    <ct:SymbRef symbIdRef="A1"/>
+		                                  </math:Binop>
+		                                  <math:Binop op="times">
+		                                    <ct:SymbRef symbIdRef="K21"/>
+		                                    <ct:SymbRef symbIdRef="A2"/>
+		                                  </math:Binop>
+		                                </math:Binop>
+		                                <math:Binop op="times">
+		                                  <ct:SymbRef symbIdRef="K14"/>
+		                                  <ct:SymbRef symbIdRef="A1"/>
+		                                </math:Binop>
+		                              </math:Binop>
+		                              <math:Binop op="times">
+		                                <ct:SymbRef symbIdRef="K41"/>
+		                                <ct:SymbRef symbIdRef="A4"/>
+		                              </math:Binop>
+		                            </math:Binop>
+		                            <math:Binop op="times">
+		                              <ct:SymbRef symbIdRef="K15"/>
+		                              <ct:SymbRef symbIdRef="A1"/>
+		                            </math:Binop>
+		                          </math:Binop>
+		                          <math:Binop op="times">
+		                            <ct:SymbRef symbIdRef="K51"/>
+		                            <ct:SymbRef symbIdRef="A5"/>
+		                          </math:Binop>
+		                        </math:Binop>
+		                        <math:Binop op="times">
+		                          <ct:SymbRef symbIdRef="K16"/>
+		                          <ct:SymbRef symbIdRef="A1"/>
+		                        </math:Binop>
+		                      </math:Binop>
+		                      <math:Binop op="times">
+		                        <ct:SymbRef symbIdRef="K61"/>
+		                        <ct:SymbRef symbIdRef="A6"/>
+		                      </math:Binop>
+		                    </math:Binop>
+		                    <math:Binop op="times">
+		                      <ct:SymbRef symbIdRef="K17"/>
+		                      <ct:SymbRef symbIdRef="A1"/>
+		                    </math:Binop>
+		                  </math:Binop>
+		                  <math:Binop op="times">
+		                    <ct:SymbRef symbIdRef="K71"/>
+		                    <ct:SymbRef symbIdRef="A7"/>
+		                  </math:Binop>
+		                </math:Binop>
+		                <math:Binop op="times">
+		                  <ct:SymbRef symbIdRef="K81"/>
+		                  <ct:SymbRef symbIdRef="A8"/>
+		                </math:Binop>
+		              </math:Binop>
+		              <math:Binop op="times">
+		                <ct:SymbRef symbIdRef="K10"/>
+		                <ct:SymbRef symbIdRef="A1"/>
+		              </math:Binop>
+		            </math:Binop>
+		          </math:Equation>
+		        </ct:Assign>
+		        <ct:IndependentVariable>
+		          <ct:SymbRef symbIdRef="t"/>
+		        </ct:IndependentVariable>
+		        <ct:InitialCondition>
+		          <ct:InitialValue>
+		            <ct:Assign>
+		              <ct:SymbRef symbIdRef="A1_init"/>
+		            </ct:Assign>
+		          </ct:InitialValue>
+		        </ct:InitialCondition>
+		      </ct:DerivativeVariable>
+            
+            <!-- PL -->
+            <ct:Variable symbolType="real" symbId="PL">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="A1"/>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <!-- A2' (ODE) -->
+            <ct:DerivativeVariable symbId="A2" symbolType="real">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="K12"/>
+                                <ct:SymbRef symbIdRef="A1"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="K21"/>
+                                <ct:SymbRef symbIdRef="A2"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="A2_init"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- A3' (ODE) -->
+            <ct:DerivativeVariable symbId="A3" symbolType="real">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <math:Binop op="times">
+                                <math:Uniop op="minus">
+                                    <ct:SymbRef symbIdRef="K34"/>
+                                </math:Uniop>
+                                <ct:SymbRef symbIdRef="A3"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="K43"/>
+                                <ct:SymbRef symbIdRef="A4"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="A3_init"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- A4' (ODE) -->
+            <ct:DerivativeVariable symbId="A4" symbolType="real">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="minus">
+                                <math:Binop op="plus">
+                                    <math:Binop op="minus">
+                                        <math:Binop op="times">
+                                            <ct:SymbRef symbIdRef="K14"/>
+                                            <ct:SymbRef symbIdRef="A1"/>
+                                        </math:Binop>
+                                        <math:Binop op="times">
+                                            <ct:SymbRef symbIdRef="K41"/>
+                                            <ct:SymbRef symbIdRef="A4"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="K34"/>
+                                        <ct:SymbRef symbIdRef="A3"/>
+                                    </math:Binop>
+                                </math:Binop>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="K43"/>
+                                    <ct:SymbRef symbIdRef="A4"/>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="K45"/>
+                                <ct:SymbRef symbIdRef="A4"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="A4_init"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- ST -->
+            <ct:Variable symbolType="real" symbId="ST">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="A4"/>
+                            <ct:SymbRef symbIdRef="V4"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <!-- A5' (ODE) -->
+            <ct:DerivativeVariable symbId="A5" symbolType="real">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="plus">
+                                <math:Binop op="minus">
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="K15"/>
+                                        <ct:SymbRef symbIdRef="A1"/>
+                                    </math:Binop>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="K51"/>
+                                        <ct:SymbRef symbIdRef="A5"/>
+                                    </math:Binop>
+                                </math:Binop>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="K45"/>
+                                    <ct:SymbRef symbIdRef="A4"/>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="K56"/>
+                                <ct:SymbRef symbIdRef="A5"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="A5_init"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- LV -->
+            <ct:Variable symbolType="real" symbId="LV">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="A5"/>
+                            <ct:SymbRef symbIdRef="V5"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <!-- A6' (ODE) -->
+            <ct:DerivativeVariable symbId="A6" symbolType="real">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="plus">
+                                <math:Binop op="minus">
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="K16"/>
+                                        <ct:SymbRef symbIdRef="A1"/>
+                                    </math:Binop>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="K61"/>
+                                        <ct:SymbRef symbIdRef="A6"/>
+                                    </math:Binop>
+                                </math:Binop>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="K56"/>
+                                    <ct:SymbRef symbIdRef="A5"/>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="K67"/>
+                                <ct:SymbRef symbIdRef="A6"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="A6_init"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- A7' (ODE) -->
+            <ct:DerivativeVariable symbId="A7" symbolType="real">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="plus">
+                                <math:Binop op="minus">
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="K17"/>
+                                        <ct:SymbRef symbIdRef="A1"/>
+                                    </math:Binop>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef symbIdRef="K71"/>
+                                        <ct:SymbRef symbIdRef="A7"/>
+                                    </math:Binop>
+                                </math:Binop>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="K67"/>
+                                    <ct:SymbRef symbIdRef="A6"/>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="K78"/>
+                                <ct:SymbRef symbIdRef="A7"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="A7_init"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+            
+            <!-- CM -->
+            <ct:Variable symbolType="real" symbId="CM">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="A7"/>
+                            <ct:SymbRef symbIdRef="V7"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <!-- A8' (ODE) -->
+            <ct:DerivativeVariable symbId="A8" symbolType="real">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="K78"/>
+                                <ct:SymbRef symbIdRef="A7"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="K81"/>
+                                <ct:SymbRef symbIdRef="A8"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+                <ct:IndependentVariable>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ct:IndependentVariable>
+                <ct:InitialCondition>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="A8_init"/>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                </ct:InitialCondition>
+            </ct:DerivativeVariable>
+        </StructuralModel>    
+        
+        
+        <!-- Y1 = PL -->
+        <ObservationModel blkId="om1">
+            <ContinuousData>
+                <SimpleParameter symbId="SIGMA1"/>
+                <RandomVariable symbId="EPS1">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                        <mean><rVal>0</rVal></mean>
+                        <variance><prVal>1</prVal></variance>
+                    </NormalDistribution>
+                </RandomVariable>
+                <Standard symbId="Y1">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="PL"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="proportinalErrorModel"/>
+                                    <math:FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="SIGMA1"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="f">
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="PL"/>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="EPS1"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+        
+        <!-- Y2 = ST -->
+        <ObservationModel blkId="om2">
+            <ContinuousData>
+                <SimpleParameter symbId="SIGMA2"/>
+                <RandomVariable symbId="EPS2">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                        <mean><rVal>0</rVal></mean>
+                        <variance><prVal>1</prVal></variance>
+                    </NormalDistribution>
+                </RandomVariable>
+                <Standard symbId="Y2">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="ST"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="proportinalErrorModel"/>
+                                    <math:FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="SIGMA2"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="f">
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="ST"/>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="EPS2"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+       </ObservationModel>  
+        
+        <!-- Y3 = LV -->
+        <ObservationModel blkId="om3">
+            <ContinuousData>
+                <SimpleParameter symbId="SIGMA3"/>
+                <RandomVariable symbId="EPS3">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                        <mean><rVal>0</rVal></mean>
+                        <variance><prVal>1</prVal></variance>
+                    </NormalDistribution>
+                </RandomVariable>
+                <Standard symbId="Y3">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="LV"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="proportinalErrorModel"/>
+                                    <math:FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="SIGMA3"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="f">
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="LV"/>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="EPS3"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>  
+        
+        <!-- Y4 = CM -->
+        <ObservationModel blkId="om4">
+            <ContinuousData>
+                <SimpleParameter symbId="SIGMA4"/>
+                <RandomVariable symbId="EPS4">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                        <mean><rVal>0</rVal></mean>
+                        <variance><prVal>1</prVal></variance>
+                    </NormalDistribution>
+                </RandomVariable>
+                <Standard symbId="Y4">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="CM"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="proportinalErrorModel"/>
+                                    <math:FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="SIGMA4"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="f">
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="CM"/>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="EPS4"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+    </ModelDefinition>
+
+</PharmML>

@@ -8,9 +8,9 @@
     xmlns:mdef="http://www.pharmml.org/2013/03/ModelDefinition"
     xmlns:mstep="http://www.pharmml.org/2013/03/ModellingSteps"
     xmlns:mml="http://www.pharmml.org/2013/03/PharmML"
-    implementedBy="MJS" writtenVersion="0.4.3" id="i1">
+    writtenVersion="0.3.1">
     
-    <ct:Name>Testing SO</ct:Name>
+    <ct:Name>Example 3 - basic Warfarin PK estimation with covariate W - with NONMEM dataset</ct:Name>
     
     <IndependentVariable symbId="t"/>
     
@@ -47,142 +47,154 @@
         <!-- COVARIATE MODEL -->
         <CovariateModel blkId="cm1">
             <Covariate symbId="W">
-                <Continuous/>
+                <Continuous>
+                    <Transformation>
+                        <math:Equation>
+                            <ct:SymbRef symbIdRef="W"/>
+                        </math:Equation>
+                    </Transformation>
+                </Continuous>
             </Covariate>
         </CovariateModel>
         
         <!-- PARAMETER MODEL -->
         <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="pop_Tlag"/>
+            <SimpleParameter symbId="omega_Tlag"/>
+            <SimpleParameter symbId="pop_ka"/>
+            <SimpleParameter symbId="omega_ka"/>
+            <SimpleParameter symbId="pop_V"/>
+            <SimpleParameter symbId="omega_V"/>
+            <SimpleParameter symbId="beta_V"/>
+            <SimpleParameter symbId="pop_CL"/>
+            <SimpleParameter symbId="omega_CL"/>
+            <SimpleParameter symbId="beta_CL"/>
             
-            <!-- LN_GRP_CL -->
-            <SimpleParameter symbId="LN_GRP_CL">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="plus">
-                            <math:Uniop op="log">
-                                <ct:SymbRef symbIdRef="POP_CL"/>
-                            </math:Uniop>
-                            <math:Binop op="times">
-                                <ct:Real>0.75</ct:Real>
-                                <math:Uniop op="log">
-                                    <math:Binop op="divide">
-                                        <ct:SymbRef symbIdRef="W"/>
-                                        <ct:Real>70</ct:Real>
-                                    </math:Binop>
-                                </math:Uniop>
-                            </math:Binop>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </SimpleParameter>
-            <!-- LN_GRP_V -->
-            <SimpleParameter symbId="LN_GRP_V">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Binop op="plus">
-                            <math:Uniop op="log">
-                                <ct:SymbRef symbIdRef="POP_CL"/>
-                            </math:Uniop>
-                            <math:Uniop op="log">
-                                <math:Binop op="divide">
-                                    <ct:SymbRef symbIdRef="W"/>
-                                    <ct:Real>70</ct:Real>
-                                </math:Binop>
-                            </math:Uniop>
-                        </math:Binop>
-                    </math:Equation>
-                </ct:Assign>
-            </SimpleParameter>
-            <!-- mean_CL_V -->
-            <SimpleParameter symbId="mean_Cl_V">
-                <ct:Assign>
-                    <ct:Vector>
-                        <ct:VectorElements>
-                            <ct:SymbRef symbIdRef="LN_GRP_CL"/>
-                            <ct:SymbRef symbIdRef="LN_GRP_V"/>
-                        </ct:VectorElements>
-                    </ct:Vector>
-                </ct:Assign>
-            </SimpleParameter>
-            <!-- Covariance Matrix Sigma_CL_V -->
-            <SimpleParameter symbId="Sigma_CL_V">
-                <ct:Assign>
-                    <ct:Matrix matrixType="LowerTriangular">
-                        <ct:MatrixRow>
-                            <ct:SymbRef symbIdRef="sigma2_CL"/>
-                        </ct:MatrixRow>
-                        <ct:MatrixRow>
-                            <ct:SymbRef symbIdRef="sigma_CL_V"/>
-                            <ct:SymbRef symbIdRef="sigma2_V"/>
-                        </ct:MatrixRow>
-                    </ct:Matrix>
-                </ct:Assign>
-            </SimpleParameter>
-            <!-- LOG_CL_V -->
-            <RandomVariable symbId="LOG_CL_V">
+            <!-- Tlag -->
+            <RandomVariable symbId="eta_Tlag">
                 <ct:VariabilityReference>
-                    <ct:SymbRef symbIdRef="indiv"/>
+                    <ct:SymbRef blkIdRef="randEffect" symbIdRef="indiv"/>
                 </ct:VariabilityReference>
-                <MultivariateNormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                    <meanVector>
-                        <arrayVar varId="mean_CL_V"/>
-                    </meanVector>
-                    <covarianceMatrix dimension="2" definition="">
-                        <value>
-                            <arrayVar varId="Sigma_CL_V"/>
-                        </value>
-                    </covarianceMatrix>
-                </MultivariateNormalDistribution>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="0.1">
+                    <mean>
+                        <rVal>0</rVal></mean>
+                    <stddev>
+                        <var varId="omega_Tlag"/>
+                    </stddev>
+                </NormalDistribution>
             </RandomVariable>
-            
-            <!-- CL = exp(LOG_CL_V[1]) ## i.e. exponential of the first element of the LN_CL_V vector-->
-            <IndividualParameter symbId="CL">
-                <ct:Assign>
-                    <math:Equation>
-                        <ct:VectorSelector>
-                            <ct:SymbRef symbIdRef="LOG_CL_V"/>
-                            <ct:Cell>
-                                <ct:Int>1</ct:Int>
-                            </ct:Cell>
-                        </ct:VectorSelector>
-                    </math:Equation>
-                </ct:Assign>
+            <IndividualParameter symbId="Tlag">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <GeneralCovariate>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="TLAG_POPPPPPP"/>
+                        </ct:Assign>
+                    </GeneralCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_Tlag"/>
+                    </RandomEffects>
+                </GaussianModel>
             </IndividualParameter>
-            <!-- V=exp(LOG_CL_V[2]) ## i.e. exponential of the second element of the LN_CL_V vector-->
+            
+            <!-- ka -->
+            <RandomVariable symbId="eta_ka">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="randEffect" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="0.1">
+                    <mean>
+                        <rVal>0</rVal></mean>
+                    <stddev>
+                        <var varId="omega_ka"/>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="ka">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_ka"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_ka"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+            <!-- V -->
+            <RandomVariable symbId="eta_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="randEffect" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="0.1">
+                    <mean>
+                        <rVal>0</rVal></mean>
+                    <stddev>
+                        <var varId="omega_V"/>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
             <IndividualParameter symbId="V">
-                <ct:Assign>
-                    <math:Equation>
-                        <ct:VectorSelector>
-                            <ct:SymbRef symbIdRef="LOG_CL_V"/>
-                            <ct:Cell>
-                                <ct:Int>2</ct:Int>
-                            </ct:Cell>
-                        </ct:VectorSelector>
-                    </math:Equation>
-                </ct:Assign>
-            </IndividualParameter>
-            <!-- KA = exp(LOG_KA)-->
-            <IndividualParameter symbId="KA">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Uniop op="exp">
-                            <ct:SymbRef symbIdRef="LOG_KA"/>
-                        </math:Uniop>
-                    </math:Equation>
-                </ct:Assign>
-            </IndividualParameter>
-            <!-- LAG = exp(LOG_LAG)-->
-            <IndividualParameter symbId="LAG">
-                <ct:Assign>
-                    <math:Equation>
-                        <math:Uniop op="exp">
-                            <ct:SymbRef symbIdRef="LOG_LAG"/>
-                        </math:Uniop>
-                    </math:Equation>
-                </ct:Assign>
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_V"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_V"/>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_V"/>
+                    </RandomEffects>
+                </GaussianModel>
             </IndividualParameter>
             
-            
+            <!-- CL -->
+            <RandomVariable symbId="eta_CL">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="randEffect" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="0.1">
+                    <mean>
+                        <rVal>0</rVal></mean>
+                    <stddev>
+                        <var varId="omega_CL"/>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <IndividualParameter symbId="CL">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_CL"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="W"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_CL"/>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_CL"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
         </ParameterModel>
         
         <!-- STRUCTURAL MODEL -->
@@ -275,87 +287,48 @@
         
         <!-- OBSERVATION MODEL -->
         <ObservationModel blkId="om1">
-            <ContinuousData>
-                <SimpleParameter symbId="a"/>
-                <SimpleParameter symbId="b"/>
-                <RandomVariable symbId="epsilon_C">
-                    <ct:VariabilityReference>
-                        <ct:SymbRef blkIdRef="resErr" symbIdRef="residual"/>
-                    </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="0.1">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <var varId="sigma"/>
-                        </stddev>
-                    </NormalDistribution>
-                </RandomVariable>
-                <Standard symbId="C">
-                    <Output>
-                        <ct:SymbRef symbIdRef="C"/>
-                    </Output>
-                    <ErrorModel>
-                        <ct:Assign>
-                            <math:Equation>
-                                <math:FunctionCall>
-                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
-                                    <math:FunctionArgument symbId="a">
-                                        <ct:SymbRef symbIdRef="a"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="b">
-                                        <ct:SymbRef symbIdRef="b"/>
-                                    </math:FunctionArgument>
-                                    <math:FunctionArgument symbId="f">
-                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
-                                    </math:FunctionArgument>
-                                </math:FunctionCall>
-                            </math:Equation>
-                        </ct:Assign>
-                    </ErrorModel>
-                    <ResidualError>
-                        <ct:SymbRef symbIdRef="epsilon_C"/>
-                    </ResidualError>
-                </Standard>
-            </ContinuousData>
-        </ObservationModel>
-   
-        <!-- ALTERNATIVE -->
-        <ObservationModel blkId="om2">
-            <ContinuousData>
-                
-                <SimpleParameter symbId="meanConc">
+            <SimpleParameter symbId="a"/>
+            <SimpleParameter symbId="b"/>
+            <RandomVariable symbId="epsilon_C">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="resErr" symbIdRef="residual"/>
+                </ct:VariabilityReference>
+                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="0.1">
+                    <mean>
+                        <rVal>0</rVal>
+                    </mean>
+                    <stddev>
+                        <var varId="sigma"/>
+                    </stddev>
+                </NormalDistribution>
+            </RandomVariable>
+            <Standard symbId="C">
+                <Output>
+                    <ct:SymbRef symbIdRef="C"/>
+                </Output>
+                <ErrorModel>
                     <ct:Assign>
-                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Concentration_Central"/>
+                        <math:Equation>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
+                        </math:Equation>
                     </ct:Assign>
-                </SimpleParameter>
-                <SimpleParameter symbId="Residual_variance"/>
-                
-                <RandomVariable symbId="Y">
-                    <ct:VariabilityReference>
-                        <ct:SymbRef symbIdRef="resErr"/>
-                    </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
-                        <mean>
-                            <var varId="MeanConc"/>
-                        </mean>
-                        <variance>
-                            <var varId="resVar"/>
-                        </variance>
-                    </NormalDistribution>
-                </RandomVariable>
-                
-                <General symbId="Y">
-                    <ct:Assign>
-                        <ct:SymbRef symbIdRef="dummyVariable"/>
-                    </ct:Assign>
-                </General>
-                
-            </ContinuousData>
+                </ErrorModel>
+                <ResidualError>
+                    <ct:SymbRef symbIdRef="epsilon_C"/>
+                </ResidualError>
+            </Standard>
         </ObservationModel>
-            
-    
-    
     </ModelDefinition>
     
     <!-- MODELLING STEPS -->
@@ -501,19 +474,4 @@
             </mstep:Step>
         </mstep:StepDependencies>
     </ModellingSteps>
-
-    <SO xmlns="http://www.pharmml.org/2013/03/StandardisedOutput" symbId="SO">
-        <Estimation>
-            <PopulationEstimates>
-                <resultComponent xmlns="http://www.numl.org/numl/level1/version1" id="fd">
-                    <dimensionDescription></dimensionDescription>
-                    <dimension></dimension>
-                </resultComponent>
-                <ct:Assign>
-                    <ct:Real>1</ct:Real>
-                </ct:Assign>
-            </PopulationEstimates>
-        </Estimation>
-    </SO>
-    
 </PharmML>

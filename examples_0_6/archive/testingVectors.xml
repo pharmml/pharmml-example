@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/0.6/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
 
@@ -40,6 +40,7 @@
                     </ct:Vector>
                 </ct:Assign>
             </IndividualParameter>
+            
             
             <IndividualParameter symbId="dss">
                 <GaussianModel>
@@ -286,7 +287,6 @@
                             </ct:Block>
                         </ct:MatrixSelector>
                     </math:Equation>
-                    
                 </ct:Assign>
             </SimpleParameter>
             
@@ -329,7 +329,9 @@
                         <ct:CellColumn>
                             <ct:Int>2</ct:Int>
                         </ct:CellColumn>
-                        <ct:SymbRef symbIdRef="M12"/>
+                        <math:Equation>
+                            <ct:SymbRef symbIdRef="M12"/>
+                        </math:Equation>
                     </ct:MatrixCell>
                     <ct:MatrixCell>
                         <ct:CellRow>
@@ -338,7 +340,9 @@
                         <ct:CellColumn>
                             <ct:Int>3</ct:Int>
                         </ct:CellColumn>
-                        <ct:SymbRef symbIdRef="M23"/>
+                        <math:Equation>
+                            <ct:SymbRef symbIdRef="M23"/>
+                        </math:Equation>
                     </ct:MatrixCell>
                     <ct:MatrixCell>
                         <ct:CellRow>
@@ -347,7 +351,9 @@
                         <ct:CellColumn>
                             <ct:Int>1</ct:Int>
                         </ct:CellColumn>
-                        <ct:SymbRef symbIdRef="M31"/>
+                        <math:Equation>
+                            <ct:SymbRef symbIdRef="M31"/>
+                        </math:Equation>
                     </ct:MatrixCell>
                     <ct:MatrixCell>
                         <ct:CellRow>
@@ -356,7 +362,9 @@
                         <ct:CellColumn>
                             <ct:Int>4</ct:Int>
                         </ct:CellColumn>
-                        <ct:SymbRef symbIdRef="M44"/>
+                        <math:Equation>
+                            <ct:SymbRef symbIdRef="M44"/>
+                        </math:Equation>
                     </ct:MatrixCell>
                 </Matrix>
             </Correlation>
@@ -551,11 +559,10 @@
                                     </ct:VectorSelector>
                                 </math:Uniop>
                                 <math:Condition>
-                                    <math:LogicUniop op="isDefined">
-                                        <ct:VectorSelector>
-                                            <ct:SymbRef symbIdRef="V"/>
-                                        </ct:VectorSelector>
-                                    </math:LogicUniop>
+                                    <math:LogicBinop op="gt">
+                                        <ct:SymbRef symbIdRef="V"/>
+                                        <ct:Real>0</ct:Real>
+                                    </math:LogicBinop>
                                 </math:Condition>
                             </math:Piece>
                         </math:Piecewise>
@@ -740,6 +747,88 @@
                     </math:Equation>
                 </ct:Assign>
             </SimpleParameter>
+
+            <!-- examples for Gareth, 16-Feb-2015 -->
+            <SimpleParameter symbId="V">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            <ct:Real>1</ct:Real>
+                            <ct:Real>2</ct:Real>
+                            <ct:Real>3</ct:Real>
+                            <ct:Real>4</ct:Real>
+                            <ct:Real>5</ct:Real>
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="i"/>
+            <SimpleParameter symbId="n">
+                <ct:Assign>
+                    <ct:Real>3</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <SimpleParameter symbId="N">
+                <ct:Assign>
+                    <ct:Real>5</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <SimpleParameter symbId="sumOverV_1">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Sum>
+                            <math:Equation>
+                                <ct:VectorSelector>
+                                    <ct:SymbRef symbIdRef="V"/>
+                                    <ct:Cell>
+                                        <ct:SymbRef symbIdRef="i"/>
+                                    </ct:Cell>
+                                </ct:VectorSelector>
+                            </math:Equation>
+                            <ct:SumIndex>
+                                <ct:SymbRef symbIdRef="i"/>
+                            </ct:SumIndex>
+                            <ct:LowLimit>
+                                <ct:SymbRef symbIdRef="n"/>
+                            </ct:LowLimit>
+                            <ct:UpLimit>
+                                <ct:SymbRef symbIdRef="N"/>
+                            </ct:UpLimit>
+                        </ct:Sum>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="sumOverV2">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Sum>
+                            <math:Equation>
+                                <ct:VectorSelector>
+                                    <ct:SymbRef symbIdRef="V"/>
+                                    <ct:Cell>
+                                        <ct:SymbRef symbIdRef="i"/>
+                                    </ct:Cell>
+                                </ct:VectorSelector>
+                            </math:Equation>
+                            <ct:SumIndex>
+                                <ct:SymbRef symbIdRef="i"/>
+                            </ct:SumIndex>
+                            <ct:SumIndexSet>
+                                <ct:Vector>
+                                    <ct:VectorElements>
+                                        <ct:Real>3</ct:Real>
+                                        <ct:Real>4</ct:Real>
+                                        <ct:Real>5</ct:Real>
+                                    </ct:VectorElements>
+                                </ct:Vector>
+                            </ct:SumIndexSet>
+                        </ct:Sum>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- /examples for Gareth, 16-Feb-2015 -->
             
             
             <SimpleParameter symbId="V25">
@@ -769,7 +858,6 @@
                     </math:Equation>
                 </ct:Assign>
             </SimpleParameter>
-            
         </ParameterModel>
     </ModelDefinition>
 </PharmML>

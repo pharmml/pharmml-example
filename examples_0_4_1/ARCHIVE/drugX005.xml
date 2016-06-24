@@ -373,7 +373,17 @@
                         </stddev>
                     </NormalDistribution>
                 </RandomVariable>
-                <Standard symbId="Cc_obs">
+                <General symbId="Cc_obs">
+                    <!-- Cc_obs = C + b1*C*epsilon_Cc1 + b2*C*epsilon_Cc2 -->
+                    <ct:Assign>
+                        <math:Equation>
+                            <math:Binop op="plus">
+                                
+                            </math:Binop>
+                        </math:Equation>
+                    </ct:Assign>
+                </General>
+                <!--                <Standard symbId="Cc_obs"> <!-\- Cc_obs = C + b1*C*epsilon_Cc1 + b2*C*epsilon_Cc2 -\->
                     <Output>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
                     </Output>
@@ -392,11 +402,14 @@
                             </Equation>
                         </ct:Assign>
                     </ErrorModel>
-                    <!-- This residualError needs to be associated to the previous ErrorModel -->
+                    <!-\- This residualError needs to be associated to the previous ErrorModel -\->
                     <ResidualError>
-                        <ct:SymbRef symbIdRef="epsilon_Cc"/>
+                        <ct:SymbRef symbIdRef="epsilon_Cc1"/>
                     </ResidualError>
-<!--                    <ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="epsilon_Cc2"/>
+                    </ResidualError>
+                    <!-\-                    <ErrorModel>
                         <ct:Assign>
                             <Equation xmlns="http://www.pharmml.org/2013/03/Maths">                        	
                                 <FunctionCall>
@@ -415,7 +428,7 @@
                     <ResidualError>
                         <ct:SymbRef symbIdRef="epsilon_rep_Cc"/>
                     </ResidualError>
--->                </Standard>
+-\->                </Standard>-->
             </ContinuousData>
         </ObservationModel>
     </ModelDefinition>
