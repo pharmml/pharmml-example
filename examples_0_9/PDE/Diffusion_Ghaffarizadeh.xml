@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.9/ModellingSteps"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.9" id="i1">
+    
+    <ct:Name>Diffusion model - Ghaffarizadeh et al..</ct:Name>
+    
+    <ct:Description>Diffusion model after Ghaffarizadeh et al.</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    <IndependentVariable symbId="x"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            
+            <Parameter symbId="D">
+                <ct:Assign>
+                    <ct:Real>100000</ct:Real>
+                </ct:Assign>
+            </Parameter>
+            
+            <!-- tmin=0; L0 = 500; xmin=-L0; xmax=L0 -->
+            <Parameter symbId="tmin">
+                <ct:Assign>
+                    <ct:Real>0</ct:Real>
+                </ct:Assign>
+            </Parameter>
+            <Parameter symbId="L0">
+                <ct:Assign>
+                    <ct:Real>500</ct:Real>
+                </ct:Assign>
+            </Parameter>
+            <Parameter symbId="xmin">
+                <ct:Assign>
+                    <math:Uniop op="minus">
+                        <ct:SymbRef symbIdRef="L0"/>
+                    </math:Uniop>
+                </ct:Assign>
+            </Parameter>
+            <Parameter symbId="xmax">
+                <ct:Assign>
+                    <ct:SymbRef symbIdRef="L0"/>
+                </ct:Assign>
+            </Parameter>
+            
+        </ParameterModel>
+
+        <!-- STRUCTURE -->
+        <StructuralModel blkId="sm1">
+
+            <ct:Variable symbId="rho"/>
+            
+<!--        Partial Differential Equation
+            rho:t = D*rho:x:x;-->
+            <ct:DE type="pdeParabolic">
+                
+                <ct:AssignStatement op="eq">
+                    <math:PartialDiff>
+                        <math:DiffVariable>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </math:DiffVariable>
+                        <math:DiffOpArgument>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="rho"/>
+                            </ct:Assign>
+                        </math:DiffOpArgument>
+                    </math:PartialDiff>
+                    <math:Binop op="times">
+                        <ct:SymbRef symbIdRef="D"/>
+                        <math:PartialDiff>
+                            <math:DiffVariable>
+                                <ct:SymbRef symbIdRef="x"/>
+                                <math:Degree>
+                                    <ct:Assign>
+                                        <ct:Int>2</ct:Int>
+                                    </ct:Assign>
+                                </math:Degree>
+                            </math:DiffVariable>
+                            <math:DiffOpArgument>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="rho"/>
+                                </ct:Assign>
+                            </math:DiffOpArgument>
+                        </math:PartialDiff>
+                    </math:Binop>
+                </ct:AssignStatement>
+                
+                <!-- Initial Condition
+                    t=tmin: rho = 1 + cos(...) -->
+                <ct:InitialCondition>
+                    <ct:ConditionVariable>
+                        <ct:SymbRef symbIdRef="t"/>
+                    </ct:ConditionVariable>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Binop op="plus">
+                                <ct:Real>1</ct:Real>
+                                <math:Uniop op="cos">
+                                    <math:Binop op="times">
+                                        <math:Binop op="divide">
+                                            <math:Constant op="pi"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="L0"/>
+                                        </math:Binop>
+                                        <ct:SymbRef symbIdRef="x"/>
+                                    </math:Binop>
+                                </math:Uniop>
+                            </math:Binop>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                    <ct:InitialTime>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="tmin"/>
+                        </ct:Assign>
+                    </ct:InitialTime>
+                </ct:InitialCondition>
+                
+                <!-- 
+                when (x=xmin) { rho:x = 0;} 
+                when (x=xmax) { rho:x = 0; } -->
+                <ct:BoundaryCondition type="Neumann">
+                    <ct:ConditionVariable>
+                        <ct:SymbRef symbIdRef="x"/>
+                    </ct:ConditionVariable>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="xmin"/>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:AssignStatement op="eq">
+                        <math:PartialDiff>
+                            <math:DiffVariable>
+                                <ct:SymbRef symbIdRef="x"/>
+                            </math:DiffVariable>
+                            <math:DiffOpArgument>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="rho"/>
+                                </ct:Assign>
+                            </math:DiffOpArgument>
+                        </math:PartialDiff>
+                        <ct:Real>0</ct:Real>
+                    </ct:AssignStatement>
+                </ct:BoundaryCondition>
+                
+                <ct:BoundaryCondition type="Neumann">
+                    <ct:ConditionVariable>
+                        <ct:SymbRef symbIdRef="x"/>
+                    </ct:ConditionVariable>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="xmax"/>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:AssignStatement op="eq">
+                        <math:PartialDiff>
+                            <math:DiffVariable>
+                                <ct:SymbRef symbIdRef="x"/>
+                            </math:DiffVariable>
+                            <math:DiffOpArgument>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="rho"/>
+                                </ct:Assign>
+                            </math:DiffOpArgument>
+                        </math:PartialDiff>
+                        <ct:Real>0</ct:Real>
+                    </ct:AssignStatement>
+                </ct:BoundaryCondition>
+                
+            </ct:DE>
+        </StructuralModel>
+        
+    </ModelDefinition>
+    
+</PharmML>

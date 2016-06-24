@@ -1,0 +1,863 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
+    xmlns:design="http://www.pharmml.org/pharmml/0.6/TrialDesign"
+    writtenVersion="0.6"  implementedBy="MJS" id="i1">
+    
+    <!-- MODEL NAME -->
+    <ct:Name>testing vectors</ct:Name>
+    
+    <!-- MODEL DEFINITION -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+
+        <!-- COVARIATE MODEL -->
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="Sex">
+                <Categorical>
+                    <Category catId="F"/>
+                    <Category catId="M"/>
+                </Categorical>
+            </Covariate>
+        </CovariateModel>
+
+     <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm1">
+            
+            <IndividualParameter symbId="fdf">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorCell>
+                            <ct:CellIndex>
+                                <ct:Int>2</ct:Int>
+                            </ct:CellIndex>
+                            <ct:Real>4</ct:Real>
+                        </ct:VectorCell>
+                    </ct:Vector>
+                </ct:Assign>
+            </IndividualParameter>
+            
+            
+            <IndividualParameter symbId="dss">
+                <GaussianModel>
+                    <Transformation>identity</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="fd"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                        <Covariate>
+                            <ct:SymbRef symbIdRef="saa"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="dfd"/>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="dsd"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            
+            
+            <SimpleParameter symbId="V">
+                <ct:Assign>
+<!--                    <ct:Vector default="1" length="20">                 INSTEAD
+                        <ct:VectorCell vectorIndex="5">
+                            <ct:Real>1</ct:Real>
+                        </ct:VectorCell>
+                    </ct:Vector>-->
+                    <ct:Vector default="1" length="20">                  <!-- NOW -->
+                        <ct:VectorCell>
+                            <ct:CellIndex>
+                                <ct:Int>5</ct:Int>
+                            </ct:CellIndex>
+                            <ct:Real>1</ct:Real>
+                        </ct:VectorCell>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- Defining vector -->
+            <SimpleParameter symbId="V2">
+                <ct:Assign>
+                    <ct:Vector default="1" length="10">
+                        <ct:VectorCell>
+                            <ct:CellIndex>
+                                <ct:Int>2</ct:Int>
+                            </ct:CellIndex>
+                            <ct:Real>1</ct:Real>
+                        </ct:VectorCell>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- Indexing vector -->
+            <SimpleParameter symbId="v2"> <!-- read out the 2nd element from vector V2 -->
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="V2"/>
+                            <ct:Cell>
+                                <ct:Int>2</ct:Int>
+                            </ct:Cell>
+                        </ct:VectorSelector>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+
+            <SimpleParameter symbId="B">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Piecewise>
+                            <math:Piece>
+                                <ct:VectorSelector>
+                                    <ct:SymbRef symbIdRef="V"/>
+                                    <ct:Head>
+                                        <ct:Int>3</ct:Int>
+                                    </ct:Head>
+                                    <ct:Segment>
+                                        <ct:StartIndex>
+                                            <ct:Int>1</ct:Int>
+                                        </ct:StartIndex>
+                                        <ct:SegmentLength>
+                                            <ct:Int>4</ct:Int>
+                                        </ct:SegmentLength>
+                                    </ct:Segment>
+                                </ct:VectorSelector>
+                                <math:Condition>
+                                    <math:LogicBinop op="eq">
+                                        <ct:VectorSelector>
+                                            <ct:SymbRef symbIdRef="V"/>
+                                            <ct:Cell>
+                                                <ct:Int>3</ct:Int>
+                                            </ct:Cell>
+                                        </ct:VectorSelector>
+                                        <ct:VectorSelector>
+                                            <ct:SymbRef symbIdRef="V"/>
+                                            <ct:Cell>
+                                                <ct:Int>4</ct:Int>
+                                            </ct:Cell>
+                                        </ct:VectorSelector>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                            <math:Piece>
+                                <math:Uniop op="abs">
+                                    <ct:VectorSelector>
+                                        <ct:SymbRef symbIdRef="V"/>
+                                        <ct:Tail>
+                                            <ct:Int>1</ct:Int>
+                                        </ct:Tail>
+                                    </ct:VectorSelector>
+                                </math:Uniop>
+                                <math:Condition>
+                                    <math:LogicUniop op="isDefined">
+                                        <ct:VectorSelector>
+                                            <ct:SymbRef symbIdRef="V"/>
+                                        </ct:VectorSelector>
+                                    </math:LogicUniop>
+                                </math:Condition>
+                            </math:Piece>
+                        </math:Piecewise>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- VECTORS -->
+            
+<!--  version <= 0.3.1
+                <SimpleParameter symbId="V1">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>2</ct:Real>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>0</ct:Real>
+                        <ct:SymbRef symbIdRef="fifthElement"/>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>0</ct:Real>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>-->
+
+            <SimpleParameter symbId="V1">
+                <ct:Assign>
+                    <ct:Vector length="10">
+                        <ct:VectorElements>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>2</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:SymbRef symbIdRef="fifthElement"/>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="V2">
+                <ct:Assign>
+                    <ct:Vector default="0" length="10">
+                        <ct:VectorCell>
+                            <ct:CellIndex>
+                                <ct:Int>2</ct:Int>
+                            </ct:CellIndex>
+                            <ct:Real>2</ct:Real>
+                        </ct:VectorCell>
+                        <ct:VectorCell>
+                            <ct:CellIndex>
+                                <ct:Int>5</ct:Int>
+                            </ct:CellIndex>
+                            <ct:SymbRef symbIdRef="fifthElement"/>
+                        </ct:VectorCell>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="V25">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="V"/>
+                            <ct:Head><ct:Int>3</ct:Int></ct:Head>
+                            <ct:Segment>
+                                <ct:StartIndex><ct:Int>6</ct:Int></ct:StartIndex>
+                                <ct:SegmentLength><ct:Int>3</ct:Int></ct:SegmentLength>
+                            </ct:Segment>
+                            <ct:Cell>
+                                <ct:Int>11</ct:Int>
+                            </ct:Cell>
+                            <ct:Segment>
+                                <ct:StartIndex><ct:Int>18</ct:Int></ct:StartIndex>
+                                <ct:SegmentLength><ct:Int>2</ct:Int></ct:SegmentLength>
+                            </ct:Segment>
+                            <ct:Cell>
+                                <ct:Int>11</ct:Int>
+                            </ct:Cell>
+                            <ct:Tail>
+                                <ct:Int>3</ct:Int>
+                            </ct:Tail>
+                        </ct:VectorSelector>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- MATRIX -->
+            <!-- SELECTING -->
+            <SimpleParameter symbId="M1">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:MatrixSelector>
+                            <ct:SymbRef symbIdRef="MyMatrix"/>
+                            <!--                            <ct:Cell>
+                                <ct:ColumnIndex>1</ct:ColumnIndex>
+                                <ct:RowIndex>2</ct:RowIndex>
+                            </ct:Cell>
+                            <ct:Cell>
+                                <ct:ColumnIndex>5</ct:ColumnIndex>
+                                <ct:RowIndex>8</ct:RowIndex>
+                            </ct:Cell>-->
+                            <ct:Block>
+                                <ct:BlockStartRow>
+                                    <ct:Int>1</ct:Int>
+                                </ct:BlockStartRow>
+                                <ct:BlockStartColumn>
+                                    <ct:Int>2</ct:Int>
+                                </ct:BlockStartColumn>
+                                <ct:RowsNumber>
+                                    <ct:Int>5</ct:Int>
+                                </ct:RowsNumber>
+                                <ct:ColumnsNumber>
+                                    <ct:Int>4</ct:Int>
+                                </ct:ColumnsNumber>
+                            </ct:Block>
+                        </ct:MatrixSelector>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- SETTING -->
+            <Correlation deviationMatrixType="CorrMatrix">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any">
+                    <ct:MatrixBlock diagDefault="1" offDiagDefault="0">
+                        <ct:BlockStartRow><ct:Int>1</ct:Int></ct:BlockStartRow>
+                        <ct:BlockStartColumn><ct:Int>2</ct:Int></ct:BlockStartColumn>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
+                            <ct:Real>1</ct:Real>
+                            <ct:SymbRef symbIdRef="block12"/>
+                        </ct:BlockRow>
+                    </ct:MatrixBlock>
+                    <ct:MatrixBlock>
+                        <ct:BlockStartRow><ct:Int>10</ct:Int></ct:BlockStartRow>
+                        <ct:BlockStartColumn><ct:Int>20</ct:Int></ct:BlockStartColumn>
+                        <ct:BlockRow>
+                            <ct:RowIndex><ct:Int>1</ct:Int></ct:RowIndex>
+                            <ct:Real>1</ct:Real>
+                            <ct:Real>2</ct:Real>
+                        </ct:BlockRow>
+                    </ct:MatrixBlock>
+                </Matrix>
+            </Correlation>
+
+            <Correlation>
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+                <Matrix matrixType="Any" diagDefault="1" offDiagDefault="0">
+                    <ct:MatrixCell>
+                        <ct:CellRow>
+                            <ct:Int>1</ct:Int>
+                        </ct:CellRow>
+                        <ct:CellColumn>
+                            <ct:Int>2</ct:Int>
+                        </ct:CellColumn>
+                        <math:Equation>
+                            <ct:SymbRef symbIdRef="M12"/>
+                        </math:Equation>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow>
+                            <ct:Int>2</ct:Int>
+                        </ct:CellRow>
+                        <ct:CellColumn>
+                            <ct:Int>3</ct:Int>
+                        </ct:CellColumn>
+                        <math:Equation>
+                            <ct:SymbRef symbIdRef="M23"/>
+                        </math:Equation>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow>
+                            <ct:Int>3</ct:Int>
+                        </ct:CellRow>
+                        <ct:CellColumn>
+                            <ct:Int>1</ct:Int>
+                        </ct:CellColumn>
+                        <math:Equation>
+                            <ct:SymbRef symbIdRef="M31"/>
+                        </math:Equation>
+                    </ct:MatrixCell>
+                    <ct:MatrixCell>
+                        <ct:CellRow>
+                            <ct:Int>4</ct:Int>
+                        </ct:CellRow>
+                        <ct:CellColumn>
+                            <ct:Int>4</ct:Int>
+                        </ct:CellColumn>
+                        <math:Equation>
+                            <ct:SymbRef symbIdRef="M44"/>
+                        </math:Equation>
+                    </ct:MatrixCell>
+                </Matrix>
+            </Correlation>
+            
+            
+        </ParameterModel>
+        
+        <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm2">
+            <ct:Description>Description</ct:Description>
+
+            <!-- BASIC IDEA -->
+            <SimpleParameter symbId="V">
+                <ct:Assign>
+<!--                    <ct:Vector default="1" length="5">                 <!-\- INSTEAD -\->
+                        <ct:VectorCell vectorIndex="2">
+                            <ct:Real>2</ct:Real>
+                        </ct:VectorCell>
+                    </ct:Vector>-->
+                    <ct:Vector default="1" length="5">                  <!-- NOW -->
+                        <ct:VectorCell>
+                            <ct:CellIndex>
+                                <ct:Int>2</ct:Int>
+                            </ct:CellIndex>
+                            <ct:Real>2</ct:Real>
+                        </ct:VectorCell>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+
+            <!-- Defining vector - ELEMENTS -->
+            <SimpleParameter symbId="V1">           <!-- V2 = [1,2,3,4,5] -->
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            <ct:Real>1</ct:Real>
+                            <ct:Real>2</ct:Real>
+                            <ct:Real>3</ct:Real>
+                            <ct:Real>4</ct:Real>
+                            <ct:Real>5</ct:Real>
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- Indexing whole vector -->
+            <SimpleParameter symbId="V1copy">
+                <ct:Assign>
+                    <ct:SymbRef symbIdRef="V1"/>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            
+            
+            <!-- Defining vector - CELL -->
+            <SimpleParameter symbId="V2">           <!-- V2 = [0,2,0,0,5,0,0,0,0,0] -->
+                <ct:Assign>
+                    <ct:Vector default="0" length="5">
+                        <ct:VectorCell>
+                            <ct:CellIndex>
+                                <ct:Int>2</ct:Int>
+                            </ct:CellIndex>
+                            <ct:Real>2</ct:Real>
+                        </ct:VectorCell>
+                        <ct:VectorCell>
+                            <ct:CellIndex>
+                                <ct:Int>5</ct:Int>
+                            </ct:CellIndex>
+                            <ct:SymbRef symbIdRef="fifthElement"/>
+                        </ct:VectorCell>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            <SimpleParameter symbId="V22">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>2</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:SymbRef symbIdRef="fifthElement"/>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- Indexing vector's cell -->
+            <SimpleParameter symbId="v2"> <!-- read out the 2nd element from V2 -->
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="V2"/>
+                            <ct:Cell>
+                                <ct:Int>2</ct:Int>
+                            </ct:Cell>
+                        </ct:VectorSelector>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            
+            
+            <!-- Defining vector - SEGMENT -->
+            <SimpleParameter symbId="V3">           <!-- V2 = [0,1,2,3,0] -->
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorSegment default="1">
+                            <ct:SegmentStartIndex>
+                                <ct:Int>2</ct:Int>
+                            </ct:SegmentStartIndex>
+                            <ct:SegmentLength>
+                                <ct:Int>3</ct:Int>
+                            </ct:SegmentLength>
+                            <ct:VectorElements>
+                                <ct:Real>1</ct:Real>
+                                <ct:Real>2</ct:Real>
+                                <ct:Real>3</ct:Real>
+                            </ct:VectorElements>
+                        </ct:VectorSegment>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- Indexing vector's segment -->
+            <SimpleParameter symbId="s123">     <!-- read out the segment from V3 -->
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="V3"/>
+                            <ct:Segment>
+                                <ct:StartIndex>
+                                    <ct:Int>2</ct:Int>
+                                </ct:StartIndex>
+                                <ct:SegmentLength>
+                                    <ct:Int>4</ct:Int>
+                                </ct:SegmentLength>
+                            </ct:Segment>
+                        </ct:VectorSelector>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+
+            <SimpleParameter symbId="B">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Piecewise>
+                            <math:Piece>
+                                <ct:VectorSelector>
+                                    <ct:SymbRef symbIdRef="V"/>
+                                    <ct:Head>
+                                        <ct:Int>3</ct:Int>
+                                    </ct:Head>
+                                    <ct:Segment>
+                                        <ct:StartIndex>
+                                            <ct:Int>1</ct:Int>
+                                        </ct:StartIndex>
+                                        <ct:SegmentLength>
+                                            <ct:Int>4</ct:Int>
+                                        </ct:SegmentLength>
+                                    </ct:Segment>
+                                </ct:VectorSelector>
+                                <math:Condition>
+                                    <math:LogicBinop op="eq">
+                                        <ct:VectorSelector>
+                                            <ct:SymbRef symbIdRef="V"/>
+                                            <ct:Cell>
+                                                <ct:Int>3</ct:Int>
+                                            </ct:Cell>
+                                        </ct:VectorSelector>
+                                        <ct:VectorSelector>
+                                            <ct:SymbRef symbIdRef="V"/>
+                                            <ct:Cell>
+                                                <ct:Int>4</ct:Int>
+                                            </ct:Cell>
+                                        </ct:VectorSelector>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                            <math:Piece>
+                                <math:Uniop op="abs">
+                                    <ct:VectorSelector>
+                                        <ct:SymbRef symbIdRef="V"/>
+                                        <ct:Tail>
+                                            <ct:Int>1</ct:Int>
+                                        </ct:Tail>
+                                    </ct:VectorSelector>
+                                </math:Uniop>
+                                <math:Condition>
+                                    <math:LogicBinop op="gt">
+                                        <ct:SymbRef symbIdRef="V"/>
+                                        <ct:Real>0</ct:Real>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                        </math:Piecewise>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <!-- VECTORS -->
+            
+<!--  version <= 0.3.1
+                <SimpleParameter symbId="V1">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>2</ct:Real>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>0</ct:Real>
+                        <ct:SymbRef symbIdRef="fifthElement"/>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>0</ct:Real>
+                        <ct:Real>0</ct:Real>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>-->
+
+            <SimpleParameter symbId="V1">
+                <ct:Assign>
+                    <ct:Vector length="20">
+                        <ct:VectorSegment>
+                            <ct:SegmentStartIndex><ct:Int>1</ct:Int></ct:SegmentStartIndex>
+                            <ct:SegmentLength><ct:Int>3</ct:Int></ct:SegmentLength>
+                            <ct:VectorElements>
+                                <ct:Real>1</ct:Real>
+                                <ct:Real>2</ct:Real>
+                                <ct:Real>3</ct:Real>
+                            </ct:VectorElements>
+                        </ct:VectorSegment>
+                        <ct:VectorCell>
+                            <ct:CellIndex><ct:Int>5</ct:Int></ct:CellIndex>
+                            <ct:Real>1</ct:Real>
+                        </ct:VectorCell>
+                        <ct:VectorSegment default="1">
+                            <ct:SegmentStartIndex><ct:Int>7</ct:Int></ct:SegmentStartIndex>
+                            <ct:SegmentLength><ct:Int>8</ct:Int></ct:SegmentLength>
+                        </ct:VectorSegment>
+                        <!--                        <ct:VectorElements>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>2</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:SymbRef symbIdRef="fifthElement"/>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                            <ct:Real>0</ct:Real>
+                        </ct:VectorElements>-->
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="V2">
+                <ct:Assign>
+                    <ct:Vector default="0" length="10">
+                        <ct:VectorCell>
+                            <ct:CellIndex>
+                                <ct:Int>2</ct:Int>
+                            </ct:CellIndex>
+                            <ct:Real>2</ct:Real>
+                        </ct:VectorCell>
+                        <ct:VectorCell>
+                            <ct:CellIndex>
+                                <ct:Int>5</ct:Int>
+                            </ct:CellIndex>
+                            <ct:SymbRef symbIdRef="fifthElement"/>
+                        </ct:VectorCell>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="V22">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="V2"/>
+                            <ct:Tail><ct:Int>3</ct:Int></ct:Tail>
+                        </ct:VectorSelector>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="V23">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorSegment>
+                            <ct:SegmentStartIndex><ct:Int>3</ct:Int></ct:SegmentStartIndex>
+                            <ct:SegmentLength><ct:Int>3</ct:Int></ct:SegmentLength>
+                            <ct:VectorElements>
+                                <ct:Int>1</ct:Int>
+                                <ct:Int>1</ct:Int>
+                                <ct:Int>1</ct:Int>
+                            </ct:VectorElements>
+                        </ct:VectorSegment>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="m">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <ct:SymbRef symbIdRef="a"/>
+                            <ct:VectorSelector>
+                                <ct:SymbRef symbIdRef="V2"/>
+                                <ct:Cell>
+                                    <ct:Int>5</ct:Int>
+                                </ct:Cell>
+                            </ct:VectorSelector>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="m">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <ct:SymbRef symbIdRef="a"/>
+                            <ct:VectorSelector>
+                                <ct:SymbRef symbIdRef="V1"/>
+                                <ct:Cell>
+                                    <ct:Int>5</ct:Int>
+                                </ct:Cell>
+                            </ct:VectorSelector>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="n">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="V2"/>
+                            <ct:Head><ct:Int>3</ct:Int></ct:Head>
+                            <ct:Segment>
+                                <ct:StartIndex><ct:Int>6</ct:Int></ct:StartIndex>
+                                <ct:SegmentLength><ct:Int>8</ct:Int></ct:SegmentLength>
+                            </ct:Segment>
+                            <ct:Cell><ct:Int>11</ct:Int></ct:Cell>
+                            <ct:Segment>
+                                <ct:StartIndex><ct:Int>18</ct:Int></ct:StartIndex>
+                                <ct:SegmentLength><ct:Int>3</ct:Int></ct:SegmentLength>
+                            </ct:Segment>
+                            <ct:Cell><ct:Int>22</ct:Int></ct:Cell>
+                            <ct:Tail><ct:Int>2</ct:Int></ct:Tail>
+                        </ct:VectorSelector>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="n">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="V2"/>
+                            <ct:Head><ct:Int>3</ct:Int></ct:Head>
+                            <ct:Segment>
+                                <ct:StartIndex><ct:Int>6</ct:Int></ct:StartIndex>
+                                <ct:SegmentLength><ct:Int>8</ct:Int></ct:SegmentLength>
+                            </ct:Segment>
+                            <ct:Cell><ct:Int>11</ct:Int></ct:Cell>
+                            <ct:Segment>
+                                <ct:StartIndex><ct:Int>18</ct:Int></ct:StartIndex>
+                                <ct:SegmentLength><ct:Int>3</ct:Int></ct:SegmentLength>
+                            </ct:Segment>
+                            <ct:Cell><ct:Int>22</ct:Int></ct:Cell>
+                            <ct:Tail><ct:Int>2</ct:Int></ct:Tail>
+                        </ct:VectorSelector>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+
+            <!-- examples for Gareth, 16-Feb-2015 -->
+            <SimpleParameter symbId="V">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            <ct:Real>1</ct:Real>
+                            <ct:Real>2</ct:Real>
+                            <ct:Real>3</ct:Real>
+                            <ct:Real>4</ct:Real>
+                            <ct:Real>5</ct:Real>
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="i"/>
+            <SimpleParameter symbId="n">
+                <ct:Assign>
+                    <ct:Real>3</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <SimpleParameter symbId="N">
+                <ct:Assign>
+                    <ct:Real>5</ct:Real>
+                </ct:Assign>
+            </SimpleParameter>
+            <SimpleParameter symbId="sumOverV_1">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Sum>
+                            <math:Equation>
+                                <ct:VectorSelector>
+                                    <ct:SymbRef symbIdRef="V"/>
+                                    <ct:Cell>
+                                        <ct:SymbRef symbIdRef="i"/>
+                                    </ct:Cell>
+                                </ct:VectorSelector>
+                            </math:Equation>
+                            <ct:SumIndex>
+                                <ct:SymbRef symbIdRef="i"/>
+                            </ct:SumIndex>
+                            <ct:LowLimit>
+                                <ct:SymbRef symbIdRef="n"/>
+                            </ct:LowLimit>
+                            <ct:UpLimit>
+                                <ct:SymbRef symbIdRef="N"/>
+                            </ct:UpLimit>
+                        </ct:Sum>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            
+            <SimpleParameter symbId="sumOverV2">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:Sum>
+                            <math:Equation>
+                                <ct:VectorSelector>
+                                    <ct:SymbRef symbIdRef="V"/>
+                                    <ct:Cell>
+                                        <ct:SymbRef symbIdRef="i"/>
+                                    </ct:Cell>
+                                </ct:VectorSelector>
+                            </math:Equation>
+                            <ct:SumIndex>
+                                <ct:SymbRef symbIdRef="i"/>
+                            </ct:SumIndex>
+                            <ct:SumIndexSet>
+                                <ct:Vector>
+                                    <ct:VectorElements>
+                                        <ct:Real>3</ct:Real>
+                                        <ct:Real>4</ct:Real>
+                                        <ct:Real>5</ct:Real>
+                                    </ct:VectorElements>
+                                </ct:Vector>
+                            </ct:SumIndexSet>
+                        </ct:Sum>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            <!-- /examples for Gareth, 16-Feb-2015 -->
+            
+            
+            <SimpleParameter symbId="V25">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="V"/>
+                            <ct:Head><ct:Int>3</ct:Int></ct:Head>
+                            <ct:Segment>
+                                <ct:StartIndex><ct:Int>6</ct:Int></ct:StartIndex>
+                                <ct:SegmentLength><ct:Int>3</ct:Int></ct:SegmentLength>
+                            </ct:Segment>
+                            <ct:Cell>
+                                <ct:Int>11</ct:Int>
+                            </ct:Cell>
+                            <ct:Segment>
+                                <ct:StartIndex><ct:Int>18</ct:Int></ct:StartIndex>
+                                <ct:SegmentLength><ct:Int>2</ct:Int></ct:SegmentLength>
+                            </ct:Segment>
+                            <ct:Cell>
+                                <ct:Int>11</ct:Int>
+                            </ct:Cell>
+                            <ct:Tail>
+                                <ct:Int>3</ct:Int>
+                            </ct:Tail>
+                        </ct:VectorSelector>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+        </ParameterModel>
+    </ModelDefinition>
+</PharmML>

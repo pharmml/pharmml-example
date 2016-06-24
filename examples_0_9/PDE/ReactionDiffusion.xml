@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
-    xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
+    xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.9/ModellingSteps"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
     implementedBy="MJS" writtenVersion="0.9" id="i1">
     
@@ -17,39 +17,50 @@
     <IndependentVariable symbId="x"/>
     
     <!-- MODEL -->
-    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <ParameterModel blkId="pm1">
-            <PopulationParameter symbId="ccccc"/>
+            <PopulationParameter symbId="ccccc">
+                <ct:Assign>
+                    <ct:Real>10</ct:Real>
+                </ct:Assign>
+            </PopulationParameter>
         </ParameterModel>
 
         <!-- STRUCTURE -->
         <StructuralModel blkId="sm1">
-            
+             
             <ct:Variable symbId="u"/>
             <ct:Variable symbId="v"/>
             <!-- partial u/partial t = Du laplacian(u) -uv^2 + F(1-u) -->
-            <ct:DE>
-                <ct:LHS>
+            <ct:DE type="pde">
+                <ct:AssignStatement op="eq">
                     <math:PartialDiff>
                         <math:DiffVariable>
                             <ct:SymbRef symbIdRef="t"/>
                         </math:DiffVariable>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="u"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:PartialDiff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="plus">
                         <math:Binop op="minus">
                             <math:Binop op="times">
                                 <ct:SymbRef symbIdRef="Du"/>
-                                <math:MatrixCalcOp op="laplacian">
-                                    <ct:SymbRef symbIdRef="u"/>
-                                </math:MatrixCalcOp>
+                                <math:VectorCalcOp op="laplacian">
+                                    <math:DiffVariables>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="x"/>
+                                        </ct:Assign>
+                                    </math:DiffVariables>
+                                    <math:DiffOpArgument>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="u"/>
+                                        </ct:Assign>
+                                    </math:DiffOpArgument>
+                                </math:VectorCalcOp>
                             </math:Binop>
                             <math:Binop op="times">
                                 <ct:SymbRef symbIdRef="u"/>
@@ -67,30 +78,37 @@
                             </math:Binop>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             <!-- partial v/partial t = Dv laplacian(v) + uv^2 + (F+k)v) -->
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:PartialDiff>
                         <math:DiffVariable>
                             <ct:SymbRef symbIdRef="t"/>
                         </math:DiffVariable>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="v"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:PartialDiff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="minus">
                         <math:Binop op="plus">
                             <math:Binop op="times">
                                 <ct:SymbRef symbIdRef="Dv"/>
-                                <math:MatrixCalcOp op="laplacian">
-                                    <ct:SymbRef symbIdRef="v"/>
-                                </math:MatrixCalcOp>
+                                <math:VectorCalcOp op="laplacian">
+                                    <math:DiffVariables>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="x"/>
+                                        </ct:Assign>
+                                    </math:DiffVariables>
+                                    <math:DiffOpArgument>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="v"/>
+                                        </ct:Assign>
+                                    </math:DiffOpArgument>
+                                </math:VectorCalcOp>
                             </math:Binop>
                             <math:Binop op="times">
                                 <ct:SymbRef symbIdRef="u"/>
@@ -108,10 +126,8 @@
                             <ct:SymbRef symbIdRef="v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
-            
-            
         </StructuralModel>
         
     </ModelDefinition>

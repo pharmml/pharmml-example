@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.9/ModellingSteps"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.9" id="i1">
+    
+    <ct:Name>Schnakenberg system.</ct:Name>
+    
+    <ct:Description>Pattern Formation – Schnakenberg system.</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    <IndependentVariable symbId="x"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            <PopulationParameter symbId="a">
+                <ct:Assign>
+                    <ct:Real>10</ct:Real>
+                </ct:Assign>
+            </PopulationParameter>
+        </ParameterModel>
+
+        <!-- STRUCTURE -->
+        <StructuralModel blkId="sm1">
+             
+            <ct:Variable symbId="u"/>
+            <ct:Variable symbId="v"/>
+            
+            <ct:DE>
+                <ct:AssignStatement op="eq">
+                    <math:PartialDiff>
+                        <math:DiffVariable>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </math:DiffVariable>
+                        <math:DiffOpArgument>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="u"/>
+                            </ct:Assign>
+                        </math:DiffOpArgument>
+                    </math:PartialDiff>
+                    <math:Binop op="plus">
+                        <math:Uniop op="minus">
+                            <ct:SymbRef symbIdRef="u"/>
+                        </math:Uniop>
+                        <math:Binop op="plus">
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="v"/>
+                                <math:Binop op="power">
+                                    <ct:SymbRef symbIdRef="u"/>
+                                    <ct:Real>2</ct:Real>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="d_v"/>
+                                <math:PartialDiff>
+                                    <math:DiffVariable>
+                                        <ct:SymbRef symbIdRef="x"/>
+                                    </math:DiffVariable>
+                                    <math:DiffOpArgument>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="u"/>
+                                        </ct:Assign>
+                                    </math:DiffOpArgument>
+                                </math:PartialDiff>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:AssignStatement>
+            </ct:DE>            
+            
+            <ct:DE>
+                <ct:AssignStatement op="eq">
+                    <math:PartialDiff>
+                        <math:DiffVariable>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </math:DiffVariable>
+                        <math:DiffOpArgument>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="v"/>
+                            </ct:Assign>
+                        </math:DiffOpArgument>
+                    </math:PartialDiff>
+                    <math:Binop op="plus">
+                        <math:Binop op="minus">
+                            <ct:SymbRef symbIdRef="a"/>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="v"/>
+                                <math:Binop op="power">
+                                    <ct:SymbRef symbIdRef="u"/>
+                                    <ct:Real>2</ct:Real>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="d_v"/>
+                            <math:PartialDiff>
+                                <math:DiffVariable>
+                                    <ct:SymbRef symbIdRef="x"/>
+                                </math:DiffVariable>
+                                <math:DiffOpArgument>
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="v"/>
+                                    </ct:Assign>
+                                </math:DiffOpArgument>
+                            </math:PartialDiff>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:AssignStatement>
+            </ct:DE>
+        </StructuralModel>
+        
+    </ModelDefinition>
+    
+</PharmML>

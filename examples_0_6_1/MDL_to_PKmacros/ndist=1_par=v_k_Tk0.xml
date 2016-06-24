@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" 
+    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
+    implementedBy="MJS" writtenVersion="0.6" id="i1">
+
+    <!-- MODEL NAME -->
+    <ct:Name>ndist=1,par=v_k,Tk0</ct:Name>
+    
+    <ct:Description>CONC=PK(ndist=1, par=v_k, Tk0) - model with PK macros</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- BLOCK I: MODEL DEFINITION -->
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            
+            <SimpleParameter symbId="V"/>
+            <SimpleParameter symbId="D1"/>
+            <SimpleParameter symbId="K"/>
+            <SimpleParameter symbId="S1"/>
+            <SimpleParameter symbId="F1"/>
+            
+<!--    <SimpleParameter symbId="POP_ALAG1"/>
+            <RandomVariable symbId="eta_ALAG1">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="subject"/>
+                </ct:VariabilityReference>
+            </RandomVariable>
+            <IndividualParameter symbId="ALAG1">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="POP_ALAG1"/>
+                            </ct:Assign>
+                        </PopulationParameter>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_ALAG1"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>-->
+        </ParameterModel>
+        
+        <!-- MDL uses defaults
+            rule1. use cmt=1 if no CMT in MDL defined
+            
+            MDL library:
+            ============
+            # PK library parameters = V,K,Tk0,S1,F1,ALAG1
+            CONC=PK(ndist=1, par=v_k)
+            
+            PK macros:
+            ===========
+            0-order absorption 
+            absorption(cmt, type/adm, Tlag, p, Tk0)
+            elimination(cmt, volume, k)
+            
+            MDL     PharmML     macro
+            V       volume=V    'compartment'
+            K       k           only in 'elimination'
+            D1      Tk0         only in 'absorption/oral'
+            S1      -           
+            F1      p           only in 'absorption/oral'
+            ALAG1   Tlag        only in 'absorption/oral'
+            -       Ktr/Mtt     -
+            
+            As ODEs: dAc/dt = -k*Ac;
+            Explicit:
+            compartment(cmt=1, amount=Ac, volume=V)
+            absorption(cmt=1,adm=1,Tlag,p,Tk0)
+            elimination(cmt=1, k)
+        -->
+
+        <StructuralModel blkId="sm2">
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Cc">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Ac"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="S1"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <PKmacros>
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Value>
+                    <Value argument="volume">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Value>
+                </Compartment>
+                
+                <Oral>
+                    <Value argument="adm">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="p">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="F1"/>
+                    </Value>
+                    <Value argument="Tlag">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ALAG1"/>
+                    </Value>
+                    <Value argument="Tk0">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="D1"/>
+                    </Value>
+                </Oral>
+                
+                <Elimination>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="k">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="K"/>
+                    </Value>
+                </Elimination>
+            </PKmacros>
+        </StructuralModel>
+        
+    </ModelDefinition>
+</PharmML>

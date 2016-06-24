@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" 
+    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
+    implementedBy="MJS" writtenVersion="0.6" id="i1">
+
+    <!-- MODEL NAME -->
+    <ct:Name>ndist=1,par=v_cl,Tk0</ct:Name>
+    
+    <ct:Description>CONC=PK(ndist=1, par=v_c,, Tk0) - model with PK macros</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- BLOCK I: MODEL DEFINITION -->
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+        
+         <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="V"/>
+            <SimpleParameter symbId="KA"/>
+            <SimpleParameter symbId="K"/>
+            <SimpleParameter symbId="ALAG1"/>
+            <SimpleParameter symbId="S2"/>
+            <SimpleParameter symbId="F1"/>
+        </ParameterModel>
+        
+        <!-- MDL uses defaults
+            rule1. use cmt=1 if no CMT in MDL defined
+            
+            MDL library:
+            ============
+            # PK library parameters = V,K,KA,S2,F1,ALAG1
+            CONC=PK(ndist=1, depot=true, par=v_k)
+            
+            PK macros:
+            ===========
+            1st-order absorption
+            absorption/oral(cmt, type/adm, Tlag, p, ka, Ktr/Mtt)
+            elimination(cmt, volume, k)
+            
+            MDL     PharmML     macro
+            V       volume=V    'compartment'
+            K       k           only in 'elimination'
+            KA      ka          only in 'absorption/oral'
+            S2      -           
+            F1      p           only in 'absorption/oral'
+            ALAG1   Tlag        only in 'absorption/oral'
+            -       Ktr/Mtt     -
+            
+            
+            
+            As ODEs: dAc/dt = ka*Ad -k*Ac; dAd/dt = -ka*Ad
+            Explicit:
+            compartment(cmt=1, amount=Ac, volume=V)
+            oral(adm=1, cmt=1, ka, p, Tlag)
+            elimination(cmt=1, k)
+            
+            Using defaults:
+            compartment(amount=Ac, volume=V)
+            oral(ka, p, Tlag)
+            elimination(k)
+        -->
+
+        <StructuralModel blkId="sm2">
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Cc">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Ac"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="S2"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <PKmacros>
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Value>
+                    <Value argument="volume">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Value>
+                </Compartment>
+                
+                <Oral>
+                    <Value argument="adm">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="p">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="F1"/>
+                    </Value>
+                    <Value argument="Tlag">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ALAG1"/>
+                    </Value>
+                    <Value argument="ka">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="KA"/>
+                    </Value>
+                </Oral>
+                
+                <Elimination>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="k">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="K"/>
+                    </Value>
+                </Elimination>
+            </PKmacros>
+        </StructuralModel>
+        
+    </ModelDefinition>
+</PharmML>

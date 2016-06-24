@@ -567,7 +567,7 @@
                     </DoseAmount>
                 </Bolus>
             </Administration>
-            <IndividualAdministration>
+            <IndividualAdministration oid="indivAdmin">
                 <InterventionRef oidRef="bolusIV"/>
                 <ColumnMapping>
                     <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="TIME"/>

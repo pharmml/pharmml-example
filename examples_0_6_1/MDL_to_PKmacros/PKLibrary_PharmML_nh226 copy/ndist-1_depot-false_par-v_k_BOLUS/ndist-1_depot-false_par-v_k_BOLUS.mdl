@@ -1,0 +1,203 @@
+# nt2mdl 2.004 beta Nick Holford n.holford@auckland.ac.nz
+ndist_1_depot_false_par_v_k_BOLUS_dat = dataobj{
+### Data object
+# The data object specifies a table of columns of data variables and the variable names which will be also used by the model object
+   DATA_INPUT_VARIABLES{
+      ID: {type=categorical}
+      TIME: {type=continuous, units="h"}
+      WT: {type=continuous, units="kg"}
+      AGE: {type=continuous, units="y"}
+      SEX: {type=categorical}
+      AMT: {type=continuous, units="mg"}
+      DVID: {type=categorical}
+      DV: {type=continuous, units="mg/L"}
+      MDV: {type=categorical}
+   }# end DATA_INPUT_VARIABLES
+
+   SOURCE{
+      file="../Data/warfarin_conc_pca.csv"
+      inputformat=nonmemFormat
+      ignore="#"
+   }# end SOURCE
+} # end data object
+
+ndist_1_depot_false_par_v_k_BOLUS_par = parobj{
+### Parameter object
+# The parameter object defines the numerical values of the parameters with optional constraints (lo and high values) and units.
+
+   STRUCTURAL{
+# The STRUCTURAL block define the structural model parameters.
+      #THETA
+      POP_CL: {value=0.1, lo=0.001, units="L/h/70kg"}
+      POP_V: {value=8, lo=0.001, units="L/70kg"}
+      POP_TLAG: {value=1, lo=0.001, units="h"}
+   }# end STRUCTURAL
+
+   VARIABILITY{
+# VARIABILITY parameters may be expressed with a type of "SD" which implies standard deviations on the diagonal and correlations
+# on the lower off diagonal elements or "VAR" which implies variances and covariances.
+      #OMEGA
+      ### MATRIX_1=matrix("struc1",type=VAR)
+      PPV_CL: {value=0.1, type=VAR}
+      PPV_V: {value=0.01,0.1, type=VAR}
+      PPV_TLAG: {value=0.1, type=VAR}
+      #SIGMA
+      RUV_PROP: {value=0.01, type=VAR}
+      RUV_ADD: {value=0.05, type=VAR, units="mg/L"}
+
+   }# end VARIABILITY
+
+} # end of parameter object
+
+ndist_1_depot_false_par_v_k_BOLUS_mdl = mdlobj{
+### Model object
+# The model object receives a list of input data variables from the data object and parameters (constants)from the parameter object.
+# The parameter and variable names in the model object must be matched by a similar name in the parameter and data objects.
+# Note that variables in the data object and parameters may be defined in the parameter object that are not referenced in the model object.
+# Model variables are derived from the input data variables and parameters using algebraic expressions.
+
+   MODEL_INPUT_VARIABLES{
+# A name for each input data variable is required. Special uses of input data variables are indicated by the use attribute if the data variable name is not a standard name. Standard names may include ID, IDV, AMT, DV, MDV, etc. similar to standard data items recognized by NM-TRAN or Monolix. The type option is not required but may be useful as metadata. This kind of metadata (with an option to recode) could alternatively be specified in the data object.
+      ID: {use=id, level=2}
+      TIME: {use=idv, units="h"}
+      WT: {type=continuous, use=covariate, units="kg"}
+      AGE: {type=continuous, use=covariate, units="y"}
+      SEX: {type=categorical, use=covariate}
+      AMT: {use=amt, units="mg"}
+      DVID: {type=categorical, use=dvid}
+      DV: {type=continuous, use=dv, level=1, prediction=Y, units="mg/L"}
+      MDV: {use=mdv}
+   }
+
+# The STRUCTURAL_PARAMETERS Block defines the structural model parameters.
+   STRUCTURAL_PARAMETERS{
+# A name for each parameter is required. Other attributes such as units are optional.
+# Units may be used to achieve consistency between the parameter, data and model object values.
+# This could be implemented during the WP2 translation process.
+
+      #THETA
+      POP_CL: {units="L/h/70kg"}
+      POP_V: {units="L/70kg"}
+      POP_TLAG: {units="h"}
+   }
+
+   VARIABILITY_PARAMETERS{
+# The VARIABILITY_PARAMETERS Block defines the variability parameters.
+      #OMEGA
+      PPV_CL
+      PPV_V
+      PPV_TLAG
+      #SIGMA
+      RUV_PROP
+      RUV_ADD: {units="mg/L"}
+   }
+
+   GROUP_VARIABLES{
+# The GROUP_VARIABLES block is used to express covariate models i.e. the fixed effect differences in parameters predictable from data variables.
+# If there are no covariate effects to model then this block is not required.
+# NONMEM may be able to take advantage of knowing that variables defined in this block represent the central tendency
+# of the distribution of random effects defined in the INDIVIDUAL_VARIABLES block (known as MU referencing).
+# In this example the prefix "grp_" for a variable name could be a hint that this is a MU variable for NM-TRAN.
+# Other model variables may be defined in this block according to user preference.
+
+   
+      # Covariate model
+      GRPCL=POP_CL*(WT/70)^0.75
+      GRPV=POP_V*WT/70
+      GRPLG=POP_TLAG
+      # Individual parameters
+   }
+
+
+   RANDOM_VARIABLE_DEFINITION{
+# The RANDOM_VARIABLE_DEFINITION block is used to define the distribution of random variables.
+      eta_PPV_CL ~ {type=normal, mean=0, var=PPV_CL, level=ID}
+      eta_PPV_V ~ {type=normal, mean=0, var=PPV_V, level=ID}
+      eta_PPV_TLAG ~ {type=normal, mean=0, var=PPV_TLAG, level=ID}
+      eps_RUV_PROP ~ {type=normal, mean=0, var=RUV_PROP, level=DV}
+      eps_RUV_ADD ~ {type=normal, mean=0, var=RUV_ADD, level=DV}
+      #Random variable correlations
+      CORR_PPV_CL_PPV_V: {level=ID, rv1=eta_PPV_CL, rv2=eta_PPV_V, type=COV}
+   }
+
+   INDIVIDUAL_VARIABLES{
+# The INDIVIDUAL_VARIABLES block is used to express the individual variables and their distribution.
+# If this is not a population model then this block is not required.
+
+      CL=GRPCL*exp(eta_PPV_CL)
+      V=GRPV*exp(eta_PPV_V)
+      TLAG=GRPLG*exp(eta_PPV_TLAG)
+      # Translate to PK Library standard names
+      S1=V
+      F1=1
+      ALAG1=TLAG
+
+   }
+
+   MODEL_PREDICTION{
+# The MODEL_PREDICTION block calculates model predictions based on model variables defined in the previous model object blocks.
+# Code in this block expresses the structural model after group and individual parameter differences have been included.
+# It can be considered as an expression of a deterministic prediction. It is the essential component of a shared sub-model.
+# This block should not contain any covariate computations expressing predictable or unpredictable (random) between subject differences.
+
+
+   LIBRARY{
+      ##  ADVAN1 TRANS1
+      # PK library parameters = K,S1,F1,ALAG1
+      F=PK(ndist=1, par=v_k)
+   }
+
+#    COMPARTMENT{
+#        input_cmt[1]: {from=AMT, tlag=ALAG1, finput=F1}
+#      distrib_cmt[1]: {v=V}
+#       output_cmt[2]: {from=A[1], kout=K}
+#    }# end COMPARTMENT
+   
+      CONC=F
+   }
+
+   OBSERVATION{
+      Y = CONC*(1+eps_RUV_PROP)+eps_RUV_ADD
+   }
+
+
+   MODEL_OUTPUT_VARIABLES{
+# The MODEL_OUTPUT_VARIABLES block specifies the model variables that may be exported from the model object.
+      ID
+      TIME
+      WT
+      SEX
+      AGE
+      CL
+      V
+      TLAG
+      DVID
+      Y
+   }
+
+} 
+
+ndist_1_depot_false_par_v_k_BOLUS_task = taskobj{
+### Task Properties object
+# Modelling tasks often have many options which the user may specify.
+# The task properties object provides a way to collect together options for commonly performed tasks.
+
+   ## TABLE
+   #NOPRINT ONEHEADER FILE=warf.fit 
+
+   ESTIMATE {
+      target = NMTRAN_CODE
+      cov = true
+      algo = [ "FOCEI" ]
+   } #end ESTIMATE sub block
+
+}# end of taskobj
+
+#Modelling object group
+
+ndist_1_depot_false_par_v_k_BOLUS_mog=mog{
+	ndist_1_depot_false_par_v_k_BOLUS_dat
+	ndist_1_depot_false_par_v_k_BOLUS_par
+	ndist_1_depot_false_par_v_k_BOLUS_mdl
+	ndist_1_depot_false_par_v_k_BOLUS_task
+}

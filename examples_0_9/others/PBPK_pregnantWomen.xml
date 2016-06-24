@@ -667,7 +667,7 @@
                          (Age < 20 ? 161 + (Age-15) * (163-161) / 5.0 :
                                                     163))))) * 0.01;-->
             <ct:Variable symbId="height"/>
-            <ConditionalStatement>
+            <math:ConditionalStatement>
                 <math:If>
                     <math:Condition>                <!-- Age =< 1 -->
                         <math:LogicBinop op="lt">
@@ -840,7 +840,7 @@
                         <ct:Real>1.63</ct:Real>
                     </ct:AssignStatement>
                 </math:Else>
-            </ConditionalStatement>
+            </math:ConditionalStatement>
             
             
 <!--            V_adrenal    = sc_V_adrenal   * height;-->
@@ -1034,7 +1034,7 @@
             14 + (Age-15) * 17 / 55.0)))) / density_adip;-->
             
             <ct:Variable symbId="V_adip"/>
-            <ConditionalStatement>
+            <math:ConditionalStatement>
                 <math:If>
                     <math:Condition>                <!-- Age =< 1 -->
                         <math:LogicBinop op="lt">
@@ -1200,7 +1200,7 @@
                         </math:Binop>
                     </ct:AssignStatement>
                 </math:Else>
-            </ConditionalStatement>
+            </math:ConditionalStatement>
             
 <!--            V_blood = (Age < 1 ? 0.27 + Age * (0.5-0.27) :
             (Age < 5 ? 0.5 + (Age-1) * (1.4-0.5) / 4.0 :
@@ -1210,7 +1210,7 @@
             3.9)))));-->
             
             <ct:Variable symbId="V_blood"/>
-            <ConditionalStatement>
+            <math:ConditionalStatement>
                 <math:If>
                     <math:Condition>                <!-- Age =< 1 -->
                         <math:LogicBinop op="lt">
@@ -1383,7 +1383,7 @@
                         <ct:Real>3.9</ct:Real>
                     </ct:AssignStatement>
                 </math:Else>
-            </ConditionalStatement>
+            </math:ConditionalStatement>
             
 <!--            V_art    = V_blood * Fr_art_blood;   -->
             <ct:Variable symbId="V_art">
@@ -1410,7 +1410,7 @@
             (Age < 20 ? 0.25 + (Age-15) * (0.5-0.25) / 5.0 : 
             0.5)));-->
             <ct:Variable symbId="V_breast"/>
-            <ConditionalStatement>
+            <math:ConditionalStatement>
                 <math:If>
                     <math:Condition>                <!-- Age =< 10 -->
                         <math:LogicBinop op="lt">
@@ -1503,7 +1503,7 @@
                         <ct:Real>0.5</ct:Real>
                     </ct:AssignStatement>
                 </math:Else>
-            </ConditionalStatement>
+            </math:ConditionalStatement>
             
 <!--            V_uterus = sc_V_uterus * height;-->
             <ct:Variable symbId="V_uterus">
@@ -1896,7 +1896,7 @@
             6.7)))));-->
             
             <ct:Variable symbId="F_pul"/>
-            <ConditionalStatement>
+            <math:ConditionalStatement>
                 <math:If>
                     <math:Condition>                <!-- Age =< 1 -->
                         <math:LogicBinop op="lt">
@@ -2069,7 +2069,7 @@
                         <ct:Real>6.7</ct:Real>
                     </ct:AssignStatement>
                 </math:Else>
-            </ConditionalStatement>
+            </math:ConditionalStatement>
             
 <!--            # Alveolar flow rate-->
 <!--            F_alv = F_pul * F_dead_space;-->
@@ -2544,13 +2544,44 @@
                 </ct:Assign>
             </ct:Variable>
             
+           
+           
+            <!-- dt(Q_kidney)   = F_kidney   * (C_art - C_kidney_v) - dt(Q_urine) -->
+            <ct:Variable symbId="Q_kidney"/>
+            <ct:DE>
+                <ct:AssignStatement op="and">
+                    <math:Diff>
+                        <math:ArgumentVariable>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="Q_kidney"/>
+                            </ct:Assign>
+                        </math:ArgumentVariable>
+                    </math:Diff>
+                    <math:Binop op="minus">
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="F_kidney"/>
+                            <math:Binop op="minus">
+                                <ct:SymbRef symbIdRef="C_art"/>
+                                <ct:SymbRef symbIdRef="C_kidney_v"/>
+                            </math:Binop>
+                        </math:Binop>
+                        <math:Diff>
+                            <math:ArgumentVariable>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="Q_urine"/>
+                                </ct:Assign>
+                            </math:ArgumentVariable>
+                        </math:Diff>
+                    </math:Binop>                    
+                </ct:AssignStatement>
+            </ct:DE> 
             
 <!--            # Differentials -->
             
 <!--            dt(Q_ing) = Q_ing_rate;-->
             <ct:Variable symbId="Q_ing"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:Degree>
                             <ct:Assign>
@@ -2571,17 +2602,15 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <ct:SymbRef symbIdRef="Q_ing_rate"/>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_stom_lumen) = Q_ing_rate - 
             (Fl_stom_lumen + Ka_stomach) * C_stom_lumen;-->
             <ct:Variable symbId="Q_stom_lumen"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2589,8 +2618,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="minus">
                         <ct:SymbRef symbIdRef="Q_ing_rate"/>
                         <math:Binop op="times">
@@ -2601,14 +2628,14 @@
                             <ct:SymbRef symbIdRef="C_stom_lumen"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_stomach)   = Ka_stomach * C_stom_lumen +
             F_stomach * (C_art - C_stomach_v);-->
             <ct:Variable symbId="Q_stomach"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2616,8 +2643,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="plus">
                         <math:Binop op="times">
                             <ct:SymbRef symbIdRef="Ka_stomach"/>
@@ -2631,13 +2656,13 @@
                             </math:Binop>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_feces)      = Fl_gut_lumen * C_gut_lumen;-->
             <ct:Variable symbId="Q_feces"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2645,20 +2670,18 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="Fl_gut_lumen"/>
                         <ct:SymbRef symbIdRef="C_gut_lumen"/>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_gut_lumen)  = Fl_stom_lumen * C_stom_lumen + Ke_bile * C_liver -
             Ka_gut * C_gut_lumen - dt(Q_feces);-->
             <ct:Variable symbId="Q_gut_lumen"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2666,8 +2689,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="plus">
                         <math:Binop op="times">
                             <ct:SymbRef symbIdRef="Fl_stom_lumen"/>
@@ -2693,13 +2714,13 @@
                             </math:Binop>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_met_gut)    = Km_gut * Q_gut;-->
             <ct:Variable symbId="Q_met_gut"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2707,20 +2728,18 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="Km_gut"/>
                         <ct:SymbRef symbIdRef="Q_gut"/>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_gut)        = Ka_gut * C_gut_lumen +
             F_gut * (C_art - C_gut_v) - dt(Q_met_gut);-->
             <ct:Variable symbId="Q_gut"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2728,8 +2747,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="plus">
                         <math:Binop op="times">
                             <ct:SymbRef symbIdRef="Ka_gut"/>
@@ -2752,13 +2769,13 @@
                             </math:Diff>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_met_liver)  = Km_liver * Q_liver;-->
             <ct:Variable symbId="Q_met_liver"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2766,13 +2783,11 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="Km_liver"/>
                         <ct:SymbRef symbIdRef="Q_liver"/>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_liver)   = F_eport    * C_art        + F_spleen * C_spleen_v +
@@ -2781,7 +2796,7 @@
             Ke_bile    * C_liver      - dt(Q_met_liver);-->
             <ct:Variable symbId="Q_liver"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2789,8 +2804,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="minus">
                         <math:Binop op="minus">
                             <math:Binop op="minus">
@@ -2839,14 +2852,14 @@
                                 </ct:Assign>
                             </math:ArgumentVariable>
                         </math:Diff>
-                    </math:Binop>                    
-                </ct:RHS>
+                    </math:Binop>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_adip)     = F_adip     * (C_art - C_adip_v);-->
             <ct:Variable symbId="Q_adip"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2854,8 +2867,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_adip"/>
                         <math:Binop op="minus">
@@ -2863,13 +2874,13 @@
                             <ct:SymbRef symbIdRef="C_adip_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
 
 <!--            dt(Q_adrenal)  = F_adrenal  * (C_art - C_adrenal_v);-->
             <ct:Variable symbId="Q_adrenal"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2877,8 +2888,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_adrenal"/>
                         <math:Binop op="minus">
@@ -2886,13 +2895,13 @@
                             <ct:SymbRef symbIdRef="C_adrenal_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_brain)    = F_brain    * (C_art - C_brain_v);-->
             <ct:Variable symbId="Q_brain"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2900,8 +2909,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_brain"/>
                         <math:Binop op="minus">
@@ -2909,13 +2916,13 @@
                             <ct:SymbRef symbIdRef="C_brain_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_breast)   = F_breast   * (C_art - C_breast_v);-->
             <ct:Variable symbId="Q_breast"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2923,8 +2930,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_breast"/>
                         <math:Binop op="minus">
@@ -2932,13 +2937,13 @@
                             <ct:SymbRef symbIdRef="C_breast_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_heart)     = F_heart    * (C_art - C_heart_v);-->
             <ct:Variable symbId="Q_heart"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2946,8 +2951,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_heart"/>
                         <math:Binop op="minus">
@@ -2955,13 +2958,13 @@
                             <ct:SymbRef symbIdRef="C_heart_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
                         
 <!--            dt(Q_inh)       = F_alv      * C_inh;-->
             <ct:Variable symbId="Q_inh"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2969,19 +2972,17 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_alv"/>
                         <ct:SymbRef symbIdRef="C_inh"/>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_exhaled)   = F_alv      * (C_lung / PC_lung_over_air);-->
             <ct:Variable symbId="Q_exhaled"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -2989,22 +2990,20 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_alv"/>
                         <math:Binop op="divide">
                             <ct:SymbRef symbIdRef="C_lung"/>
                             <ct:SymbRef symbIdRef="PC_lung_over_air"/>
                         </math:Binop>
-                    </math:Binop>
-                </ct:RHS>
+                    </math:Binop>                    
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_met_lung)  = Km_lung    *  Q_lung;-->
             <ct:Variable symbId="Q_met_lung"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3012,20 +3011,18 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="Km_lung"/>
                         <ct:SymbRef symbIdRef="Q_lung"/>
-                    </math:Binop>
-                </ct:RHS>
+                    </math:Binop>                    
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_lung)      = F_blood    * (C_ven - C_lung_v) + dt(Q_inh) -
             dt(Q_exhaled) - dt(Q_met_lung);-->
             <ct:Variable symbId="Q_lung"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3033,8 +3030,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="plus">
                         <math:Binop op="times">
                             <ct:SymbRef symbIdRef="F_blood"/>
@@ -3068,14 +3063,14 @@
                                 </math:Diff>
                             </math:Binop>
                         </math:Binop>
-                    </math:Binop>
-                </ct:RHS>
+                    </math:Binop>                    
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_urine)     = Ke_renal   * C_kidney;-->
             <ct:Variable symbId="Q_urine"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3083,19 +3078,17 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="Ke_renal"/>
                         <ct:SymbRef symbIdRef="C_kidney"/>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_kidney)   = F_kidney   * (C_art - C_kidney_v) - dt(Q_urine);-->
             <ct:Variable symbId="Q_kidney"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3103,8 +3096,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="minus">
                         <math:Binop op="times">
                             <ct:SymbRef symbIdRef="F_kidney"/>
@@ -3120,14 +3111,14 @@
                                 </ct:Assign>
                             </math:ArgumentVariable>
                         </math:Diff>
-                    </math:Binop>
-                </ct:RHS>
+                    </math:Binop>                    
+                </ct:AssignStatement>
             </ct:DE> 
             
 <!--            dt(Q_marrow)   = F_marrow   * (C_art - C_marrow_v);-->
             <ct:Variable symbId="Q_marrow"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3135,22 +3126,20 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_marrow"/>
                         <math:Binop op="minus">
                             <ct:SymbRef symbIdRef="C_art"/>
                             <ct:SymbRef symbIdRef="C_marrow_v"/>
                         </math:Binop>
-                    </math:Binop>
-                </ct:RHS>
+                    </math:Binop>                    
+                </ct:AssignStatement>
             </ct:DE>             
             
 <!--            dt(Q_muscle)   = F_muscle   * (C_art - C_muscle_v);-->
             <ct:Variable symbId="Q_muscle"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3158,8 +3147,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_muscle"/>
                         <math:Binop op="minus">
@@ -3167,13 +3154,13 @@
                             <ct:SymbRef symbIdRef="C_muscle_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>  
             
 <!--            dt(Q_other)    = F_other    * (C_art - C_other_v);-->
             <ct:Variable symbId="Q_other"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3181,22 +3168,20 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_other"/>
                         <math:Binop op="minus">
                             <ct:SymbRef symbIdRef="C_art"/>
                             <ct:SymbRef symbIdRef="C_other_v"/>
                         </math:Binop>
-                    </math:Binop>
-                </ct:RHS>
+                    </math:Binop>                    
+                </ct:AssignStatement>
             </ct:DE>            
             
 <!--            dt(Q_pancreas) = F_pancreas * (C_art - C_pancreas_v);-->
             <ct:Variable symbId="Q_pancreas"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3204,8 +3189,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_pancreas"/>
                         <math:Binop op="minus">
@@ -3213,14 +3196,14 @@
                             <ct:SymbRef symbIdRef="C_pancreas_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 
 <!--            dt(Q_skin)     = F_skin     * (C_art - C_skin_v);-->
             <ct:Variable symbId="Q_skin"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3228,8 +3211,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_skin"/>
                         <math:Binop op="minus">
@@ -3237,13 +3218,13 @@
                             <ct:SymbRef symbIdRef="C_skin_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_spleen)   = F_spleen   * (C_art - C_spleen_v);-->
             <ct:Variable symbId="Q_spleen"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3251,8 +3232,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_spleen"/>
                         <math:Binop op="minus">
@@ -3260,13 +3239,13 @@
                             <ct:SymbRef symbIdRef="C_spleen_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_thyroid)  = F_thyroid  * (C_art - C_thyroid_v);-->
             <ct:Variable symbId="Q_thyroid"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3274,8 +3253,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_thyroid"/>
                         <math:Binop op="minus">
@@ -3283,13 +3260,13 @@
                             <ct:SymbRef symbIdRef="C_thyroid_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_art)      = F_blood * (C_lung_v - C_art);-->
             <ct:Variable symbId="Q_art"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3297,16 +3274,14 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_blood"/>
                         <math:Binop op="minus">
                             <ct:SymbRef symbIdRef="C_lung_v"/>
                             <ct:SymbRef symbIdRef="C_art"/>
                         </math:Binop>
-                    </math:Binop>
-                </ct:RHS>
+                    </math:Binop>                    
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_ven)      = C_skin_v    * F_skin    + C_heart_v   * F_heart +
@@ -3318,7 +3293,7 @@
             C_kidney_v  * F_kidney  - F_blood * C_ven; -->
             <ct:Variable symbId="dtQ_ven"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3326,8 +3301,6 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="minus">
                         <math:Binop op="plus">
                             <math:Binop op="plus">
@@ -3409,14 +3382,14 @@
                             <ct:SymbRef symbIdRef="F_blood"/>
                             <ct:SymbRef symbIdRef="C_ven"/>
                         </math:Binop>
-                    </math:Binop>
-                </ct:RHS>
+                    </math:Binop>                    
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_uterus)  = F_uterus   * (C_art - C_uterus_v);-->
             <ct:Variable symbId="Q_uterus"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:ArgumentVariable>
                             <ct:Assign>
@@ -3424,16 +3397,14 @@
                             </ct:Assign>
                         </math:ArgumentVariable>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_uterus"/>
                         <math:Binop op="minus">
                             <ct:SymbRef symbIdRef="C_art"/>
                             <ct:SymbRef symbIdRef="C_uterus_v"/>
                         </math:Binop>
-                    </math:Binop>
-                </ct:RHS>
+                    </math:Binop>                    
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            # Mass balance check-->

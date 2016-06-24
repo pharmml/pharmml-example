@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/2013/03/PharmML"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/2013/03/PharmML http://www.pharmml.org/2013/03/PharmML"
-    xmlns:ct="http://www.pharmml.org/2013/03/CommonTypes"
-    implementedBy="MJS" writtenVersion="0.5.1"> 
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.7/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.7.3"
+    metadataFile="example1.rdf" id="i1">
     
     <ct:Name>Residual error models - multiple types</ct:Name>
     
@@ -20,7 +26,9 @@
     <ct:FunctionDefinition symbId="additiveErrorModel" symbolType="real">
         <ct:FunctionArgument symbId="a" symbolType="real"/>
         <ct:Definition>
-            <ct:SymbRef symbIdRef="a"/>
+            <ct:Assign>
+                <ct:SymbRef symbIdRef="a"/>
+            </ct:Assign>
         </ct:Definition>
     </ct:FunctionDefinition>
     
@@ -29,12 +37,12 @@
         <ct:FunctionArgument symbId="b" symbolType="real"/>
         <ct:FunctionArgument symbId="f" symbolType="real"/>
         <ct:Definition>
-            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                <Binop op="times">
+            <ct:Assign>
+                <math:Binop op="times">
                     <ct:SymbRef symbIdRef="b"/>
                     <ct:SymbRef symbIdRef="f"/>
-                </Binop>
-            </Equation>
+                </math:Binop>
+            </ct:Assign>
         </ct:Definition>
     </ct:FunctionDefinition>
     
@@ -44,15 +52,15 @@
         <ct:FunctionArgument symbId="b" symbolType="real"/>
         <ct:FunctionArgument symbId="f" symbolType="real"/>
         <ct:Definition>
-            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                <Binop op="plus">
+            <ct:Assign>
+                <math:Binop op="plus">
                     <ct:SymbRef symbIdRef="a"/>
-                    <Binop op="times">
+                    <math:Binop op="times">
                         <ct:SymbRef symbIdRef="b"/>
                         <ct:SymbRef symbIdRef="f"/>
-                    </Binop>                   
-                </Binop>
-            </Equation>
+                    </math:Binop>                   
+                </math:Binop>
+            </ct:Assign>
         </ct:Definition>
     </ct:FunctionDefinition>
     
@@ -62,27 +70,27 @@
         <ct:FunctionArgument symbId="b" symbolType="real"/>
         <ct:FunctionArgument symbId="f" symbolType="real"/>
         <ct:Definition>
-            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                <Binop op="root">
+            <ct:Assign>
+                <math:Binop op="root">
                     <ct:Real>2</ct:Real>
-                    <Binop op="plus">
-                        <Binop op="power">
+                    <math:Binop op="plus">
+                        <math:Binop op="power">
                             <ct:SymbRef symbIdRef="a"/>
                             <ct:Real>2</ct:Real>
-                        </Binop>
-                        <Binop op="times">
-                            <Binop op="power">
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <math:Binop op="power">
                                 <ct:SymbRef symbIdRef="b"/>
                                 <ct:Real>2</ct:Real>
-                            </Binop>
-                            <Binop op="power">
+                            </math:Binop>
+                            <math:Binop op="power">
                                 <ct:SymbRef symbIdRef="f"/>
                                 <ct:Real>2</ct:Real>
-                            </Binop>                            
-                        </Binop>
-                    </Binop>
-                </Binop>
-            </Equation>
+                            </math:Binop>                            
+                        </math:Binop>
+                    </math:Binop>
+                </math:Binop>
+            </ct:Assign>
         </ct:Definition>
     </ct:FunctionDefinition>
     
@@ -92,15 +100,15 @@
         <ct:FunctionArgument symbId="c" symbolType="real"/>
         <ct:FunctionArgument symbId="f" symbolType="real"/>
         <ct:Definition>
-            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                <Binop op="times">
+            <ct:Assign>
+                <math:Binop op="times">
                     <ct:SymbRef symbIdRef="b"/>
-                    <Binop op="power">
+                    <math:Binop op="power">
                         <ct:SymbRef symbIdRef="f"/>
                         <ct:SymbRef symbIdRef="c"/>
-                    </Binop>
-                </Binop>
-            </Equation>
+                    </math:Binop>
+                </math:Binop>
+            </ct:Assign>
         </ct:Definition>
     </ct:FunctionDefinition>
     
@@ -111,18 +119,18 @@
         <ct:FunctionArgument symbId="c" symbolType="real"/>
         <ct:FunctionArgument symbId="f" symbolType="real"/>
         <ct:Definition>
-            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                <Binop op="plus">
+            <ct:Assign>
+                <math:Binop op="plus">
                     <ct:SymbRef symbIdRef="a"/>
-                    <Binop op="times">
+                    <math:Binop op="times">
                         <ct:SymbRef symbIdRef="b"/>
-                        <Binop op="power">
+                        <math:Binop op="power">
                             <ct:SymbRef symbIdRef="f"/>
                             <ct:SymbRef symbIdRef="c"/>
-                        </Binop>
-                    </Binop>
-                </Binop>
-            </Equation>
+                        </math:Binop>
+                    </math:Binop>
+                </math:Binop>
+            </ct:Assign>
         </ct:Definition>
     </ct:FunctionDefinition>
     
@@ -134,33 +142,33 @@
         <ct:FunctionArgument symbId="c" symbolType="real"/>
         <ct:FunctionArgument symbId="f" symbolType="real"/>
         <ct:Definition>
-            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                <Binop op="root">
-                    <Binop op="plus">
-                        <Binop op="power">
+            <ct:Assign>
+                <math:Binop op="root">
+                    <math:Binop op="plus">
+                        <math:Binop op="power">
                             <ct:SymbRef symbIdRef="a"/>
                             <ct:Int>2</ct:Int>
-                        </Binop>
-                        <Binop op="times">
-                            <Binop op="power">
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <math:Binop op="power">
                                 <ct:SymbRef symbIdRef="b"/>
                                 <ct:Real>2</ct:Real>
-                            </Binop>
-                            <Binop op="power">
+                            </math:Binop>
+                            <math:Binop op="power">
                                 <ct:SymbRef symbIdRef="f"/>
-                                <Binop op="times">
+                                <math:Binop op="times">
                                     <ct:Int>2</ct:Int>
                                     <ct:SymbRef symbIdRef="c"/>
-                                </Binop>
-                            </Binop>
-                        </Binop>
-                    </Binop>
-                    <Binop op="divide">
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
+                    <math:Binop op="divide">
                         <ct:Real>1</ct:Real>
                         <ct:Real>2</ct:Real>
-                    </Binop>
-                </Binop>
-            </Equation>
+                    </math:Binop>
+                </math:Binop>
+            </ct:Assign>
         </ct:Definition>
     </ct:FunctionDefinition>
     <!-- VERSION 2: SEE OBSERVATION MODEL -->
@@ -168,101 +176,109 @@
     <!-- type 8 - type 10 - DEFINED in THE OBSERVATION MODEL -->
 
     <!-- MODEL DEFINITION -->
-    <ModelDefinition xmlns="http://www.pharmml.org/2013/03/ModelDefinition">
+    <mdef:ModelDefinition>
         
         <!-- VARIABILITY MODEL -->
-        <VariabilityModel blkId="model" type="parameterVariability">
-            <Level symbId="indiv">
+        <mdef:VariabilityModel blkId="model" type="parameterVariability">
+            <mdef:Level symbId="indiv">
                 <ct:Name>Subject Level</ct:Name>
-            </Level>
-        </VariabilityModel>
+            </mdef:Level>
+        </mdef:VariabilityModel>
         
-        <VariabilityModel blkId="obsErr" type="residualError">
-            <Level symbId="residual">
+        <mdef:VariabilityModel blkId="obsErr" type="residualError">
+            <mdef:Level symbId="residual">
                 <ct:Name>Residual Error</ct:Name>
-            </Level>
-        </VariabilityModel>
+            </mdef:Level>
+        </mdef:VariabilityModel>
         
         <!-- COVARIATE MODEL -->
-        <CovariateModel blkId="cm1">
-            <Covariate symbId="W">
-                <Continuous>
-                    <Transformation>
-                        <TransformedCovariate symbId="W70"/>
-                        <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                            <Binop op="divide">
+        <mdef:CovariateModel blkId="cm1">
+            <mdef:Covariate symbId="W">
+                <mdef:Continuous>
+                    <mdef:Transformation>
+                        <mdef:TransformedCovariate symbId="W70"/>
+                        <ct:Assign>
+                            <math:Binop op="divide">
                                 <ct:SymbRef symbIdRef="W"/>
                                 <ct:Real>70</ct:Real>
-                            </Binop>
-                        </Equation>
-                    </Transformation>
-                </Continuous>
-            </Covariate>
-        </CovariateModel>
+                            </math:Binop>
+                        </ct:Assign>
+                    </mdef:Transformation>
+                </mdef:Continuous>
+            </mdef:Covariate>
+        </mdef:CovariateModel>
         
         <!-- PARAMETER MODEL -->
-        <ParameterModel blkId="pm1">
-            <SimpleParameter symbId="omega_V"/>
-            <SimpleParameter symbId="omega_V2"/>
-            <SimpleParameter symbId="omega_k"/>
-            <SimpleParameter symbId="omega_k2"/>
-            <SimpleParameter symbId="pop_V"/>
-            <SimpleParameter symbId="pop_V2"/>
-            <SimpleParameter symbId="pop_k"/>
-            <SimpleParameter symbId="pop_k2"/>
+        <mdef:ParameterModel blkId="pm1">
+            <mdef:PopulationParameter symbId="omega_V"/>
+            <mdef:PopulationParameter symbId="omega_V2"/>
+            <mdef:PopulationParameter symbId="omega_k"/>
+            <mdef:PopulationParameter symbId="omega_k2"/>
+            <mdef:PopulationParameter symbId="pop_V"/>
+            <mdef:PopulationParameter symbId="pop_V2"/>
+            <mdef:PopulationParameter symbId="pop_k"/>
+            <mdef:PopulationParameter symbId="pop_k2"/>
             <!-- V -->
-            <RandomVariable symbId="eta_V">
+            <mdef:RandomVariable symbId="eta_V">
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="indiv"/>
                 </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" 
-                    definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_V"/>
-                    </stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="V">
-                <GaussianModel>
-                    <Transformation>log</Transformation>
-                    <LinearCovariate>
-                        <PopulationParameter>
+                <mdef:Distribution>
+                    <mdef:UncertML>
+                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" 
+                            definition="http://www.uncertml.org/distributions/normal">
+                            <mean>
+                                <rVal>0</rVal>
+                            </mean>
+                            <stddev>
+                                <var varId="omega_V"/>
+                            </stddev>
+                        </NormalDistribution>
+                    </mdef:UncertML>
+                </mdef:Distribution>
+            </mdef:RandomVariable>
+            <mdef:IndividualParameter symbId="V">
+                <mdef:StructuredModel>
+                    <mdef:Transformation type="log"/>
+                    <mdef:LinearCovariate>
+                        <mdef:PopulationValue>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="pop_V"/>
                             </ct:Assign>
-                        </PopulationParameter>
-                        <Covariate>
+                        </mdef:PopulationValue>
+                        <mdef:Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="W70"/>
-                            <FixedEffect>
+                            <mdef:FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_V"/>
-                            </FixedEffect>
-                        </Covariate>
-                    </LinearCovariate>
-                    <RandomEffects>
+                            </mdef:FixedEffect>
+                        </mdef:Covariate>
+                    </mdef:LinearCovariate>
+                    <mdef:RandomEffects>
                         <ct:SymbRef symbIdRef="eta_V"/>
-                    </RandomEffects>
-                </GaussianModel>
-            </IndividualParameter>
+                    </mdef:RandomEffects>
+                </mdef:StructuredModel>
+            </mdef:IndividualParameter>
             <!-- V2 -->
-            <RandomVariable symbId="eta_V2">
+            <mdef:RandomVariable symbId="eta_V2">
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="indiv"/>
                 </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_V2"/>
-                    </stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="V2">
-                <GaussianModel>
-                    <Transformation>log</Transformation>
+                <mdef:Distribution>
+                    <mdef:UncertML>
+                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                            <mean>
+                                <rVal>0</rVal>
+                            </mean>
+                            <stddev>
+                                <var varId="omega_V2"/>
+                            </stddev>
+                        </NormalDistribution>
+                    </mdef:UncertML>
+                </mdef:Distribution>
+            </mdef:RandomVariable>
+            <mdef:IndividualParameter symbId="V2">
+                <mdef:StructuredModel>
+                    <mdef:Transformation type="log"/>
                     <LinearCovariate>
                         <PopulationParameter>
                             <ct:Assign>
@@ -276,28 +292,32 @@
                             </FixedEffect>
                         </Covariate>
                     </LinearCovariate>
-                    <RandomEffects>
+                    <mdef:RandomEffects>
                         <ct:SymbRef symbIdRef="eta_V2"/>
-                    </RandomEffects>
-                </GaussianModel>
-            </IndividualParameter>
+                    </mdef:RandomEffects>
+                </mdef:StructuredModel>
+            </mdef:IndividualParameter>
             <!-- k -->
-            <RandomVariable symbId="eta_k">
+            <mdef:RandomVariable symbId="eta_k">
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="indiv"/>
                 </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_k"/>
-                    </stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="k">
-                <GaussianModel>
-                    <Transformation>log</Transformation>
+                <mdef:Distribution>
+                    <mdef:UncertML>
+                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                            <mean>
+                                <rVal>0</rVal>
+                            </mean>
+                            <stddev>
+                                <var varId="omega_k"/>
+                            </stddev>
+                        </NormalDistribution>
+                    </mdef:UncertML>
+                </mdef:Distribution>
+            </mdef:RandomVariable>
+            <mdef:IndividualParameter symbId="k">
+                <mdef:StructuredModel>
+                    <mdef:Transformation type="log"/>
                     <LinearCovariate>
                         <PopulationParameter>
                             <ct:Assign>
@@ -305,28 +325,32 @@
                             </ct:Assign>
                         </PopulationParameter>
                     </LinearCovariate>
-                    <RandomEffects>
+                    <mdef:RandomEffects>
                         <ct:SymbRef symbIdRef="eta_k"/>
-                    </RandomEffects>
-                </GaussianModel>
-            </IndividualParameter>
+                    </mdef:RandomEffects>
+                </mdef:StructuredModel>
+            </mdef:IndividualParameter>
             <!-- k2 -->
-            <RandomVariable symbId="eta_k2">
+            <mdef:RandomVariable symbId="eta_k2">
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="indiv"/>
                 </ct:VariabilityReference>
-                <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                    <mean>
-                        <rVal>0</rVal>
-                    </mean>
-                    <stddev>
-                        <var varId="omega_k2"/>
-                    </stddev>
-                </NormalDistribution>
-            </RandomVariable>
-            <IndividualParameter symbId="k2">
-                <GaussianModel>
-                    <Transformation>log</Transformation>
+                <mdef:Distribution>
+                    <mdef:UncertML>
+                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                            <mean>
+                                <rVal>0</rVal>
+                            </mean>
+                            <stddev>
+                                <var varId="omega_k2"/>
+                            </stddev>
+                        </NormalDistribution>
+                    </mdef:UncertML>
+                </mdef:Distribution>
+            </mdef:RandomVariable>
+            <mdef:IndividualParameter symbId="k2">
+                <mdef:StructuredModel>
+                    <mdef:Transformation type="log"/>
                     <LinearCovariate>
                         <PopulationParameter>
                             <ct:Assign>
@@ -334,12 +358,12 @@
                             </ct:Assign>
                         </PopulationParameter>
                     </LinearCovariate>
-                    <RandomEffects>
+                    <mdef:RandomEffects>
                         <ct:SymbRef symbIdRef="eta_k2"/>
-                    </RandomEffects>
-                </GaussianModel>
-            </IndividualParameter>
-        </ParameterModel>
+                    </mdef:RandomEffects>
+                </mdef:StructuredModel>
+            </mdef:IndividualParameter>
+        </mdef:ParameterModel>
         
         <!-- STRUCTURAL MODEL -->
         <StructuralModel blkId="sm1">
@@ -350,23 +374,23 @@
             <ct:Variable symbolType="real" symbId="C1model">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                        <Binop op="times">
-                            <Binop op="divide">
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
                                 <ct:SymbRef symbIdRef="D"/>
                                 <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
-                            </Binop>
+                            </math:Binop>
                             <Uniop op="exp">
-                                <Binop op="times">
+                                <math:Binop op="times">
                                     <Uniop op="minus">
                                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
                                     </Uniop>
-                                    <Binop op="minus">
+                                    <math:Binop op="minus">
                                         <ct:SymbRef symbIdRef="time"/>
                                         <ct:SymbRef symbIdRef="tD"/>
-                                    </Binop>
-                                </Binop>
+                                    </math:Binop>
+                                </math:Binop>
                             </Uniop>
-                        </Binop>
+                        </math:Binop>
                     </Equation>
                 </ct:Assign>
             </ct:Variable>
@@ -374,23 +398,23 @@
             <ct:Variable symbolType="real" symbId="C2model">
                 <ct:Assign>
                     <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                        <Binop op="times">
-                            <Binop op="divide">
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
                                 <ct:SymbRef symbIdRef="D"/>
                                 <ct:SymbRef blkIdRef="pm1" symbIdRef="V2"/>
-                            </Binop>
+                            </math:Binop>
                             <Uniop op="exp">
-                                <Binop op="times">
+                                <math:Binop op="times">
                                     <Uniop op="minus">
                                         <ct:SymbRef blkIdRef="pm1" symbIdRef="k2"/>
                                     </Uniop>
-                                    <Binop op="minus">
+                                    <math:Binop op="minus">
                                         <ct:SymbRef symbIdRef="time"/>
                                         <ct:SymbRef symbIdRef="tD2"/>
-                                    </Binop>
-                                </Binop>
+                                    </math:Binop>
+                                </math:Binop>
                             </Uniop>
-                        </Binop>
+                        </math:Binop>
                     </Equation>
                 </ct:Assign>
             </ct:Variable>
@@ -400,24 +424,28 @@
         <!-- OBSERVATION MODELS -->
         
         <!-- type 1 - ADDITIVE MODEL -->
-        <ObservationModel blkId="om1">
-            <ContinuousData>
+        <mdef:ObservationModel blkId="om1">
+            <mdef:ContinuousData>
                 <!-- simple parameters -->
-                <SimpleParameter symbId="a"/>
+                <mdef:PopulationParameter symbId="a"/>
                 <!-- with type 1 - ADDITIVE MODEL -->
-                <RandomVariable symbId="eps">
+                <mdef:RandomVariable symbId="eps">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <prVal>1</prVal>
-                        </stddev>
-                    </NormalDistribution>
-                </RandomVariable>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                                <mean>
+                                    <rVal>0</rVal>
+                                </mean>
+                                <stddev>
+                                    <prVal>1</prVal>
+                                </stddev>
+                            </NormalDistribution>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
+                </mdef:RandomVariable>
                 <Standard symbId="C1">
                     <Output>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
@@ -438,113 +466,122 @@
                         <ct:SymbRef symbIdRef="eps"/>
                     </ResidualError>
                 </Standard>
-            </ContinuousData>
-        </ObservationModel>
+            </mdef:ContinuousData>
+        </mdef:ObservationModel>
         
         
         
         <!-- type 2 - PROPORTIONAL MODEL -->
-        <ObservationModel blkId="om2">
-            <ContinuousData>
-                <SimpleParameter symbId="b"/>
-                <RandomVariable symbId="eps">
+        <mdef:ObservationModel blkId="om2">
+            <mdef:ContinuousData>
+                <mdef:PopulationParameter symbId="b"/>
+                <mdef:RandomVariable symbId="eps">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <prVal>1</prVal>
-                        </stddev>
-                    </NormalDistribution>
-                </RandomVariable>
-                <Standard symbId="C1">
-                    <Output>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                                <mean>
+                                    <rVal>0</rVal>
+                                </mean>
+                                <stddev>
+                                    <prVal>1</prVal>
+                                </stddev>
+                            </NormalDistribution>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
+                </mdef:RandomVariable>
+                <mdef:Standard symbId="C1">
+                    <mdef:Output>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
-                    </Output>
-                    <ErrorModel>
+                    </mdef:Output>
+                    <mdef:ErrorModel>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                                <FunctionCall>
-                                    <ct:SymbRef symbIdRef="proportionalErrorModel"/>
-                                    <FunctionArgument symbId="b">
-                                        <ct:SymbRef symbIdRef="b"/>
-                                    </FunctionArgument>
-                                    <FunctionArgument symbId="f">
-                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
-                                    </FunctionArgument>
-                                </FunctionCall>
-                            </Equation>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="proportionalErrorModel"/>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
                         </ct:Assign>
-                    </ErrorModel>
-                    <ResidualError>
+                    </mdef:ErrorModel>
+                    <mdef:ResidualError>
                         <ct:SymbRef symbIdRef="eps"/>
-                    </ResidualError>
-                </Standard>
-            </ContinuousData>
-        </ObservationModel>
+                    </mdef:ResidualError>
+                </mdef:Standard>
+            </mdef:ContinuousData>
+        </mdef:ObservationModel>
         
         <!-- ALTERNATIVE IMPLEMENTATION without FctDef -->
-        <ObservationModel blkId="om1.1">
-            <ContinuousData>
-                <SimpleParameter symbId="sigma"/>
-                <RandomVariable symbId="eps">
+        <mdef:ObservationModel blkId="om1.1">
+            <mdef:ContinuousData>
+                <mdef:PopulationParameter symbId="sigma"/>
+                <mdef:RandomVariable symbId="eps">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="model" symbIdRef="indiv"/>
                     </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <var varId="sigma"/>
-                        </stddev>
-                    </NormalDistribution>
-                </RandomVariable>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                                <mean>
+                                    <rVal>0</rVal>
+                                </mean>
+                                <stddev>
+                                    <var varId="sigma"/>
+                                </stddev>
+                            </NormalDistribution>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
+                </mdef:RandomVariable>
                 <General symbId="C">
                     <ct:Assign>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                            <Binop op="times">
+                            <math:Binop op="times">
                                 <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
-                                <Binop op="plus">
+                                <math:Binop op="plus">
                                     <ct:Real>1</ct:Real>
                                     <ct:SymbRef symbIdRef="eps"/>
-                                </Binop>
-                            </Binop>
+                                </math:Binop>
+                            </math:Binop>
                         </Equation>
                     </ct:Assign>
                 </General>
-            </ContinuousData>
-        </ObservationModel>
+            </mdef:ContinuousData>
+        </mdef:ObservationModel>
         
         
         <!-- type 3 - COMBINED ADDITIVE and PROPORTIONAL MODEL 1 -->
         <ObservationModel blkId="om3">
             <ContinuousData>
-                <SimpleParameter symbId="a"/>
-                <SimpleParameter symbId="b"/>
-                <RandomVariable symbId="eps">
+                <mdef:PopulationParameter symbId="a"/>
+                <mdef:PopulationParameter symbId="b"/>
+                <mdef:RandomVariable symbId="eps">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <prVal>1</prVal>
-                        </stddev>
-                    </NormalDistribution>
-                </RandomVariable>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                                <mean>
+                                    <rVal>0</rVal>
+                                </mean>
+                                <stddev>
+                                    <prVal>1</prVal>
+                                </stddev>
+                            </NormalDistribution>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
+                </mdef:RandomVariable>
                 <Standard symbId="C1">
                     <Output>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                                 <FunctionCall>
                                     <ct:SymbRef symbIdRef="combinedAdditiveProportionalModel1"/>
                                     <FunctionArgument symbId="a">
@@ -557,7 +594,6 @@
                                         <ct:SymbRef symbIdRef="C1model"/>
                                     </FunctionArgument>
                                 </FunctionCall>
-                            </Equation>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>
@@ -570,21 +606,25 @@
         <!-- type 4 - COMBINED ADDITIVE and PROPORTIONAL MODEL 2 -->
         <ObservationModel blkId="om4">
             <ContinuousData>
-                <SimpleParameter symbId="a"/>
-                <SimpleParameter symbId="b"/>
-                <RandomVariable symbId="eps">
+                <mdef:PopulationParameter symbId="a"/>
+                <mdef:PopulationParameter symbId="b"/>
+                <mdef:RandomVariable symbId="eps">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <prVal>1</prVal>
-                        </stddev>
-                    </NormalDistribution>
-                </RandomVariable>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                                <mean>
+                                    <rVal>0</rVal>
+                                </mean>
+                                <stddev>
+                                    <prVal>1</prVal>
+                                </stddev>
+                            </NormalDistribution>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
+                </mdef:RandomVariable>
                 <Standard symbId="C1">
                     <Output>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
@@ -617,26 +657,29 @@
         <!-- type 5 - POWER MODEL -->
         <ObservationModel blkId="om5">
             <ContinuousData>
-                <RandomVariable symbId="eps">
+                <mdef:RandomVariable symbId="eps">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <prVal>1</prVal>
-                        </stddev>
-                    </NormalDistribution>
-                </RandomVariable>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                            <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                                <mean>
+                                    <rVal>0</rVal>
+                                </mean>
+                                <stddev>
+                                    <prVal>1</prVal>
+                                </stddev>
+                            </NormalDistribution>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
+                </mdef:RandomVariable>
                 <Standard symbId="C1">
                     <Output>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
                     </Output>
                     <ErrorModel>
                         <ct:Assign>
-                            <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                                 <FunctionCall>
                                     <ct:SymbRef symbIdRef="powerModel"/>
                                     <FunctionArgument symbId="b">
@@ -649,7 +692,6 @@
                                         <ct:SymbRef symbIdRef="C1model"/>
                                     </FunctionArgument>
                                 </FunctionCall>
-                            </Equation>
                         </ct:Assign>
                     </ErrorModel>
                     <ResidualError>
@@ -662,13 +704,17 @@
         <!-- type 6 - COMBINED ADDITIVE and POWER MODEL 1 -->
         <ObservationModel blkId="om6">
             <ContinuousData>
-                <SimpleParameter symbId="a"/>
-                <SimpleParameter symbId="b"/>
-                <SimpleParameter symbId="c"/>
-                <RandomVariable symbId="eps">
+                <mdef:PopulationParameter symbId="a"/>
+                <mdef:PopulationParameter symbId="b"/>
+                <mdef:PopulationParameter symbId="c"/>
+                <mdef:RandomVariable symbId="eps">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"></ct:SymbRef>
                     </ct:VariabilityReference>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                         <mean>
                             <rVal>0</rVal>
@@ -677,7 +723,7 @@
                             <prVal>1</prVal>
                         </stddev>
                     </NormalDistribution>
-                </RandomVariable>
+                </mdef:RandomVariable>
                 <Standard symbId="C1">
                     <Output>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"></ct:SymbRef>
@@ -714,10 +760,14 @@
         <!-- VERSION 1 with one epsilon-->
         <ObservationModel blkId="om7A">
             <ContinuousData>
-                <RandomVariable symbId="eps">
+                <mdef:RandomVariable symbId="eps">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                         <mean>
                             <rVal>0</rVal>
@@ -726,7 +776,7 @@
                             <prVal>1</prVal>
                         </stddev>
                     </NormalDistribution>
-                </RandomVariable>
+                </mdef:RandomVariable>
                 <Standard symbId="C1">
                     <Output>
                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
@@ -761,7 +811,24 @@
         <!-- VERSION 2 with two epsilons-->
         <ObservationModel blkId="om7B">
             <ContinuousData>
-                <RandomVariable symbId="eps1">
+                <mdef:RandomVariable symbId="eps1">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean>
+                            <rVal>0</rVal>
+                        </mean>
+                        <stddev>
+                            <prVal>1</prVal>
+                        </stddev>
+                    </NormalDistribution>
+                </mdef:RandomVariable>
+                <mdef:RandomVariable symbId="eps2">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
@@ -773,39 +840,26 @@
                             <prVal>1</prVal>
                         </stddev>
                     </NormalDistribution>
-                </RandomVariable>
-                <RandomVariable symbId="eps2">
-                    <ct:VariabilityReference>
-                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
-                    </ct:VariabilityReference>
-                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                        <mean>
-                            <rVal>0</rVal>
-                        </mean>
-                        <stddev>
-                            <prVal>1</prVal>
-                        </stddev>
-                    </NormalDistribution>
-                </RandomVariable>
+                </mdef:RandomVariable>
                 <General symbId="C1">
                     <ct:Assign>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
-                            <Binop op="plus">
-                                <Binop op="times">
+                            <math:Binop op="plus">
+                                <math:Binop op="times">
                                     <ct:SymbRef symbIdRef="a"/>
                                     <ct:SymbRef symbIdRef="eps1"/>
-                                </Binop>
-                                <Binop op="times">
+                                </math:Binop>
+                                <math:Binop op="times">
                                     <ct:SymbRef symbIdRef="b"/>
-                                    <Binop op="times">
-                                        <Binop op="power">
+                                    <math:Binop op="times">
+                                        <math:Binop op="power">
                                             <ct:SymbRef symbIdRef="C1sim"/>
                                             <ct:SymbRef symbIdRef="c"/>
-                                        </Binop>
+                                        </math:Binop>
                                         <ct:SymbRef symbIdRef="eps2"/>
-                                    </Binop>
-                                </Binop>
-                            </Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
                         </Equation>
                     </ct:Assign>
                 </General>
@@ -815,13 +869,17 @@
         <!-- type 8 - TWO TYPES OF MEASUREMENTS MODEL -->
         <ObservationModel blkId="om8">
             <ContinuousData>
-                <SimpleParameter symbId="sigma1"/>
-                <SimpleParameter symbId="sigma2"/>
-                <SimpleParameter symbId="ASY"/>
-                <RandomVariable symbId="eps1">
+                <mdef:PopulationParameter symbId="sigma1"/>
+                <mdef:PopulationParameter symbId="sigma2"/>
+                <mdef:PopulationParameter symbId="ASY"/>
+                <mdef:RandomVariable symbId="eps1">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                         <mean>
                             <rVal>0</rVal>
@@ -830,11 +888,15 @@
                             <var varId="sigma1"/>
                         </stddev>
                     </NormalDistribution>
-                </RandomVariable>
-                <RandomVariable symbId="eps2">
+                </mdef:RandomVariable>
+                <mdef:RandomVariable symbId="eps2">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                         <mean>
                             <rVal>0</rVal> 
@@ -843,33 +905,33 @@
                             <var varId="sigma2"/>
                         </stddev>
                     </NormalDistribution>
-                </RandomVariable>
+                </mdef:RandomVariable>
                 <General symbId="C1">
                     <ct:Assign>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                             <Piecewise>
                                 <Piece>
-                                    <Binop op="plus">
+                                    <math:Binop op="plus">
                                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
                                         <ct:SymbRef symbIdRef="eps1"/>
-                                    </Binop>
+                                    </math:Binop>
                                     <Condition>
-                                        <LogicBinop op="eq">
+                                        <Logicmath:Binop op="eq">
                                             <ct:SymbRef symbIdRef="ASY"/>
                                             <ct:Int>1</ct:Int>
-                                        </LogicBinop>
+                                        </Logicmath:Binop>
                                     </Condition>
                                 </Piece>
                                 <Piece>
-                                    <Binop op="plus">
+                                    <math:Binop op="plus">
                                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
                                         <ct:SymbRef symbIdRef="eps2"/>
-                                    </Binop>
+                                    </math:Binop>
                                     <Condition>
-                                        <LogicBinop op="eq">
+                                        <Logicmath:Binop op="eq">
                                             <ct:SymbRef symbIdRef="ASY"/>
                                             <ct:Int>2</ct:Int>
-                                        </LogicBinop>
+                                        </Logicmath:Binop>
                                     </Condition>                                        
                                 </Piece>
                             </Piecewise>
@@ -882,13 +944,17 @@
         <!-- type 9 - TWO TYPES OF OBSERVATIONS MODEL -->
         <ObservationModel blkId="om9">
             <ContinuousData>
-                <SimpleParameter symbId="TYP"/>
-                <SimpleParameter symbId="sigma1"/>
-                <SimpleParameter symbId="sigma2"/>
-                <RandomVariable symbId="eps1">
+                <mdef:PopulationParameter symbId="TYP"/>
+                <mdef:PopulationParameter symbId="sigma1"/>
+                <mdef:PopulationParameter symbId="sigma2"/>
+                <mdef:RandomVariable symbId="eps1">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                         <mean>
                             <rVal>0</rVal>
@@ -897,11 +963,15 @@
                             <var varId="sigma1"/>
                         </stddev>
                     </NormalDistribution>
-                </RandomVariable>
-                <RandomVariable symbId="eps2">
+                </mdef:RandomVariable>
+                <mdef:RandomVariable symbId="eps2">
                     <ct:VariabilityReference>
                         <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
                     </ct:VariabilityReference>
+                    <mdef:Distribution>
+                        <mdef:UncertML>
+                        </mdef:UncertML>
+                    </mdef:Distribution>
                     <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
                         <mean>
                             <rVal>0</rVal>
@@ -910,16 +980,16 @@
                             <var varId="sigma2"/>
                         </stddev>
                     </NormalDistribution>
-                </RandomVariable>
+                </mdef:RandomVariable>
                 <General symbId="C1">
                     <ct:Assign>
                         <Equation xmlns="http://www.pharmml.org/2013/03/Maths">
                             <Piecewise>
                                 <Piece>
-                                    <Binop op="plus">
+                                    <math:Binop op="plus">
                                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
                                         <ct:SymbRef symbIdRef="eps1"/>
-                                    </Binop>
+                                    </math:Binop>
                                     <Condition>
                                         <LogicBinop op="eq">
                                             <ct:SymbRef symbIdRef="TYP"/>
@@ -928,10 +998,10 @@
                                     </Condition>
                                 </Piece>
                                 <Piece>
-                                    <Binop op="plus">
+                                    <math:Binop op="plus">
                                         <ct:SymbRef blkIdRef="sm1" symbIdRef="C2model"/>
                                         <ct:SymbRef symbIdRef="eps2"/>
-                                    </Binop>
+                                    </math:Binop>
                                     <Condition>
                                         <LogicBinop op="eq">
                                             <ct:SymbRef symbIdRef="TYP"/>
@@ -945,7 +1015,7 @@
                 </General> 
             </ContinuousData>
         </ObservationModel> 
-    </ModelDefinition>
+    </mdef:ModelDefinition>
     
     <!-- TRIAL DESIGN -->
     <!-- based on case F, seee PharmML spec version 0.1.0 -->

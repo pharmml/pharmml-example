@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.9/ModellingSteps"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.9" id="i1">
+    
+    <ct:Name>Breast cancer development model.</ct:Name>
+    
+    <ct:Description>Breast cancer development model - Enderling et al. 2007</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    <IndependentVariable symbId="x"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            
+            <Parameter symbId="mu_n"/>
+            <Parameter symbId="Amax"/>
+            <Parameter symbId="A"/>
+            <Parameter symbId="D_n"/>
+            <Parameter symbId="chi"/>
+            <Parameter symbId="p4"/>
+            <Parameter symbId="D_m"/>
+            <Parameter symbId="xi"/>
+            <Parameter symbId="m_0"/>
+            <Parameter symbId="omega"/>
+            
+        </ParameterModel>
+
+        <!-- STRUCTURE -->
+        <StructuralModel blkId="sm1">
+             
+            <ct:Variable symbId="n"/>
+            <ct:Variable symbId="m"/>
+            <ct:Variable symbId="f"/>
+            <ct:Variable symbId="q"/>
+            <ct:Variable symbId="r"/>
+            <ct:Variable symbId="s"/>
+            
+            <!-- ODE for f -->
+            <ct:DE type="ode">
+                <ct:AssignStatement op="eq">
+                    <math:Diff>
+                        <math:DiffVariable>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </math:DiffVariable>
+                        <math:DiffOpArgument>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="f"/>
+                            </ct:Assign>
+                        </math:DiffOpArgument>
+                    </math:Diff>
+                    <ct:SymbRef symbIdRef="dummy_RHS_expression"/>
+                </ct:AssignStatement>
+            </ct:DE>
+            <!-- ODE for q -->
+            <ct:DE type="ode">
+                <ct:AssignStatement op="eq">
+                    <math:Diff>
+                        <math:DiffVariable>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </math:DiffVariable>
+                        <math:DiffOpArgument>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="q"/>
+                            </ct:Assign>
+                        </math:DiffOpArgument>
+                    </math:Diff>
+                    <ct:SymbRef symbIdRef="dummy_RHS_expression"/>
+                </ct:AssignStatement>
+            </ct:DE>
+            <!-- ODE for r -->
+            <ct:DE type="ode">
+                <ct:AssignStatement op="eq">
+                    <math:Diff>
+                        <math:DiffVariable>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </math:DiffVariable>
+                        <math:DiffOpArgument>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="r"/>
+                            </ct:Assign>
+                        </math:DiffOpArgument>
+                    </math:Diff>
+                    <ct:SymbRef symbIdRef="dummy_RHS_expression"/>
+                </ct:AssignStatement>
+            </ct:DE>
+            <!-- ODE for s -->
+            <ct:DE type="ode">
+                <ct:AssignStatement op="eq">
+                    <math:Diff>
+                        <math:DiffVariable>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </math:DiffVariable>
+                        <math:DiffOpArgument>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="s"/>
+                            </ct:Assign>
+                        </math:DiffOpArgument>
+                    </math:Diff>
+                    <ct:SymbRef symbIdRef="dummy_RHS_expression"/>
+                </ct:AssignStatement>
+            </ct:DE>
+            
+            
+            <!-- PDE: delta n / delta t = ... -->
+            <ct:DE type="pde">
+                <ct:AssignStatement op="eq">
+                    <math:PartialDiff>
+                        <math:DiffVariable>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </math:DiffVariable>
+                        <math:DiffOpArgument>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="n"/>
+                            </ct:Assign>
+                        </math:DiffOpArgument>
+                    </math:PartialDiff>
+                    <!-- RHS -->
+                    <math:Binop op="plus">
+                        <math:Binop op="times">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="mu_n"/>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="n"/>
+                                <math:Binop op="minus">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Amax"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="A"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                        <math:Binop op="plus">
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="D_n"/>
+                                <math:VectorCalcOp op="laplacian">
+                                    <math:DiffVariables>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="x"/>
+                                        </ct:Assign>
+                                    </math:DiffVariables>
+                                    <math:DiffOpArgument>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="n"/>
+                                        </ct:Assign>
+                                    </math:DiffOpArgument>
+                                </math:VectorCalcOp>
+                            </math:Binop>
+                            <math:Binop op="plus">
+                                <math:Uniop op="minus">
+                                    <math:Binop op="times">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="chi"/>
+                                        <math:VectorCalcOp op="divergence">
+                                            <math:DiffOpArgument>
+                                                <ct:Assign>
+                                                    <math:Binop op="times">
+                                                        <ct:SymbRef symbIdRef="n"/>
+                                                        <math:VectorCalcOp op="gradient">
+                                                            <math:DiffVariables>
+                                                                <ct:Assign>
+                                                                    <ct:SymbRef symbIdRef="x"/>
+                                                                </ct:Assign>
+                                                            </math:DiffVariables>
+                                                            <math:DiffOpArgument>
+                                                                <ct:Assign>
+                                                                    <ct:SymbRef symbIdRef="f"/>
+                                                                </ct:Assign>
+                                                            </math:DiffOpArgument>
+                                                        </math:VectorCalcOp>
+                                                    </math:Binop>
+                                                </ct:Assign>
+                                            </math:DiffOpArgument>
+                                        </math:VectorCalcOp>
+                                    </math:Binop>
+                                </math:Uniop>
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="p4"/>
+                                    <ct:SymbRef symbIdRef="s"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:AssignStatement>
+            </ct:DE>
+            
+            <!-- PDE: delta m / delta t = ... -->
+            <ct:DE type="pde">
+                <ct:AssignStatement op="eq">
+                    <math:Diff>
+                        <math:DiffVariable>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </math:DiffVariable>
+                        <math:DiffOpArgument>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="m"/>
+                            </ct:Assign>
+                        </math:DiffOpArgument>
+                    </math:Diff>
+                    <math:Binop op="plus">
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="D_m"/>
+                            <math:VectorCalcOp op="laplacian">
+                                <math:DiffVariables>
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="x"/>
+                                    </ct:Assign>
+                                </math:DiffVariables>
+                                <math:DiffOpArgument>
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="m"/>
+                                    </ct:Assign>
+                                </math:DiffOpArgument>
+                            </math:VectorCalcOp>
+                        </math:Binop>
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="xi"/>
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="n"/>
+                                    <math:Binop op="minus">
+                                        <ct:Real>1</ct:Real>
+                                        <math:Binop op="divide">
+                                            <ct:SymbRef symbIdRef="m"/>
+                                            <ct:SymbRef symbIdRef="m_0"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="omega"/>
+                                <ct:SymbRef symbIdRef="m"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:AssignStatement>
+            </ct:DE>
+            
+        </StructuralModel>
+        
+    </ModelDefinition>
+    
+</PharmML>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.9/ModellingSteps"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.9" id="i1">
+    
+    <ct:Name>Advection model.</ct:Name>
+    
+    <ct:Description>Advection model.</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    <IndependentVariable symbId="x"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">            
+            
+            <!--        realDomain t sec; t.min=0; t.max=15; t.delta=0.1;
+            real L      = 0.1 cm,             // Length of tube
+            Ngridx = 51;                 // Number of grid points spatially 
+            realDomain x cm; x.min=0; x.max=L; x.ct=Ngridx;-->
+            <Parameter symbId="tmin">
+                <ct:Assign>
+                    <ct:Real>0</ct:Real>
+                </ct:Assign>
+            </Parameter>
+            <Parameter symbId="tmax">
+                <ct:Assign>
+                    <ct:Real>15</ct:Real>
+                </ct:Assign>
+            </Parameter>
+            <Parameter symbId="L">
+                <ct:Assign>
+                    <ct:Real>0.1</ct:Real>
+                </ct:Assign>
+            </Parameter>
+            <Parameter symbId="xmin">
+                <ct:Assign>
+                    <ct:Real>0</ct:Real>
+                </ct:Assign>
+            </Parameter>
+            <Parameter symbId="xmax">
+                <ct:Assign>
+                    <ct:SymbRef symbIdRef="L"/>
+                </ct:Assign>
+            </Parameter>
+            
+        </ParameterModel>
+
+        <!-- STRUCTURE -->
+        <StructuralModel blkId="sm1">
+             
+            <ct:Variable symbId="C"/>
+            
+            <ct:Variable regressor="yes" symbId="Cin"/>
+            <ct:Variable regressor="yes" symbId="C0"/>
+            
+<!--            // Partial Differential Equation
+            C:t = -U*C:x ;-->
+            <ct:DE type="pdeHyperbolic">
+                <ct:AssignStatement op="eq">
+                    <math:PartialDiff>
+                        <math:DiffVariable>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </math:DiffVariable>
+                        <math:DiffOpArgument>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="C"/>
+                            </ct:Assign>
+                        </math:DiffOpArgument>
+                    </math:PartialDiff>
+                    <math:Binop op="times">
+                        <math:Uniop op="minus">
+                            <ct:SymbRef symbIdRef="U"/>
+                        </math:Uniop>
+                        <math:PartialDiff>
+                            <math:DiffVariable>
+                                <ct:SymbRef symbIdRef="x"/>
+                            </math:DiffVariable>
+                            <math:DiffOpArgument>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="C"/>
+                                </ct:Assign>
+                            </math:DiffOpArgument>
+                        </math:PartialDiff>
+                    </math:Binop>
+                </ct:AssignStatement>
+                
+                <ct:InitialCondition>
+                    <ct:ConditionVariable>
+                        <ct:SymbRef symbIdRef="t"/>
+                    </ct:ConditionVariable>
+                    <ct:InitialValue>
+                        <ct:Assign>
+                            <math:Piecewise>
+                                <math:Piece>
+                                    <ct:SymbRef symbIdRef="Cin"/>
+                                    <math:Condition>
+                                        <math:LogicBinop op="eq">
+                                            <ct:SymbRef symbIdRef="x"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="xmin"/>
+                                        </math:LogicBinop>
+                                    </math:Condition>
+                                </math:Piece>
+                                <math:Piece>
+                                    <ct:SymbRef symbIdRef="C0"/>       <!-- regressor, 'extern' in JSim -->
+                                    <math:Condition>
+                                        <math:Otherwise/>
+                                    </math:Condition>
+                                </math:Piece>
+                            </math:Piecewise>
+                        </ct:Assign>
+                    </ct:InitialValue>
+                    <ct:InitialTime>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="tmin"/>
+                        </ct:Assign>
+                    </ct:InitialTime>
+                </ct:InitialCondition>
+                
+                <ct:BoundaryCondition type="Dirichlet">
+                    <ct:ConditionVariable>
+                        <ct:SymbRef symbIdRef="x"/>
+                    </ct:ConditionVariable>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="xmin"/>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:AssignStatement op="eq">
+                        <math:Binop op="times">
+                            <math:Uniop op="minus">
+                                <ct:SymbRef symbIdRef="U"/>
+                            </math:Uniop>
+                            <ct:SymbRef symbIdRef="C"/>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <math:Uniop op="minus">
+                                <ct:SymbRef symbIdRef="U"/>
+                            </math:Uniop>
+                            <ct:SymbRef symbIdRef="Cin"/>       <!-- regressor, 'extern' in JSim -->
+                        </math:Binop>
+                    </ct:AssignStatement>
+                </ct:BoundaryCondition>
+                
+                <ct:BoundaryCondition type="Neumann">
+                    <ct:ConditionVariable>
+                        <ct:SymbRef symbIdRef="x"/>
+                    </ct:ConditionVariable>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="xmax"/>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:AssignStatement op="eq">
+                        <math:PartialDiff>
+                            <math:DiffVariable>
+                                <ct:SymbRef symbIdRef="x"/>
+                            </math:DiffVariable>
+                            <math:DiffOpArgument>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="C"/>
+                                </ct:Assign>
+                            </math:DiffOpArgument>
+                        </math:PartialDiff>
+                        <ct:Real>0</ct:Real>
+                    </ct:AssignStatement>
+                </ct:BoundaryCondition>
+                
+                <ct:BoundaryCondition>
+                    <ct:ConditionVariable>
+                        <ct:SymbRef symbIdRef="x"/>
+                    </ct:ConditionVariable>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="xmax"/>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:AssignStatement op="eq">
+                        <ct:SymbRef symbIdRef="C"/>
+                        <ct:SymbRef symbIdRef="Cout"/>
+                    </ct:AssignStatement>
+                </ct:BoundaryCondition>
+                
+            </ct:DE>
+        </StructuralModel>
+        
+    </ModelDefinition>
+    
+</PharmML>

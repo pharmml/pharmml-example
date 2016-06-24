@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
     implementedBy="MJS" writtenVersion="0.9"
     metadataFile="womenModel.rdf" id="i1">
@@ -49,10 +49,14 @@
     
     <IndependentVariable symbId="t"/>
 
-    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <!-- PARAMETER MODEL -->
         <ParameterModel blkId="pm1">
+            
+            <Parameter symbId="C_inh"/>
+            
+            <Parameter symbId="Q_ing_rate"/>
             
 <!--        # Nominal parameter values
             # Physiological and pharmacokinetic parameters-->
@@ -469,8 +473,8 @@
             <ct:Variable symbId="PC_fat">
                 <ct:Assign>
                     <math:Binop op="divide">
-                        <ct:SymbRef symbIdRef="PC_adip"/>
-                        <ct:SymbRef symbIdRef="frac_fat_adip"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="PC_adip"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_adip"/>
                     </math:Binop>
                 </ct:Assign>
             </ct:Variable>
@@ -482,7 +486,7 @@
             <ct:Variable symbId="PC_adrenal">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_adrenal"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_adrenal"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -492,7 +496,7 @@
             <ct:Variable symbId="PC_brain">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_brain"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_brain"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -502,7 +506,7 @@
             <ct:Variable symbId="PC_breast">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_breast"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_breast"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -512,7 +516,7 @@
             <ct:Variable symbId="PC_gut">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_gut"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_gut"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -522,7 +526,7 @@
             <ct:Variable symbId="PC_heart">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_heart"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_heart"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -532,7 +536,7 @@
             <ct:Variable symbId="PC_kidney">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_kidney"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_kidney"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -542,7 +546,7 @@
             <ct:Variable symbId="PC_liver">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_liver"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_liver"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -552,7 +556,7 @@
             <ct:Variable symbId="PC_lung">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_lung"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_lung"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -562,7 +566,7 @@
             <ct:Variable symbId="PC_marrow">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_marrow"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_marrow"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -572,7 +576,7 @@
             <ct:Variable symbId="PC_muscle">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_muscle"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_muscle"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -582,7 +586,7 @@
             <ct:Variable symbId="PC_other">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_other"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_other"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -592,7 +596,7 @@
             <ct:Variable symbId="PC_pancreas">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_pancreas"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_pancreas"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -602,7 +606,7 @@
             <ct:Variable symbId="PC_skin">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_skin"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_skin"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -612,7 +616,7 @@
             <ct:Variable symbId="PC_spleen">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_spleen"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_spleen"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -622,7 +626,7 @@
             <ct:Variable symbId="PC_stomach">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_stomach"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_stomach"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -632,7 +636,7 @@
             <ct:Variable symbId="PC_thymus">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_thymus"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_thymus"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -642,7 +646,7 @@
             <ct:Variable symbId="PC_thyroid">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_thyroid"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_thyroid"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -652,7 +656,7 @@
             <ct:Variable symbId="PC_uterus">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="frac_fat_uterus"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="frac_fat_uterus"/>
                         <ct:SymbRef symbIdRef="PC_fat"/>
                     </math:Binop>
                 </ct:Assign>
@@ -669,11 +673,11 @@
                          (Age < 20 ? 161 + (Age-15) * (163-161) / 5.0 :
                                                     163))))) * 0.01;-->
             <ct:Variable symbId="height"/>
-            <ConditionalStatement>
+            <math:ConditionalStatement>
                 <math:If>
                     <math:Condition>                <!-- Age =< 1 -->
                         <math:LogicBinop op="lt">
-                            <ct:SymbRef symbIdRef="Age"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                             <ct:Real>1</ct:Real>
                         </math:LogicBinop>
                     </math:Condition>
@@ -683,7 +687,7 @@
                         <math:Binop op="plus">
                             <ct:Real>0.51</ct:Real>
                             <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <math:Binop op="minus">
                                     <ct:Real>0.76</ct:Real>
                                     <ct:Real>0.51</ct:Real>
@@ -696,11 +700,11 @@
                     <math:Condition>                <!-- 1 < Age  =< 5 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>1</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>5</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -714,7 +718,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>1</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -732,11 +736,11 @@
                     <math:Condition>                <!-- 5 < Age  =< 10 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>5</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>10</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -750,7 +754,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>5</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -768,11 +772,11 @@
                     <math:Condition>                <!-- 10 < Age  =< 15 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>10</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>15</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -786,7 +790,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>10</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -804,11 +808,11 @@
                     <math:Condition>                <!-- 15 < Age  =< 20 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>15</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>20</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -822,7 +826,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>15</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -838,18 +842,18 @@
                 </math:ElseIf>
                 <math:Else>
                     <ct:AssignStatement op="eq">
-                        <ct:SymbRef symbIdRef="hight"/>
+                        <ct:SymbRef symbIdRef="height"/>
                         <ct:Real>1.63</ct:Real>
                     </ct:AssignStatement>
                 </math:Else>
-            </ConditionalStatement>
+            </math:ConditionalStatement>
             
             
 <!--            V_adrenal    = sc_V_adrenal   * height;-->
             <ct:Variable symbId="V_adrenal">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_adrenal"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_adrenal"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -858,7 +862,7 @@
             <ct:Variable symbId="V_bone">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_bone"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_bone"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -868,7 +872,7 @@
             <ct:Variable symbId="V_brain">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_brain"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_brain"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -878,7 +882,7 @@
             <ct:Variable symbId="V_gut">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_gut"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_gut"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -888,7 +892,7 @@
             <ct:Variable symbId="V_gut_lumen">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_gut_lumen"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_gut_lumen"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -898,7 +902,7 @@
             <ct:Variable symbId="V_heart">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_heart"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_heart"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -908,7 +912,7 @@
             <ct:Variable symbId="V_kidney">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_kidney"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_kidney"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -918,7 +922,7 @@
             <ct:Variable symbId="V_liver">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_liver"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_liver"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -928,7 +932,7 @@
             <ct:Variable symbId="V_lung">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_lung"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_lung"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -938,7 +942,7 @@
             <ct:Variable symbId="V_marrow">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_marrow"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_marrow"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -948,7 +952,7 @@
             <ct:Variable symbId="V_muscle">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_muscle"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_muscle"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -958,7 +962,7 @@
             <ct:Variable symbId="V_other">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_other"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_other"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -968,7 +972,7 @@
             <ct:Variable symbId="V_pancreas">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_pancreas"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_pancreas"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -978,7 +982,7 @@
             <ct:Variable symbId="V_skin">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_skin"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_skin"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -988,7 +992,7 @@
             <ct:Variable symbId="V_spleen">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_spleen"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_spleen"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -998,7 +1002,7 @@
             <ct:Variable symbId="V_stomach">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_stomach"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_stomach"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1008,7 +1012,7 @@
             <ct:Variable symbId="V_stom_lumen">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_stom_lumen"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_stom_lumen"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1018,7 +1022,7 @@
             <ct:Variable symbId="V_thyroid">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_thyroid"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_thyroid"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1036,11 +1040,11 @@
             14 + (Age-15) * 17 / 55.0)))) / density_adip;-->
             
             <ct:Variable symbId="V_adip"/>
-            <ConditionalStatement>
+            <math:ConditionalStatement>
                 <math:If>
                     <math:Condition>                <!-- Age =< 1 -->
                         <math:LogicBinop op="lt">
-                            <ct:SymbRef symbIdRef="Age"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                             <ct:Real>1</ct:Real>
                         </math:LogicBinop>
                     </math:Condition>
@@ -1051,13 +1055,13 @@
                             <ct:Real>0.37</ct:Real>
                             <math:Binop op="divide">
                                 <math:Binop op="times">
-                                    <ct:SymbRef symbIdRef="Age"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                     <math:Binop op="minus">
                                         <ct:Real>2.3</ct:Real>
                                         <ct:Real>0.37</ct:Real>
                                     </math:Binop>
                                 </math:Binop>
-                                <ct:SymbRef symbIdRef="density_adip"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="density_adip"/>
                             </math:Binop>
                         </math:Binop>
                     </ct:AssignStatement>
@@ -1066,11 +1070,11 @@
                     <math:Condition>                <!-- 1 < Age  =< 5 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>1</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>5</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -1085,7 +1089,7 @@
                                 <math:Binop op="divide">
                                     <math:Binop op="times">
                                         <math:Binop op="minus">
-                                            <ct:SymbRef symbIdRef="Age"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                             <ct:Real>1</ct:Real>
                                         </math:Binop>
                                         <math:Binop op="minus">
@@ -1095,7 +1099,7 @@
                                     </math:Binop>
                                     <ct:Real>4.0</ct:Real>
                                 </math:Binop>
-                                <ct:SymbRef symbIdRef="density_adip"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="density_adip"/>
                             </math:Binop>
                         </math:Binop>
                         
@@ -1105,11 +1109,11 @@
                     <math:Condition>                <!-- 5 < Age  =< 10 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>5</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>10</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -1124,7 +1128,7 @@
                                 <math:Binop op="divide">
                                     <math:Binop op="times">
                                         <math:Binop op="minus">
-                                            <ct:SymbRef symbIdRef="Age"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                             <ct:Real>5</ct:Real>
                                         </math:Binop>
                                         <math:Binop op="minus">
@@ -1134,7 +1138,7 @@
                                     </math:Binop>
                                     <ct:Real>5.0</ct:Real>
                                 </math:Binop>
-                                <ct:SymbRef symbIdRef="density_adip"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="density_adip"/>
                             </math:Binop>
                         </math:Binop>
                         
@@ -1144,11 +1148,11 @@
                     <math:Condition>                <!-- 10 < Age  =< 15 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>10</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>15</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -1163,7 +1167,7 @@
                                 <math:Binop op="divide">
                                     <math:Binop op="times">
                                         <math:Binop op="minus">
-                                            <ct:SymbRef symbIdRef="Age"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                             <ct:Real>10</ct:Real>
                                         </math:Binop>
                                         <math:Binop op="minus">
@@ -1173,7 +1177,7 @@
                                     </math:Binop>
                                     <ct:Real>5.0</ct:Real>
                                 </math:Binop>
-                                <ct:SymbRef symbIdRef="density_adip"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="density_adip"/>
                             </math:Binop>
                         </math:Binop>
                         
@@ -1190,19 +1194,19 @@
                                 <math:Binop op="divide">
                                     <math:Binop op="times">
                                         <math:Binop op="minus">
-                                            <ct:SymbRef symbIdRef="Age"/>
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                             <ct:Real>15</ct:Real>
                                         </math:Binop>
                                         <ct:Real>17</ct:Real>
                                     </math:Binop>
                                     <ct:Real>55.0</ct:Real>
                                 </math:Binop>
-                                <ct:SymbRef symbIdRef="density_adip"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="density_adip"/>
                             </math:Binop>
                         </math:Binop>
                     </ct:AssignStatement>
                 </math:Else>
-            </ConditionalStatement>
+            </math:ConditionalStatement>
             
 <!--            V_blood = (Age < 1 ? 0.27 + Age * (0.5-0.27) :
             (Age < 5 ? 0.5 + (Age-1) * (1.4-0.5) / 4.0 :
@@ -1212,11 +1216,11 @@
             3.9)))));-->
             
             <ct:Variable symbId="V_blood"/>
-            <ConditionalStatement>
+            <math:ConditionalStatement>
                 <math:If>
                     <math:Condition>                <!-- Age =< 1 -->
                         <math:LogicBinop op="lt">
-                            <ct:SymbRef symbIdRef="Age"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                             <ct:Real>1</ct:Real>
                         </math:LogicBinop>
                     </math:Condition>
@@ -1226,7 +1230,7 @@
                         <math:Binop op="plus">
                             <ct:Real>0.27</ct:Real>
                             <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <math:Binop op="minus">
                                     <ct:Real>0.5</ct:Real>
                                     <ct:Real>0.27</ct:Real>
@@ -1239,11 +1243,11 @@
                     <math:Condition>                <!-- 1 < Age  =< 5 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>1</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>5</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -1257,7 +1261,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>1</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -1275,11 +1279,11 @@
                     <math:Condition>                <!-- 5 < Age  =< 10 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>5</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>10</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -1293,7 +1297,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>5</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -1311,11 +1315,11 @@
                     <math:Condition>                <!-- 10 < Age  =< 15 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>10</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>15</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -1329,7 +1333,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>10</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -1347,11 +1351,11 @@
                     <math:Condition>                <!-- 15 < Age  =< 20 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>15</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>20</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -1365,7 +1369,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>15</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -1385,14 +1389,14 @@
                         <ct:Real>3.9</ct:Real>
                     </ct:AssignStatement>
                 </math:Else>
-            </ConditionalStatement>
+            </math:ConditionalStatement>
             
 <!--            V_art    = V_blood * Fr_art_blood;   -->
             <ct:Variable symbId="V_art">
                 <ct:Assign>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="V_blood"/>
-                        <ct:SymbRef symbIdRef="Fr_art_blood"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Fr_art_blood"/>
                     </math:Binop>
                 </ct:Assign>
             </ct:Variable>
@@ -1412,11 +1416,11 @@
             (Age < 20 ? 0.25 + (Age-15) * (0.5-0.25) / 5.0 : 
             0.5)));-->
             <ct:Variable symbId="V_breast"/>
-            <ConditionalStatement>
+            <math:ConditionalStatement>
                 <math:If>
                     <math:Condition>                <!-- Age =< 10 -->
                         <math:LogicBinop op="lt">
-                            <ct:SymbRef symbIdRef="Age"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                             <ct:Real>10</ct:Real>
                         </math:LogicBinop>
                     </math:Condition>
@@ -1429,11 +1433,11 @@
                     <math:Condition>                <!-- 10 < Age  =< 15 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>10</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>15</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -1447,7 +1451,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>10</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -1466,11 +1470,11 @@
                     <math:Condition>                <!-- 10 < Age  =< 15 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>10</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>15</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -1484,7 +1488,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>15</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -1505,13 +1509,13 @@
                         <ct:Real>0.5</ct:Real>
                     </ct:AssignStatement>
                 </math:Else>
-            </ConditionalStatement>
+            </math:ConditionalStatement>
             
 <!--            V_uterus = sc_V_uterus * height;-->
             <ct:Variable symbId="V_uterus">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_V_uterus"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_V_uterus"/>
                         <ct:SymbRef symbIdRef="height"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1550,7 +1554,7 @@
                                                                                                 </math:Binop>
                                                                                                 <math:Binop op="times">
                                                                                                     <ct:SymbRef symbIdRef="V_bone"/>
-                                                                                                    <ct:SymbRef symbIdRef="density_bone"/>
+                                                                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="density_bone"/>
                                                                                                 </math:Binop>
                                                                                             </math:Binop>
                                                                                             <ct:SymbRef symbIdRef="V_brain"/>
@@ -1599,7 +1603,7 @@
                         <ct:SymbRef symbIdRef="W_lean"/>
                         <math:Binop op="times">
                             <ct:SymbRef symbIdRef="V_adip"/>
-                            <ct:SymbRef symbIdRef="density_adip"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="density_adip"/>
                         </math:Binop>
                     </math:Binop>
                 </ct:Assign>
@@ -1621,27 +1625,27 @@
             <ct:Variable symbId="Km_liver">
                 <ct:Assign>
                     <math:Binop op="divide">
-                        <ct:SymbRef symbIdRef="scKm_liver"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="scKm_liver"/>
                         <ct:SymbRef symbIdRef="dtmp"/>
                     </math:Binop>
                 </ct:Assign>
             </ct:Variable>
             
 <!--            Km_gut     = scKm_gut / dtmp;-->
-            <ct:Variable symbId="Km_liver">
+            <ct:Variable symbId="Km_gut">
                 <ct:Assign>
                     <math:Binop op="divide">
-                        <ct:SymbRef symbIdRef="scKm_gut"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="scKm_gut"/>
                         <ct:SymbRef symbIdRef="dtmp"/>
                     </math:Binop>
                 </ct:Assign>
             </ct:Variable>
             
 <!--            Km_lung    = scKm_lung / dtmp;-->
-            <ct:Variable symbId="Km_liver">
+            <ct:Variable symbId="Km_lung">
                 <ct:Assign>
                     <math:Binop op="divide">
-                        <ct:SymbRef symbIdRef="scKm_lung"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="scKm_lung"/>
                         <ct:SymbRef symbIdRef="dtmp"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1655,7 +1659,7 @@
             <ct:Variable symbId="F_adip">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_adip"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_adip"/>
                         <ct:SymbRef symbIdRef="V_adip"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1665,7 +1669,7 @@
             <ct:Variable symbId="F_adrenal">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_adrenal"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_adrenal"/>
                         <ct:SymbRef symbIdRef="V_adrenal"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1675,7 +1679,7 @@
             <ct:Variable symbId="F_brain">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_brain"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_brain"/>
                         <ct:SymbRef symbIdRef="V_brain"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1685,7 +1689,7 @@
             <ct:Variable symbId="F_breast">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_breast"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_breast"/>
                         <ct:SymbRef symbIdRef="V_breast"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1695,7 +1699,7 @@
             <ct:Variable symbId="F_eport">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_eport"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_eport"/>
                         <ct:SymbRef symbIdRef="V_liver"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1705,7 +1709,7 @@
             <ct:Variable symbId="F_gut">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_gut"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_gut"/>
                         <ct:SymbRef symbIdRef="V_gut"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1715,7 +1719,7 @@
             <ct:Variable symbId="F_heart">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_heart"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_heart"/>
                         <ct:SymbRef symbIdRef="V_heart"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1725,7 +1729,7 @@
             <ct:Variable symbId="F_kidney">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_kidney"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_kidney"/>
                         <ct:SymbRef symbIdRef="V_kidney"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1735,7 +1739,7 @@
             <ct:Variable symbId="F_marrow">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_marrow"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_marrow"/>
                         <ct:SymbRef symbIdRef="V_marrow"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1745,7 +1749,7 @@
             <ct:Variable symbId="F_muscle">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_muscle"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_muscle"/>
                         <ct:SymbRef symbIdRef="V_muscle"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1755,7 +1759,7 @@
             <ct:Variable symbId="F_other">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_other"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_other"/>
                         <ct:SymbRef symbIdRef="V_other"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1765,7 +1769,7 @@
             <ct:Variable symbId="F_pancreas">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_pancreas"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_pancreas"/>
                         <ct:SymbRef symbIdRef="V_pancreas"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1775,7 +1779,7 @@
             <ct:Variable symbId="F_skin">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_skin"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_skin"/>
                         <ct:SymbRef symbIdRef="V_skin"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1785,7 +1789,7 @@
             <ct:Variable symbId="F_spleen">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_spleen"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_spleen"/>
                         <ct:SymbRef symbIdRef="V_spleen"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1795,7 +1799,7 @@
             <ct:Variable symbId="F_stomach">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_stomach"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_stomach"/>
                         <ct:SymbRef symbIdRef="V_stomach"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1805,7 +1809,7 @@
             <ct:Variable symbId="F_thyroid">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_thyroid"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_thyroid"/>
                         <ct:SymbRef symbIdRef="V_thyroid"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1815,7 +1819,7 @@
             <ct:Variable symbId="F_uterus">
                 <ct:Assign>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="sc_F_uterus"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="sc_F_uterus"/>
                         <ct:SymbRef symbIdRef="V_uterus"/>
                     </math:Binop>
                 </ct:Assign>
@@ -1898,11 +1902,11 @@
             6.7)))));-->
             
             <ct:Variable symbId="F_pul"/>
-            <ConditionalStatement>
+            <math:ConditionalStatement>
                 <math:If>
                     <math:Condition>                <!-- Age =< 1 -->
                         <math:LogicBinop op="lt">
-                            <ct:SymbRef symbIdRef="Age"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                             <ct:Real>1</ct:Real>
                         </math:LogicBinop>
                     </math:Condition>
@@ -1912,7 +1916,7 @@
                         <math:Binop op="plus">
                             <ct:Real>1.5</ct:Real>
                             <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <math:Binop op="minus">
                                     <ct:Real>3.7</ct:Real>
                                     <ct:Real>1.5</ct:Real>
@@ -1925,11 +1929,11 @@
                     <math:Condition>                <!-- 1 < Age  =< 5 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>1</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>5</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -1943,7 +1947,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>1</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -1961,11 +1965,11 @@
                     <math:Condition>                <!-- 5 < Age  =< 10 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>5</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>10</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -1979,7 +1983,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>5</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -1997,11 +2001,11 @@
                     <math:Condition>                <!-- 10 < Age  =< 15 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>10</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>15</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -2015,7 +2019,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>10</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -2033,11 +2037,11 @@
                     <math:Condition>                <!-- 15 < Age  =< 20 -->
                         <math:LogicBinop op="and">
                             <math:LogicBinop op="geq">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>15</ct:Real>
                             </math:LogicBinop>
                             <math:LogicBinop op="lt">
-                                <ct:SymbRef symbIdRef="Age"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                 <ct:Real>20</ct:Real>
                             </math:LogicBinop>
                         </math:LogicBinop>
@@ -2051,7 +2055,7 @@
                             <math:Binop op="divide">
                                 <math:Binop op="times">
                                     <math:Binop op="minus">
-                                        <ct:SymbRef symbIdRef="Age"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Age"/>
                                         <ct:Real>15</ct:Real>
                                     </math:Binop>
                                     <math:Binop op="minus">
@@ -2071,7 +2075,7 @@
                         <ct:Real>6.7</ct:Real>
                     </ct:AssignStatement>
                 </math:Else>
-            </ConditionalStatement>
+            </math:ConditionalStatement>
             
 <!--            # Alveolar flow rate-->
 <!--            F_alv = F_pul * F_dead_space;-->
@@ -2552,7 +2556,7 @@
 <!--            dt(Q_ing) = Q_ing_rate;-->
             <ct:Variable symbId="Q_ing"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
                         <math:Degree>
                             <ct:Assign>
@@ -2567,62 +2571,56 @@
                                 </ct:Assign>
                             </math:Degree>
                         </math:DiffVariable>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_ing"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
-                    <ct:SymbRef symbIdRef="Q_ing_rate"/>
-                </ct:RHS>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Q_ing_rate"/>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_stom_lumen) = Q_ing_rate - 
             (Fl_stom_lumen + Ka_stomach) * C_stom_lumen;-->
             <ct:Variable symbId="Q_stom_lumen"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_stom_lumen"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="minus">
-                        <ct:SymbRef symbIdRef="Q_ing_rate"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Q_ing_rate"/>
                         <math:Binop op="times">
                             <math:Binop op="plus">
-                                <ct:SymbRef symbIdRef="Fl_stom_lumen"/>
-                                <ct:SymbRef symbIdRef="Ka_stomach"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Fl_stom_lumen"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka_stomach"/>
                             </math:Binop>
                             <ct:SymbRef symbIdRef="C_stom_lumen"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_stomach)   = Ka_stomach * C_stom_lumen +
             F_stomach * (C_art - C_stomach_v);-->
             <ct:Variable symbId="Q_stomach"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_stomach"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="plus">
                         <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="Ka_stomach"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka_stomach"/>
                             <ct:SymbRef symbIdRef="C_stom_lumen"/>
                         </math:Binop>
                         <math:Binop op="times">
@@ -2632,109 +2630,101 @@
                                 <ct:SymbRef symbIdRef="C_stomach_v"/>
                             </math:Binop>
                         </math:Binop>
-                    </math:Binop>
-                </ct:RHS>
+                    </math:Binop>                    
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_feces)      = Fl_gut_lumen * C_gut_lumen;-->
             <ct:Variable symbId="Q_feces"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_feces"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="Fl_gut_lumen"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Fl_gut_lumen"/>
                         <ct:SymbRef symbIdRef="C_gut_lumen"/>
-                    </math:Binop>
-                </ct:RHS>
+                    </math:Binop>                    
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_gut_lumen)  = Fl_stom_lumen * C_stom_lumen + Ke_bile * C_liver -
             Ka_gut * C_gut_lumen - dt(Q_feces);-->
             <ct:Variable symbId="Q_gut_lumen"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_gut_lumen"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="plus">
                         <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="Fl_stom_lumen"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Fl_stom_lumen"/>
                             <ct:SymbRef symbIdRef="C_stom_lumen"/>
                         </math:Binop>
                         <math:Binop op="minus">
                             <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="Ke_bile"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Ke_bile"/>
                                 <ct:SymbRef symbIdRef="C_liver"/>
                             </math:Binop>
                             <math:Binop op="plus">
                                 <math:Binop op="times">
-                                    <ct:SymbRef symbIdRef="Ka_gut"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka_gut"/>
                                     <ct:SymbRef symbIdRef="C_gut_lumen"/>
                                 </math:Binop>
                                 <math:Diff>
-                                    <math:ArgumentVariable>
+                                    <math:DiffOpArgument>
                                         <ct:Assign>
                                             <ct:SymbRef symbIdRef="Q_feces"/>
                                         </ct:Assign>
-                                    </math:ArgumentVariable>
+                                    </math:DiffOpArgument>
                                 </math:Diff>
                             </math:Binop>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_met_gut)    = Km_gut * Q_gut;-->
             <ct:Variable symbId="Q_met_gut"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_met_gut"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="Km_gut"/>
                         <ct:SymbRef symbIdRef="Q_gut"/>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_gut)        = Ka_gut * C_gut_lumen +
             F_gut * (C_art - C_gut_v) - dt(Q_met_gut);-->
             <ct:Variable symbId="Q_gut"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_gut"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="plus">
                         <math:Binop op="times">
-                            <ct:SymbRef symbIdRef="Ka_gut"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="Ka_gut"/>
                             <ct:SymbRef symbIdRef="C_gut_lumen"/>
                         </math:Binop>
                         <math:Binop op="minus">
@@ -2746,35 +2736,33 @@
                                 </math:Binop>
                             </math:Binop>
                             <math:Diff>
-                                <math:ArgumentVariable>
+                                <math:DiffOpArgument>
                                     <ct:Assign>
                                         <ct:SymbRef symbIdRef="Q_met_gut"/>
                                     </ct:Assign>
-                                </math:ArgumentVariable>
+                                </math:DiffOpArgument>
                             </math:Diff>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_met_liver)  = Km_liver * Q_liver;-->
             <ct:Variable symbId="Q_met_liver"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_met_liver"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="Km_liver"/>
                         <ct:SymbRef symbIdRef="Q_liver"/>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_liver)   = F_eport    * C_art        + F_spleen * C_spleen_v +
@@ -2783,16 +2771,14 @@
             Ke_bile    * C_liver      - dt(Q_met_liver);-->
             <ct:Variable symbId="Q_liver"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_liver"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="minus">
                         <math:Binop op="minus">
                             <math:Binop op="minus">
@@ -2830,34 +2816,32 @@
                                 </math:Binop>
                             </math:Binop>
                             <math:Binop op="times">
-                                <ct:SymbRef symbIdRef="Ke_bile"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="Ke_bile"/>
                                 <ct:SymbRef symbIdRef="C_liver"/>
                             </math:Binop>
                         </math:Binop>
                         <math:Diff>
-                            <math:ArgumentVariable>
+                            <math:DiffOpArgument>
                                 <ct:Assign>
                                     <ct:SymbRef symbIdRef="Q_met_liver"/>
                                 </ct:Assign>
-                            </math:ArgumentVariable>
+                            </math:DiffOpArgument>
                         </math:Diff>
-                    </math:Binop>                    
-                </ct:RHS>
+                    </math:Binop>
+                </ct:AssignStatement>                
             </ct:DE>
             
 <!--            dt(Q_adip)     = F_adip     * (C_art - C_adip_v);-->
             <ct:Variable symbId="Q_adip"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_adip"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_adip"/>
                         <math:Binop op="minus">
@@ -2865,22 +2849,20 @@
                             <ct:SymbRef symbIdRef="C_adip_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
 
 <!--            dt(Q_adrenal)  = F_adrenal  * (C_art - C_adrenal_v);-->
             <ct:Variable symbId="Q_adrenal"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_adrenal"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_adrenal"/>
                         <math:Binop op="minus">
@@ -2888,22 +2870,20 @@
                             <ct:SymbRef symbIdRef="C_adrenal_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_brain)    = F_brain    * (C_art - C_brain_v);-->
             <ct:Variable symbId="Q_brain"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_brain"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_brain"/>
                         <math:Binop op="minus">
@@ -2911,22 +2891,20 @@
                             <ct:SymbRef symbIdRef="C_brain_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_breast)   = F_breast   * (C_art - C_breast_v);-->
             <ct:Variable symbId="Q_breast"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_breast"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_breast"/>
                         <math:Binop op="minus">
@@ -2934,22 +2912,20 @@
                             <ct:SymbRef symbIdRef="C_breast_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_heart)     = F_heart    * (C_art - C_heart_v);-->
             <ct:Variable symbId="Q_heart"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_heart"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_heart"/>
                         <math:Binop op="minus">
@@ -2957,86 +2933,78 @@
                             <ct:SymbRef symbIdRef="C_heart_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
                         
 <!--            dt(Q_inh)       = F_alv      * C_inh;-->
             <ct:Variable symbId="Q_inh"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_inh"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_alv"/>
-                        <ct:SymbRef symbIdRef="C_inh"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="C_inh"/>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_exhaled)   = F_alv      * (C_lung / PC_lung_over_air);-->
             <ct:Variable symbId="Q_exhaled"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_exhaled"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_alv"/>
                         <math:Binop op="divide">
                             <ct:SymbRef symbIdRef="C_lung"/>
-                            <ct:SymbRef symbIdRef="PC_lung_over_air"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="PC_lung_over_air"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_met_lung)  = Km_lung    *  Q_lung;-->
             <ct:Variable symbId="Q_met_lung"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_met_lung"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="Km_lung"/>
                         <ct:SymbRef symbIdRef="Q_lung"/>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_lung)      = F_blood    * (C_ven - C_lung_v) + dt(Q_inh) -
             dt(Q_exhaled) - dt(Q_met_lung);-->
             <ct:Variable symbId="Q_lung"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_lung"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="plus">
                         <math:Binop op="times">
                             <ct:SymbRef symbIdRef="F_blood"/>
@@ -3047,66 +3015,62 @@
                         </math:Binop>
                         <math:Binop op="minus">
                             <math:Diff>
-                                <math:ArgumentVariable>
+                                <math:DiffOpArgument>
                                     <ct:Assign>
                                         <ct:SymbRef symbIdRef="Q_inh"/>
                                     </ct:Assign>
-                                </math:ArgumentVariable>
+                                </math:DiffOpArgument>
                             </math:Diff>
                             <math:Binop op="plus">
                                 <math:Diff>
-                                    <math:ArgumentVariable>
+                                    <math:DiffOpArgument>
                                         <ct:Assign>
                                             <ct:SymbRef symbIdRef="Q_exhaled"/>
                                         </ct:Assign>
-                                    </math:ArgumentVariable>
+                                    </math:DiffOpArgument>
                                 </math:Diff>
                                 <math:Diff>
-                                    <math:ArgumentVariable>
+                                    <math:DiffOpArgument>
                                         <ct:Assign>
                                             <ct:SymbRef symbIdRef="Q_met_lung"/>
                                         </ct:Assign>
-                                    </math:ArgumentVariable>
+                                    </math:DiffOpArgument>
                                 </math:Diff>
                             </math:Binop>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_urine)     = Ke_renal   * C_kidney;-->
             <ct:Variable symbId="Q_urine"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_urine"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
-                        <ct:SymbRef symbIdRef="Ke_renal"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Ke_renal"/>
                         <ct:SymbRef symbIdRef="C_kidney"/>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_kidney)   = F_kidney   * (C_art - C_kidney_v) - dt(Q_urine);-->
             <ct:Variable symbId="Q_kidney"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_kidney"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="minus">
                         <math:Binop op="times">
                             <ct:SymbRef symbIdRef="F_kidney"/>
@@ -3116,29 +3080,27 @@
                             </math:Binop>
                         </math:Binop>
                         <math:Diff>
-                            <math:ArgumentVariable>
+                            <math:DiffOpArgument>
                                 <ct:Assign>
                                     <ct:SymbRef symbIdRef="Q_urine"/>
                                 </ct:Assign>
-                            </math:ArgumentVariable>
+                            </math:DiffOpArgument>
                         </math:Diff>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE> 
             
 <!--            dt(Q_marrow)   = F_marrow   * (C_art - C_marrow_v);-->
             <ct:Variable symbId="Q_marrow"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_marrow"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_marrow"/>
                         <math:Binop op="minus">
@@ -3146,22 +3108,20 @@
                             <ct:SymbRef symbIdRef="C_marrow_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>             
             
 <!--            dt(Q_muscle)   = F_muscle   * (C_art - C_muscle_v);-->
             <ct:Variable symbId="Q_muscle"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_muscle"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_muscle"/>
                         <math:Binop op="minus">
@@ -3169,22 +3129,20 @@
                             <ct:SymbRef symbIdRef="C_muscle_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>  
             
 <!--            dt(Q_other)    = F_other    * (C_art - C_other_v);-->
             <ct:Variable symbId="Q_other"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_other"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_other"/>
                         <math:Binop op="minus">
@@ -3192,22 +3150,20 @@
                             <ct:SymbRef symbIdRef="C_other_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>            
             
 <!--            dt(Q_pancreas) = F_pancreas * (C_art - C_pancreas_v);-->
             <ct:Variable symbId="Q_pancreas"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_pancreas"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_pancreas"/>
                         <math:Binop op="minus">
@@ -3215,23 +3171,21 @@
                             <ct:SymbRef symbIdRef="C_pancreas_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 
 <!--            dt(Q_skin)     = F_skin     * (C_art - C_skin_v);-->
             <ct:Variable symbId="Q_skin"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_skin"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_skin"/>
                         <math:Binop op="minus">
@@ -3239,22 +3193,20 @@
                             <ct:SymbRef symbIdRef="C_skin_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_spleen)   = F_spleen   * (C_art - C_spleen_v);-->
             <ct:Variable symbId="Q_spleen"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_spleen"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_spleen"/>
                         <math:Binop op="minus">
@@ -3262,22 +3214,20 @@
                             <ct:SymbRef symbIdRef="C_spleen_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_thyroid)  = F_thyroid  * (C_art - C_thyroid_v);-->
             <ct:Variable symbId="Q_thyroid"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_thyroid"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_thyroid"/>
                         <math:Binop op="minus">
@@ -3285,22 +3235,20 @@
                             <ct:SymbRef symbIdRef="C_thyroid_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_art)      = F_blood * (C_lung_v - C_art);-->
             <ct:Variable symbId="Q_art"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_art"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_blood"/>
                         <math:Binop op="minus">
@@ -3308,7 +3256,7 @@
                             <ct:SymbRef symbIdRef="C_art"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_ven)      = C_skin_v    * F_skin    + C_heart_v   * F_heart +
@@ -3318,18 +3266,16 @@
             C_muscle_v  * F_muscle  + C_brain_v   * F_brain +
             C_thyroid_v * F_thyroid + C_uterus_v  * F_uterus +
             C_kidney_v  * F_kidney  - F_blood * C_ven; -->
-            <ct:Variable symbId="dtQ_ven"/>
+            <ct:Variable symbId="Q_ven"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
-                                <ct:SymbRef symbIdRef="dtQ_ven"/>
+                                <ct:SymbRef symbIdRef="Q_ven"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="minus">
                         <math:Binop op="plus">
                             <math:Binop op="plus">
@@ -3412,22 +3358,20 @@
                             <ct:SymbRef symbIdRef="C_ven"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            dt(Q_uterus)  = F_uterus   * (C_art - C_uterus_v);-->
             <ct:Variable symbId="Q_uterus"/>
             <ct:DE>
-                <ct:LHS>
+                <ct:AssignStatement op="eq">
                     <math:Diff>
-                        <math:ArgumentVariable>
+                        <math:DiffOpArgument>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="Q_uterus"/>
                             </ct:Assign>
-                        </math:ArgumentVariable>
+                        </math:DiffOpArgument>
                     </math:Diff>
-                </ct:LHS>
-                <ct:RHS>
                     <math:Binop op="times">
                         <ct:SymbRef symbIdRef="F_uterus"/>
                         <math:Binop op="minus">
@@ -3435,7 +3379,7 @@
                             <ct:SymbRef symbIdRef="C_uterus_v"/>
                         </math:Binop>
                     </math:Binop>
-                </ct:RHS>
+                </ct:AssignStatement>
             </ct:DE>
             
 <!--            # Mass balance check-->
@@ -3549,7 +3493,7 @@
                         </math:Binop>
                         <math:Binop op="times">
                             <ct:Real>0.3</ct:Real>
-                            <ct:SymbRef symbIdRef="C_inh"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="C_inh"/>
                         </math:Binop>
                     </math:Binop>
                 </ct:Assign>

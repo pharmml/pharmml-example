@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.9" id="i1">
+    
+    <ct:Name>Capillary-Tissue Exchange</ct:Name>
+    
+    <ct:Description>Capillary-Tissue Exchange Model - James B Bassingthwaighte et al.</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    <IndependentVariable symbId="x"/>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+        
+        <ParameterModel blkId="pm1">
+            <PopulationParameter symbId="ccccc"/>
+        </ParameterModel>
+
+        <!-- STRUCTURE -->
+        <StructuralModel blkId="sm1">
+            
+            <ct:Variable symbId="C_p"/>
+            <ct:Variable symbId="C_isf"/>
+            <ct:DE type="pde">
+                <ct:AssignStatement op="eq">
+                    <math:PartialDiff>
+                        <math:DiffVariable>
+                            <ct:SymbRef symbIdRef="t"/>
+                        </math:DiffVariable>
+                        <math:DiffOpArgument>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="C_p"/>
+                            </ct:Assign>
+                        </math:DiffOpArgument>
+                    </math:PartialDiff>
+                    <math:Binop op="plus">
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+                                <math:Binop op="times">
+                                    <ct:SymbRef symbIdRef="F_pl"/>
+                                    <ct:SymbRef symbIdRef="L"/>
+                                </math:Binop>
+                                <ct:SymbRef symbIdRef="V_pl"/>
+                            </math:Binop>
+                            <math:PartialDiff>
+                                <math:DiffVariable>
+                                    <ct:SymbRef symbIdRef="x"/>
+                                </math:DiffVariable>
+                                <math:DiffOpArgument>
+                                    <ct:Assign>
+                                        <ct:SymbRef symbIdRef="C_pl"/>
+                                    </ct:Assign>
+                                </math:DiffOpArgument>
+                            </math:PartialDiff>
+                        </math:Binop>
+                        <math:Binop op="plus">
+                            <math:Binop op="times">
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="PS_g"/>
+                                    <ct:SymbRef symbIdRef="V_pl"/>
+                                </math:Binop>
+                                <math:Binop op="minus">
+                                    <ct:SymbRef symbIdRef="C_pl"/>
+                                    <ct:SymbRef symbIdRef="C_isf"/>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="D_x1"/>
+                                <math:PartialDiff>
+                                    <math:Degree>
+                                        <ct:Assign>
+                                            <ct:Int>2</ct:Int>
+                                        </ct:Assign>
+                                    </math:Degree>
+                                    <math:DiffVariable>
+                                        <ct:SymbRef symbIdRef="x"/>
+                                    </math:DiffVariable>
+                                    <math:DiffOpArgument>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="C_p"/>
+                                        </ct:Assign>
+                                    </math:DiffOpArgument>
+                                </math:PartialDiff>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:AssignStatement>
+                
+                <!-- 2nd PDE forC_isf is skipped for brevity -->
+                
+                <!-- BC (x=x.min): (-F_p*L/V_p)(C_p – C_{in}) + D_p \partial C_p/\partial x = 0  -->                
+                <ct:BoundaryCondition>
+                    <ct:ConditionVariable>
+                        <ct:SymbRef symbIdRef="x"/>
+                    </ct:ConditionVariable>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="xmin"/>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:AssignStatement op="eq">
+                        <math:Binop op="plus">
+                            <math:Binop op="times">
+                                <math:Binop op="times">
+                                    <math:Uniop op="minus">
+                                        <ct:SymbRef symbIdRef="F_p"/>
+                                    </math:Uniop>
+                                    <math:Binop op="divide">
+                                        <ct:SymbRef symbIdRef="L"/>
+                                        <ct:SymbRef symbIdRef="V_p"/>
+                                    </math:Binop>
+                                </math:Binop>
+                                <math:Binop op="minus">
+                                    <ct:SymbRef symbIdRef="C_p"/>
+                                    <ct:SymbRef symbIdRef="C_in"/>
+                                </math:Binop>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="D_p"/>
+                                <math:PartialDiff>
+                                    <math:DiffVariable>
+                                        <ct:SymbRef symbIdRef="x"/>
+                                    </math:DiffVariable>
+                                    <math:DiffOpArgument>
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="C_p"/>
+                                        </ct:Assign>
+                                    </math:DiffOpArgument>
+                                </math:PartialDiff>
+                            </math:Binop>
+                        </math:Binop>
+                        <ct:Real>0</ct:Real>
+                    </ct:AssignStatement>
+                </ct:BoundaryCondition>
+                
+                <!-- BC (x=x.max): \frac{\partial C_p}{\partial x} = 0 -->                
+                <ct:BoundaryCondition>
+                    <ct:ConditionVariable>
+                        <ct:SymbRef symbIdRef="x"/>
+                    </ct:ConditionVariable>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="xmax"/>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:AssignStatement op="eq">
+                        <math:PartialDiff>
+                            <math:DiffVariable>
+                                <ct:SymbRef symbIdRef="x"/>
+                            </math:DiffVariable>
+                            <math:DiffOpArgument>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="C_p"/>
+                                </ct:Assign>
+                            </math:DiffOpArgument>
+                        </math:PartialDiff>
+                        <ct:Real>0</ct:Real>
+                    </ct:AssignStatement>
+                </ct:BoundaryCondition>
+                
+                <!-- BC (x=x.max): C_{out} = C_p -->
+                <ct:BoundaryCondition>
+                    <ct:ConditionVariable>
+                        <ct:SymbRef symbIdRef="x"/>
+                    </ct:ConditionVariable>
+                    <ct:BoundaryValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="xmax"/>
+                        </ct:Assign>
+                    </ct:BoundaryValue>
+                    <ct:AssignStatement op="eq">
+                        <ct:SymbRef symbIdRef="C_out"/>
+                        <ct:SymbRef symbIdRef="C_p"/>
+                    </ct:AssignStatement>
+                </ct:BoundaryCondition>
+            </ct:DE>
+            
+        </StructuralModel>
+        
+    </ModelDefinition>
+    
+</PharmML>
+
+
+
+

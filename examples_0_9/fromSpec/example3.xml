@@ -416,7 +416,7 @@
         </Observations>
         
         <Covariates>
-            <IndividualCovariates>
+            <IndividualCovariates oid="indivCov">
                 <ct:VariabilityReference>
                     <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
                 </ct:VariabilityReference>

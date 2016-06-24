@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" 
+    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
+    implementedBy="MJS" writtenVersion="0.6" id="i1">
+
+    <!-- MODEL NAME -->
+    <ct:Name>ndist=1,depot=true,par=v_k</ct:Name>
+    
+    <ct:Description>CONC=PK(ndist=1, depot=true, par=v_k) - model with PK macros</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- BLOCK I: MODEL DEFINITION -->
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+        
+         <ParameterModel blkId="pm1">
+            <SimpleParameter symbId="V"/>
+            <SimpleParameter symbId="KA"/>
+            <SimpleParameter symbId="k"> <!-- K*(1-FO) -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <ct:SymbRef symbIdRef="K"/>
+                            <math:Binop op="minus">
+                                <ct:Real>1</ct:Real>
+                                <ct:SymbRef symbIdRef="FO"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </SimpleParameter>
+            <SimpleParameter symbId="ALAG1"/>
+            <SimpleParameter symbId="S2"/>
+             <SimpleParameter symbId="FO"/>
+             <SimpleParameter symbId="F1"/>
+             <SimpleParameter symbId="kt"> <!-- K*FO -->
+                 <ct:Assign>
+                     <math:Equation>
+                         <math:Binop op="times">
+                             <ct:SymbRef symbIdRef="K"/>
+                             <ct:SymbRef symbIdRef="FO"/>
+                         </math:Binop>
+                     </math:Equation>
+                 </ct:Assign>
+             </SimpleParameter>
+        </ParameterModel>
+        
+        <!-- MDL uses defaults
+            rule1. use cmt=1 if no CMT in MDL defined
+            
+            MDL library:
+            ============
+            # PK library parameters = V,K,KA,S1,S2,ALAG1,ALAG2,F1,F2,FO,D1,D2
+            F=PK(ndist=1, depot=true, par=v_k)
+            
+            not supported by macros: R1, R2
+            
+            PK macros:
+            ===========
+            
+            MDL     PharmML     macro
+            V       volume=V    'compartment'
+            K       k           only in 'elimination'
+            KA      ka          only in 'absorption/oral'
+            S1      -           
+            S2      -           
+            F1      p           only in 'absorption/oral'
+            F2      p           only in 'absorption/oral'
+            ALAG1   Tlag        only in 'absorption/oral'
+            ALAG2   Tlag        only in 'absorption/oral'
+            -       Ktr/Mtt     -
+            
+            
+            Explicit - full model for ADVAN2 equivalent:
+            compartment(cmt=1, amount=Ac, volume=V)
+            compartment(cmt=2, amount=Au)
+            transfer(from=1, to=2, kt=k*FO)
+            oral(adm=1, cmt=1, ka, p=F1, Tlag=Tlag1, Tk0=D1)    1-st order absorption
+            oral(adm=3, cmt=1, p=F2, Tk0=D2, Tlag=Tlag2)        0 order absorption
+            iv(adm=2, cmt=1, p=F2,Tlag=Tlag2)                   bolus 
+            elimination(cmt=1, k=K*(1-FO))
+            
+            alternative short version:
+            compartment(cmt=1, amount=Ac, volume=V)
+            oral(adm=1, cmt=1, ka, p, Tlag)
+            elimination(cmt=1, k=K*(1-FO))
+
+            Rule to interpret:
+                  [CONC,A]=PK(ndist=1, depot=true, par=v_k)
+            - how many A's are to be expected
+            case1: ndist=1 & depot=true -> number of compartment = 3 (depot, central, output)
+            case2: ndist=1 -> number of compartment = 2 (central, output)
+            
+            OUTPUT COMPARTMENT -> Au
+                  
+            case1: Assign names for amounts:            
+            A(1) -> A1
+            A(2) -> A2
+            A(3) -> A3
+            
+            ODE:
+            1: dAd/dt= - ka*Ad
+            2: dAc/dt= - k*FO*Ac + ka*Ad - k*(1-FO)*Ac
+            3: dAu/dt= + k*FO*Ac
+            
+            Cc = Ac/S2
+        -->
+        
+        <StructuralModel blkId="sm2">
+            <ct:Variable symbolType="real" symbId="Au"/>
+            <ct:Variable symbolType="real" symbId="Ac"/>
+            <ct:Variable symbolType="real" symbId="Cc"> <!-- Cc = Ac/S2 -->
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="Ac"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="S2"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <!-- AMTU=A3-->
+            <ct:Variable symbolType="real" symbId="AMTU">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:SymbRef symbIdRef="A3"/>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <PKmacros>
+                <!-- compartment(cmt=1, amount=Ac, volume=V) -->
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Ac"/>
+                    </Value>
+                    <Value argument="volume">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    </Value>
+                </Compartment>
+                
+                <!-- compartment(cmt=2, amount=Au) -->
+                <Compartment>
+                    <Value argument="cmt">
+                        <ct:Int>2</ct:Int>
+                    </Value>
+                    <Value argument="amount">
+                        <ct:SymbRef symbIdRef="Au"/>
+                    </Value>
+                </Compartment>
+                
+                <!-- transfer(from=1, to=2, kt=K*FO) -->
+                <Transfer>
+                    <Value argument="from">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="to">
+                        <ct:Int>2</ct:Int>
+                    </Value>
+                    <Value argument="kt">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="kt"/>
+                    </Value>
+                </Transfer>
+                
+                <!-- oral(adm=1, cmt=1, ka, p, Tlag) -->
+                <Oral>
+                    <Value argument="adm">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="p">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="F1"/>
+                    </Value>
+                    <Value argument="Tlag">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ALAG1"/>
+                    </Value>
+                    <Value argument="ka">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="KA"/>
+                    </Value>
+                </Oral>
+                
+                <!-- elimination(cmt=1, k=K*(1-FO)) -->
+                <Elimination>
+                    <Value argument="cmt">
+                        <ct:Int>1</ct:Int>
+                    </Value>
+                    <Value argument="k">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                    </Value>
+                </Elimination>
+            </PKmacros>
+            
+        </StructuralModel>
+        
+    </ModelDefinition>
+</PharmML>
