@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"    
+    writtenVersion="0.8.1"> 
+    
+    <ct:Name>Residual error models - basic types</ct:Name>
+    <ct:Description>based on document on 'Observation models'</ct:Description>
+
+
+    <IndependentVariable symbId="time"/>
+
+    <!-- type 1 - ADDITIVE MODEL -->
+    <ct:FunctionDefinition symbId="additiveErrorModel" symbolType="real">
+        <ct:FunctionArgument symbId="a" symbolType="real"/>
+        <ct:Definition>
+            <ct:Assign>
+                <ct:SymbRef symbIdRef="a"/>
+            </ct:Assign>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    
+    <!-- type 2 - PROPORTIONAL MODEL -->
+    <ct:FunctionDefinition symbId="proportionalErrorModel" symbolType="real">
+        <ct:FunctionArgument symbId="b" symbolType="real"/>
+        <ct:FunctionArgument symbId="f" symbolType="real"/>
+        <ct:Definition>
+            <ct:Assign>
+                <math:Binop op="times">
+                    <ct:SymbRef symbIdRef="b"/>
+                    <ct:SymbRef symbIdRef="f"/>
+                </math:Binop>
+            </ct:Assign>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    
+    <!-- type 3 - COMBINED ADDITIVE and PROPORTIONAL MODEL 1 -->
+    <ct:FunctionDefinition symbId="combinedAdditiveProportionalModel1" symbolType="real">
+        <ct:FunctionArgument symbId="a" symbolType="real"/>
+        <ct:FunctionArgument symbId="b" symbolType="real"/>
+        <ct:FunctionArgument symbId="f" symbolType="real"/>
+        <ct:Definition>
+            <ct:Assign>
+                <math:Binop op="plus">
+                    <ct:SymbRef symbIdRef="a"/>
+                    <math:Binop op="times">
+                        <ct:SymbRef symbIdRef="b"/>
+                        <ct:SymbRef symbIdRef="f"/>
+                    </math:Binop>                   
+                </math:Binop>
+            </ct:Assign>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    
+    <!-- type 4 - COMBINED ADDITIVE and PROPORTIONAL MODEL 2-->
+    <ct:FunctionDefinition symbId="combinedAdditiveProportionalModel2" symbolType="real">
+        <ct:FunctionArgument symbId="a" symbolType="real"/>
+        <ct:FunctionArgument symbId="b" symbolType="real"/>
+        <ct:FunctionArgument symbId="f" symbolType="real"/>
+        <ct:Definition>
+            <ct:Assign>
+                <math:Binop op="root">
+                    <ct:Real>2</ct:Real>
+                    <math:Binop op="plus">
+                        <math:Binop op="power">
+                            <ct:SymbRef symbIdRef="a"/>
+                            <ct:Real>2</ct:Real>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <math:Binop op="power">
+                                <ct:SymbRef symbIdRef="b"/>
+                                <ct:Real>2</ct:Real>
+                            </math:Binop>
+                            <math:Binop op="power">
+                                <ct:SymbRef symbIdRef="f"/>
+                                <ct:Real>2</ct:Real>
+                            </math:Binop>                            
+                        </math:Binop>
+                    </math:Binop>
+                </math:Binop>
+            </ct:Assign>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    
+    <!-- type 5 - POWER MODEL -->
+    <ct:FunctionDefinition symbId="powerModel" symbolType="real">
+        <ct:FunctionArgument symbId="b" symbolType="real"/>
+        <ct:FunctionArgument symbId="c" symbolType="real"/>
+        <ct:FunctionArgument symbId="f" symbolType="real"/>
+        <ct:Definition>
+            <ct:Assign>
+                <math:Binop op="times">
+                    <ct:SymbRef symbIdRef="b"/>
+                    <math:Binop op="power">
+                        <ct:SymbRef symbIdRef="f"/>
+                        <ct:SymbRef symbIdRef="c"/>
+                    </math:Binop>
+                </math:Binop>
+            </ct:Assign>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    
+    <!-- type 6 - COMBINED ADDITIVE and POWER MODEL 1 -->
+    <ct:FunctionDefinition symbId="combinedAdditivePowerModel1" symbolType="real">
+        <ct:FunctionArgument symbId="a" symbolType="real"/>
+        <ct:FunctionArgument symbId="b" symbolType="real"/>
+        <ct:FunctionArgument symbId="c" symbolType="real"/>
+        <ct:FunctionArgument symbId="f" symbolType="real"/>
+        <ct:Definition>
+            <ct:Assign>
+                <math:Binop op="plus">
+                    <ct:SymbRef symbIdRef="a"/>
+                    <math:Binop op="times">
+                        <ct:SymbRef symbIdRef="b"/>
+                        <math:Binop op="power">
+                            <ct:SymbRef symbIdRef="f"/>
+                            <ct:SymbRef symbIdRef="c"/>
+                        </math:Binop>
+                    </math:Binop>
+                </math:Binop>
+            </ct:Assign>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    
+    <!-- type 7 - COMBINED ADDITIVE and POWER MODEL 2 -->
+    <!-- VERSION 1 with one epsilon-->
+    <ct:FunctionDefinition symbId="combinedAdditivePowerModel2" symbolType="real">
+        <ct:FunctionArgument symbId="a" symbolType="real"/>
+        <ct:FunctionArgument symbId="b" symbolType="real"/>
+        <ct:FunctionArgument symbId="c" symbolType="real"/>
+        <ct:FunctionArgument symbId="f" symbolType="real"/>
+        <ct:Definition>
+            <ct:Assign>
+                <math:Binop op="root">
+                    <math:Binop op="plus">
+                        <math:Binop op="power">
+                            <ct:SymbRef symbIdRef="a"/>
+                            <ct:Int>2</ct:Int>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <math:Binop op="power">
+                                <ct:SymbRef symbIdRef="b"/>
+                                <ct:Real>2</ct:Real>
+                            </math:Binop>
+                            <math:Binop op="power">
+                                <ct:SymbRef symbIdRef="f"/>
+                                <math:Binop op="times">
+                                    <ct:Int>2</ct:Int>
+                                    <ct:SymbRef symbIdRef="c"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
+                    <math:Binop op="divide">
+                        <ct:Real>1</ct:Real>
+                        <ct:Real>2</ct:Real>
+                    </math:Binop>
+                </math:Binop>
+            </ct:Assign>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    <!-- VERSION 2: SEE OBSERVATION MODEL -->
+    
+    <!-- type 8 - type 10 - DEFINED in THE OBSERVATION MODEL -->
+
+    <!-- MODEL DEFINITION -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+        
+        <!-- VARIABILITY MODEL -->
+           <VariabilityModel blkId="vm1" type="parameterVariability">
+            <Level symbId="indiv"/>
+        </VariabilityModel>
+        
+        <VariabilityModel blkId="vm2" type="residualError">
+            <Level symbId="residual"/>
+        </VariabilityModel>
+        
+        
+        <!-- COVARIATE MODEL -->
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="W">
+                <Continuous>
+                    <Transformation>
+                        <TransformedCovariate symbId="W70"/>
+                        <ct:Assign>
+                            <math:Binop op="divide">
+                                <ct:SymbRef symbIdRef="W"/>
+                                <ct:Real>70</ct:Real>
+                            </math:Binop>
+                        </ct:Assign>
+                    </Transformation>
+                </Continuous>
+            </Covariate>
+        </CovariateModel>
+        
+        
+        <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm1">
+            <PopulationParameter symbId="omega_V"/>
+            <PopulationParameter symbId="omega_V2"/>
+            <PopulationParameter symbId="omega_k"/>
+            <PopulationParameter symbId="omega_k2"/>
+            <PopulationParameter symbId="pop_V"/>
+            <PopulationParameter symbId="beta_V"/>
+            <PopulationParameter symbId="beta_V2"/>
+            <PopulationParameter symbId="pop_V2"/>
+            <PopulationParameter symbId="pop_k"/>
+            <PopulationParameter symbId="pop_k2"/>
+            <!-- V -->
+            <RandomVariable symbId="eta_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="omega_V"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                    </po:ProbOnto>
+                </Distribution>
+            </RandomVariable>
+            <IndividualParameter symbId="V">
+                <StructuredModel>
+                    <Transformation type="log"/>
+                    <LinearCovariate>
+                        <PopulationValue>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_V"/>
+                            </ct:Assign>
+                        </PopulationValue>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="W70"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_V"/>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_V"/>
+                    </RandomEffects>
+                </StructuredModel>
+            </IndividualParameter>
+            <!-- V2 -->
+            <RandomVariable symbId="eta_V2">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>                
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="omega_V2"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                    </po:ProbOnto>
+                </Distribution>
+            </RandomVariable>
+            <IndividualParameter symbId="V2">
+                <StructuredModel>
+                    <Transformation type="log"/>
+                    <LinearCovariate>
+                        <PopulationValue>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pop_V2"/>
+                            </ct:Assign>
+                        </PopulationValue>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="W70"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_V2"/>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_V2"/>
+                    </RandomEffects>
+                </StructuredModel>
+            </IndividualParameter>
+            <!-- k -->
+            <RandomVariable symbId="eta_k">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>                
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="omega_k"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                    </po:ProbOnto>
+                </Distribution>
+            </RandomVariable>
+            <IndividualParameter symbId="k">
+                <StructuredModel>
+                    <Transformation type="log"/>
+                    <PopulationValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="pop_k"/>
+                        </ct:Assign>
+                    </PopulationValue>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_k"/>
+                    </RandomEffects>
+                </StructuredModel>
+            </IndividualParameter>
+            <!-- k2 -->
+            <RandomVariable symbId="eta_k2">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>                
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="omega_k2"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                    </po:ProbOnto>
+                </Distribution>
+            </RandomVariable>
+            <IndividualParameter symbId="k2">
+                <StructuredModel>
+                    <Transformation type="log"/>
+                    <PopulationValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="pop_k2"/>
+                        </ct:Assign>
+                    </PopulationValue>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_k2"/>
+                    </RandomEffects>
+                </StructuredModel>
+            </IndividualParameter>
+        </ParameterModel>
+        
+        
+        <!-- STRUCTURAL MODEL -->
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="tD"/>
+            <ct:Variable symbolType="real" symbId="tD2"/>
+            <ct:Variable symbolType="real" symbId="D"/>
+
+            <!-- C1model variable -->
+            <ct:Variable symbolType="real" symbId="C1model">
+                <ct:Assign>
+                    <math:Binop op="times">
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="D"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
+                        <math:Uniop op="exp">
+                            <math:Binop op="times">
+                                <math:Uniop op="minus">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                                </math:Uniop>
+                                <math:Binop op="minus">
+                                    <ct:SymbRef symbIdRef="time"/>
+                                    <ct:SymbRef symbIdRef="tD"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Uniop>
+                    </math:Binop>
+                </ct:Assign>
+            </ct:Variable>
+
+            <!-- C2model variable -->
+            <ct:Variable symbolType="real" symbId="C2model">
+                <ct:Assign>
+                    <math:Binop op="times">
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="D"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V2"/>
+                        </math:Binop>
+                        <math:Uniop op="exp">
+                            <math:Binop op="times">
+                                <math:Uniop op="minus">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k2"/>
+                                </math:Uniop>
+                                <math:Binop op="minus">
+                                    <ct:SymbRef symbIdRef="time"/>
+                                    <ct:SymbRef symbIdRef="tD2"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Uniop>
+                    </math:Binop>
+                </ct:Assign>
+            </ct:Variable>
+        </StructuralModel>
+        
+        
+        <!-- OBSERVATION MODELS -->
+        
+        <!-- type 1 - ADDITIVE MODEL -->
+        <ObservationModel blkId="om1">
+            <ContinuousData>
+                <PopulationParameter symbId="a"/>
+                <!-- with type 1 - ADDITIVE MODEL -->
+                <RandomVariable symbId="eps">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+                <Standard symbId="C1">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="additiveErrorModel"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+        
+        <!-- type 2 - PROPORTIONAL MODEL -->
+        <ObservationModel blkId="om2">
+            <ContinuousData>
+                <PopulationParameter symbId="b"/>
+                <RandomVariable symbId="eps">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+                <Standard symbId="C1">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="proportionalErrorModel"/>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+        
+        <!-- ALTERNATIVE IMPLEMENTATION without FctDef -->
+        <ObservationModel blkId="om1.1">
+            <ContinuousData>
+                <PopulationParameter symbId="sigma"/>
+                <RandomVariable symbId="eps">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="sigma"/>
+                                </ct:Assign>
+                            </po:Parameter>
+                        </po:ProbOnto>
+                    </Distribution>
+                </RandomVariable>
+                <General symbId="C">
+                    <ct:Assign>
+                        <math:Binop op="times">
+                            <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                            <math:Binop op="plus">
+                                <ct:Real>1</ct:Real>
+                                <ct:SymbRef symbIdRef="eps"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </ct:Assign>
+                </General>
+            </ContinuousData>
+        </ObservationModel>
+        
+        <!-- type 3 - COMBINED ADDITIVE and PROPORTIONAL MODEL 1 -->
+        <ObservationModel blkId="om3">
+            <ContinuousData>
+                <PopulationParameter symbId="a"/>
+                <PopulationParameter symbId="b"/>
+                <RandomVariable symbId="eps">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+                <Standard symbId="C1">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="combinedAdditiveProportionalModel1"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+        
+        <!-- type 4 - COMBINED ADDITIVE and PROPORTIONAL MODEL 2 -->
+        <ObservationModel blkId="om4">
+            <ContinuousData>
+                <PopulationParameter symbId="a"/>
+                <PopulationParameter symbId="b"/>
+                <RandomVariable symbId="eps">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+                <Standard symbId="C1">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="combinedAdditiveProportionalModel2"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+        
+        <!-- type 5 - POWER MODEL -->
+        <ObservationModel blkId="om5">
+            <ContinuousData>
+                <RandomVariable symbId="eps">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+                <Standard symbId="C1">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="powerModel"/>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="c">
+                                    <ct:SymbRef symbIdRef="c"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps"></ct:SymbRef>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>        
+        
+        <!-- type 6 - COMBINED ADDITIVE and POWER MODEL 1 -->
+        <ObservationModel blkId="om6">
+            <ContinuousData>
+                <PopulationParameter symbId="a"/>
+                <PopulationParameter symbId="b"/>
+                <PopulationParameter symbId="c"/>
+                <RandomVariable symbId="eps">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+                <Standard symbId="C1">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="combinedAdditivePowerModel1"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="c">
+                                    <ct:SymbRef symbIdRef="c"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps"></ct:SymbRef>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+        
+        <!-- type 7 - COMBINED ADDITIVE and POWER MODEL 2 -->
+        <!-- VERSION 1 with one epsilon-->
+        <ObservationModel blkId="om7A">
+            <ContinuousData>
+                <PopulationParameter symbId="a"/>
+                <PopulationParameter symbId="b"/>
+                <PopulationParameter symbId="c"/>
+                <RandomVariable symbId="eps">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+                <Standard symbId="C1">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:FunctionCall>
+                                <ct:SymbRef symbIdRef="combinedAdditivePowerModel2"/>
+                                <math:FunctionArgument symbId="a">
+                                    <ct:SymbRef symbIdRef="a"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="b">
+                                    <ct:SymbRef symbIdRef="b"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="c">
+                                    <ct:SymbRef symbIdRef="c"/>
+                                </math:FunctionArgument>
+                                <math:FunctionArgument symbId="f">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                                </math:FunctionArgument>
+                            </math:FunctionCall>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel> 
+
+        <!-- VERSION 2 with two epsilons-->
+        <ObservationModel blkId="om7B">
+            <ContinuousData>
+                <PopulationParameter symbId="a"/>
+                <PopulationParameter symbId="b"/>
+                <PopulationParameter symbId="c"/>
+                <RandomVariable symbId="eps1">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+                <RandomVariable symbId="eps2">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+                <General symbId="C1">
+                    <ct:Assign>
+                        <math:Binop op="plus">
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="a"/>
+                                <ct:SymbRef symbIdRef="eps1"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef symbIdRef="b"/>
+                                <math:Binop op="times">
+                                    <math:Binop op="power">
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                                        <ct:SymbRef symbIdRef="c"/>
+                                    </math:Binop>
+                                    <ct:SymbRef symbIdRef="eps2"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </ct:Assign>
+                </General>
+            </ContinuousData>
+        </ObservationModel> 
+        
+        <!-- type 8 - TWO TYPES OF MEASUREMENTS MODEL -->
+        <ObservationModel blkId="om8">
+            <ContinuousData>
+                <PopulationParameter symbId="sigma1"/>
+                <PopulationParameter symbId="sigma2"/>
+                <PopulationParameter symbId="ASY"/>
+                <RandomVariable symbId="eps1">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+                <RandomVariable symbId="eps2">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="sigma2"/>
+                                </ct:Assign>
+                            </po:Parameter>
+                        </po:ProbOnto>
+                    </Distribution>
+                </RandomVariable>
+                <General symbId="C1">
+                    <ct:Assign>
+                        <math:Piecewise>
+                            <math:Piece>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                                    <ct:SymbRef symbIdRef="eps1"/>
+                                </math:Binop>
+                                <math:Condition>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="ASY"/>
+                                        <ct:Int>1</ct:Int>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                            <math:Piece>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                                    <ct:SymbRef symbIdRef="eps2"/>
+                                </math:Binop>
+                                <math:Condition>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="ASY"/>
+                                        <ct:Int>2</ct:Int>
+                                    </math:LogicBinop>
+                                </math:Condition>                                        
+                            </math:Piece>
+                        </math:Piecewise>
+                    </ct:Assign>
+                </General>
+            </ContinuousData>
+        </ObservationModel> 
+        
+        <!-- type 9 - TWO TYPES OF OBSERVATIONS MODEL -->
+        <ObservationModel blkId="om9">
+            <ContinuousData>
+                <PopulationParameter symbId="TYP"/>
+                <PopulationParameter symbId="sigma1"/>
+                <PopulationParameter symbId="sigma2"/>
+                <RandomVariable symbId="eps1">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="sigma1"/>
+                                </ct:Assign>
+                            </po:Parameter>
+                        </po:ProbOnto>
+                    </Distribution>
+                </RandomVariable>
+                <RandomVariable symbId="eps2">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="Normal1">
+                            <po:Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </po:Parameter>
+                            <po:Parameter name="stdev">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="sigma2"/>
+                                </ct:Assign>
+                            </po:Parameter>
+                        </po:ProbOnto>
+                    </Distribution>
+                </RandomVariable>
+                <General symbId="C1">
+                    <ct:Assign>
+                        <math:Piecewise>
+                            <math:Piece>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C1model"/>
+                                    <ct:SymbRef symbIdRef="eps1"/>
+                                </math:Binop>
+                                <math:Condition>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="TYP"/>
+                                        <ct:Int>1</ct:Int>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                            <math:Piece>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="C2model"/>
+                                    <ct:SymbRef symbIdRef="eps2"/>
+                                </math:Binop>
+                                <math:Condition>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef symbIdRef="TYP"/>
+                                        <ct:Int>2</ct:Int>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece> 
+                        </math:Piecewise> 
+                    </ct:Assign> 
+                </General> 
+            </ContinuousData>
+        </ObservationModel> 
+    </ModelDefinition>
+ 
+</PharmML>

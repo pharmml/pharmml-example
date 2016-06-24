@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mml:PharmML xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset" xmlns:td="http://www.pharmml.org/pharmml/0.6/TrialDesign" xmlns:uncert="http://www.uncertml.org/3.0" xmlns:msteps="http://www.pharmml.org/pharmml/0.6/ModellingSteps" xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths" xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes" xmlns:mdef="http://www.pharmml.org/pharmml/0.6/ModelDefinition" xmlns:mml="http://www.pharmml.org/pharmml/0.6/PharmML" writtenVersion="0.6" implementedBy="MJS" id="i1">
+    <ct:Name>Example C2</ct:Name>
+    <ct:Description>Example C2 - model with PK macros</ct:Description>
+    <mml:IndependentVariable symbId="t"/>
+    
+    <mdef:ModelDefinition>
+        <mdef:VariabilityModel type="parameterVariability" blkId="modelVar">
+            <mdef:Level symbId="indiv"/>
+        </mdef:VariabilityModel>
+        <mdef:VariabilityModel type="residualError" blkId="obsErr">
+            <mdef:Level symbId="residual"/>
+        </mdef:VariabilityModel>
+        
+        <mdef:ParameterModel blkId="pm1">
+            <mdef:SimpleParameter symbId="V">
+                <ct:Description>V</ct:Description>
+                <ct:Assign>
+                    <ct:Real>0.0</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="k12">
+                <ct:Description>k12</ct:Description>
+                <ct:Assign>
+                    <ct:Real>0.0</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="k21">
+                <ct:Description>k21</ct:Description>
+                <ct:Assign>
+                    <ct:Real>0.0</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="alpha">
+                <ct:Description>alpha</ct:Description>
+                <ct:Assign>
+                    <ct:Real>0.0</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="k13">
+                <ct:Description>k13</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <ct:Real>0.6</ct:Real>
+                            <ct:SymbRef symbIdRef="alpha"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="beta">
+                <ct:Description>beta</ct:Description>
+                <ct:Assign>
+                    <ct:Real>0.0</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="k31">
+                <ct:Description>k31</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <ct:Real>0.8</ct:Real>
+                            <ct:SymbRef symbIdRef="beta"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="p">
+                <ct:Description>p</ct:Description>
+                <ct:Assign>
+                    <ct:Real>0.0</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="k">
+                <ct:Description>k</ct:Description>
+                <ct:Assign>
+                    <ct:Real>0.0</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+            <mdef:SimpleParameter symbId="a">
+                <ct:Description>a</ct:Description>
+                <ct:Assign>
+                    <ct:Real>0.0</ct:Real>
+                </ct:Assign>
+            </mdef:SimpleParameter>
+        </mdef:ParameterModel>
+        <mdef:StructuralModel blkId="smC2">
+            <ct:Variable symbolType="real" symbId="Tlag">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="t"/>
+                            <math:Binop op="plus">
+                                <ct:SymbRef symbIdRef="t"/>
+                                <ct:Real>10.0</ct:Real>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            <ct:DerivativeVariable symbolType="real" symbId="Ac">
+                <ct:Description>Ac</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="plus">
+                                <math:Binop op="plus">
+                                    <math:Binop op="minus">
+                                        <math:Binop op="plus">
+                                            <math:Uniop op="minus">
+                                                <math:Binop op="times">
+                                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
+                                                    <ct:SymbRef symbIdRef="Ap2"/>
+                                                </math:Binop>
+                                            </math:Uniop>
+                                            <math:Binop op="times">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
+                                                <ct:SymbRef symbIdRef="Ap2"/>
+                                            </math:Binop>
+                                        </math:Binop>
+                                        <math:Binop op="times">
+                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="k13"/>
+                                            <ct:SymbRef symbIdRef="Ap3"/>
+                                        </math:Binop>
+                                    </math:Binop>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k31"/>
+                                        <ct:SymbRef symbIdRef="Ap3"/>
+                                    </math:Binop>
+                                </math:Binop>
+                                <ct:SymbRef symbIdRef="ZeroOrderRate4"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                                <ct:SymbRef symbIdRef="Ac"/>
+                            </math:Binop>
+                        </math:Binop>
+<!--                        <math:Uniop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
+                                <ct:SymbRef symbIdRef="Ap2"/>
+                            </math:Binop>
+                        </math:Uniop>-->
+                    </math:Equation>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbolType="real" symbId="Ap2">
+                <ct:Description>Ap2</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k12"/>
+                                <ct:SymbRef symbIdRef="Ac"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k21"/>
+                                <ct:SymbRef symbIdRef="Ac"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbolType="real" symbId="Ap3">
+                <ct:Description>Ap3</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="minus">
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k13"/>
+                                <ct:SymbRef symbIdRef="Ac"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k31"/>
+                                <ct:SymbRef symbIdRef="Ac"/>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+            <ct:DerivativeVariable symbolType="real" symbId="Ad4">
+                <ct:Description>Ad4</ct:Description>
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Uniop op="minus">
+                            <ct:SymbRef symbIdRef="ZeroOrderRate4"/>
+                        </math:Uniop>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+            <ct:Variable symbolType="real" symbId="ZeroOrderRate4">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Piecewise>
+                            <math:Piece>
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="LastDoseAmountToAd4"/>
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="Tk0"/>
+                                </math:Binop>
+                                <math:Condition>
+                                    <math:LogicBinop op="gt">
+                                        <ct:SymbRef symbIdRef="Ad4"/>
+                                        <ct:Real>0</ct:Real>
+<!--                                        <ct:DerivativeVariable symbolType="real" symbId="Ad4">
+                                            <ct:Assign>
+                                                <math:Equation>
+                                                    <math:Uniop op="minus">
+                                                        <ct:SymbRef symbIdRef="ZeroOrderRate4"/>
+                                                    </math:Uniop>
+                                                </math:Equation>
+                                            </ct:Assign>
+                                        </ct:DerivativeVariable>
+                                        <ct:Int>0</ct:Int>-->
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                            <math:Piece>
+                                <ct:Int>0</ct:Int>
+                                <math:Condition>
+                                    <math:Otherwise/>
+                                </math:Condition>
+                            </math:Piece>
+                        </math:Piecewise>
+                    </math:Equation>
+                </ct:Assign>
+            </ct:Variable>
+            <ct:Variable symbolType="real" symbId="LastDoseAmountToAd4"/>
+        </mdef:StructuralModel>
+        
+        <mdef:ObservationModel blkId="om1">
+            <mdef:ContinuousData>
+                <mdef:RandomVariable symbId="eta">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <uncert:NormalDistribution definition="">
+                        <uncert:mean>
+                            <uncert:rVal>0.0</uncert:rVal>
+                        </uncert:mean>
+                        <uncert:stddev>
+                            <uncert:prVal>1.0</uncert:prVal>
+                        </uncert:stddev>
+                    </uncert:NormalDistribution>
+                </mdef:RandomVariable>
+                <mdef:Standard symbId="Ac_obs">
+                    <mdef:Output>
+                        <ct:SymbRef blkIdRef="smC2" symbIdRef="Ac"/>
+                    </mdef:Output>
+                    <mdef:ErrorModel>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="additiveError"/>
+                                    <math:FunctionArgument symbId="a">
+                                        <ct:SymbRef symbIdRef="a"/>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                            </math:Equation>
+                        </ct:Assign>
+                    </mdef:ErrorModel>
+                    <mdef:ResidualError>
+                        <ct:SymbRef symbIdRef="eta"/>
+                    </mdef:ResidualError>
+                </mdef:Standard>
+            </mdef:ContinuousData>
+        </mdef:ObservationModel>
+    </mdef:ModelDefinition>
+    <msteps:ModellingSteps>
+        <msteps:ExternalDataSet toolName="Monolix" oid="MLXoid">
+            <msteps:ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </msteps:ColumnMapping>
+            <msteps:ColumnMapping>
+                <ds:ColumnRef columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="Ac_obs"/>
+            </msteps:ColumnMapping>
+            <msteps:ColumnMapping>
+                <ds:ColumnRef columnIdRef="ADM"/>
+                <ds:TargetMapping blkIdRef="smC2">
+                    <ds:Map dataSymbol="1" admNumber="1"/>
+                    <ds:Map dataSymbol="2" admNumber="2"/>
+                </ds:TargetMapping>
+            </msteps:ColumnMapping>
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="3"/>
+                    <ds:Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
+                    <ds:Column columnId="ADM" columnType="adm" valueType="int" columnNum="5"/>
+                </ds:Definition>
+                <ds:ExternalFile oid="importMLX">
+                    <ds:path>example5_NONMEM.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ExternalFile>
+            </ds:DataSet>
+        </msteps:ExternalDataSet>
+        <msteps:EstimationStep oid="estTask1">
+            <msteps:ExternalDataSetReference>
+                <ct:OidRef oidRef="MLXoid"/>
+            </msteps:ExternalDataSetReference>
+            <msteps:ParametersToEstimate>
+                <msteps:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="a"/>
+                    <msteps:InitialEstimate>
+                        <ct:Real>1.0</ct:Real>
+                    </msteps:InitialEstimate>
+                </msteps:ParameterEstimation>
+                <msteps:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                    <msteps:InitialEstimate>
+                        <ct:Real>10.0</ct:Real>
+                    </msteps:InitialEstimate>
+                </msteps:ParameterEstimation>
+            </msteps:ParametersToEstimate>
+            <msteps:Operation order="1" opType="estPop"/>
+            <msteps:Operation order="2" opType="estIndiv"/>
+        </msteps:EstimationStep>
+        <msteps:StepDependencies>
+            <msteps:Step>
+                <ct:OidRef oidRef="estTask1"/>
+            </msteps:Step>
+        </msteps:StepDependencies>
+    </msteps:ModellingSteps>
+</mml:PharmML>

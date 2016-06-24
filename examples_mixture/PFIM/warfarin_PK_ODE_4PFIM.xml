@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.7/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.7/PharmML http://www.pharmml.org/pharmml/0.7/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.7/ModellingSteps"
+    xmlns:mml="http://www.pharmml.org/pharmml/0.7/PharmML"
+    implementedBy="MJS" writtenVersion="0.7">
+    
+    <!-- MODEL NAME -->
+    <ct:Name>warfarin_PK_ODE_4PFIM</ct:Name>
+    
+    <ct:Description>Example warfarin_PK_ODE_4PFIM</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- FUNCTION DEFINITION -->
+    <ct:FunctionDefinition symbId="combinedErrorModel" symbolType="real">
+        <ct:FunctionArgument symbId="a" symbolType="real"/>
+        <ct:FunctionArgument symbId="b" symbolType="real"/>
+        <ct:FunctionArgument symbId="f" symbolType="real"/>
+        <ct:Definition>
+            <ct:Assign>
+                <math:Binop op="plus">           <!-- a + b*f -->
+                    <ct:SymbRef symbIdRef="a"/>
+                    <math:Binop op="times">
+                        <ct:SymbRef symbIdRef="b"/>
+                        <ct:SymbRef symbIdRef="f"/>
+                    </math:Binop>
+                </math:Binop>
+            </ct:Assign>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    
+   
+    <!-- MODEL DEFINITION -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.7/ModelDefinition">
+        
+        <!-- VARIABILITY MODEL -->
+        <VariabilityModel blkId="modelVar" type="parameterVariability">
+            <Level referenceLevel="true" symbId="indiv"/>
+        </VariabilityModel>
+        
+        <VariabilityModel blkId="obsErr" type="residualError">
+            <Level symbId="residual"/>
+        </VariabilityModel>
+        
+        
+        <!-- COVARIATE MODEL -->
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="WT">
+                <Continuous>
+                    <Transformation>
+                        <TransformedCovariate symbId="logWT70"/>
+                        <ct:Assign>
+                            <math:Uniop op="log">
+                                <math:Binop op="divide">
+                                    <ct:SymbRef symbIdRef="WT"/>
+                                    <ct:Real>70</ct:Real>
+                                </math:Binop>
+                            </math:Uniop>
+                        </ct:Assign>
+                    </Transformation>
+                </Continuous>
+            </Covariate>
+        </CovariateModel>
+        
+        
+        <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm1">
+            <PopulationParameter symbId="PPV_CL"/>
+            <PopulationParameter symbId="POP_CL"/>
+            <!-- CL -->
+            <RandomVariable symbId="eta_PPV_CL">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <ProbOnto xmlns="http://www.pharmml.org/probonto/ProbOnto" name="Normal2">
+                        <Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </Parameter>
+                        <Parameter name="var">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="PPV_CL"/>
+                            </ct:Assign>
+                        </Parameter>
+                    </ProbOnto>
+                </Distribution>
+            </RandomVariable>
+            <IndividualParameter symbId="CL">
+                <StructuredModel>
+                    <Transformation type="log"/>
+                        <LinearCovariate>
+                        <PopulationValue>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="POP_CL"/>
+                            </ct:Assign>
+                        </PopulationValue>
+                        <Covariate>
+                            <ct:SymbRef symbIdRef="logWT70"/>
+                            <FixedEffect>
+                                <ct:Real>0.75</ct:Real>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_PPV_CL"/>
+                    </RandomEffects>
+                </StructuredModel>
+            </IndividualParameter>
+            
+            <!-- V -->
+            <PopulationParameter symbId="PPV_V"/>
+            <PopulationParameter symbId="POP_V"/>
+            <RandomVariable symbId="eta_PPV_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <ProbOnto xmlns="http://www.pharmml.org/probonto/ProbOnto" name="Normal2">
+                        <Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </Parameter>
+                        <Parameter name="var">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="PPV_V"/>
+                            </ct:Assign>
+                        </Parameter>
+                    </ProbOnto>
+                </Distribution>
+            </RandomVariable>
+            <IndividualParameter symbId="V">
+                <StructuredModel>
+                    <Transformation type="log"/>
+                    <LinearCovariate>
+                        <PopulationValue>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="POP_V"/>
+                            </ct:Assign>
+                        </PopulationValue>
+                        <Covariate>
+                            <ct:SymbRef symbIdRef="logWT70"/>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_PPV_V"/>
+                    </RandomEffects>
+                </StructuredModel>
+            </IndividualParameter>
+            
+<!--            <!-\- logV = log(POP_V) + log(WT/70) -\->
+            <PopulationParameter symbId="logV">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="plus">
+                            <math:Uniop op="log">
+                                <ct:SymbRef symbIdRef="POP_V"/>
+                            </math:Uniop>
+                            <ct:SymbRef symbIdRef="logWT70"/>
+                        </math:Binop>
+                    </math:Equation>
+                </ct:Assign>
+            </PopulationParameter>
+            
+            <!-\- V = exp(logV) -\->
+            <PopulationParameter symbId="V">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Uniop op="exp">
+                            <ct:SymbRef symbIdRef="logV"/>
+                        </math:Uniop>
+                    </math:Equation>
+                </ct:Assign>
+            </PopulationParameter>-->
+            
+            <!-- KA -->
+            <PopulationParameter symbId="PPV_KA"/>
+            <PopulationParameter symbId="POP_KA"/>
+            <RandomVariable symbId="eta_PPV_KA">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="modelVar" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <ProbOnto xmlns="http://www.pharmml.org/probonto/ProbOnto" name="Normal2">
+                        <Parameter name="mean">
+                            <ct:Assign>
+                                <ct:Real>0</ct:Real>
+                            </ct:Assign>
+                        </Parameter>
+                        <Parameter name="var">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="PPV_KA"/>
+                            </ct:Assign>
+                        </Parameter>
+                    </ProbOnto>
+                </Distribution>
+            </RandomVariable>
+            <IndividualParameter symbId="KA">
+                <StructuredModel>
+                    <Transformation type="log"/>
+                    <PopulationValue>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="POP_KA"/>
+                        </ct:Assign>
+                    </PopulationValue>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_PPV_KA"></ct:SymbRef>
+                    </RandomEffects>
+                </StructuredModel>
+            </IndividualParameter>
+            
+            
+        </ParameterModel>
+        
+        
+        <!-- STRUCTURAL MODEL -->
+        <StructuralModel blkId="sm1">
+            <!-- RATEIN -->
+            <ct:Variable symbolType="real" symbId="RATEIN">
+                <ct:Assign>
+                        <math:Binop op="times">
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="KA"/>
+                            <ct:SymbRef symbIdRef="GUT"/>
+                        </math:Binop>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <!-- DCP -->
+            <ct:Variable symbolType="real" symbId="DCP">
+                <ct:Assign>
+                        <math:Binop op="divide">
+                            <ct:SymbRef symbIdRef="CENTRAL"/>
+                            <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                        </math:Binop>
+                </ct:Assign>
+            </ct:Variable>
+            
+            <!-- GUT -->
+            <ct:DerivativeVariable symbId="GUT" symbolType="real">
+                <ct:Assign>
+                        <math:Uniop op="minus">
+                            <ct:SymbRef symbIdRef="RATEIN"/>
+                        </math:Uniop>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+            
+            <!-- CENTRAL -->
+            <ct:DerivativeVariable symbId="CENTRAL" symbolType="real">
+                <ct:Assign>
+                        <math:Binop op="minus">
+                            <ct:SymbRef symbIdRef="RATEIN"/>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="CL"/>
+                                <ct:SymbRef symbIdRef="DCP"/>
+                            </math:Binop>
+                        </math:Binop>
+                </ct:Assign>
+            </ct:DerivativeVariable>
+
+        </StructuralModel>
+        
+        
+        <!-- OBSERVATION MODEL -->
+        <ObservationModel blkId="om1">
+            <ContinuousData>
+                <PopulationParameter symbId="RUV_ADD"/>
+                <PopulationParameter symbId="RUV_PROP"/>
+                
+                <!-- eps_RUV_PROP -->
+                <RandomVariable symbId="eps_RUV_PROP">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <ProbOnto xmlns="http://www.pharmml.org/probonto/ProbOnto" name="Normal2">
+                            <Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                            <Parameter name="var">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="RUV_PROP"/>
+                                </ct:Assign>
+                            </Parameter>
+                        </ProbOnto>
+                    </Distribution>
+                </RandomVariable>
+                
+                <!-- eps_RUV_ADD -->
+                <RandomVariable symbId="eps_RUV_ADD">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <ProbOnto xmlns="http://www.pharmml.org/probonto/ProbOnto" name="Normal2">
+                            <Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                            <Parameter name="var">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="RUV_ADD"/>
+                                </ct:Assign>
+                            </Parameter>
+                        </ProbOnto>
+                    </Distribution>
+                </RandomVariable>
+                
+                <!-- Y - option 1 -->
+                <General symbId="Y">        <!-- Y = F + g*eps -->
+                    <ct:Assign>             <!-- Y = F + eps1 + eps2*F -->
+                            <math:Binop op="plus">
+                                <math:Binop op="times">
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="DCP"/>
+                                    <math:Binop op="plus">
+                                        <ct:Real>1</ct:Real>
+                                        <ct:SymbRef symbIdRef="eps_RUV_PROP"/>
+                                    </math:Binop>
+                                </math:Binop>
+                                <ct:SymbRef symbIdRef="eps_RUV_ADD"/>
+                            </math:Binop>
+                    </ct:Assign>
+                </General>
+            </ContinuousData>
+        </ObservationModel>
+
+
+        <!-- option 2 - PFIM works with that one 
+            Y = DCP + g*eps, g = RUV_ADD + RUV_PROP*DCP --> <!-- a + b*f -->
+        <ObservationModel blkId="om2">
+            <ContinuousData>
+                <PopulationParameter symbId="RUV_ADD"/>
+                <PopulationParameter symbId="RUV_PROP"/>
+                
+                <RandomVariable symbId="eps_Y">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <ProbOnto xmlns="http://www.pharmml.org/probonto/ProbOnto" name="Normal2">
+                            <Parameter name="mean">
+                                <ct:Assign>
+                                    <ct:Real>0</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                            <Parameter name="var">
+                                <ct:Assign>
+                                    <ct:Real>1</ct:Real>
+                                </ct:Assign>
+                            </Parameter>
+                        </ProbOnto>
+                    </Distribution>
+                </RandomVariable>
+                
+                <Standard symbId="Y">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="DCP"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                    <math:FunctionArgument symbId="a">
+                                        <ct:SymbRef symbIdRef="RUV_ADD"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="RUV_PROP"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="f">
+                                        <ct:SymbRef symbIdRef="DCP"/>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps_Y"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+
+    </ModelDefinition>
+    
+    
+    <!-- TRIAL DESIGN -->
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.7/TrialDesign">
+        
+        <Interventions>
+            <Administration oid="adm1">
+                <Bolus>
+                    <DoseAmount inputTarget="derivativeVariable">
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="GUT"/>
+                    </DoseAmount>
+                </Bolus>
+            </Administration>
+            
+            <IndividualAdministration>
+                <InterventionRef oidRef="int1"/>
+                
+                <ColumnMapping>
+                    <ds:ColumnRef columnIdRef="time"/>
+                    <ct:SymbRef symbIdRef="t"/>
+                </ColumnMapping>
+                
+                <ds:DataSet>
+                    <ds:Definition>
+                        <ds:Column columnId="ID" columnType="id" valueType="real" columnNum="1"/>
+                        <ds:Column columnId="time" columnType="idv" valueType="real" columnNum="2"/>
+                        <ds:Column columnId="amt" columnType="dose" valueType="real" columnNum="3"/>
+                    </ds:Definition>
+                    <ds:ExternalFile oid="oidNM">
+                        <ds:path>warfarin_conc_pca_DOSING.csv</ds:path>
+                        <ds:format>CSV</ds:format>
+                        <ds:delimiter>COMMA</ds:delimiter>
+                    </ds:ExternalFile>
+                </ds:DataSet>
+            </IndividualAdministration>
+        </Interventions>
+        
+        
+        <Observations>
+            <IndividualObservations oid="OBSoid">
+                <ColumnMapping>
+                    <ds:ColumnRef columnIdRef="DV"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+                </ColumnMapping>
+                <ds:DataSet>
+                    <ds:Definition>
+                        <ds:Column columnId="ID" columnType="id" valueType="real" columnNum="1"/>
+                        <ds:Column columnId="time" columnType="idv" valueType="real" columnNum="2"/>
+                        <ds:Column columnId="dv" columnType="dv" valueType="real" columnNum="3"/>
+                    </ds:Definition>
+                    <ds:ExternalFile oid="oidNM">
+                        <ds:path>warfarin_conc_pca_OBSERVATIONS.csv</ds:path>
+                        <ds:format>CSV</ds:format>
+                        <ds:delimiter>COMMA</ds:delimiter>
+                    </ds:ExternalFile>
+                </ds:DataSet>
+            </IndividualObservations>
+        </Observations>
+        
+
+        <Covariates>
+            <IndividualCovariates>
+                <ColumnMapping>
+                    <ds:ColumnRef columnIdRef="wt"/>
+                    <ct:SymbRef blkIdRef="cm1" symbIdRef="WT"/>
+                </ColumnMapping>
+                <ds:DataSet>
+                    <ds:Definition>
+                        <ds:Column columnId="ID" columnType="id" valueType="id" columnNum="1"/>
+                        <ds:Column columnId="time" columnType="idv" valueType="real" columnNum="2"/>
+                        <ds:Column columnId="wt" columnType="covariate" valueType="real" columnNum="3"/>
+                        <ds:Column columnId="age" columnType="covariate" valueType="real" columnNum="4"/>
+                        <ds:Column columnId="sex" columnType="covariate" valueType="int" columnNum="5"/>
+                    </ds:Definition>
+                    <ds:ExternalFile oid="oidNM">
+                        <ds:path>warfarin_conc_pca_COVARIATES.csv</ds:path>
+                        <ds:format>CSV</ds:format>
+                        <ds:delimiter>COMMA</ds:delimiter>
+                    </ds:ExternalFile>
+                </ds:DataSet>
+            </IndividualCovariates>
+        </Covariates>
+        
+        <Arms>
+            <Arm oid="arm1">
+                <InterventionSequence>
+                    <InterventionList>
+                        <InterventionRef oidRef="int1"/>
+                    </InterventionList>
+                </InterventionSequence>
+                
+                <ObservationSequence>
+                    <ObservationList>
+                        <ObservationRef oidRef="OBSoid"/>
+                    </ObservationList>
+                </ObservationSequence>
+            </Arm>
+        </Arms>
+        
+    </TrialDesign>
+
+    <!-- MODELLING STEPS -->
+    <mstep:ModellingSteps>
+        
+        <mstep:DesignEvaluation>...</mstep:DesignEvaluation>
+        
+        <mstep:DesignOptimisation>...</mstep:DesignOptimisation>
+        
+        
+    </mstep:ModellingSteps>
+
+</PharmML>
+

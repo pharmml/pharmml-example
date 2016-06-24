@@ -1,0 +1,881 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.6/PharmML http://www.pharmml.org/pharmml/0.6/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.6/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.6/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.6/Dataset"
+    implementedBy="MJS" writtenVersion="0.6" 
+    metadataFile="BayesianModeleExamples.rdf" id="i1">
+    
+    <!-- MODEL NAME -->
+    <ct:Name>Bayesian example</ct:Name>
+    
+    <ct:Description>Bayesian example</ct:Description>
+    
+    <!-- INDEPENDENT VARIABLE -->
+    <IndependentVariable symbId="t"/>
+
+    <!-- FUNCTION DEFINITION -->
+    <ct:FunctionDefinition symbId="combinedErrorModel" symbolType="real">
+        <ct:FunctionArgument symbId="a" symbolType="real"/>
+        <ct:FunctionArgument symbId="b" symbolType="real"/>
+        <ct:FunctionArgument symbId="f" symbolType="real"/>
+        <ct:Definition>
+            <math:Equation>
+                <math:Binop op="plus">
+                    <ct:SymbRef symbIdRef="a"/>
+                    <math:Binop op="times">
+                        <ct:SymbRef symbIdRef="b"/>
+                        <ct:SymbRef symbIdRef="f"/>
+                    </math:Binop>
+                </math:Binop>
+            </math:Equation>
+        </ct:Definition>
+    </ct:FunctionDefinition>
+    
+    <!-- MODEL DEFINITION -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.6/ModelDefinition">
+    
+        <!-- VARIABILITY MODEL -->
+        <VariabilityModel blkId="vm1" type="parameterVariability">
+            <Level symbId="pop"/>
+            <Level symbId="indiv">
+                <ParentLevel>
+                    <ct:SymbRef symbIdRef="pop"/>
+                </ParentLevel>
+            </Level>
+        </VariabilityModel>
+        <!-- SEND TO LORENZO -->
+        
+        <VariabilityModel blkId="vm2" type="residualError">
+            <Level symbId="resErr"/>
+        </VariabilityModel>
+        
+<!--        <VariabilityModel blkId="vm3" type="prior">
+            <Level symbId="pri"/>
+        </VariabilityModel>-->
+        
+        <!-- COVARIATE MODEL -->
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="Sex">
+                <Categorical>
+                    <Category catId="F">
+                        <ct:Name>Female</ct:Name>
+                    </Category>
+                    <Category catId="M">
+                        <ct:Name>Male</ct:Name>
+                    </Category>
+                </Categorical>
+            </Covariate>
+            <Covariate symbId="Treat">
+                <Categorical>
+                    <Category catId="A"/>
+                    <Category catId="B"/>
+                </Categorical>
+            </Covariate>
+            <Covariate symbId="TreatSeq">
+                <Categorical>
+                    <Category catId="AB">
+                        <ct:Name>A-B</ct:Name>
+                    </Category>
+                    <Category catId="BA">
+                        <ct:Name>B-A</ct:Name>
+                    </Category>
+                </Categorical>
+            </Covariate>
+            <Covariate symbId="Occasion">
+                <Categorical>
+                    <Category catId="occ1">
+                        <ct:Name>1</ct:Name>
+                    </Category>
+                    <Category catId="occ2">
+                        <ct:Name>2</ct:Name>
+                    </Category>
+                </Categorical>
+            </Covariate>
+        </CovariateModel>
+
+        <!-- PARAMETER MODEL -->
+        <ParameterModel blkId="pm1">
+            
+            <!-- ka -->
+            <SimpleParameter symbId="omega_ka"/>
+            <SimpleParameter symbId="pop_ka"/>
+            <RandomVariable symbId="eta_ka">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <PDF>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean><rVal>0</rVal></mean>
+                        <stddev><var varId="omega_ka"/></stddev>
+                    </NormalDistribution>
+                </PDF>
+            </RandomVariable>
+            <IndividualParameter symbId="ka">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign><ct:SymbRef symbIdRef="pop_ka"/></ct:Assign>
+                        </PopulationParameter>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_ka_treatseq"/>
+                                <Category catId="AB"/>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_ka"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+            <!-- V -->
+            <!-- log(V) = log(Vpop) + (covariates) + eta_(0)_V + eta_(+1)_V, 
+                eta_(0)_V ~ N( 0, omega_V ) 
+                eta_(+1)_V ~ N( 0, kappa_V ) -->
+            <SimpleParameter symbId="pop_V"/>
+            <SimpleParameter symbId="omega_V"/>
+            <SimpleParameter symbId="gamma_V"/>
+            <SimpleParameter symbId="beta_V"/>
+            <SimpleParameter symbId="beta_V_occ1"/>
+            <SimpleParameter symbId="beta_V_Treat"/>
+            <SimpleParameter symbId="beta_V_TreatSeq"/>
+            <RandomVariable symbId="eta_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <PDF>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean><rVal>0</rVal></mean>
+                        <stddev><var varId="omega_V"/></stddev>
+                    </NormalDistribution>
+                </PDF>
+<!--                <PDF>
+                    <DistributionName>Poisson</DistributionName>                       
+                    <Parameter1>
+                        <ct:SymbRef symbIdRef="beta"/>
+                        <Parameter1>
+                </PDF>-->
+            </RandomVariable>
+            <RandomVariable symbId="kappa_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="iov1"/>
+                </ct:VariabilityReference>
+                <PDF>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean><rVal>0</rVal></mean>
+                        <stddev><var varId="gamma_V"/></stddev>
+                    </NormalDistribution>
+                </PDF>
+            </RandomVariable>
+            <IndividualParameter symbId="V">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign><ct:SymbRef symbIdRef="pop_V"/></ct:Assign>
+                        </PopulationParameter>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="sex"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_V"/>
+                                <Category catId="F"/>
+                            </FixedEffect>
+                        </Covariate>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_V_occ1"/>
+                                <Category catId="occ1"/>
+                            </FixedEffect>
+                        </Covariate>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="Treat"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_V_Treat"/>
+                                <Category catId="A"/>
+                            </FixedEffect>
+                        </Covariate>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_V_TreatSeq"/>
+                                <Category catId="AB"/>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_V"/>
+                    </RandomEffects>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="kappa_V"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+
+            <!-- OR -->
+            
+            <!-- log(V2) ~ Normal( mean=Vpop, variance=omega_V^2 + kappa_V^2 ) -->
+            <RandomVariable symbId="V2">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
+                    <ct:RandomEffectMapping>
+                        <ct:SymbRef symbIdRef="omega_V"/>
+                    </ct:RandomEffectMapping>
+                </ct:VariabilityReference>
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm2" symbIdRef="iov1"/>
+                    <ct:RandomEffectMapping>
+                        <ct:SymbRef symbIdRef="kappa_V"/>
+                    </ct:RandomEffectMapping>
+                </ct:VariabilityReference>
+                <LHSTransformation>log</LHSTransformation>
+                <PDF>
+                    <DistributionName>Normal</DistributionName>
+                    <Parameter1 symbId="P1">
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="pop_V"/>
+                        </ct:Assign>
+                    </Parameter1>
+                    <Parameter2 symbId="P2">
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <math:Binop op="power">
+                                        <ct:SymbRef symbIdRef="omega_V"/>
+                                        <ct:Real>2</ct:Real>
+                                    </math:Binop>
+                                    <math:Binop op="power">
+                                        <ct:SymbRef symbIdRef="kappa_V"/>
+                                        <ct:Real>2</ct:Real>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Parameter2>
+                </PDF>
+                <LinearCovariateModel>
+                    <Covariate>
+                        <ct:SymbRef blkIdRef="cm1" symbIdRef="sex"/>
+                        <FixedEffect>
+                            <ct:SymbRef symbIdRef="beta_V"/>
+                            <Category catId="F"/>
+                        </FixedEffect>
+                    </Covariate>
+                    <Covariate>
+                        <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
+                        <FixedEffect>
+                            <ct:SymbRef symbIdRef="beta_V_occ1"/>
+                            <Category catId="occ1"/>
+                        </FixedEffect>
+                    </Covariate>
+                    <Covariate>
+                        <ct:SymbRef blkIdRef="cm1" symbIdRef="Treat"/>
+                        <FixedEffect>
+                            <ct:SymbRef symbIdRef="beta_V_Treat"/>
+                            <Category catId="A"/>
+                        </FixedEffect>
+                    </Covariate>
+                    <Covariate>
+                        <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
+                        <FixedEffect>
+                            <ct:SymbRef symbIdRef="beta_V_TreatSeq"/>
+                            <Category catId="AB"/>
+                        </FixedEffect>
+                    </Covariate>
+                </LinearCovariateModel>
+            </RandomVariable>
+
+            <!-- 3rd version -->
+            <!-- V ~ LogNormal( logScale=Vpop, shape=omega_V^2 + kappa_V^2 ) -->
+            <!-- V = {distribution=lognormal, reference=Vpop,covariate=lw70, coefficient=beta, sd=omega} -->
+            <RandomVariable symbId="V3">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
+                    <ct:RandomEffectMapping>
+                        <ct:SymbRef symbIdRef="omega_V"/>
+                    </ct:RandomEffectMapping>
+                </ct:VariabilityReference>
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm2" symbIdRef="iov1"/>
+                    <ct:RandomEffectMapping>
+                        <ct:SymbRef symbIdRef="kappa_V"/>
+                    </ct:RandomEffectMapping>
+                </ct:VariabilityReference>
+                <PDF>
+                    <DistributionName>Normal</DistributionName>
+                    <Parameter1>
+                        <ct:Assign><ct:SymbRef symbIdRef="myMean"/></ct:Assign>
+                    </Parameter1>
+                    <Parameter2>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="omega_V"/>
+                                    <ct:SymbRef symbIdRef="kappa_V"/>
+                                </math:Binop>
+                            </math:Equation>
+                        </ct:Assign>
+                    </Parameter2>
+                </PDF>
+                <LinearCovariateModel>
+                    <Covariate>
+                        <ct:SymbRef symbIdRef="lw70"/>
+                        <FixedEffect>
+                            <ct:SymbRef symbIdRef="beta"/>
+                        </FixedEffect>
+                    </Covariate>
+                </LinearCovariateModel>
+            </RandomVariable>
+            
+<!--            [INDIVIDUAL level={id, id*occ}]
+            input={A_pop, B_pop, C_pop, omega_A, gamma_B, omega_C, gamma_C}
+            DEFINITION:
+            A ={distribution=normal,mean=A_pop,level={id},sd=omega_A}
+            B ={distribution=normal,mean=B_pop,level={id*occ},sd=gamma_B}
+            C ={distribution=normal,mean=C_pop,level={id,id*occ},
+            sd={omega_C,gamma_C}}-->
+            
+            <!--                <CategoricalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                    <categoryProb definition="">
+                        <name>V_K_1</name>
+                        <prob><pVal>0.1</pVal></prob>
+                    </categoryProb>
+                    <categoryProb definition="">
+                        <name>V_K_2</name>
+                        <prob><pVal>0.1</pVal></prob>
+                    </categoryProb>
+                    ...
+                    <categoryProb definition="">
+                        <name>V_K_n</name>
+                        <prob><pVal>0.1</pVal></prob>
+                    </categoryProb>
+                </CategoricalDistribution>-->
+            <!--                <PDF>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                        <mean>
+                            <var varId="P1"/>
+                        </mean>
+                        <variance>
+                            <var varId="P2"/>
+                        </variance>
+                    </NormalDistribution>
+                </PDF>-->
+
+            <!-- CL -->
+            <SimpleParameter symbId="omega_CL"/>
+            <SimpleParameter symbId="gamma_CL"/>
+            <SimpleParameter symbId="pop_CL"/>
+            <SimpleParameter symbId="beta_CL_occ1"/>
+            <SimpleParameter symbId="beta_CL"/>
+            <RandomVariable symbId="eta_CL">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
+                </ct:VariabilityReference>
+                <PDF>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean><rVal>0</rVal></mean>
+                        <stddev><var varId="omega_CL"/></stddev>
+                    </NormalDistribution>
+                </PDF>
+            </RandomVariable>
+            <RandomVariable symbId="kappa_CL">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="iov1"/>
+                </ct:VariabilityReference>
+                <PDF>
+                    <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                        <mean><rVal>0</rVal></mean>
+                        <stddev><var varId="gamma_CL"/></stddev>
+                    </NormalDistribution>
+                </PDF>
+            </RandomVariable>
+            <IndividualParameter symbId="CL">
+                <GaussianModel>
+                    <Transformation>log</Transformation>
+                    <LinearCovariate>
+                        <PopulationParameter>
+                            <ct:Assign><ct:SymbRef symbIdRef="pop_CL"/></ct:Assign>
+                        </PopulationParameter>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="sex"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_CL"/>
+                                <Category catId="F"/>
+                            </FixedEffect>
+                        </Covariate>
+                        <Covariate>
+                            <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
+                            <FixedEffect>
+                                <ct:SymbRef symbIdRef="beta_CL_occ1"/>
+                                <Category catId="occ1"/>
+                            </FixedEffect>
+                        </Covariate>
+                    </LinearCovariate>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="eta_CL"/>
+                    </RandomEffects>
+                    <RandomEffects>
+                        <ct:SymbRef symbIdRef="kappa_CL"/>
+                    </RandomEffects>
+                </GaussianModel>
+            </IndividualParameter>
+
+            <!-- K -->
+            <IndividualParameter symbId="K">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="IP"/>
+                            <ct:Cell>
+                                <ct:Int>1</ct:Int>
+                            </ct:Cell>
+                        </ct:VectorSelector>
+                    </math:Equation>
+                </ct:Assign>
+            </IndividualParameter>
+
+
+            <!-- MVN test -->
+            <RandomVariable symbId="CL_V_KA_variable">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="prior"/>
+                </ct:VariabilityReference>
+<!--                <PDF>
+                    <Assign>
+                        .... formula ....
+                    </Assign>
+                    <Parameter1 id="i234">P1</Parameter1>
+                    <Parameter2 id="i235">P2</Parameter2>
+                </PDF>-->
+                <PDF>
+                    <MultivariateNormalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                        <meanVector>
+                            <var varId="vector_of_means"/>
+                        </meanVector>
+                        <covarianceMatrix dimension="3" definition="">
+                            <values>
+                                <var varId="covMatrix"/>
+                            </values>
+                        </covarianceMatrix>
+                    </MultivariateNormalDistribution>
+                </PDF>
+            </RandomVariable>
+            
+            <IndividualParameter symbId="V">
+                <ct:Assign>
+                    <math:Equation>
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="CL_V_KA_variable"/>
+                            <ct:Cell>
+                                <ct:Int>1</ct:Int>
+                            </ct:Cell>
+                        </ct:VectorSelector>
+                    </math:Equation>
+                </ct:Assign>
+            </IndividualParameter>
+            
+            <SimpleParameter symbId="vector_of_means">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            <ct:Int>1</ct:Int>
+                            <!-- ... -->
+                            <ct:SymbRef symbIdRef="V_n"/>
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            
+<!--            <SimpleParameter symbId="V1">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            .....
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>
+            <SimpleParameter symbId="V2">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            .....
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </ct:Assign>
+            </SimpleParameter>-->
+            <SimpleParameter symbId="MatrixV1V2">
+                <ct:Assign>
+                    <ct:Matrix matrixType="Any">
+                        <ct:MatrixColumn>
+                            <ct:ColumnIndex>
+                                <ct:Int>1</ct:Int>
+                            </ct:ColumnIndex>
+                            <ct:SymbRef symbIdRef="V1"/>
+                        </ct:MatrixColumn>
+                        <ct:MatrixColumn>
+                            <ct:ColumnIndex>
+                                <ct:Int>2</ct:Int>
+                            </ct:ColumnIndex>
+                            <ct:SymbRef symbIdRef="V2"/>
+                        </ct:MatrixColumn>
+                    </ct:Matrix>
+                </ct:Assign>
+            </SimpleParameter>
+            
+<!--            <ct:Vector symbId="vector_of_means">
+                <ct:VectorElements>
+                    <ct:Int>1</ct:Int>
+                    <!-\- ... -\->
+                    <ct:SymbRef symbIdRef="V_n"/>
+                </ct:VectorElements>
+            </ct:Vector>
+            <ct:Matrix symbId="covMatrix" matrixType="Any">
+                <ct:MatrixRow><ct:Real>1</ct:Real><ct:Real>2</ct:Real></ct:MatrixRow>
+                <ct:MatrixRow><ct:Real>3</ct:Real><ct:Real>4</ct:Real></ct:MatrixRow>
+            </ct:Matrix>-->
+            
+            
+        </ParameterModel>
+        
+        <!-- STRUCTURAL MODEL -->
+        <StructuralModel blkId="sm1">
+            <ct:Variable symbolType="real" symbId="D"/>
+            <ct:Variable symbolType="real" symbId="tD"/>
+            <ct:Variable symbolType="real" symbId="Cc">
+                <ct:Assign>
+                    <math:Equation>
+                        <math:Binop op="times">
+                            <math:Binop op="divide">
+                                <ct:SymbRef symbIdRef="D"/>
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="V"/>
+                            </math:Binop>
+                            <math:Binop op="times">
+                                <math:Binop op="divide">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                                    <math:Binop op="minus">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                                    </math:Binop>
+                                </math:Binop>
+                                <math:Binop op="minus">
+                                    <math:Uniop op="exp">
+                                        <math:Binop op="times">
+                                            <math:Uniop op="minus">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="k"/>
+                                            </math:Uniop>
+                                            <math:Binop op="minus">
+                                                <ct:SymbRef symbIdRef="t"/>
+                                                <ct:SymbRef symbIdRef="t_D"/>
+                                            </math:Binop>
+                                        </math:Binop>
+                                    </math:Uniop>
+                                    <math:Uniop op="exp">
+                                        <math:Binop op="times">
+                                            <math:Uniop op="minus">
+                                                <ct:SymbRef blkIdRef="pm1" symbIdRef="ka"/>
+                                            </math:Uniop>
+                                            <math:Binop op="minus">
+                                                <ct:SymbRef symbIdRef="t"/>
+                                                <ct:SymbRef symbIdRef="t_D"/>
+                                            </math:Binop>
+                                        </math:Binop>
+                                    </math:Uniop>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Equation>
+               </ct:Assign>
+            </ct:Variable>
+        </StructuralModel>
+        
+        <!-- OBSERVATION MODEL -->
+        <ObservationModel blkId="om1">
+            <ContinuousData>
+                <SimpleParameter symbId="a"/>
+                <SimpleParameter symbId="b"/>
+                <RandomVariable symbId="epsilon_Cc">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="vm2" symbIdRef="resErr"/>
+                    </ct:VariabilityReference>
+<!--                    <CategoricalDistribution xmlns="http://www.uncertml.org/3.0" definition="">
+                        <categoryProb definition="">
+                            <name>1</name>
+                            <prob></prob>
+                        </categoryProb>
+                    </CategoricalDistribution>-->
+                    <PDF>
+                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
+                            <mean><rVal>0</rVal></mean>
+                            <stddev><prVal>1</prVal></stddev>
+                        </NormalDistribution>
+                    </PDF>
+                </RandomVariable>
+                <Standard symbId="Cc_obs"> 
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:Equation>
+                                <math:FunctionCall>
+                                    <ct:SymbRef symbIdRef="combinedErrorModel"/>
+                                    <math:FunctionArgument symbId="a">
+                                        <ct:SymbRef symbIdRef="a"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="b">
+                                        <ct:SymbRef symbIdRef="b"/>
+                                    </math:FunctionArgument>
+                                    <math:FunctionArgument symbId="f">
+                                        <ct:SymbRef symbIdRef="Cc"/>
+                                    </math:FunctionArgument>
+                                </math:FunctionCall>
+                            </math:Equation>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="epsilon_Cc"/>
+                    </ResidualError>
+                </Standard>
+            </ContinuousData>
+        </ObservationModel>
+    </ModelDefinition>
+    
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.6/TrialDesign">
+        
+    </TrialDesign>
+    
+    
+    <!-- MODELLING STEPS -->
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.6/ModellingSteps">
+       
+        <!-- OBJECTIVE DATA -->
+        <ExternalDataSet toolName="NONMEM" oid="NMoid">
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="ID"/>
+                <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="Time"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="Y"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="Cc_obs"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="OCC"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
+                <ds:CategoryMapping>
+                    <ds:Map modelSymbol="occ1" dataSymbol="1"/>
+                    <ds:Map modelSymbol="occ2" dataSymbol="2"/>
+                </ds:CategoryMapping>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="OCC"/>
+                <ct:SymbRef blkIdRef="vm1" symbIdRef="iov1"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="TREAT"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="Treat"/>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="1" modelSymbol="A"/>
+                    <ds:Map dataSymbol="2" modelSymbol="B"/>
+                </ds:CategoryMapping>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="TREATSEQ"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="12" modelSymbol="AB"/>
+                    <ds:Map dataSymbol="21" modelSymbol="BA"/>
+                </ds:CategoryMapping>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="SEX"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="0" modelSymbol="M"/>
+                    <ds:Map dataSymbol="1" modelSymbol="F"/>
+                </ds:CategoryMapping>
+            </ColumnMapping>
+            <!-- dosing mapping -->
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="AMT"/>
+                <ct:SymbRef blkIdRef="sm1" symbIdRef="D"/>
+            </ColumnMapping>
+            <!-- map 'tD' and 'TIME' if 'AMT' != 0 -->
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ds:Piecewise>
+                    <math:Piece>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="tD"/>
+                        <math:Condition>
+                            <math:LogicBinop op="neq">
+                                <ds:ColumnRef columnIdRef="AMT"/>
+                                <ct:Real>0</ct:Real>
+                            </math:LogicBinop>
+                        </math:Condition>
+                    </math:Piece>
+                </ds:Piecewise>
+            </ColumnMapping>
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="Y" columnType="dv" valueType="real" columnNum="3"/>
+                    <ds:Column columnId="AMT" columnType="dose" valueType="real" columnNum="4"/>
+                    <ds:Column columnId="OCC" columnType="covariate" valueType="int" columnNum="5"/>
+                    <ds:Column columnId="TREAT" columnType="covariate" valueType="int" columnNum="6"/>
+                    <ds:Column columnId="TREATSEQ" columnType="covariate" valueType="int" columnNum="7"/>
+                    <ds:Column columnId="SEX" columnType="covariate" valueType="int" columnNum="8"/>
+                </ds:Definition>
+                <ds:ExternalFile oid="dataOid">
+                    <ds:path>example4.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ExternalFile>
+            </ds:DataSet>
+        </ExternalDataSet>
+        
+        <!-- ESTIMATION -->
+        <EstimationStep oid="e1">       
+            
+            <ExternalDataSetReference>
+                <ct:OidRef oidRef="NMoid"/>                
+            </ExternalDataSetReference>
+            
+            <!-- PARAMETERS TO ESTIMATE -->
+            <ParametersToEstimate id="e1">
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_ka"/>
+                    <InitialEstimate fixed="true">
+                        <ct:Real>1.5</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_ka"/>
+                    <InitialEstimate fixed="false">
+                        <ct:Real>0</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_V"/>
+                    <InitialEstimate>
+                        <ct:Real>0.5</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_V"/>
+                    <InitialEstimate>
+                        <ct:Real>0</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="pop_CL"/>
+                    <InitialEstimate>
+                        <ct:Real>0.5</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="omega_CL"/>
+                    <InitialEstimate>
+                        <ct:Real>0</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_CL"/>
+                    <InitialEstimate>
+                        <ct:Real>0</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_CL_occ1"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="gamma_V"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="gamma_CL"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_V"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_V_occ1"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_V_Treat"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_V_TreatSeq"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="a"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="b"/>
+                    <InitialEstimate>
+                        <ct:Real>1</ct:Real>
+                    </InitialEstimate>
+                </ParameterEstimation>
+                
+            </ParametersToEstimate>
+
+            <!-- OPERATION -->
+            <Operation order="1" opType="estPop">
+                <ct:Description>Estimate the population parameters in the model.</ct:Description>
+                <Property name="someProperty">
+                    <ct:Assign><ct:True/></ct:Assign>
+                </Property>
+                <Algorithm definition="SimulatedAnnealing">
+                    <Property name="initalTemp">
+                        <ct:Assign><ct:Real>400</ct:Real></ct:Assign>
+                    </Property>
+                    <Property name="numIterations">
+                        <ct:Assign><ct:Int>100</ct:Int></ct:Assign>
+                    </Property>
+                </Algorithm>
+            </Operation>
+            <Operation order="2" opType="estIndiv">
+                <ct:Description>Estimate conditional values for the individual parameters.</ct:Description>
+            </Operation>
+        </EstimationStep>
+        
+        <!-- STEP DEPENDENCIES -->
+        <StepDependencies>
+            <Step>
+                <ct:OidRef oidRef="e1"/>
+            </Step>
+        </StepDependencies>
+    </ModellingSteps>
+</PharmML>

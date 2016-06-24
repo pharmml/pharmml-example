@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML 
+    http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
+    implementedBy="MJS" writtenVersion="0.8" id="i1">
+    
+    <ct:Name>Poisson model</ct:Name>
+    
+    <!-- MODEL -->
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+        
+        <mdef:ParameterModel blkId="pm1">
+            <mdef:Parameter symbId="lambda"/>
+            
+            <IndividualParameter symbId="pTruncated">
+                <Distribution>
+                    <po:ProbOnto name="Normal1">
+                        <po:Parameter name="mean">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="mu"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:Parameter name="stdev">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="sigma"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:LowerTruncationBound>
+                            <ct:Assign>
+                                <math:Binop op="minus">
+                                    <ct:SymbRef symbIdRef="mu"/>
+                                    <math:Binop op="times">
+                                        <ct:Real>1.96</ct:Real>
+                                        <ct:SymbRef symbIdRef="sigma"/>
+                                    </math:Binop>
+                                </math:Binop>
+                            </ct:Assign>
+                        </po:LowerTruncationBound>
+                        <po:UpperTruncationBound>
+                            <ct:Assign>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef symbIdRef="mu"/>
+                                    <math:Binop op="times">
+                                        <ct:Real>1.96</ct:Real>
+                                        <ct:SymbRef symbIdRef="sigma"/>
+                                    </math:Binop>
+                                </math:Binop>
+                            </ct:Assign>
+                        </po:UpperTruncationBound>
+                    </po:ProbOnto>
+                </Distribution>
+            </IndividualParameter>
+            
+        </mdef:ParameterModel>
+        
+<!--        <mdef:ObservationModel blkId="om1">
+            <mdef:Discrete>
+                <mdef:CountData>
+                    <mdef:CountVariable symbId="y"/>
+                    <mdef:NumberCounts symbId="k"/>
+                    
+                    <mdef:PMF transform="log">
+                        <ct:Assign>
+                            <ct:Piecewise>
+                                <!-\- !!! 50 lines of code skipped here !!! -\->
+                                <!-\- for encoding of the conditional PMF: -\->
+                                <!-\- if (k > 0): log(1-p0)-lambda+k*log(lambda)-factln(k) -\->
+                                <!-\- else: log(p0+(1-p0)*exp(-lambda)) -\->
+                            </ct:Piecewise>
+                        </ct:Assign>
+                    </mdef:PMF>
+                </mdef:CountData>
+            </mdef:Discrete>
+        </mdef:ObservationModel>-->
+        
+        <ObservationModel blkId="dsd" xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+            <Discrete>
+                <CategoricalData ordered="no">
+                    <!-- can alternatively be defined as individual parameters with IIV etc.-->
+                    <PopulationParameter symbId="a1"/> 
+                    <PopulationParameter symbId="a2"/>
+                    <PopulationParameter symbId="a3"/>
+                    
+                    <PopulationParameter symbId="p1">
+                        <ct:Assign>
+                            <ct:True></ct:True>
+                            <!-- omitted formula p1 = a1/(a1+a2+a3) -->	
+                        </ct:Assign>
+                    </PopulationParameter>
+                    <PopulationParameter symbId="p2">
+                        <ct:Assign>
+                            <ct:True></ct:True>
+                            <!-- omitted formula p2 = a2/(a1+a2+a3) -->	
+                        </ct:Assign>
+                    </PopulationParameter>
+                    
+                    <ListOfCategories> 
+                        <Category symbId="cat1"/>
+                        <Category symbId="cat2"/>
+                        <Category symbId="cat3"/>
+                    </ListOfCategories>                    
+                    <CategoryVariable symbId="y"/>
+                    
+                    <PMF>
+                        <Distribution>
+                            <po:ProbOnto name="CategoricalNonordered1">
+                                <!-- category probabilities - a vector of length 2 (=k-1) -->
+                                <po:Parameter name="categoryProb">
+                                    <ct:Assign>
+                                        <ct:Vector>
+                                            <ct:VectorElements>
+                                                <ct:SymbRef symbIdRef="p1"/>
+                                                <ct:SymbRef symbIdRef="p2"/>
+                                            </ct:VectorElements>
+                                        </ct:Vector>
+                                    </ct:Assign>
+                                </po:Parameter>
+                            </po:ProbOnto>
+                        </Distribution>
+                    </PMF>
+                    
+                </CategoricalData>
+            </Discrete>
+        </ObservationModel>
+        
+        <ObservationModel blkId="om1A">
+            <Discrete>
+                <CountData>
+                    <CountVariable symbId="y"/>
+                    
+                    <PMF transform="log">
+                        <Distribution>
+                            <po:ProbOnto name="ZeroInflatedPoisson1">
+                                <po:Parameter name="rate">
+                                    <ct:Assign>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="Lambda"/>
+                                    </ct:Assign>
+                                </po:Parameter>
+                                <po:Parameter name="probabilityOfZero">
+                                    <ct:Assign>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="P0"/>
+                                    </ct:Assign>
+                                </po:Parameter>
+                            </po:ProbOnto>
+                        </Distribution>
+                    </PMF>
+                </CountData>
+            </Discrete>
+        </ObservationModel>
+        
+        <!-- VERSION 1 -->
+        <mdef:ObservationModel blkId="om2">
+            <mdef:Discrete>
+                <mdef:CountData>
+                    <mdef:CountVariable symbId="Y"/>
+                    
+            <PMF>
+                <Distribution>
+                    <po:ProbOnto name="MixtureDistribution">
+                        <!-- mixing weight -->
+                        <po:Parameter name="weight">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pi1"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <!-- lambda1 - Poisson intensity -->
+                        <po:MixtureComponent name="Poisson1">
+                            <po:Parameter name="rate">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="lambda1"/>
+                                </ct:Assign>
+                            </po:Parameter>
+                        </po:MixtureComponent>
+                        <!-- lambda2 - Poisson intensity -->
+                        <po:MixtureComponent name="Poisson1">
+                            <po:Parameter name="rate">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="lambda2"/>
+                                </ct:Assign>
+                            </po:Parameter>
+                        </po:MixtureComponent>
+                    </po:ProbOnto>
+                </Distribution>
+            </PMF>
+                    
+                    <mdef:PMF>
+                        <mdef:Distribution>
+                            <po:ProbOnto name="Poisson1">
+                                <po:Parameter name="rate">
+                                    <ct:Assign>
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda"/>
+                                    </ct:Assign>
+                                </po:Parameter>
+                            </po:ProbOnto>
+                        </mdef:Distribution>
+                    </mdef:PMF>
+                </mdef:CountData>
+            </mdef:Discrete>
+        </mdef:ObservationModel>
+    </ModelDefinition>
+</PharmML>

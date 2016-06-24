@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
+    writtenVersion="0.8.1">
+    
+    <!-- 3.5 Two (or more) types of measurements error model -->
+    <ct:Name>Residual error model - 3.5</ct:Name>
+    
+    <IndependentVariable symbId="time"/>
+    
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+        
+        <VariabilityModel blkId="obsErr" type="residualError">
+            <Level symbId="residual"/>
+        </VariabilityModel>
+        
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="ASY">
+                <Categorical>
+                    <Category catId="ASY1"/>
+                    <Category catId="ASY2"/>
+                </Categorical>
+            </Covariate>
+        </CovariateModel>
+        
+        <StructuralModel blkId="sm1">
+            <!-- F - dummy model -->
+            <ct:Variable symbId="F">
+                <ct:Assign>
+                    <ct:Real>1</ct:Real>
+                </ct:Assign>
+            </ct:Variable>
+        </StructuralModel>
+        
+        <ObservationModel blkId="om">
+            <ContinuousData>
+                
+                <PopulationParameter symbId="sigma1"/>
+                <PopulationParameter symbId="sigma2"/>
+
+                <RandomVariable symbId="eps">
+                    <ct:VariabilityReference>
+                        <ct:SymbRef blkIdRef="obsErr" symbIdRef="residual"/>
+                    </ct:VariabilityReference>
+                    <Distribution>
+                        <po:ProbOnto name="StandardNormal1"/>
+                    </Distribution>
+                </RandomVariable>
+
+                <Standard symbId="Y">
+                    <Output>
+                        <ct:SymbRef blkIdRef="sm1" symbIdRef="F"/>
+                    </Output>
+                    <ErrorModel>
+                        <ct:Assign>
+                            <math:Piecewise>
+                                <math:Piece>
+                                    <ct:SymbRef symbIdRef="sigma1"/>
+                                    <math:Condition>
+                                        <math:LogicBinop op="eq">
+                                            <ct:SymbRef blkIdRef="cm1" symbIdRef="ASY"/>
+                                            <ct:CatRef catIdRef="ASY1"/>
+                                        </math:LogicBinop>
+                                    </math:Condition>
+                                </math:Piece>
+                                <math:Piece>
+                                    <ct:SymbRef symbIdRef="sigma2"/>
+                                    <math:Condition>
+                                        <math:LogicBinop op="eq">
+                                            <ct:SymbRef blkIdRef="cm1" symbIdRef="ASY"/>
+                                            <ct:CatRef catIdRef="ASY2"/>
+                                        </math:LogicBinop>
+                                    </math:Condition>
+                                </math:Piece>
+                            </math:Piecewise>
+                        </ct:Assign>
+                    </ErrorModel>
+                    <ResidualError>
+                        <ct:SymbRef symbIdRef="eps"/>
+                    </ResidualError>
+                </Standard>
+                
+            </ContinuousData>
+        </ObservationModel>
+        
+        <!-- alternative alternative alternative alternative-->
+        <ObservationModel blkId="om_alt">
+            <ContinuousData>
+                
+                <PopulationParameter symbId="sigma1"/>
+                <PopulationParameter symbId="sigma2"/>
+                
+                <General symbId="Y">
+                    <Distribution>
+                        <math:Piecewise>
+                            <math:Piece>
+                                <po:ProbOnto name="Normal1">
+                                    <po:Parameter name="mean">
+                                        <ct:Assign>
+                                            <ct:SymbRef blkIdRef="sm1" symbIdRef="F"/>
+                                        </ct:Assign>
+                                    </po:Parameter>
+                                    <po:Parameter name="stdev">
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="sigma1"/>
+                                        </ct:Assign>
+                                    </po:Parameter>
+                                </po:ProbOnto>
+                                <math:Condition>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef blkIdRef="cm1" symbIdRef="ASY"/>
+                                        <ct:CatRef catIdRef="ASY1"/>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                            <math:Piece>
+                                <po:ProbOnto name="Normal1">
+                                    <po:Parameter name="mean">
+                                        <ct:Assign>
+                                            <ct:SymbRef blkIdRef="sm1" symbIdRef="F"/>
+                                        </ct:Assign>
+                                    </po:Parameter>
+                                    <po:Parameter name="stdev">
+                                        <ct:Assign>
+                                            <ct:SymbRef symbIdRef="sigma2"/>
+                                        </ct:Assign>
+                                    </po:Parameter>
+                                </po:ProbOnto>
+                                <math:Condition>
+                                    <math:LogicBinop op="eq">
+                                        <ct:SymbRef blkIdRef="cm1" symbIdRef="ASY"/>
+                                        <ct:CatRef catIdRef="ASY2"/>
+                                    </math:LogicBinop>
+                                </math:Condition>
+                            </math:Piece>
+                        </math:Piecewise>
+                    </Distribution>
+                </General>
+                
+            </ContinuousData>
+        </ObservationModel>
+    </ModelDefinition>
+    
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+        <ExternalDataSet oid="extData1">
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="time"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="Y"/>
+                <ct:SymbRef blkIdRef="om" symbIdRef="Y"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="ASY"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="ASY"/>
+                <ds:CategoryMapping>
+                    <ds:Map dataSymbol="1" modelSymbol="ASY1"/>
+                    <ds:Map dataSymbol="2" modelSymbol="ASY2"/>
+                </ds:CategoryMapping>
+            </ColumnMapping>
+            <DataSet xmlns="http://www.pharmml.org/pharmml/0.8/Dataset">
+                <Definition>
+                    <Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
+                    <Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <Column columnId="Y" columnType="dv" valueType="real" columnNum="3"/>
+                    <Column columnId="ASY" columnType="covariate" valueType="real" columnNum="4"/>
+                </Definition>
+                <ExternalFile oid="extFile">
+                    <path>datafile.csv</path>
+                </ExternalFile>
+            </DataSet>
+        </ExternalDataSet>
+    </TrialDesign>
+    
+</PharmML>

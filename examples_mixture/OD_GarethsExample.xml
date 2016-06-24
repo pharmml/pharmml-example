@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mml:PharmML xmlns:msteps="http://www.pharmml.org/pharmml/0.7/ModellingSteps" 
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto" 
+    xmlns:td="http://www.pharmml.org/pharmml/0.7/TrialDesign" 
+    xmlns:uncert="http://www.uncertml.org/3.0" 
+    xmlns:ds="http://www.pharmml.org/pharmml/0.7/Dataset" 
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.7/ModelDefinition" 
+    xmlns:ct="http://www.pharmml.org/pharmml/0.7/CommonTypes" 
+    xmlns:math="http://www.pharmml.org/pharmml/0.7/Maths" 
+    xmlns:mml="http://www.pharmml.org/pharmml/0.7/PharmML" 
+    writtenVersion="0.7.1" implementedBy="Cyprotex Model Writer" 
+    id="pfim_opt_1_1_1">
+    
+    <ct:Name>pfim_opt_1_1_1_a</ct:Name>
+    
+    <ct:Description>PFIM Optimisation 1_1_1 
+Dated: Mon Oct 19 10:22:37 BST 2015</ct:Description>
+    <mml:IndependentVariable symbId="t"/>
+    <mdef:ModelDefinition>
+        <mdef:CovariateModel blkId="cm">
+            <mdef:Covariate symbId="Sex">
+                <mdef:Categorical>
+                    <mdef:Category catId="M">
+                        <ct:Name>Male</ct:Name>
+                    </mdef:Category>
+                    <mdef:Category catId="F">
+                        <ct:Name>Female</ct:Name>
+                    </mdef:Category>
+                </mdef:Categorical>
+            </mdef:Covariate>
+        </mdef:CovariateModel>
+        <mdef:ParameterModel blkId="pm">
+            <mdef:PopulationParameter symbId="KA"/>
+            <mdef:PopulationParameter symbId="K"/>
+            <mdef:PopulationParameter symbId="V"/>
+        </mdef:ParameterModel>
+        <mdef:StructuralModel blkId="sm">
+            <ct:Variable symbolType="real" symbId="y">
+                <ct:Description>State Variable</ct:Description>
+                <ct:Assign>
+                    <math:Binop op="divide">
+                        <math:Binop op="divide">
+                            <ct:SymbRef blkIdRef="sm" symbIdRef="y"/>
+                            <math:Binop op="times">
+<ct:SymbRef blkIdRef="pm" symbIdRef="V"/>
+<ct:SymbRef blkIdRef="pm" symbIdRef="KA"/>
+                            </math:Binop>
+                        </math:Binop>
+                        <math:Binop op="times">
+                            <math:Binop op="minus">
+<ct:SymbRef blkIdRef="pm" symbIdRef="KA"/>
+<ct:SymbRef blkIdRef="pm" symbIdRef="K"/>
+                            </math:Binop>
+                            <math:Binop op="minus">
+<math:Uniop op="exp">
+    <math:Binop op="times">
+        <math:Uniop op="minus">
+            <ct:SymbRef blkIdRef="pm" symbIdRef="K"/>
+        </math:Uniop>
+        <ct:SymbRef symbIdRef="t"/>
+    </math:Binop>
+</math:Uniop>
+<math:Uniop op="exp">
+    <math:Binop op="times">
+        <math:Uniop op="minus">
+            <ct:SymbRef blkIdRef="pm" symbIdRef="KA"/>
+        </math:Uniop>
+        <ct:SymbRef symbIdRef="t"/>
+    </math:Binop>
+</math:Uniop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:Assign>
+            </ct:Variable>
+        </mdef:StructuralModel>
+    </mdef:ModelDefinition>
+    <td:TrialDesign>
+        <mdef:DesignParameter symbId="v1">
+            <ct:Assign>
+                <ct:Vector>
+                    <ct:VectorElements>
+                        <ct:String>A</ct:String>
+                        <ct:String>B</ct:String>
+                    </ct:VectorElements>
+                </ct:Vector>
+            </ct:Assign>
+        </mdef:DesignParameter>
+        <!-- same for v2 -->
+    </td:TrialDesign>
+    <msteps:ModellingSteps>
+        <msteps:EstimationStep oid="est1">
+            <msteps:ParametersToEstimate>
+                <msteps:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm" symbIdRef="KA"/>
+                    <msteps:InitialEstimate fixed="false">
+                        <ct:Int>2</ct:Int>
+                    </msteps:InitialEstimate>
+                </msteps:ParameterEstimation>
+                <msteps:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm" symbIdRef="K"/>
+                    <msteps:InitialEstimate fixed="false">
+                        <ct:Real>0.25</ct:Real>
+                    </msteps:InitialEstimate>
+                </msteps:ParameterEstimation>
+                <msteps:ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm" symbIdRef="V"/>
+                    <msteps:InitialEstimate fixed="false">
+                        <ct:Int>15</ct:Int>
+                    </msteps:InitialEstimate>
+                </msteps:ParameterEstimation>
+            </msteps:ParametersToEstimate>
+            <msteps:Operation order="1" opType="estPop">
+                <msteps:Property name="rtol">
+                    <ct:Assign>
+                        <ct:Real>1.0E-8</ct:Real>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="atol">
+                    <ct:Assign>
+                        <ct:Real>1.0E-8</ct:Real>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="omega">
+                    <ct:Assign>
+                        <ct:Matrix matrixType="Diagonal">
+                            <ct:MatrixCell>
+                                <ct:Int>1</ct:Int>
+                            </ct:MatrixCell>
+                            <ct:MatrixCell>
+                                <ct:Real>0.25</ct:Real>
+                            </ct:MatrixCell>
+                            <ct:MatrixCell>
+                                <ct:Real>0.1</ct:Real>
+                            </ct:MatrixCell>
+                        </ct:Matrix>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="gamma">
+                    <ct:Assign>
+                        <ct:Matrix matrixType="Diagonal">
+                            <ct:MatrixCell>
+                                <ct:CellRow><ct:Int>1</ct:Int></ct:CellRow>
+                                <ct:CellColumn><ct:Int>1</ct:Int></ct:CellColumn>
+                                <ct:Int>0</ct:Int>
+                            </ct:MatrixCell>
+                            <ct:MatrixCell>
+                                <ct:CellRow><ct:Int>2</ct:Int></ct:CellRow>
+                                <ct:CellColumn><ct:Int>2</ct:Int></ct:CellColumn>
+                                <ct:Int>0</ct:Int>
+                            </ct:MatrixCell>
+                            <ct:MatrixCell>
+                                <ct:CellRow><ct:Int>3</ct:Int></ct:CellRow>
+                                <ct:CellColumn><ct:Int>2</ct:Int></ct:CellColumn>
+                                <ct:Int>0</ct:Int>
+                            </ct:MatrixCell>
+                        </ct:Matrix>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="numberOfOccassions">
+                    <ct:Assign>
+                        <ct:Int>1</ct:Int>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="numberOfResponses">
+                    <ct:Assign>
+                        <ct:Int>1</ct:Int>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="randomEffectModel">
+                    <ct:Assign>
+                        <ct:Int>2</ct:Int>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="sig.interA">
+                    <ct:Assign>
+                        <ct:Real>0.5</ct:Real>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="sig.slopeA">
+                    <ct:Assign>
+                        <ct:Real>0.15</ct:Real>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="protA">
+                    <ct:Assign>
+                        <ct:Vector>
+                            <ct:VectorElements>
+                                <ct:Real>0.33</ct:Real>
+                                <ct:Real>1.5</ct:Real>
+                                <ct:Real>5.0</ct:Real>
+                                <ct:Real>12.0</ct:Real>
+                            </ct:VectorElements>
+                        </ct:Vector>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="numberOfSubjects">
+                    <ct:Assign>
+                        <ct:Int>200</ct:Int>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="usingProportions">
+                    <ct:Assign>
+                        <ct:False/>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="usingCovariateModel">
+                    <ct:Assign>
+                        <ct:False/>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="doseIdentical">
+                    <ct:Assign>
+                        <ct:True/>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="doseVector">
+                    <ct:Assign>
+                        <ct:Vector>
+                            <ct:VectorElements>
+<ct:Int>100</ct:Int>
+                            </ct:VectorElements>
+                        </ct:Vector>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="condinitIdentical">
+                    <ct:Assign>
+                        <ct:True/>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="covariateProportions_Sex">
+                    <ct:Assign>
+                        <ct:Vector>
+                            <ct:VectorElements>
+<ct:Real>0.5</ct:Real>
+<ct:Real>0.5</ct:Real>
+                            </ct:VectorElements>
+                        </ct:Vector>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="parameterAssociated_Sex">
+                    <ct:Assign>
+                        <ct:Vector>
+                            <ct:VectorElements>
+<ct:SymbRef blkIdRef="pm" symbIdRef="V"/>
+                            </ct:VectorElements>
+                        </ct:Vector>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="betaCovariate_Sex">
+                    <ct:Assign>
+                        <ct:Vector>
+                            <ct:VectorElements>
+<ct:Real>1.5</ct:Real>
+                            </ct:VectorElements>
+                        </ct:Vector>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="useCovariateOccassionModel">
+                    <ct:Assign>
+                        <ct:False/>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="covariateOccassionNames">
+                    <ct:Assign>
+                        <ct:Vector>
+                            <ct:VectorElements>
+<ct:String>Treat</ct:String>
+                            </ct:VectorElements>
+                        </ct:Vector>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="covariateOccassionCategories_Treat">
+                    <ct:Assign>
+                        <ct:Vector>
+                            <ct:VectorElements>
+                                <ct:String>A</ct:String>
+                                <ct:String>B</ct:String>
+                            </ct:VectorElements>
+                        </ct:Vector>
+                    </ct:Assign>
+                </msteps:Property>
+            <msteps:Property name="covariateOccassionSequences_Treat">
+                <ct:Assign>
+                    <ct:Vector>
+                        <ct:VectorElements>
+                            <ct:SymbRef blkIdRef="" symbIdRef="v1"/>
+                        </ct:VectorElements>
+                    </ct:Vector>
+                </ct:Assign>
+            </msteps:Property>
+            </msteps:Operation>
+            <msteps:Operation order="2" opType="estFIM">
+                <msteps:Property name="calculateFullFIM">
+                    <ct:Assign>
+                        <ct:False/>
+                    </ct:Assign>
+                </msteps:Property>
+                <msteps:Property name="type">
+                    <ct:Assign>
+                        <ct:String>Population</ct:String>
+                    </ct:Assign>
+                </msteps:Property>
+            </msteps:Operation>
+        </msteps:EstimationStep>
+        <msteps:StepDependencies>
+            <msteps:Step>
+                <ct:OidRef oidRef="est1"/>
+            </msteps:Step>
+        </msteps:StepDependencies>
+    </msteps:ModellingSteps>
+</mml:PharmML>

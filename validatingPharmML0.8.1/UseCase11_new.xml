@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+	xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
+	xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+	xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+	xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
+	xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
+	xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
+	xmlns:design="http://www.pharmml.org/pharmml/0.8/TrialDesign"
+	writtenVersion="0.8.1">
+	<ct:Name>Generated from MDL. MOG ID: Poisson_DIST_mog</ct:Name>
+	<IndependentVariable symbId="CP"/>
+	<ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+		<VariabilityModel blkId="vm_err" type="residualError">
+			<Level referenceLevel="false" symbId="DV"/>
+		</VariabilityModel>
+		<VariabilityModel blkId="vm_mdl" type="parameterVariability">
+			<Level referenceLevel="false" symbId="ID"/>
+		</VariabilityModel>
+		<ParameterModel blkId="pm">
+			<Parameter symbId = "POP_BASECOUNT"/>
+			<Parameter symbId = "POP_BETA"/>
+			<Parameter symbId = "PPV_EVENT"/>
+			<RandomVariable symbId="eta_PPV_EVENT">
+				<ct:VariabilityReference>
+					<ct:SymbRef blkIdRef="vm_mdl" symbIdRef="ID"/>
+				</ct:VariabilityReference>
+				<Distribution>
+					<ProbOnto xmlns="http://www.pharmml.org/probonto/ProbOnto" name="Normal2">
+						<Parameter name="mean">
+							<ct:Assign>
+								<ct:Int>0</ct:Int>
+							</ct:Assign>
+						</Parameter>
+						<Parameter name="var">
+							<ct:Assign>
+								<ct:SymbRef blkIdRef="pm" symbIdRef="PPV_EVENT"/>
+							</ct:Assign>
+						</Parameter>
+					</ProbOnto>
+				</Distribution>
+			</RandomVariable>
+			<IndividualParameter symbId="BASECOUNT">
+				<StructuredModel>
+					<Transformation type="log" />
+					<LinearCovariate>
+						<PopulationValue>
+							<ct:Assign>
+								<ct:SymbRef blkIdRef="pm" symbIdRef="POP_BASECOUNT"/>
+							</ct:Assign>
+						</PopulationValue>
+					</LinearCovariate>
+					<RandomEffects>
+						<ct:SymbRef blkIdRef="pm" symbIdRef="eta_PPV_EVENT"/>
+					</RandomEffects>
+				</StructuredModel>
+			</IndividualParameter>
+			<IndividualParameter symbId="BETA">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="POP_BETA"/>
+				</ct:Assign>
+			</IndividualParameter>
+			<RandomVariable symbId="Y">
+				<ct:VariabilityReference>
+					<ct:SymbRef blkIdRef="vm_err" symbIdRef="DV"/>
+				</ct:VariabilityReference>
+				<Distribution>
+					<ProbOnto xmlns="http://www.pharmml.org/probonto/ProbOnto" name="Poisson1">
+						<Parameter name="rate">
+							<ct:Assign>
+								<ct:SymbRef blkIdRef="sm" symbIdRef="LAMBDA"/>
+							</ct:Assign>
+						</Parameter>
+					</ProbOnto>
+				</Distribution>
+			</RandomVariable>
+		</ParameterModel>
+		<StructuralModel blkId="sm">
+			<ct:Variable symbId="lnLAMBDA" symbolType="real">
+				<ct:Assign>
+					<math:Binop op="plus">
+						<math:Uniop op="log">
+							<ct:SymbRef blkIdRef="pm" symbIdRef="BASECOUNT"/>
+						</math:Uniop>	
+						<math:Binop op="times">
+							<ct:SymbRef blkIdRef="pm" symbIdRef="BETA"/>
+							<ct:SymbRef symbIdRef="CP"/>
+						</math:Binop>
+					</math:Binop>
+				</ct:Assign>
+			</ct:Variable>
+			<ct:Variable symbId="LAMBDA" symbolType="real">
+				<ct:Assign>
+					<math:Uniop op="exp">
+						<ct:SymbRef blkIdRef="sm" symbIdRef="lnLAMBDA"/>
+					</math:Uniop>	
+				</ct:Assign>
+			</ct:Variable>
+		</StructuralModel>
+		<ObservationModel blkId="om1">
+			<Discrete>
+				<CountData>
+					<CountVariable symbId="Y"/>
+					<PMF transform="identity">
+						<Distribution>
+							<ProbOnto xmlns="http://www.pharmml.org/probonto/ProbOnto" name="Poisson1">
+								<Parameter name="rate">
+									<ct:Assign>
+										<ct:SymbRef blkIdRef="sm" symbIdRef="LAMBDA"/>
+									</ct:Assign>
+								</Parameter>
+							</ProbOnto>
+						</Distribution>
+					</PMF>
+				</CountData>
+			</Discrete>
+		</ObservationModel>
+	</ModelDefinition>
+	<TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+		<ExternalDataSet toolName="NONMEM" oid="nm_ds">
+			<ColumnMapping>
+				<ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="ID"/>
+				<ct:SymbRef blkIdRef="vm_mdl" symbIdRef="ID"/>
+			</ColumnMapping>
+			<ColumnMapping>
+				<ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="CP"/>
+				<ct:SymbRef symbIdRef="CP"/>
+			</ColumnMapping>
+			<DataSet xmlns="http://www.pharmml.org/pharmml/0.8/Dataset">
+				<Definition>
+					<Column columnId="ID" columnType="id" valueType="int" columnNum="1"/>
+					<Column columnId="TIME" columnType="undefined" valueType="real" columnNum="2"/>
+					<Column columnId="CP" columnType="idv" valueType="real" columnNum="3"/>
+					<Column columnId="DV" columnType="dv" valueType="real" columnNum="4"/>
+					<Column columnId="MDV" columnType="mdv" valueType="int" columnNum="5"/>
+				</Definition>
+				<ExternalFile oid="id">
+					<path>count.csv</path>
+					<format>CSV</format>
+					<delimiter>COMMA</delimiter>
+				</ExternalFile>
+			</DataSet>
+		</ExternalDataSet>
+	</TrialDesign>
+	<ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.8/ModellingSteps">
+		<EstimationStep oid="estimStep_1">
+			<ExternalDataSetReference>
+				<ct:OidRef oidRef="nm_ds"/>
+			</ExternalDataSetReference>
+			<ParametersToEstimate>
+				<ParameterEstimation>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="POP_BASECOUNT"/>
+					<InitialEstimate fixed="false">
+						<ct:Int>10</ct:Int>
+					</InitialEstimate>
+					<LowerBound>
+						<ct:Int>0</ct:Int>
+					</LowerBound>
+				</ParameterEstimation>
+				<ParameterEstimation>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="POP_BETA"/>
+					<InitialEstimate fixed="false">
+						<ct:Real>0.5</ct:Real>
+					</InitialEstimate>
+					<LowerBound>
+						<ct:Int>0</ct:Int>
+					</LowerBound>
+					<UpperBound>
+						<ct:Int>10</ct:Int>
+					</UpperBound>
+				</ParameterEstimation>
+				<ParameterEstimation>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="PPV_EVENT"/>
+					<InitialEstimate fixed="false">
+						<ct:Real>0.04</ct:Real>
+					</InitialEstimate>
+				</ParameterEstimation>
+			</ParametersToEstimate>
+			<Operation order="1" opType="generic">
+				<Property name="algo">
+					<ct:Assign>
+						<ct:String>foce</ct:String>
+					</ct:Assign>
+				</Property>
+			</Operation>
+		</EstimationStep>
+		<mstep:StepDependencies>
+			<mstep:Step>
+				<ct:OidRef oidRef="estimStep_1"/>
+			</mstep:Step>
+		</mstep:StepDependencies>
+	</ModellingSteps>		
+</PharmML>

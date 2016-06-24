@@ -152,3 +152,5 @@ examples_0_8_1/fromSpec/example4_NONMEM_DEL.xml
 examples_0_8_1/fromSpec/example5_NONMEM_DEL.xml
 
 examples_0_8_1/optimalDesign/example1_completeTaskFeatures_DEL.xml
+
+*.jar

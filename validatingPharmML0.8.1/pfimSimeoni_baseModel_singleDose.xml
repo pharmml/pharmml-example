@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+	xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
+	xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+	xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+	xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
+	xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
+	xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
+	xmlns:design="http://www.pharmml.org/pharmml/0.8/TrialDesign"
+	writtenVersion="0.8.1">
+	<ct:Name>pfimSimeoni_baseModel_singleDose</ct:Name>
+	<IndependentVariable symbId="T"/>
+	
+	<ct:FunctionDefinition symbolType="real" symbId="combinedErrorModel">
+		<ct:FunctionArgument symbolType="real" symbId="additive"/>
+		<ct:FunctionArgument symbolType="real" symbId="proportional"/>
+		<ct:FunctionArgument symbolType="real" symbId="f"/>
+		<ct:Definition>
+			<ct:Assign>
+				<math:Binop op="plus">
+					<ct:SymbRef symbIdRef="additive"/>
+					<math:Binop op="times">
+						<ct:SymbRef symbIdRef="proportional"/>
+						<ct:SymbRef symbIdRef="f"/>
+					</math:Binop>
+				</math:Binop>
+			</ct:Assign>
+		</ct:Definition>
+	</ct:FunctionDefinition>
+
+	<ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+		<VariabilityModel blkId="vm_err" type="residualError">
+			<Level symbId="DV"/>
+		</VariabilityModel>
+		
+		<ParameterModel blkId="pm">
+			<PopulationParameter symbId = "LAMBDA0_POP"/>
+			<PopulationParameter symbId = "LAMBDA1_POP"/>
+			<PopulationParameter symbId = "K1_POP"/>
+			<PopulationParameter symbId = "K2_POP"/>
+			<PopulationParameter symbId = "W0_POP"/>
+			<PopulationParameter symbId = "CV"/>
+			<PopulationParameter symbId = "RUV_ADD"/>
+			<PopulationParameter symbId = "SIGMA_RES_W"/>
+			<IndividualParameter symbId="LAMBDA0">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="LAMBDA0_POP"/>
+				</ct:Assign>
+			</IndividualParameter>
+			<IndividualParameter symbId="LAMBDA1">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="LAMBDA1_POP"/>
+				</ct:Assign>
+			</IndividualParameter>
+			<IndividualParameter symbId="K1">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="K1_POP"/>
+				</ct:Assign>
+			</IndividualParameter>
+			<IndividualParameter symbId="K2">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="K2_POP"/>
+				</ct:Assign>
+			</IndividualParameter>
+			<IndividualParameter symbId="W0">
+				<ct:Assign>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="W0_POP"/>
+				</ct:Assign>
+			</IndividualParameter>
+			<RandomVariable symbId="eps_RES_W">
+				<ct:VariabilityReference>
+					<ct:SymbRef blkIdRef="vm_err" symbIdRef="DV"/>
+				</ct:VariabilityReference>
+				<Distribution>
+					<ProbOnto xmlns="http://www.pharmml.org/probonto/ProbOnto" name="Normal2">
+						<Parameter name="mean">
+							<ct:Assign>
+								<ct:Real>0</ct:Real>
+							</ct:Assign>
+						</Parameter>
+						<Parameter name="var">
+							<ct:Assign>
+								<ct:SymbRef symbIdRef="SIGMA_RES_W"/>
+							</ct:Assign>
+						</Parameter>
+					</ProbOnto>
+				</Distribution>
+			</RandomVariable>
+			
+		</ParameterModel>
+		
+		<StructuralModel blkId="sm">
+			<!-- model pred params -->
+			<ct:Variable symbId="K10">
+				<ct:Assign>
+					<math:Binop op="times">
+						<ct:Real>0.868</ct:Real>
+						<ct:Int>24</ct:Int>
+					</math:Binop>
+				</ct:Assign>
+			</ct:Variable>
+
+			<ct:Variable symbId="K12">
+				<ct:Assign>
+					<math:Binop op="times">
+						<ct:Real>0.006</ct:Real>
+						<ct:Int>24</ct:Int>
+					</math:Binop>
+				</ct:Assign>
+			</ct:Variable>
+
+			<ct:Variable symbId="K21">
+				<ct:Assign>
+					<math:Binop op="times">
+						<ct:Real>0.0838</ct:Real>
+						<ct:Int>24</ct:Int>
+					</math:Binop>
+				</ct:Assign>
+			</ct:Variable>
+
+			<ct:Variable symbId="V1">
+				<ct:Assign>
+					<ct:Real>0.81</ct:Real>
+				</ct:Assign>
+			</ct:Variable>
+
+			<ct:Variable symbId="PSI">
+				<ct:Assign>
+					<ct:Int>20</ct:Int>
+				</ct:Assign>
+			</ct:Variable>
+			
+			<ct:Variable symbId="C">
+				<ct:Assign>
+					<math:Binop op="divide">
+						<ct:SymbRef symbIdRef="Q1"/>
+						<ct:SymbRef symbIdRef="V1"/>
+					</math:Binop>
+				</ct:Assign>
+			</ct:Variable>
+			
+			<ct:DerivativeVariable symbId="Q1">
+				<ct:Assign>
+					<math:Binop op="minus">
+						<math:Binop op="times">
+							<ct:SymbRef symbIdRef="K21"/>
+							<ct:SymbRef symbIdRef="Q2"/>
+						</math:Binop>
+						<math:Binop op="times">
+							<math:Binop op="plus">
+								<ct:SymbRef symbIdRef="K10"/>
+								<ct:SymbRef symbIdRef="K12"/>
+							</math:Binop>
+							<ct:SymbRef symbIdRef="Q1"/>
+						</math:Binop>
+					</math:Binop>
+				</ct:Assign>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</ct:InitialValue>
+				</ct:InitialCondition>
+			</ct:DerivativeVariable>
+			
+			<ct:DerivativeVariable symbId="Q2">
+				<ct:Assign>
+					<math:Binop op="minus">
+						<math:Binop op="times">
+							<ct:SymbRef symbIdRef="K12"/>
+							<ct:SymbRef symbIdRef="Q1"/>
+						</math:Binop>
+						<math:Binop op="times">
+							<ct:SymbRef symbIdRef="K21"/>
+							<ct:SymbRef symbIdRef="Q2"/>
+						</math:Binop>
+					</math:Binop>
+				</ct:Assign>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</ct:InitialValue>
+				</ct:InitialCondition>
+			</ct:DerivativeVariable>
+			
+			
+<!--			WTOT=X1+X2+X3+X4
+			X1:{deriv=(LAMBDA0*X1/((1+(WTOT*LAMBDA0/LAMBDA1)^PSI)^(1/PSI)))-K2*C*X1, init=W0}
+			X2:{deriv=K2*C*X1-K1*X2, init=0}
+			X3:{deriv=K1*X2-K1*X3, init=0}
+			X4:{deriv=K1*X3-K1*X4, init=0}	
+-->			
+			<ct:DerivativeVariable symbId="X1">
+				<ct:Assign>
+					<math:Binop op="minus">
+						<math:Binop op="divide">
+							<math:Binop op="times">
+								<ct:SymbRef blkIdRef="pm" symbIdRef="LAMBDA0"/>
+								<ct:SymbRef symbIdRef="X1"/>
+							</math:Binop>
+							<math:Binop op="power">
+								<math:Binop op="plus">
+									<ct:Real>1</ct:Real>
+									<math:Binop op="power">
+										<math:Binop op="divide">
+											<math:Binop op="times">
+												<ct:SymbRef symbIdRef="WTOT"/>
+												<ct:SymbRef blkIdRef="pm" symbIdRef="LAMBDA0"/>
+											</math:Binop>
+											<ct:SymbRef blkIdRef="pm" symbIdRef="LAMBDA1"/>
+										</math:Binop>
+										<ct:SymbRef symbIdRef="PSI"/>
+									</math:Binop>
+								</math:Binop>
+								<math:Binop op="divide">
+									<ct:Real>1</ct:Real>
+									<ct:SymbRef symbIdRef="PSI"/>
+								</math:Binop>
+							</math:Binop>
+						</math:Binop>
+						<math:Binop op="times">
+							<math:Binop op="times">
+								<ct:SymbRef blkIdRef="pm" symbIdRef="K2"/>
+								<ct:SymbRef symbIdRef="C"/>
+							</math:Binop>
+							<ct:SymbRef symbIdRef="X1"/>
+						</math:Binop>
+					</math:Binop>
+				</ct:Assign>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+							<ct:SymbRef blkIdRef="pm" symbIdRef="W0"/>
+						</ct:Assign>
+					</ct:InitialValue>
+					<ct:InitialTime>
+						<ct:Assign><ct:Real>0</ct:Real></ct:Assign>
+					</ct:InitialTime>
+				</ct:InitialCondition>
+			</ct:DerivativeVariable>
+			
+			<ct:DerivativeVariable symbId="X2">
+				<ct:Assign>
+					<math:Binop op="minus">
+						<math:Binop op="times">
+							<math:Binop op="times">
+								<ct:SymbRef blkIdRef="pm" symbIdRef="K2"/>
+								<ct:SymbRef symbIdRef="C"/>
+							</math:Binop>
+							<ct:SymbRef symbIdRef="X1"/>
+						</math:Binop>
+						<math:Binop op="times">
+							<ct:SymbRef blkIdRef="pm" symbIdRef="K1"/>
+							<ct:SymbRef symbIdRef="X2"/>
+						</math:Binop>
+					</math:Binop>
+				</ct:Assign>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</ct:InitialValue>
+				</ct:InitialCondition>
+			</ct:DerivativeVariable>
+			
+			<ct:DerivativeVariable symbId="X3">
+				<ct:Assign>
+					<math:Binop op="minus">
+						<math:Binop op="times">
+							<ct:SymbRef blkIdRef="pm" symbIdRef="K1"/>
+							<ct:SymbRef symbIdRef="X2"/>
+						</math:Binop>
+						<math:Binop op="times">
+							<ct:SymbRef blkIdRef="pm" symbIdRef="K1"/>
+							<ct:SymbRef symbIdRef="X3"/>
+						</math:Binop>
+					</math:Binop>
+				</ct:Assign>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</ct:InitialValue>
+				</ct:InitialCondition>
+			</ct:DerivativeVariable>
+			
+			<ct:DerivativeVariable symbId="X4">
+				<ct:Assign>
+					<math:Binop op="minus">
+						<math:Binop op="times">
+							<ct:SymbRef blkIdRef="pm" symbIdRef="K1"/>
+							<ct:SymbRef symbIdRef="X3"/>
+						</math:Binop>
+						<math:Binop op="times">
+							<ct:SymbRef blkIdRef="pm" symbIdRef="K1"/>
+							<ct:SymbRef symbIdRef="X4"/>
+						</math:Binop>
+					</math:Binop>
+				</ct:Assign>
+				<ct:InitialCondition>
+					<ct:InitialValue>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</ct:InitialValue>
+				</ct:InitialCondition>
+			</ct:DerivativeVariable>
+			
+			<ct:Variable symbId="WTOT">
+				<ct:Assign>
+					<math:Binop op="plus">
+						<math:Binop op="plus">
+							<math:Binop op="plus">
+								<ct:SymbRef symbIdRef="X1"/>
+								<ct:SymbRef symbIdRef="X2"/>
+							</math:Binop>
+							<ct:SymbRef symbIdRef="X3"/>
+						</math:Binop>
+						<ct:SymbRef symbIdRef="X4"/>
+					</math:Binop>
+				</ct:Assign>
+			</ct:Variable>
+		</StructuralModel>
+		
+		<ObservationModel blkId="om1">
+			<ContinuousData>
+				<Standard symbId="Y">
+					<Output>
+						<ct:SymbRef blkIdRef="sm" symbIdRef="WTOT"/>
+					</Output>
+					<ErrorModel>
+						<ct:Assign>
+							<math:FunctionCall>
+								<ct:SymbRef symbIdRef="combinedErrorModel"/>
+								<math:FunctionArgument symbId="additive">
+									<ct:SymbRef blkIdRef="pm" symbIdRef="RUV_ADD"/>
+								</math:FunctionArgument>
+								<math:FunctionArgument symbId="proportional">
+									<ct:SymbRef blkIdRef="pm" symbIdRef="CV"/>
+								</math:FunctionArgument>
+								<math:FunctionArgument symbId="f">
+									<ct:SymbRef blkIdRef="sm" symbIdRef="WTOT"/>
+								</math:FunctionArgument>
+							</math:FunctionCall>
+						</ct:Assign>
+					</ErrorModel>
+					<ResidualError>
+						<ct:SymbRef blkIdRef="pm" symbIdRef="eps_RES_W"/>
+					</ResidualError>
+				</Standard>
+			</ContinuousData>
+		</ObservationModel>
+		
+	</ModelDefinition>
+
+	<TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+
+		<Interventions>
+			<Administration oid="treated">
+				<Bolus>
+					<DoseAmount>
+						<ct:SymbRef blkIdRef="sm" symbIdRef="Q1"/>
+						<ct:Assign>
+							<math:Binop op="times">
+								<ct:Real>30</ct:Real>
+								<math:Binop op="power">
+									<ct:Real>10</ct:Real>
+									<ct:Real>6</ct:Real>
+								</math:Binop>
+							</math:Binop>
+						</ct:Assign>
+					</DoseAmount>
+					<DosingTimes>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</DosingTimes>
+				</Bolus>
+			</Administration>			
+			<Administration oid="control">
+				<Bolus>
+					<DoseAmount>
+						<ct:SymbRef blkIdRef="sm" symbIdRef="Q1"/>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</DoseAmount>
+					<DosingTimes>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</DosingTimes>
+				</Bolus>
+			</Administration>
+			<InterventionsCombination oid="adminComb1">
+				<Interventions>
+					<InterventionRef oidRef="treated"/>
+				</Interventions>
+			</InterventionsCombination>
+		</Interventions>
+		
+		<Observations>
+			<Observation oid="sampleControl">
+				<ObservationTimes>
+					<ct:Assign>
+						<ct:Vector>
+							<ct:VectorElements>
+								<ct:Real>8</ct:Real>
+								<ct:Real>12</ct:Real>
+								<ct:Real>44</ct:Real>
+								<ct:Real>48</ct:Real>
+							</ct:VectorElements>
+						</ct:Vector>
+					</ct:Assign>
+				</ObservationTimes>
+				<Continuous>
+					<ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+				</Continuous>
+			</Observation>			
+			<Observation oid="sampleTreated">
+				<ObservationTimes>
+					<ct:Assign>
+						<ct:Vector>
+							<ct:VectorElements>
+								<ct:Real>8</ct:Real>
+								<ct:Real>28</ct:Real>
+								<ct:Real>63</ct:Real>
+								<ct:Real>68</ct:Real>
+							</ct:VectorElements>
+						</ct:Vector>
+					</ct:Assign>
+				</ObservationTimes>
+				<Continuous>
+					<ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+				</Continuous>
+			</Observation>
+		</Observations>
+		
+		<Arms>
+			<Arm oid="treatedArm">
+				<ArmSize>
+					<ct:Assign>
+						<ct:Real>1</ct:Real>
+					</ct:Assign>
+				</ArmSize>
+				<InterventionSequence>
+					<InterventionList>
+						<InterventionRef oidRef="treated"/>
+					</InterventionList>
+					<Start>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</Start>
+				</InterventionSequence>
+				<ObservationSequence>
+					<ObservationList>
+						<ObservationRef oidRef="sampleTreated"/>
+					</ObservationList>
+					<Start>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</Start>
+				</ObservationSequence>
+			</Arm>
+			
+			<Arm oid="controlArm">
+				<ArmSize>
+					<ct:Assign>
+						<ct:Real>1</ct:Real>
+					</ct:Assign>
+				</ArmSize>
+				<InterventionSequence>
+					<InterventionList>
+						<InterventionRef oidRef="control"/>
+					</InterventionList>
+					<Start>
+						<ct:Assign>
+							<ct:Real>0</ct:Real>
+						</ct:Assign>
+					</Start>
+				</InterventionSequence>
+				<ObservationSequence>
+					<ObservationList>
+						<ObservationRef oidRef="sampleControl"/>
+					</ObservationList>
+				</ObservationSequence>
+			</Arm>
+		</Arms>
+		
+	</TrialDesign>
+	
+	<mstep:ModellingSteps>
+		<mstep:OptimalDesignStep oid="OEDid">
+			
+			<mstep:ParametersToEstimate>
+				<mstep:ParameterEstimation>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="LAMBDA0_POP"/>
+					<mstep:InitialEstimate>
+						<ct:Real>0.238</ct:Real>
+					</mstep:InitialEstimate>
+					<mstep:LowerBound>
+						<ct:Real>0</ct:Real>
+					</mstep:LowerBound>
+				</mstep:ParameterEstimation>
+				<mstep:ParameterEstimation>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="LAMBDA1_POP"/>
+					<mstep:InitialEstimate>
+						<ct:Real>0.14</ct:Real>
+					</mstep:InitialEstimate>
+					<mstep:LowerBound>
+						<ct:Real>0</ct:Real>
+					</mstep:LowerBound>
+				</mstep:ParameterEstimation>
+				<mstep:ParameterEstimation>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="K1_POP"/>
+					<mstep:InitialEstimate>
+						<ct:Real>0.049</ct:Real>
+					</mstep:InitialEstimate>
+					<mstep:LowerBound>
+						<ct:Real>0</ct:Real>
+					</mstep:LowerBound>
+				</mstep:ParameterEstimation>
+				<mstep:ParameterEstimation>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="K2_POP"/>
+					<mstep:InitialEstimate>
+						<ct:Real>0.117</ct:Real>
+					</mstep:InitialEstimate>
+					<mstep:LowerBound>
+						<ct:Real>0</ct:Real>
+					</mstep:LowerBound>
+				</mstep:ParameterEstimation>
+				<mstep:ParameterEstimation>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="W0_POP"/>
+					<mstep:InitialEstimate>
+						<ct:Real>6.39E-4</ct:Real>
+					</mstep:InitialEstimate>
+					<mstep:LowerBound>
+						<ct:Real>0</ct:Real>
+					</mstep:LowerBound>
+				</mstep:ParameterEstimation>
+				<mstep:ParameterEstimation>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="RUV_ADD"/>
+					<mstep:InitialEstimate>
+						<ct:Real>0.138</ct:Real>
+					</mstep:InitialEstimate>
+					<mstep:LowerBound>
+						<ct:Real>0</ct:Real>
+					</mstep:LowerBound>
+				</mstep:ParameterEstimation>
+				<mstep:ParameterEstimation>
+					<ct:SymbRef blkIdRef="pm" symbIdRef="CV"/>
+					<mstep:InitialEstimate>
+						<ct:Real>0.063</ct:Real>
+					</mstep:InitialEstimate>
+					<mstep:LowerBound>
+						<ct:Real>0</ct:Real>
+					</mstep:LowerBound>
+				</mstep:ParameterEstimation>
+			</mstep:ParametersToEstimate>
+			
+			<mstep:Operation order="1" opType="evaluation"/>
+		</mstep:OptimalDesignStep>
+	</mstep:ModellingSteps>
+	
+</PharmML>
