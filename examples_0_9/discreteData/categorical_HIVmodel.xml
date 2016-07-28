@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
-    xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
-    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
+    xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.9/ModellingSteps"
+    implementedBy="MJS" writtenVersion="0.9" id="i1">
     
     <ct:Name>HIV model</ct:Name>
     
@@ -15,7 +15,7 @@
     <IndependentVariable symbId="t"/>
     
     <!-- SECTION I -->
-    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <!-- Covariate Model -->
         <CovariateModel blkId="cm1">
@@ -142,7 +142,7 @@
 
 
     <!-- OBSERVATION DEFINITION: Number of patients is S1,S2,S3 and S4 states in months 1:12 -->
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
         <Observations>
             <Observation oid="obsOid">
@@ -168,7 +168,7 @@
         </Observations>
         
         <Covariates>
-            <IndividualCovariates>
+            <IndividualCovariates oid="ic1">
                 <ColumnMapping>
                     <ds:ColumnRef columnIdRef="race"/>
                     <ct:SymbRef blkIdRef="cm1" symbIdRef="RACE"/>

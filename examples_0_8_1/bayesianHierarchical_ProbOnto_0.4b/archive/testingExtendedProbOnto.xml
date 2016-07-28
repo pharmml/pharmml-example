@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
+    
+    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
+    
+    <ct:Name>testing ProbOnto</ct:Name>
+    
+    <IndependentVariable symbId="T"/>
+    
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+        
+        <VariabilityModel blkId="vm1" type="parameterVariability">
+            <Level symbId="pop"/>
+            <Level symbId="indiv">
+                <ParentLevel>
+                    <ct:SymbRef symbIdRef="pop"/>
+                </ParentLevel>
+            </Level>
+        </VariabilityModel>
+        <VariabilityModel blkId="vm2" type="residualError">
+            <Level symbId="residual"/>
+        </VariabilityModel>
+  
+        <ParameterModel blkId="pm1">
+            
+<!--         1  -->
+            <PopulationParameter symbId="POP_K">
+                <Distribution>
+                    <po:ProbOnto type="univariate" name="RandomSample">
+                        <po:Realisation symbId="samples_POP_K"/>
+                        <po:ColumnMapping>
+                            <ds:ColumnRef columnIdRef="POP_K"/>
+                            <ct:SymbRef symbIdRef="samples_POP_K"/>
+                        </po:ColumnMapping>
+                        <ds:DataSet>
+                            <ds:Definition>
+                                <ds:Column columnId="POP_K" valueType="real" columnNum="1"/>
+                            </ds:Definition>
+                            <ds:Table>
+                                <ds:Row><ct:Real>0.10</ct:Real></ds:Row>
+                                <!-- other values omitted -->
+                            </ds:Table>
+                        </ds:DataSet>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+<!--         1  -->
+            <PopulationParameter symbId="POP_K">
+                <Distribution>
+                    <po:ProbOnto type="univariate" name="RandomSample">
+                        <ds:DataSet>
+                            <ds:Table>
+                                <ds:Row><ct:Real>0.10</ct:Real></ds:Row>
+                                <!-- other values omitted -->
+                            </ds:Table>
+                        </ds:DataSet>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+<!--         1 -->
+            <PopulationParameter symbId="POP_K">
+                <Distribution>
+                    <po:ProbOnto type="univariate" name="RandomSample">
+                        <po:Realisation symbId="samples_POP_K"/>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+
+            <PopulationParameter symbId="POP_K">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="pop" blkIdRef="vm1"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto type="univariate" name="RandomSample">
+                        <po:Realisation symbId="samples_POP_K"/>
+                        <po:Weight symbId="p"/>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+<!--        2 -->
+            <PopulationParameter symbId="POP_V">
+                <Distribution>
+                    <po:ProbOnto type="univariate" name="RandomSample">
+                        <ds:DataSet>
+                            <ds:Table>
+                                <ds:Row><ct:Real>5.050013</ct:Real></ds:Row>
+                                <ds:Row><ct:Real>5.064166</ct:Real></ds:Row>
+                                <ds:Row><ct:Real>5.078318</ct:Real></ds:Row>
+                            </ds:Table>
+                            <!-- <ds:ExternalFile oid="sxtData">
+                        <ds:path>POP_V.csv</ds:path>
+                    </ds:ExternalFile>-->
+                        </ds:DataSet>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+<!--        2 -->
+            <PopulationParameter symbId="POP_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef blkIdRef="vm1" symbIdRef="pop"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto type="univariate" name="RandomSample">
+                        <po:Realisation symbId="samples_POP_V"/>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+
+<!--        3 -->
+            <PopulationParameter symbId="POP_K">
+                <Distribution>
+                    <po:ProbOnto type="univariate" name="RandomSample">
+                        <po:Realisation symbId="samples_POP_K"/>
+                        <po:Weight symbId="p"/>
+                        
+                        <po:ColumnMapping xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+                            <ds:ColumnRef columnIdRef="P"/>
+                            <ct:SymbRef symbIdRef="p"/>
+                        </po:ColumnMapping>
+                        <po:ColumnMapping>
+                            <ds:ColumnRef columnIdRef="pop_K"/>
+                            <ct:SymbRef symbIdRef="samples_POP_K"/>
+                        </po:ColumnMapping>
+                        <ds:DataSet>
+                            <ds:Definition>
+                                <ds:Column columnId="P" valueType="real" columnNum="1"/>
+                                <ds:Column columnId="pop_K" valueType="real" columnNum="2"/>
+                            </ds:Definition>
+                            <ds:Table>
+                                <ds:Row><ct:Real>0.25</ct:Real><ct:Real>0.10</ct:Real></ds:Row>
+                                <ds:Row><ct:Real>0.25</ct:Real><ct:Real>0.23</ct:Real></ds:Row>
+                                <ds:Row><ct:Real>0.5</ct:Real><ct:Real>0.3</ct:Real></ds:Row>
+                            </ds:Table>
+                            <!-- <ds:ExternalFile oid="sxtData">
+                                <ds:path>POP_K_sample.csv</ds:path>
+                            </ds:ExternalFile>-->
+                        </ds:DataSet>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+        
+<!--        3 -->
+            <PopulationParameter symbId="POP_K">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="pop" blkIdRef="vm1"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto type="univariate" name="RandomSample">
+                        <po:Realisation symbId="samples_POP_K"/>
+                        <po:Weight symbId="p"/>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+            <PopulationParameter symbId="POP_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="pop" blkIdRef="vm1"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto type="univariate" name="RandomSample">
+                        <po:Realisation symbId="samples_POP_V"/>
+                        <po:Weight symbId="p"/>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+            
+<!--          4  -->
+            <PopulationParameter symbId="POP_K_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="pop" blkIdRef="vm1"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto type="multivariate" name="RandomSample">
+                        <po:Realisation symbId="samples_POP_K_V"/>
+                        <po:Weight symbId="p_POP_K_V"/>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+            
+            <!-- prior variables and transformations on "THETA" -->
+            <PopulationParameter symbId="POP_K_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="pop" blkIdRef="vm1"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto name="RandomSample">
+                        <po:Realisation symbId="samples_POP_K_V"/>                 <!-- change -->
+                        <po:Weight symbId="p_POP_K_V"/>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+            <PopulationParameter symbId="POP_K_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="pop" blkIdRef="vm1"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto type="univariate" name="RandomSample">
+                        <po:Realisation symbId="POP_K_V"/> 
+                        <po:Weight symbId="p_POP_K_V"/> 
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+        </ParameterModel>
+        
+        
+    </ModelDefinition>
+    
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+        
+<!--     1 -->
+        <ExternalDataSet oid="RdataSet1">
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="samples_POP_K"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="samples_POP_K"/>
+            </ColumnMapping>
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="samples_POP_K" valueType="real" columnNum="1"/>
+                </ds:Definition>
+                <ds:Table>
+                    <ds:Row><ct:Real>0.10</ct:Real></ds:Row>
+                    <!-- other values omitted -->
+                </ds:Table>
+            </ds:DataSet>
+        </ExternalDataSet>
+        
+        
+<!--        2 -->
+        <ExternalDataSet oid="RdataSet2">
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="pop_V"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="samples_POP_V"/>
+            </ColumnMapping>
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="pop_V" valueType="real" columnNum="1"/>
+                </ds:Definition>
+                <ds:Table>
+                    <ds:Row><ct:Real>5.050013</ct:Real></ds:Row>
+                    <ds:Row><ct:Real>5.064166</ct:Real></ds:Row>
+                    <ds:Row><ct:Real>5.078318</ct:Real></ds:Row>
+                    <!-- values samples -->
+                </ds:Table>
+            </ds:DataSet>
+        </ExternalDataSet>
+        
+        
+<!--       3 -->
+        <ExternalDataSet oid="RdataSet3">
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="pop_K"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="samples_POP_K"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="pop_V"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="samples_POP_V"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="p_pop_V_K"/>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="p"/>
+            </ColumnMapping>
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="pop_K" valueType="real" columnNum="1"/>
+                    <ds:Column columnId="pop_V" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="p_pop_V_K" valueType="real" columnNum="3"/>
+                </ds:Definition>
+                <ds:Table>
+                    <ds:Row><ct:Real>8</ct:Real><ct:Real>0.10</ct:Real><ct:Real>0.25</ct:Real></ds:Row>
+                    <ds:Row><ct:Real>14</ct:Real><ct:Real>0.23</ct:Real><ct:Real>0.25</ct:Real></ds:Row>
+                    <ds:Row><ct:Real>32</ct:Real><ct:Real>0.3</ct:Real><ct:Real>0.5</ct:Real></ds:Row>
+                </ds:Table>
+                <!--  <ds:ExternalFile oid="sxtData">
+                        <ds:path>POP_V_K_sample.csv</ds:path>
+                      </ds:ExternalFile>-->
+            </ds:DataSet>
+        </ExternalDataSet>
+
+<!--          4 -->
+        <ExternalDataSet oid="RdataSet4">
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="samples_pop_K"/>
+                <ct:Assign>
+                    <ct:VectorSelector>
+                        <ct:SymbRef symbIdRef="samples_POP_K_V" blkIdRef="pm1"/>
+                        <ct:Cell>
+                            <ct:Int>1</ct:Int>
+                        </ct:Cell>
+                    </ct:VectorSelector>
+                </ct:Assign>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="samples_pop_V"/>
+                <ct:Assign>
+                    <ct:VectorSelector>
+                        <ct:SymbRef symbIdRef="samples_POP_K_V" blkIdRef="pm1"/>
+                        <ct:Cell>
+                            <ct:Int>2</ct:Int>
+                        </ct:Cell>
+                    </ct:VectorSelector>
+                </ct:Assign>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="p_POP_K_V"/>
+                <ct:SymbRef symbIdRef="p_POP_K_V" blkIdRef="pm1"/>
+            </ColumnMapping>
+            <DataSet xmlns="http://www.pharmml.org/pharmml/0.8/Dataset">
+                <Definition>
+                    <Column columnId="samples_pop_K" valueType="real" columnNum="1"/>
+                    <Column columnId="samples_pop_V" valueType="real" columnNum="2"/>
+                    <Column columnId="p_pop_K_V" valueType="real" columnNum="3"/>
+                </Definition>
+                <Table>
+                    <Row><ct:Real>2.006510</ct:Real><ct:Real>5.050013</ct:Real><ct:Real>0.033</ct:Real></Row>
+                    <Row><ct:Real>2.045465</ct:Real><ct:Real>5.050013</ct:Real><ct:Real>0.100</ct:Real></Row>
+                    <Row><ct:Real>2.084421</ct:Real><ct:Real>5.050013</ct:Real><ct:Real>0.100</ct:Real></Row>
+                    <Row><ct:Real>2.123377</ct:Real><ct:Real>5.050013</ct:Real><ct:Real>0.200</ct:Real></Row>
+                    <!-- rows skipped -->
+                </Table>
+            </DataSet>
+        </ExternalDataSet>
+
+    </TrialDesign>
+
+</PharmML>

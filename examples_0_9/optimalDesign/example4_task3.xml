@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
-    xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
-    implementedBy="MJS" writtenVersion="0.8.1"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.9/ModelDefinition"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    implementedBy="MJS" writtenVersion="0.9"
     metadataFile="example4_task3.rdf" id="i1">
     
     <!--    Task description
@@ -24,7 +24,7 @@
     <IndependentVariable symbId="time"/>
 
     <!-- BLOCK I: MODEL DEFINITION -->
-    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <VariabilityModel blkId="vm1" type="parameterVariability">
             <Level symbId="subject"/>
@@ -61,7 +61,7 @@
     </ModelDefinition>
     
     <!-- BLOCK II: TRIAL DEFINITION -->
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
           <Interventions>
                 <mdef:DesignParameter symbId="tdoseB">
@@ -165,7 +165,7 @@
             </Observations>
             
             <DesignSpaces>
-                <DesignSpace>
+                <DesignSpace oid="ds1">
                     <ObservationRef oidRef="window1"/>
                     <ObservationTimes>
                         <ct:Assign>
@@ -185,7 +185,7 @@
                     </ObservationTimes>
                 </DesignSpace>
                 
-                <DesignSpace>
+                <DesignSpace oid="ds2">
                     <ArmRef oidRef="arm1"/>
                     <ArmSize>
                         <ct:Assign>
@@ -204,7 +204,7 @@
                     </ArmSize>
                 </DesignSpace>
                 
-                <DesignSpace>
+                <DesignSpace oid="ds3">
                     <ct:SymbRef symbIdRef="tdoseB"/>
                     <ct:Assign>
                         <ct:Interval>
@@ -261,7 +261,7 @@
 
     </TrialDesign>
     
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.8/ModellingSteps">
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.9/ModellingSteps">
         
         <TargetTool oid="targetTool">
             <TargetToolName>PFIM</TargetToolName>

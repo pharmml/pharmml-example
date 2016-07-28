@@ -119,7 +119,7 @@
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_ka_treatseq"/>
-                                <Category catId="AB"/>
+                                <ct:CatRef catIdRef="AB"/>
                             </FixedEffect>
                         </Covariate>
                     </LinearCovariate>
@@ -187,28 +187,28 @@
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_V"/>
-                                <Category catId="F"/>
+                                <ct:CatRef catIdRef="F"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_V_occ1"/>
-                                <Category catId="occ1"/>
+                                <ct:CatRef catIdRef="occ1"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Treat"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_V_Treat"/>
-                                <Category catId="A"/>
+                                <ct:CatRef catIdRef="A"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_V_TreatSeq"/>
-                                <Category catId="AB"/>
+                                <ct:CatRef catIdRef="AB"/>
                             </FixedEffect>
                         </Covariate>
                     </LinearCovariate>
@@ -279,14 +279,14 @@
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_CL"/>
-                                <Category catId="F"/>
+                                <ct:CatRef catIdRef="F"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
                             <FixedEffect>
                                 <ct:SymbRef symbIdRef="beta_CL_occ1"/>
-                                <Category catId="occ1"/>
+                                <ct:CatRef catIdRef="occ1"/>
                             </FixedEffect>
                         </Covariate>
                     </LinearCovariate>
@@ -302,6 +302,47 @@
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
+            
+            <IndividualParameter symbId="V">
+                <Distribution>
+                    <po:ProbOnto name="MixtureDistribution">
+                        <po:Parameter name="weight">
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="pi"/>
+                            </ct:Assign>
+                        </po:Parameter>
+                        <po:MixtureComponent name="LogNormal1">
+                            <po:Parameter name="meanLog">
+                                <ct:Assign>
+                                    <math:Uniop op="log">
+                                        <ct:SymbRef symbIdRef="mu1"/>
+                                    </math:Uniop>
+                                </ct:Assign>
+                            </po:Parameter>
+                            <po:Parameter name="stdevLog">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="sigma1"/>
+                                </ct:Assign>
+                            </po:Parameter>
+                        </po:MixtureComponent>
+                        <po:MixtureComponent name="LogNormal1">
+                            <po:Parameter name="meanLog">
+                                <ct:Assign>
+                                    <math:Uniop op="log">
+                                        <ct:SymbRef symbIdRef="mu2"/>
+                                    </math:Uniop>
+                                </ct:Assign>
+                            </po:Parameter>
+                            <po:Parameter name="stdevLog">
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="sigma2"/>
+                                </ct:Assign>
+                            </po:Parameter>
+                        </po:MixtureComponent>
+                    </po:ProbOnto>
+                </Distribution>
+            </IndividualParameter>
+            
         </ParameterModel>
         
         <!-- STRUCTURAL MODEL -->

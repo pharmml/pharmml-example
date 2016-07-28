@@ -6,6 +6,8 @@
     xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
     xmlns:design="http://www.pharmml.org/pharmml/0.8/TrialDesign"
     xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
     implementedBy="MJS" writtenVersion="0.8.1"
     metadataFile="task1_onegroup_evaluate.rdf" id="i1">
     
@@ -99,6 +101,7 @@
                 </ObservationTimes>
                 <Continuous>
                     <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+                    <ct:SymbRef blkIdRef="om1" symbIdRef="E"/>
                 </Continuous>
             </Observation>
             
@@ -108,6 +111,78 @@
                 </Observations>
             </ObservationsCombination>
         </Observations>
+        
+        <Covariates>
+            <CovariateModel oid="TD_CM">
+                
+                <Covariate symbId="W_arm1">
+                    <Continuous xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+                        <Distribution>
+                            <ProbOnto name="Normal1" xmlns="http://www.pharmml.org/probonto/ProbOnto">
+                                <Parameter name="mean">
+                                    <ct:Assign>
+                                        <ct:Real>70</ct:Real>
+                                    </ct:Assign>
+                                </Parameter>
+                                <Parameter name="stdev">
+                                    <ct:Assign>
+                                        <ct:Real>13</ct:Real>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+                        </Distribution>
+                    </Continuous>
+                </Covariate>
+                
+                <Covariate symbId="W_arm2">
+                    <Continuous xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+                        <Distribution>
+                            <ProbOnto name="Normal1" xmlns="http://www.pharmml.org/probonto/ProbOnto">
+                                <Parameter name="mean">
+                                    <ct:Assign>
+                                        <ct:Real>65</ct:Real>
+                                    </ct:Assign>
+                                </Parameter>
+                                <Parameter name="stdev">
+                                    <ct:Assign>
+                                        <ct:Real>10</ct:Real>
+                                    </ct:Assign>
+                                </Parameter>
+                            </ProbOnto>
+                        </Distribution>
+                    </Continuous>
+                </Covariate>
+                
+                <Covariate symbId="SEX_arm1">
+                    <mdef:Categorical>
+                        <mdef:Distribution>
+                            <po:ProbOnto name="Bernoulli1">
+                                <po:Parameter name="probability">
+                                    <ct:Assign>
+                                        <ct:Real>0.49</ct:Real>
+                                    </ct:Assign>
+                                </po:Parameter>
+                            </po:ProbOnto>
+                        </mdef:Distribution>
+                    </mdef:Categorical>
+                </Covariate>
+                
+                <Covariate symbId="SEX_arm2">
+                    <mdef:Categorical>
+                        <mdef:Distribution>
+                            <po:ProbOnto name="Bernoulli1">
+                                <po:Parameter name="probability">
+                                    <ct:Assign>
+                                        <ct:Real>0.55</ct:Real>
+                                    </ct:Assign>
+                                </po:Parameter>
+                            </po:ProbOnto>
+                        </mdef:Distribution>
+                    </mdef:Categorical>
+                </Covariate>
+
+            </CovariateModel>
+        </Covariates>
         
         <!--        DESIGN_SPACES{
         DS{name=t1, element=amount, discrete=[50,100,200] }

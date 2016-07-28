@@ -531,26 +531,33 @@
             
             <!-- Samples Samples Samples Samples Samples Samples Samples Samples Samples Samples Samples Samples  -->
             <PopulationParameter symbId="p"/>
-            <PopulationParameter symbId="POP_K_sample">
+            <PopulationParameter symbId="POP_K_sample"/>
+            <PopulationParameter symbId="POP_K">
                 <Distribution>
                     <po:ProbOnto name="RandomSample">
-                        <po:Parameter name="weight">
+                        <po:Realisation>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="POP_K_sample"/>
+                            </ct:Assign>
+                        </po:Realisation>
+                        <po:Weight>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="p"/>
                             </ct:Assign>
-                        </po:Parameter>
+                        </po:Weight>
+                        
                         <po:ColumnMapping xmlns="http://www.pharmml.org/pharmml/0.7/TrialDesign">
                             <ds:ColumnRef columnIdRef="P"/>
                             <ct:SymbRef symbIdRef="p"/>
                         </po:ColumnMapping>
                         <po:ColumnMapping>
-                            <ds:ColumnRef columnIdRef="POP_K"/>
+                            <ds:ColumnRef columnIdRef="pop_K"/>
                             <ct:SymbRef symbIdRef="POP_K_sample"/>
                         </po:ColumnMapping>
                         <ds:DataSet>
                             <ds:Definition>
                                 <ds:Column columnId="P" valueType="real" columnNum="1"/>
-                                <ds:Column columnId="POP_K_sample" valueType="real" columnNum="2"/>
+                                <ds:Column columnId="pop_K" valueType="real" columnNum="2"/>
                             </ds:Definition>
                             <ds:Table>
                                 <ds:Row><ct:Real>0.25</ct:Real><ct:Real>0.10</ct:Real></ds:Row>
@@ -565,6 +572,49 @@
                 </Distribution>
             </PopulationParameter>
             
+            <!-- ProbOnto update: dev_1.1.1 -->
+            <PopulationParameter symbId="p"/>
+            <PopulationParameter symbId="POP_K_sample"/>
+            <PopulationParameter symbId="POP_K">
+                <Distribution>
+                    <po:ProbOnto name="RandomSample">
+                        <po:Realisation>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="sample_POP_K"/>
+                            </ct:Assign>
+                        </po:Realisation>
+                        <po:Weight>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="p"/>
+                            </ct:Assign>
+                        </po:Weight>
+                        
+                        <po:ColumnMapping xmlns="http://www.pharmml.org/pharmml/0.7/TrialDesign">
+                            <ds:ColumnRef columnIdRef="P"/>
+                            <ct:SymbRef symbIdRef="p"/>
+                        </po:ColumnMapping>
+                        <po:ColumnMapping>
+                            <ds:ColumnRef columnIdRef="pop_K"/>
+                            <ct:SymbRef symbIdRef="sample_POP_K"/>
+                        </po:ColumnMapping>
+                        
+                        <ds:DataSet>
+                            <ds:Definition>
+                                <ds:Column columnId="P" valueType="real" columnNum="1"/>
+                                <ds:Column columnId="pop_K" valueType="real" columnNum="2"/>
+                            </ds:Definition>
+                            <ds:Table>
+                                <ds:Row><ct:Real>0.25</ct:Real><ct:Real>0.10</ct:Real></ds:Row>
+                                <ds:Row><ct:Real>0.25</ct:Real><ct:Real>0.23</ct:Real></ds:Row>
+                                <ds:Row><ct:Real>0.5</ct:Real><ct:Real>0.3</ct:Real></ds:Row>
+                            </ds:Table>
+                            <!-- <ds:ExternalFile oid="sxtData">
+                                <ds:path>POP_K_sample.csv</ds:path>
+                            </ds:ExternalFile>-->
+                        </ds:DataSet>
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
             
             <!-- no weights, no mapping required -->
             <PopulationParameter symbId="POP_K_sample_ALT">

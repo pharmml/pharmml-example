@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8.1"
+    implementedBy="MJS" writtenVersion="0.9"
     metadataFile="example5_NONMEM.rdf" id="i1">
     
     <!-- MODEL NAME -->
@@ -28,7 +28,7 @@
     </ct:FunctionDefinition>
     
     <!-- BLOCK I: MODEL DEFINITION -->
-    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <!-- VARIABILITY MODEL -->
         <VariabilityModel blkId="vm1" type="parameterVariability"> 
@@ -78,7 +78,9 @@
                         </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_P0"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_P0"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>            
@@ -115,7 +117,9 @@
                         </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_Q0"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_Q0"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>            
@@ -171,7 +175,9 @@
                         </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_KDE"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_KDE"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -207,7 +213,9 @@
                         </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_LAMBDAP"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_LAMBDAP"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -243,7 +251,9 @@
                         </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_KQPP"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_KQPP"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -279,7 +289,9 @@
                         </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_KPQ"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_KPQ"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -315,7 +327,9 @@
                         </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_GAMMA"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_GAMMA"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -351,7 +365,9 @@
                         </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_DELTAQP"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_DELTAQP"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -364,7 +380,7 @@
             <!-- dC/dt -->
             <ct:DerivativeVariable symbolType="real" symbId="C">
                 <ct:Assign>
-                    <Binop xmlns="http://www.pharmml.org/pharmml/0.8/Maths" op="times">
+                    <Binop xmlns="http://www.pharmml.org/pharmml/0.9/Maths" op="times">
                         <Uniop op="minus">
                             <ct:SymbRef blkIdRef="pm1" symbIdRef="KDE"/>
                         </Uniop>
@@ -557,28 +573,28 @@
     
     
     <!-- BLOCK II: TRIAL DESIGN -->
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
         <ExternalDataSet toolName="NONMEM" oid="NMoid">
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="ID"/>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.9/Dataset" columnIdRef="ID"/>
                 <ct:SymbRef blkIdRef="vm1" symbIdRef="indiv"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="TIME"/> 
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.9/Dataset" columnIdRef="TIME"/> 
                 <ct:SymbRef symbIdRef="time"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="DV"/> 
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.9/Dataset" columnIdRef="DV"/> 
                 <ct:SymbRef blkIdRef="om1" symbIdRef="PSTAR_obs"/>
             </ColumnMapping>
             <ColumnMapping>
-                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.8/Dataset" columnIdRef="AMT"/>
+                <ColumnRef xmlns="http://www.pharmml.org/pharmml/0.9/Dataset" columnIdRef="AMT"/>
                 <ct:SymbRef blkIdRef="om1" symbIdRef="C"/>
             </ColumnMapping>
             
             <!--columns: ID TIME DV MDV DOSE EVID-->
-            <DataSet xmlns="http://www.pharmml.org/pharmml/0.8/Dataset">
+            <DataSet xmlns="http://www.pharmml.org/pharmml/0.9/Dataset">
                 <Definition>
                     <Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
                     <Column columnId="TIME" columnType="time" valueType="real" columnNum="2"/>
@@ -599,7 +615,7 @@
     
     
     <!-- BLOCK III: MODELLING STEPS -->
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.8/ModellingSteps">
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.9/ModellingSteps">
         
         <!-- ESTIMATION STEP -->
         <EstimationStep oid="estTask1">

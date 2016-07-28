@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
-    xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.9/ModelDefinition"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
-    implementedBy="MJS" writtenVersion="0.8.1"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    implementedBy="MJS" writtenVersion="0.9"
     metadataFile="example3_task1.rdf" id="i1">
     
     <!--    Task description
@@ -28,7 +28,7 @@
     <IndependentVariable symbId="time"/>
 
     <!-- MODEL DEFINITION -->
-    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <!-- VARIABILITY MODEL -->
         <VariabilityModel blkId="vm1" type="parameterVariability">
@@ -101,7 +101,7 @@
     </ModelDefinition>
     
     <!-- TRIAL DEFINITION -->
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
         <Interventions>
             <Administration oid="admin1">
@@ -166,7 +166,7 @@
                     <mdef:Continuous>
                         <mdef:Distribution>
                             <math:Piecewise>
-                                <Piece xmlns="http://www.pharmml.org/pharmml/0.8/Maths">
+                                <Piece xmlns="http://www.pharmml.org/pharmml/0.9/Maths">
                                     <po:ProbOnto name="Normal2">
                                         <po:Parameter name="mean">
                                             <ct:Assign>
@@ -187,7 +187,7 @@
                                         </LogicBinop>
                                     </Condition>
                                 </Piece>
-                                <Piece xmlns="http://www.pharmml.org/pharmml/0.8/Maths">
+                                <Piece xmlns="http://www.pharmml.org/pharmml/0.9/Maths">
                                     <po:ProbOnto name="Normal2">
                                         <po:Parameter name="mean">
                                             <ct:Assign>
@@ -238,7 +238,7 @@
                 </ct:Assign>
             </mdef:DesignParameter>
             
-            <DesignSpace>
+            <DesignSpace oid="ds0">
                 <ObservationRef oidRef="window1"/>
                 <ObservationTimes>
                     <ct:Assign>
@@ -257,7 +257,7 @@
                 </ObservationTimes>
             </DesignSpace>
             
-            <DesignSpace>
+            <DesignSpace oid="ds1">
                 <CovariateModelRef oidRef="td_cm1"/>
                 <CovariateRef symbIdRef="SEX">
                     <mdef:Categorical>
@@ -281,7 +281,7 @@
                 </CovariateRef>
             </DesignSpace>
             
-            <DesignSpace>
+            <DesignSpace oid="ds2">
                 <CovariateModelRef oidRef="td_cm1"/>
                 <CovariateRef symbIdRef="SEX">
                     <mdef:Categorical>
@@ -305,7 +305,7 @@
                 </CovariateRef>
             </DesignSpace>
             
-            <DesignSpace>
+            <DesignSpace oid="ds3">
                 <ct:SymbRef symbIdRef="Wt1_mean"/>
                 <ct:Assign>
                     <ct:Interval>
@@ -322,7 +322,7 @@
                     </ct:Interval>
                 </ct:Assign>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds4">
                 <ct:SymbRef symbIdRef="Wt1_var"/>
                 <ct:Assign>
                     <ct:Interval>
@@ -339,7 +339,7 @@
                     </ct:Interval>
                 </ct:Assign>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds5">
                 <ct:SymbRef symbIdRef="Wt2_mean"/>
                 <ct:Assign>
                     <ct:Interval>
@@ -356,7 +356,7 @@
                     </ct:Interval>
                 </ct:Assign>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds6">
                 <ct:SymbRef symbIdRef="Wt2_var"/>
                 <ct:Assign>
                     <ct:Interval>

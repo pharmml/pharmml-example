@@ -526,7 +526,57 @@
                         <ct:Assign>
                             <math:Piecewise>
                                 <math:Piece>
-                                    <ct:Real>1</ct:Real>
+                                    <ct:String>AB</ct:String>
+                                    <math:Condition>
+                                        <math:LogicBinop op="eq">
+                                            <math:ArmRef oidRef="a1"/>
+                                            <ct:True/>
+                                        </math:LogicBinop>
+                                    </math:Condition>
+                                </math:Piece>
+                                <math:Piece>
+                                    <ct:String>BA</ct:String>
+                                    <math:Condition>
+                                        <math:LogicBinop op="eq">
+                                            <math:ArmRef oidRef="a1"/>
+                                            <ct:False/>
+                                        </math:LogicBinop>
+                                    </math:Condition>
+                                </math:Piece>
+                            </math:Piecewise>
+                        </ct:Assign>
+                    </mdef:Categorical>
+                </Covariate>
+            </CovariateModel>
+        </Covariates>
+            
+            
+<!--            <IndividualCovariates>
+                <ColumnMapping>
+                    <ds:ColumnRef columnIdRef="TRTseq"/>
+                    <ct:SymbRef blkIdRef="cm1" symbIdRef="TRTseq"/>
+                </ColumnMapping>
+                <ds:DataSet>
+                    <ds:Definition>
+                        <ds:Column columnId="arm" columnType="arm" valueType="id" columnNum="1"/>
+                        <ds:Column columnId="TRTseq" columnType="covariate" valueType="string" columnNum="2"/>
+                    </ds:Definition>
+                    <ds:Table>
+                        <ds:Row>
+                            <ct:Id>arm1</ct:Id><ct:String>AB</ct:String>
+                            <ct:Id>arm2</ct:Id><ct:String>BA</ct:String>
+                        </ds:Row>
+                    </ds:Table>
+                </ds:DataSet>
+            </IndividualCovariates>-->
+<!--            <CovariateModel oid="td_cm1">
+                <CovariateModelRef blkIdRef="cm1"/>
+                <Covariate symbId="TRT">
+                    <mdef:Categorical>
+                        <ct:Assign>
+                            <math:Piecewise>
+                                <math:Piece>
+                                    <ct:String>AB</ct:String>
                                     <math:Condition>
                                         <math:LogicBinop op="eq">
                                             <math:ArmRef oidRef="a1"/>
@@ -546,10 +596,9 @@
                             </math:Piecewise>
                         </ct:Assign>
                     </mdef:Categorical>
-                </Covariate>
-                
+                </Covariate>                
             </CovariateModel>
-        </Covariates>
+-->        
         
         
         <Occasions>

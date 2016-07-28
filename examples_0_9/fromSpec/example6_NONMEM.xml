@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
-    xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
+    xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.9/ModellingSteps"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
+    implementedBy="MJS" writtenVersion="0.9" id="i1">
     
     <ct:Name>Example 6 - PK with Poisson - joint model</ct:Name>
     
@@ -16,7 +16,7 @@
     <IndependentVariable symbId="t"/>
     
     <!-- MODEL -->
-    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <VariabilityModel blkId="vm1" type="parameterVariability">
             <Level symbId="subject"/>
@@ -86,6 +86,25 @@
                 </ct:Assign>
             </ct:Variable>
             
+            <!-- Poisson intensity - function of drug concentration, Cc -->                    
+            <ct:Variable symbId="Lambda">
+                <ct:Assign>
+                    <math:Binop op="times">
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda0"/>
+                        <math:Binop op="minus">
+                            <ct:Real>1</ct:Real>
+                            <math:Binop op="divide">
+                                <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                <math:Binop op="plus">
+                                    <ct:SymbRef blkIdRef="pm1" symbIdRef="IC50"/>
+                                    <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
+                                </math:Binop>
+                            </math:Binop>
+                        </math:Binop>
+                    </math:Binop>
+                </ct:Assign>
+            </ct:Variable>
+            
         </StructuralModel>
         
         <!-- Count data - observation model -->
@@ -95,24 +114,6 @@
                     <CountVariable symbId="Y"/>
                     <NumberCounts symbId="k"/> <!-- optional, required for version B -->
                     
-                    <!-- Poisson intensity - function of drug concentration, Cc -->                    
-                    <IntensityParameter symbId="Lambda">
-                        <ct:Assign>
-                            <math:Binop op="times">
-                                <ct:SymbRef blkIdRef="pm1" symbIdRef="lambda0"/>
-                                <math:Binop op="minus">
-                                    <ct:Real>1</ct:Real>
-                                    <math:Binop op="divide">
-                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                                        <math:Binop op="plus">
-                                            <ct:SymbRef blkIdRef="pm1" symbIdRef="IC50"/>
-                                            <ct:SymbRef blkIdRef="sm1" symbIdRef="Cc"/>
-                                        </math:Binop>
-                                    </math:Binop>
-                                </math:Binop>
-                            </math:Binop>
-                        </ct:Assign>
-                    </IntensityParameter>
                     
                     <!-- version A -->
                     <PMF>
@@ -120,7 +121,7 @@
                             <po:ProbOnto name="Poisson1">
                                 <po:Parameter name="rate">
                                     <ct:Assign>
-                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Lambda"/>
                                     </ct:Assign>
                                 </po:Parameter>
                             </po:ProbOnto>
@@ -137,12 +138,12 @@
                             <math:Binop op="minus">
                                 <math:Binop op="plus">
                                     <math:Uniop op="minus">
-                                        <ct:SymbRef symbIdRef="Lambda"/>
+                                        <ct:SymbRef blkIdRef="sm1" symbIdRef="Lambda"/>
                                     </math:Uniop>
                                     <math:Binop op="times">
                                         <ct:SymbRef symbIdRef="k"/>
                                         <math:Uniop op="log">
-                                            <ct:SymbRef symbIdRef="Lambda"/>
+                                            <ct:SymbRef blkIdRef="sm1" symbIdRef="Lambda"/>
                                         </math:Uniop>
                                     </math:Binop>
                                 </math:Binop>
@@ -193,7 +194,7 @@
     </ModelDefinition>
     
     
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
         <!-- estimation data -->
         <ExternalDataSet toolName="NONMEM" oid="NMoid">

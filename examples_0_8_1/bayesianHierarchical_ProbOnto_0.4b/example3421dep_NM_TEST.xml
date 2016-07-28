@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
+    
+    implementedBy="MJS" writtenVersion="0.8.1"
+    metadataFile="example3421dep_NM.rdf" id="i1">
+    
+    <ct:Name>example3421dep_NM</ct:Name>
+    
+    <ct:Description>Example 3.4.2.1 (NONMEM external file) from BayesianModels-V1.1.pdf - population scenario, some parameters correlated (prior level), NONPARAMETRIC PRIOR DISTRIBUTIONS</ct:Description>
+    
+    <IndependentVariable symbId="T"/>
+    
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+        
+        <VariabilityModel blkId="vm1" type="parameterVariability">
+            <Level symbId="pop"/>
+            <Level symbId="indiv">
+                <ParentLevel>
+                    <ct:SymbRef symbIdRef="pop"/>
+                </ParentLevel>
+            </Level>
+        </VariabilityModel>
+        <VariabilityModel blkId="vm2" type="residualError">
+            <Level symbId="residual"/>
+        </VariabilityModel>
+        
+        <ParameterModel blkId="pm1">
+           
+            <!-- ********************************************************************** -->
+            <!-- ********************************************************************** -->
+            <!-- SEE MAPPING DETAILS in 0.8 SPEC, SECTION '2.6.4 Mapping using vectors' -->
+            <!-- ********************************************************************** -->
+            <!-- ********************************************************************** -->
+
+
+            <!-- prior variables and transformations on "THETA" -->            
+            <PopulationParameter symbId="POP_K_V">
+                <ct:VariabilityReference>
+                    <ct:SymbRef symbIdRef="pop" blkIdRef="vm1"/>
+                </ct:VariabilityReference>
+                <Distribution>
+                    <po:ProbOnto name="RandomSample">
+                        
+                        <po:Realisation symbId="samples_POP_K_V"/>                 <!-- change -->
+                        <po:Weight symbId="p_POP_K_V"/>                          <!-- change -->
+
+                    </po:ProbOnto>
+                </Distribution>
+            </PopulationParameter>
+            
+
+            <IndividualParameter symbId="POP_K">
+                <ct:Assign>
+                    <math:Uniop op="exp">
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="POP_K_V"/>
+                            <ct:Cell>
+                                <ct:Int>1</ct:Int>
+                            </ct:Cell>
+                        </ct:VectorSelector>
+                    </math:Uniop>
+                </ct:Assign>
+            </IndividualParameter>
+            
+            <IndividualParameter symbId="POP_V">
+                <ct:Assign>
+                    <math:Uniop op="exp">
+                        <ct:VectorSelector>
+                            <ct:SymbRef symbIdRef="POP_K_V"/>
+                            <ct:Cell>
+                                <ct:Int>2</ct:Int>
+                            </ct:Cell>
+                        </ct:VectorSelector>
+                    </math:Uniop>
+                </ct:Assign>
+            </IndividualParameter>
+ 
+        </ParameterModel>
+
+    </ModelDefinition>
+    
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+        
+        <ExternalDataSet oid="NMpri">
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="pop_K"/>
+                <ct:Assign>
+                    <ct:VectorSelector>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="samples_POP_K_V"/>   <!-- change -->
+                        <ct:Cell>
+                            <ct:Int>1</ct:Int>
+                        </ct:Cell>
+                    </ct:VectorSelector>
+                </ct:Assign>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="pop_V"/>
+                <ct:Assign>
+                    <ct:VectorSelector>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="samples_POP_K_V"/>   <!-- change -->
+                        <ct:Cell>
+                            <ct:Int>2</ct:Int>
+                        </ct:Cell>
+                    </ct:VectorSelector>
+                </ct:Assign>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="p_POP_K_V"/>
+                <ct:SymbRef symbIdRef="p_POP_K_V" blkIdRef="pm1"/>
+            </ColumnMapping>
+            
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="pop_K" valueType="real" columnNum="1"/>
+                    <ds:Column columnId="pop_V" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="p_POP_K_V" valueType="real" columnNum="3"/>
+                </ds:Definition>
+                <ds:Table>
+                        <ds:Row>
+                            <ct:Real>2.006510</ct:Real><ct:Real>5.050013</ct:Real><ct:Real>0.033333</ct:Real>
+                            <ct:Real>2.045465</ct:Real><ct:Real>5.050013</ct:Real><ct:Real>0.100000</ct:Real>
+                            <ct:Real>2.084421</ct:Real><ct:Real>5.050013</ct:Real><ct:Real>0.100000</ct:Real>
+                            <ct:Real>2.123377</ct:Real><ct:Real>5.050013</ct:Real><ct:Real>0.200000</ct:Real>
+                            <ct:Real>2.162333</ct:Real><ct:Real>5.064166</ct:Real><ct:Real>0.100000</ct:Real>
+                            <ct:Real>2.201288</ct:Real><ct:Real>5.064166</ct:Real><ct:Real>0.066667</ct:Real>
+                            <ct:Real>2.240244</ct:Real><ct:Real>5.064166</ct:Real><ct:Real>0.166667</ct:Real>
+                            <ct:Real>2.279200</ct:Real><ct:Real>5.064166</ct:Real><ct:Real>0.100000</ct:Real>
+                            <ct:Real>2.318156</ct:Real><ct:Real>5.078318</ct:Real><ct:Real>0.066667</ct:Real>
+                            <ct:Real>2.357111</ct:Real><ct:Real>5.078318</ct:Real><ct:Real>0.066667</ct:Real>
+                        </ds:Row>
+                </ds:Table>
+<!--                <ds:ExternalFile oid="id1">
+                    <ds:path>prior_bo1.csv</ds:path>
+                    <ds:format>CSV</ds:format>
+                    <ds:delimiter>COMMA</ds:delimiter>
+                </ds:ExternalFile>-->
+            </ds:DataSet>
+        </ExternalDataSet>
+
+        
+    </TrialDesign>
+
+    
+</PharmML>

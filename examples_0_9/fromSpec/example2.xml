@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML  xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML  xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8.1"
+    implementedBy="MJS" writtenVersion="0.9"
     metadataFile="example2.rdf" id="i1">
     
     <ct:Name>Example 2 - simulation continuous PK (Bonate 2012)</ct:Name>
@@ -25,7 +25,7 @@
         </ct:Definition>
     </ct:FunctionDefinition>
     
-    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <VariabilityModel blkId="vm1" type="parameterVariability">
             <Level symbId="indiv"/>
@@ -127,7 +127,9 @@
                         </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_theta1"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_theta1"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -163,7 +165,9 @@
                         </PopulationValue>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_V"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_V"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -292,7 +296,7 @@
     </ModelDefinition>
     
     <!-- trial design -->
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
         <Interventions>
             <Administration oid="bolusOR">
@@ -370,7 +374,7 @@
         </Arms>
     </TrialDesign>
     
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.8/ModellingSteps">
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.9/ModellingSteps">
 
         <SimulationStep  oid="s1">
             <ObservationsReference>

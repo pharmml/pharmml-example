@@ -808,11 +808,7 @@
                 <ct:OidRef oidRef="targetTool"/>
             </TargetToolReference>
             
-            <FIM symbId="FIM1">
-                <File oid="FIMfile">
-                    <ds:path>myFIM.csv</ds:path>
-                </File>
-            </FIM>
+            <FIM type="P"/>
             
             <Method>
                 <ApproximateFIM type="full"/>

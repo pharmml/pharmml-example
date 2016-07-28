@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
     
-    implementedBy="MJS" writtenVersion="0.8.1"
+    implementedBy="MJS" writtenVersion="0.9"
     metadataFile="example3421dep_NM.rdf" id="i1">
     
     <ct:Name>example3421dep_NM</ct:Name>
@@ -16,7 +16,7 @@
     
     <IndependentVariable symbId="T"/>
     
-    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <VariabilityModel blkId="vm1" type="parameterVariability">
             <Level symbId="pop"/>
@@ -89,20 +89,26 @@
             <!-- ********************************************************************** -->
 
 
-            <PopulationParameter symbId="p_POP_K_V"/>
             
             <!-- prior variables and transformations on "THETA" -->            
+            <PopulationParameter symbId="p_POP_K_V"/>
+            <PopulationParameter symbId="samples_POP_K_V"/>
             <RandomVariable symbId="POP_K_V">
                 <ct:VariabilityReference>
                     <ct:SymbRef symbIdRef="pop" blkIdRef="vm1"/>
                 </ct:VariabilityReference>
                 <Distribution>
                     <po:ProbOnto name="RandomSample">
-                        <po:Parameter name="weight">
+                        <po:Realisation>
+                            <ct:Assign>
+                                <ct:SymbRef symbIdRef="samples_POP_K_V"/>
+                            </ct:Assign>
+                        </po:Realisation>
+                        <po:Weight>
                             <ct:Assign>
                                 <ct:SymbRef symbIdRef="p_POP_K_V"/>
                             </ct:Assign>
-                        </po:Parameter>
+                        </po:Weight>
                     </po:ProbOnto>
                 </Distribution>
             </RandomVariable>
@@ -324,7 +330,9 @@
                         </ct:Assign>
                     </PopulationValue>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_K"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_K"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -338,7 +346,9 @@
                         </ct:Assign>
                     </PopulationValue>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_V"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_V"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -352,7 +362,9 @@
                         </ct:Assign>
                     </PopulationValue>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_T"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_T"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -414,14 +426,14 @@
         </ObservationModel>
     </ModelDefinition>
     
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
         <ExternalDataSet oid="NMpri">
             <ColumnMapping>
                 <ds:ColumnRef columnIdRef="bins_POP_K"/>
                 <ct:Assign>
                     <ct:VectorSelector>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="POP_K_V"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="samples_POP_K_V"/>
                         <ct:Cell>
                             <ct:Int>1</ct:Int>
                         </ct:Cell>
@@ -432,7 +444,7 @@
                 <ds:ColumnRef columnIdRef="bins_POP_V"/>
                 <ct:Assign>
                     <ct:VectorSelector>
-                        <ct:SymbRef blkIdRef="pm1" symbIdRef="POP_K_V"/>
+                        <ct:SymbRef blkIdRef="pm1" symbIdRef="samples_POP_K_V"/>
                         <ct:Cell>
                             <ct:Int>2</ct:Int>
                         </ct:Cell>
@@ -505,7 +517,7 @@
         
     </TrialDesign>
     
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.8/ModellingSteps">
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.9/ModellingSteps">
         
         <EstimationStep oid="est1">
             <ExternalDataSetReference>

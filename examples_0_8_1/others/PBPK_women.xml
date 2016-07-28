@@ -2551,7 +2551,7 @@
             
 <!--            dt(Q_ing) = Q_ing_rate;-->
             <ct:Variable symbId="Q_ing"/>
-            <ct:DE>
+            <math:DE>
                 <ct:LHS>
                     <math:Diff>
                         <math:Degree>
@@ -2574,7 +2574,7 @@
                 <ct:RHS>
                     <ct:SymbRef symbIdRef="Q_ing_rate"/>
                 </ct:RHS>
-            </ct:DE>
+            </math:DE>
             
 <!--            dt(Q_stom_lumen) = Q_ing_rate - 
             (Fl_stom_lumen + Ka_stomach) * C_stom_lumen;-->

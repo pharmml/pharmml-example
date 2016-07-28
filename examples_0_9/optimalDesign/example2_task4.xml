@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
-    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    implementedBy="MJS" writtenVersion="0.9" id="i1">
     
     <!--    Task description
 	Same as task 3, but we want both responses measured at the same time, and we 
@@ -27,7 +27,7 @@
     <IndependentVariable symbId="time"/>
 
     <!-- BLOCK I: MODEL DEFINITION -->
-    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <VariabilityModel blkId="vm1" type="parameterVariability">
             <Level symbId="subject"/>
@@ -104,7 +104,7 @@
     </ModelDefinition>
     
     <!-- BLOCK II: TRIAL DEFINITION -->
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
         <Interventions>
             <Administration oid="admin1">
@@ -225,7 +225,7 @@
         
         <DesignSpaces>
             <!-- admin1 -->
-            <DesignSpace>
+            <DesignSpace oid="ds1">
                 <InterventionRef oidRef="admin1"/>
                 <DoseAmount>
                     <ct:Assign>
@@ -239,7 +239,7 @@
                     </ct:Assign>
                 </DoseAmount>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds2">
                 <InterventionRef oidRef="admin1"/>
                 <Duration>
                     <ct:Assign>
@@ -260,7 +260,7 @@
             </DesignSpace>
             
             <!-- win1 -->
-            <DesignSpace>
+            <DesignSpace oid="ds3">
                 <ObservationRef oidRef="win1"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -273,7 +273,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds4">
                 <ObservationRef oidRef="win1"/>
                 <ObservationTimes>
                     <ct:Assign>
@@ -294,7 +294,7 @@
             </DesignSpace>
             
             <!-- win2 -->
-            <DesignSpace>
+            <DesignSpace oid="ds5">
                 <ObservationRef oidRef="win2"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -307,7 +307,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds6">
                 <ObservationRef oidRef="win2"/>
                 <ObservationTimes>
                     <ct:Assign>
@@ -328,7 +328,7 @@
             </DesignSpace>
             
             <!-- win3 -->
-            <DesignSpace>
+            <DesignSpace oid="ds7">
                 <ObservationRef oidRef="win3"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -341,7 +341,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds8">
                 <ObservationRef oidRef="win3"/>
                 <ObservationTimes>
                     <ct:Assign>
@@ -362,7 +362,7 @@
             </DesignSpace>
             
             <!-- win4 -->
-            <DesignSpace>
+            <DesignSpace oid="ds9">
                 <ObservationRef oidRef="win4"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -375,7 +375,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds10">
                 <ObservationRef oidRef="win4"/>
                 <ObservationTimes>
                     <ct:Assign>
@@ -396,7 +396,7 @@
             </DesignSpace>
             
             <!-- win5 -->
-            <DesignSpace>
+            <DesignSpace oid="ds11">
                 <ObservationRef oidRef="win5"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -409,7 +409,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds12">
                 <ObservationRef oidRef="win5"/>
                 <ObservationTimes>
                     <ct:Assign>
@@ -430,7 +430,7 @@
             </DesignSpace>
             
             <!-- win6 -->
-            <DesignSpace>
+            <DesignSpace oid="ds13">
                 <ObservationRef oidRef="win6"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -443,7 +443,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds14">
                 <ObservationRef oidRef="win6"/>
                 <ObservationTimes>
                     <ct:Assign>
@@ -464,7 +464,7 @@
             </DesignSpace>
             
             <!-- samp -->
-            <DesignSpace>
+            <DesignSpace oid="ds15">
                 <ObservationRef oidRef="samp"/>
                 <NumberTimes>
                     <ct:Assign>

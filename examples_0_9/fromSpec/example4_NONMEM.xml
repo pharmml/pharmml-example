@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8.1" 
+    implementedBy="MJS" writtenVersion="0.9" 
     metadataFile="example4_NONMEM.rdf" id="i1">
     
     <!-- MODEL NAME -->
@@ -36,7 +36,7 @@
     </ct:FunctionDefinition>
     
     <!-- MODEL DEFINITION -->
-    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
     
         <!-- VARIABILITY MODEL -->
         <VariabilityModel blkId="vm1" type="parameterVariability">
@@ -128,13 +128,17 @@
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_ka_treatseq"/>
-                                <Category catId="AB"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_ka_treatseq"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="AB"/>
                             </FixedEffect>
                         </Covariate>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_ka"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_ka"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -163,12 +167,6 @@
                             </ct:Assign>
                         </po:Parameter>
                     </po:ProbOnto>
-<!--                    <UncertML>
-                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                            <mean><rVal>0</rVal></mean>
-                            <stddev><var varId="omega_V"/></stddev>
-                        </NormalDistribution>
-                    </UncertML>-->
                 </Distribution>
             </RandomVariable>
             <RandomVariable symbId="kappa_V">
@@ -188,12 +186,6 @@
                             </ct:Assign>
                         </po:Parameter>
                     </po:ProbOnto>
-<!--                    <UncertML>
-                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                            <mean><rVal>0</rVal></mean>
-                            <stddev><var varId="gamma_V"/></stddev>
-                        </NormalDistribution>
-                    </UncertML>-->
                 </Distribution>
             </RandomVariable>
             <IndividualParameter symbId="V">
@@ -206,37 +198,49 @@
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_V"/>
-                                <Category catId="F"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_V"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="F"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_V_occ1"/>
-                                <Category catId="occ1"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_V_occ1"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="occ1"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Treat"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_V_Treat"/>
-                                <Category catId="A"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_V_Treat"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="A"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_V_TreatSeq"/>
-                                <Category catId="AB"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_V_TreatSeq"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="AB"/>
                             </FixedEffect>
                         </Covariate>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_V"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_V"/>
+                        </ct:Assign>
                     </RandomEffects>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="kappa_V"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="kappa_V"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -263,12 +267,6 @@
                             </ct:Assign>
                         </po:Parameter>
                     </po:ProbOnto>
-                    <!--                    <UncertML>
-                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                            <mean><rVal>0</rVal></mean>
-                            <stddev><var varId="omega_CL"/></stddev>
-                        </NormalDistribution>
-                    </UncertML>-->
                 </Distribution>
             </RandomVariable>
             <RandomVariable symbId="kappa_CL">
@@ -288,12 +286,6 @@
                             </ct:Assign>
                         </po:Parameter>
                     </po:ProbOnto>
-<!--                    <UncertML>
-                        <NormalDistribution xmlns="http://www.uncertml.org/3.0" definition="http://www.uncertml.org/distributions/normal">
-                            <mean><rVal>0</rVal></mean>
-                            <stddev><var varId="gamma_CL"/></stddev>
-                        </NormalDistribution>
-                    </UncertML>-->
                 </Distribution>
             </RandomVariable>
             <IndividualParameter symbId="CL">
@@ -306,23 +298,31 @@
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_CL"/>
-                                <Category catId="F"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_CL"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="F"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_CL_occ1"/>
-                                <Category catId="occ1"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_CL_occ1"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="occ1"/>
                             </FixedEffect>
                         </Covariate>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_CL"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_CL"/>
+                        </ct:Assign>
                     </RandomEffects>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="kappa_CL"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="kappa_CL"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -435,7 +435,7 @@
         </ObservationModel>
     </ModelDefinition>
     
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
         <!-- OBJECTIVE DATA -->
         <ExternalDataSet toolName="NONMEM" oid="NMoid">
@@ -528,7 +528,7 @@
     </TrialDesign>
     
     <!-- MODELLING STEPS -->
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.8/ModellingSteps">
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.9/ModellingSteps">
        
         <!-- ESTIMATION -->
         <EstimationStep oid="e1">       

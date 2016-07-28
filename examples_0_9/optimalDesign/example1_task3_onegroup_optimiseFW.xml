@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
-    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    implementedBy="MJS" writtenVersion="0.9" id="i1">
     
     
     <!-- MODEL NAME -->
@@ -17,7 +17,7 @@
     <IndependentVariable symbId="time"/>
 
     <!-- BLOCK I: MODEL DEFINITION -->
-    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <VariabilityModel blkId="vm1" type="parameterVariability">
             <Level symbId="subject"/>
@@ -64,7 +64,7 @@
     </ModelDefinition>
     
     <!-- BLOCK II: TRIAL DEFINITION -->
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
         <Interventions>
             <Administration oid="admin1">
@@ -141,7 +141,7 @@
         </Observations>
         
         <DesignSpaces>
-            <DesignSpace>
+            <DesignSpace oid="ds1">
                 <InterventionRef oidRef="admin1"/>
                 <DoseAmount>
                     <ct:Assign>
@@ -155,7 +155,7 @@
                     </ct:Assign>
                 </DoseAmount>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds2">
                 <ObservationRef oidRef="window1"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -168,7 +168,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds3">
                 <ObservationRef oidRef="window1"/>
                 <ObservationTimes>
                     <ct:Assign>
@@ -184,7 +184,7 @@
                     </ct:Assign>
                 </ObservationTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds4">
                 <ObservationRef oidRef="window2"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -197,7 +197,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds5">
                 <ObservationRef oidRef="window2"/>
                 <ObservationTimes>
                     <ct:Assign>
@@ -210,7 +210,7 @@
                     </ct:Assign>
                 </ObservationTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds6">
                 <ObservationRef oidRef="window3"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -224,7 +224,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds7">
                 <ObservationRef oidRef="window3"/>
                 <ObservationTimes>
                     <ct:Assign>
@@ -241,7 +241,7 @@
                     </ct:Assign>
                 </ObservationTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds8">
                 <ObservationRef oidRef="samp"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -290,7 +290,7 @@
     </TrialDesign>
     
     
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.8/ModellingSteps">
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.9/ModellingSteps">
         
         <TargetTool oid="targetTool">
             <TargetToolName>PFIM</TargetToolName>

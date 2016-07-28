@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PharmML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
+    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
+    xmlns:mstep="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
+    xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
+    implementedBy="MJS" writtenVersion="0.8.1"
+    id="i1">
+    
+    <ct:Name>Warfarin 3 - TTE</ct:Name>
+    
+    <ct:Description>Warfarin TTE using NONMMEM dataset</ct:Description>
+    
+    <IndependentVariable symbId="t"/>
+    
+    <ModelDefinition xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+        
+        <CovariateModel blkId="cm1">
+            <Covariate symbId="TRT">
+                <Continuous/>
+            </Covariate>
+        </CovariateModel>
+        
+        <ParameterModel blkId="pm1">
+            
+            <!-- fixed effects: beta_TRT & h_base_year -->
+            <PopulationParameter symbId="beta_TRT"/>
+            <PopulationParameter symbId="h_base_year"/>
+            
+            <!-- derived parameter: h_base (basal hazard) -->
+            <Parameter symbId="h_base">
+                <ct:Assign>
+                    <math:Binop op="divide">
+                        <ct:SymbRef symbIdRef="h_base_year"/>
+                        <ct:Real>365</ct:Real>
+                    </math:Binop>
+                </ct:Assign>
+            </Parameter>
+            
+        </ParameterModel>
+        
+        <!-- HazardFunction h =  h_base * (1+ beta_TRT * TRT) -->
+        <ObservationModel blkId="om1">
+            
+            <Discrete>
+                <TimeToEventData>
+                    <EventVariable symbId="Y"/>
+                    
+                    <HazardFunction symbId="h">
+                        <ct:Assign>
+                            <math:Binop op="times">
+                                <ct:SymbRef blkIdRef="pm1" symbIdRef="h_base"/>
+                                <math:Binop op="plus">
+                                    <ct:Real>1</ct:Real>
+                                    <math:Binop op="times">
+                                        <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_TRT"/>
+                                        <ct:SymbRef blkIdRef="cm1" symbIdRef="TRT"/>
+                                    </math:Binop>
+                                </math:Binop>
+                            </math:Binop>
+                        </ct:Assign>
+                    </HazardFunction>
+                </TimeToEventData>
+            </Discrete>
+            
+        </ObservationModel>
+    </ModelDefinition>
+    
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+        
+        <ExternalDataSet toolName="NONMEM" oid="NMoid">
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="TIME"/>
+                <ct:SymbRef symbIdRef="t"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="TRT"/>
+                <ct:SymbRef blkIdRef="cm1" symbIdRef="TRT"/>
+            </ColumnMapping>
+            <ColumnMapping>
+                <ds:ColumnRef columnIdRef="DV"/>
+                <ct:SymbRef blkIdRef="om1" symbIdRef="Y"/>
+            </ColumnMapping>
+            <ds:DataSet>
+                <ds:Definition>
+                    <ds:Column columnId="ID" columnType="id" valueType="string" columnNum="1"/>
+                    <ds:Column columnId="TIME" columnType="idv" valueType="real" columnNum="2"/>
+                    <ds:Column columnId="TRT" columnType="covariate" valueType="real" columnNum="3"/>
+                    <ds:Column columnId="DV" columnType="dv" valueType="real" columnNum="4"/>
+                </ds:Definition>
+                <ds:ExternalFile oid="dataOid">
+                    <ds:path>warfarin3.csv</ds:path>
+                </ds:ExternalFile>
+            </ds:DataSet>
+        </ExternalDataSet>
+    </TrialDesign>
+    
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.8/ModellingSteps">
+        
+        <EstimationStep oid="estimStep1">
+            
+            <ExternalDataSetReference>
+                <ct:OidRef oidRef="NMoid"/>
+            </ExternalDataSetReference>
+            
+            <ct:VariableAssignment>
+                <ct:SymbRef blkIdRef="pm1" symbIdRef="beta_TRT"/>
+                <ct:Assign>
+                    <ct:Real>1</ct:Real>
+                </ct:Assign>
+            </ct:VariableAssignment>
+            
+            <ParametersToEstimate>
+                <ParameterEstimation>
+                    <ct:SymbRef blkIdRef="pm1" symbIdRef="h_base_year"/>
+                    <InitialEstimate>
+                        <ct:Real>0.1</ct:Real>
+                    </InitialEstimate>
+                    <LowerBound>
+                        <ct:Real>0</ct:Real>
+                    </LowerBound>
+                </ParameterEstimation>
+            </ParametersToEstimate>
+            
+            <Operation order="1" opType="estPop">
+                <ct:Description>Estimate the population parameters.</ct:Description>
+                <Property name="software-tool-name">
+                    <ct:Assign>
+                        <ct:String>MONOLIX</ct:String>
+                    </ct:Assign>
+                </Property>
+            </Operation>
+            <Operation order="2" opType="estFIM"/>
+            <Operation order="3" opType="estIndiv"/>
+        </EstimationStep>
+    </ModellingSteps>
+</PharmML>

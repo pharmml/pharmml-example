@@ -9,7 +9,7 @@
     xmlns:mdef="http://www.pharmml.org/pharmml/0.9/ModelDefinition"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
     implementedBy="MJS" writtenVersion="0.9"
-    metadataFile="example4.rdf" id="i1">            <!-- UPDATED -->
+    metadataFile="example4.rdf" id="i1">
     
     <!-- MODEL NAME -->
     <ct:Name>Example 4 - estimation with IOV1 (TrialDesign)</ct:Name>
@@ -118,8 +118,10 @@
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_ka_treatseq"/>
-                                <Category catId="AB"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_ka_treatseq"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="AB"/>
                             </FixedEffect>
                         </Covariate>
                     </LinearCovariate>
@@ -186,29 +188,37 @@
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_V"/>
-                                <Category catId="F"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_V"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="F"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_V_occ1"/>
-                                <Category catId="occ1"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_V_occ1"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="occ1"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Treat"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_V_Treat"/>
-                                <Category catId="A"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_V_Treat"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="A"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="TreatSeq"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_V_TreatSeq"/>
-                                <Category catId="AB"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_V_TreatSeq"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="AB"/>
                             </FixedEffect>
                         </Covariate>
                     </LinearCovariate>
@@ -278,15 +288,19 @@
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Sex"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_CL"/>
-                                <Category catId="F"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_CL"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="F"/>
                             </FixedEffect>
                         </Covariate>
                         <Covariate>
                             <ct:SymbRef blkIdRef="cm1" symbIdRef="Occasion"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="beta_CL_occ1"/>
-                                <Category catId="occ1"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="beta_CL_occ1"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="occ1"/>
                             </FixedEffect>
                         </Covariate>
                     </LinearCovariate>

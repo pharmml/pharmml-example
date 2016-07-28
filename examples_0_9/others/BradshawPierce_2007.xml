@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
-    xmlns:msteps="http://www.pharmml.org/pharmml/0.8/ModellingSteps"
-    writtenVersion="0.8.1"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.9/ModelDefinition"
+    xmlns:msteps="http://www.pharmml.org/pharmml/0.9/ModellingSteps"
+    writtenVersion="0.9"
     implementedBy="Cyprotex Model Writer --- adapted to 0.8 by MJS" id="bp1">
     
     <ct:Name>BradshawPierce</ct:Name>
@@ -681,7 +681,7 @@
     </mdef:ModelDefinition>
     
     
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
     
         <Observations>
             <Observation oid="idx_4">

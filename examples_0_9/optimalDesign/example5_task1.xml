@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
-    xmlns:mdef="http://www.pharmml.org/pharmml/0.8/ModelDefinition"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:mdef="http://www.pharmml.org/pharmml/0.9/ModelDefinition"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
     xmlns:po="http://www.pharmml.org/probonto/ProbOnto"
-    implementedBy="MJS" writtenVersion="0.8.1"
+    implementedBy="MJS" writtenVersion="0.9"
     metadataFile="example5_task1.rdf" id="i1">
     
     <!--    Task description
@@ -37,7 +37,7 @@
     <IndependentVariable symbId="time"/>
 
     <!-- BLOCK I: MODEL DEFINITION -->
-    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <VariabilityModel blkId="vm1" type="parameterVariability">
             <Level symbId="subject"/>
@@ -68,13 +68,17 @@
                         <Covariate>
                             <ct:SymbRef symbIdRef="SEX"/>
                             <FixedEffect>
-                                <ct:SymbRef symbIdRef="betaV"/>
-                                <Category catId="M"/>
+                                <ct:Assign>
+                                    <ct:SymbRef symbIdRef="betaV"/>
+                                </ct:Assign>
+                                <ct:CatRef catIdRef="M"/>
                             </FixedEffect>
                         </Covariate>
                     </LinearCovariate>
                     <RandomEffects>
-                        <ct:SymbRef symbIdRef="eta_V"/>
+                        <ct:Assign>
+                            <ct:SymbRef symbIdRef="eta_V"/>
+                        </ct:Assign>
                     </RandomEffects>
                 </StructuredModel>
             </IndividualParameter>
@@ -106,7 +110,7 @@
     </ModelDefinition>
     
     <!-- BLOCK II: TRIAL DEFINITION -->
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
         <Interventions>
             <mdef:DesignParameter symbId="p">       <!-- p=BSA -->
@@ -527,7 +531,7 @@
                     <mdef:Continuous>
                         <mdef:Distribution>
                             <math:Piecewise>
-                                <Piece xmlns="http://www.pharmml.org/pharmml/0.8/Maths">
+                                <Piece xmlns="http://www.pharmml.org/pharmml/0.9/Maths">
                                     <po:ProbOnto name="Normal2">
                                         <po:Parameter name="mean">
                                             <ct:Assign>
@@ -553,7 +557,7 @@
                                         </LogicBinop>
                                     </Condition>
                                 </Piece>
-                                <Piece xmlns="http://www.pharmml.org/pharmml/0.8/Maths">
+                                <Piece xmlns="http://www.pharmml.org/pharmml/0.9/Maths">
                                     <po:ProbOnto name="Normal2">
                                         <po:Parameter name="mean">
                                             <ct:Assign>
@@ -796,7 +800,7 @@
     </TrialDesign>
     
 
-    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.8/ModellingSteps">
+    <ModellingSteps xmlns="http://www.pharmml.org/pharmml/0.9/ModellingSteps">
         
         <TargetTool oid="targetTool">
             <TargetToolName>PFIM</TargetToolName>

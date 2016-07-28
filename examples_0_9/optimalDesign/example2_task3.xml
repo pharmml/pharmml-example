@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PharmML xmlns="http://www.pharmml.org/pharmml/0.8/PharmML"
+<PharmML xmlns="http://www.pharmml.org/pharmml/0.9/PharmML"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.8/PharmML http://www.pharmml.org/pharmml/0.8/PharmML"
-    xmlns:ct="http://www.pharmml.org/pharmml/0.8/CommonTypes"
-    xmlns:ds="http://www.pharmml.org/pharmml/0.8/Dataset"
-    xmlns:math="http://www.pharmml.org/pharmml/0.8/Maths"
-    implementedBy="MJS" writtenVersion="0.8.1" id="i1">
+    xsi:schemaLocation="http://www.pharmml.org/pharmml/0.9/PharmML http://www.pharmml.org/pharmml/0.9/PharmML"
+    xmlns:ct="http://www.pharmml.org/pharmml/0.9/CommonTypes"
+    xmlns:ds="http://www.pharmml.org/pharmml/0.9/Dataset"
+    xmlns:math="http://www.pharmml.org/pharmml/0.9/Maths"
+    implementedBy="MJS" writtenVersion="0.9" id="i1">
     
     <!--    Task description
 	Same task, but we want all PK protocols to include times 2 and 48 (fixed time points), 
@@ -23,7 +23,7 @@
     <IndependentVariable symbId="time"/>
 
     <!-- BLOCK I: MODEL DEFINITION -->
-    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.8/ModelDefinition">
+    <ModelDefinition  xmlns="http://www.pharmml.org/pharmml/0.9/ModelDefinition">
         
         <VariabilityModel blkId="vm1" type="parameterVariability">
             <Level symbId="subject"/>
@@ -100,7 +100,7 @@
     </ModelDefinition>
     
     <!-- BLOCK II: TRIAL DEFINITION -->
-    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.8/TrialDesign">
+    <TrialDesign xmlns="http://www.pharmml.org/pharmml/0.9/TrialDesign">
         
         <Interventions>
             <Administration oid="admin1">
@@ -313,7 +313,7 @@
         
         <DesignSpaces>
             <!-- admin1 -->
-            <DesignSpace>
+            <DesignSpace oid="ds1">
                 <InterventionRef oidRef="admin1"/>
                 <DoseAmount>
                     <ct:Assign>
@@ -327,7 +327,7 @@
                     </ct:Assign>
                 </DoseAmount>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds2">
                 <InterventionRef oidRef="admin1"/>
                 <Duration>
                     <ct:Assign>
@@ -348,7 +348,7 @@
             </DesignSpace>
             
             <!-- pkwin1, pdwin1 -->
-            <DesignSpace>
+            <DesignSpace oid="ds3">
                 <ObservationRef oidRef="pkwin1"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -360,7 +360,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds4">
                 <ObservationRef oidRef="pdwin1"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -373,7 +373,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds5">
                 <ObservationRef oidRef="pkwin1"/>
                 <ObservationRef oidRef="pdwin1"/>
                 <ObservationTimes>
@@ -395,7 +395,7 @@
             </DesignSpace>
             
             <!-- pkwin2, pdwin2 -->
-            <DesignSpace>
+            <DesignSpace oid="ds6">
                 <ObservationRef oidRef="pkwin2"/>
                 <ObservationRef oidRef="pdwin2"/>
                 <NumberTimes>
@@ -409,7 +409,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds7">
                 <ObservationRef oidRef="pkwin2"/>
                 <ObservationRef oidRef="pdwin2"/>
                 <ObservationTimes>
@@ -431,7 +431,7 @@
             </DesignSpace>
             
             <!-- pkwin3, pdwin3 -->
-            <DesignSpace>
+            <DesignSpace oid="ds8">
                 <ObservationRef oidRef="pkwin3"/>
                 <ObservationRef oidRef="pdwin3"/>
                 <NumberTimes>
@@ -445,7 +445,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds9">
                 <ObservationRef oidRef="pkwin3"/>
                 <ObservationRef oidRef="pdwin3"/>
                 <ObservationTimes>
@@ -467,7 +467,7 @@
             </DesignSpace>
             
             <!-- pkwin4, pdwin4 -->
-            <DesignSpace>
+            <DesignSpace oid="ds10">
                 <ObservationRef oidRef="pkwin4"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -479,7 +479,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds11">
                 <ObservationRef oidRef="pdwin4"/>
                 <NumberTimes>
                     <ct:Assign>
@@ -492,7 +492,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds12">
                 <ObservationRef oidRef="pkwin4"/>
                 <ObservationRef oidRef="pdwin4"/>
                 <ObservationTimes>
@@ -514,7 +514,7 @@
             </DesignSpace>
             
             <!-- pkwin5, pdwin5 -->
-            <DesignSpace>
+            <DesignSpace oid="ds13">
                 <ObservationRef oidRef="pkwin5"/>
                 <ObservationRef oidRef="pdwin5"/>
                 <NumberTimes>
@@ -528,7 +528,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds14">
                 <ObservationRef oidRef="pkwin5"/>
                 <ObservationRef oidRef="pdwin5"/>
                 <ObservationTimes>
@@ -550,7 +550,7 @@
             </DesignSpace>
             
             <!-- pkwin6, pdwin6 -->
-            <DesignSpace>
+            <DesignSpace oid="ds15">
                 <ObservationRef oidRef="pkwin6"/>
                 <ObservationRef oidRef="pdwin6"/>
                 <NumberTimes>
@@ -564,7 +564,7 @@
                     </ct:Assign>
                 </NumberTimes>
             </DesignSpace>
-            <DesignSpace>
+            <DesignSpace oid="ds16">
                 <ObservationRef oidRef="pkwin6"/>
                 <ObservationRef oidRef="pdwin6"/>
                 <ObservationTimes>
@@ -586,7 +586,7 @@
             </DesignSpace>
             
             <!-- sampPK, sampPD -->
-            <DesignSpace>
+            <DesignSpace oid="ds17">
                 <ObservationRef oidRef="sampPK"/>
                 <ObservationRef oidRef="sampPD"/>
                 <NumberTimes>
